@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Cours - Histoire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* CSS Inchangé */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+        :root {
+            --primary-500: #b94517; --primary-600: #a03c14; --primary-700: #873311;
+            --secondary-500: #d4af37; --secondary-600: #b89830;
+            --accent-500: #4a5568; --accent-600: #2d3748;
+            --danger-500: #dc3545; --success-500: #22c55e;
+            --neutral-50: #f8fafc; --neutral-100: #f1f5f9; --neutral-200: #e2e8f0; --neutral-300: #cbd5e1; --neutral-500: #64748b; --neutral-700: #334155; --neutral-800: #1e293b;
+            --white: #ffffff;
+            --font-primary: 'Poppins', sans-serif; --font-secondary: 'Inter', sans-serif;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius-lg: 0.75rem; --border-radius-md: 0.5rem;
+            --transition-default: all 0.3s ease-in-out;
+            --shadow-focus-ring: 0 0 0 3px rgba(185, 69, 23, 0.4);
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+        }
+        body { font-family: var(--font-secondary); background-color: var(--neutral-100); color: var(--neutral-700); line-height: 1.6; margin: 0; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header-container { background-color: var(--white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 2rem; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--neutral-200); padding-bottom: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .back-button { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background-color: var(--neutral-200); color: var(--neutral-700); text-decoration: none; border-radius: var(--border-radius-md); font-weight: 500; transition: var(--transition-default); }
+        .back-button:hover { background-color: var(--neutral-300); transform: translateX(-3px); }
+        .page-header h1 { font-family: var(--font-primary); font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--neutral-800); display: flex; align-items: center; gap: 1rem; margin: 0; text-align: center; flex-grow: 1; justify-content: center; }
+        .page-header h1 .icon { color: var(--primary-500); }
+        .page-header-subtitle { text-align: center; font-size: 1.1rem; color: var(--neutral-500); }
+        .section { background-color: var(--white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 2rem; }
+        .section h2 { font-family: var(--font-primary); font-size: 1.8rem; color: var(--primary-700); margin-bottom: 1.5rem; border-bottom: 1px solid var(--neutral-200); padding-bottom: 0.75rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .label-text { display: block; font-weight: 500; color: var(--neutral-700); margin-bottom: 0.5rem; }
+        .input-field, .select-field, .textarea-field { width: 100%; box-sizing: border-box; padding: 0.8rem 1rem; border: 1px solid var(--neutral-300); border-radius: var(--border-radius-md); background-color: var(--neutral-50); font-size: 0.95rem; color: var(--neutral-700); transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; font-family: var(--font-secondary); }
+        .input-field:focus, .select-field:focus, .textarea-field:focus { outline: none; border-color: var(--accent-500); box-shadow: var(--shadow-focus-ring); }
+        .btn { padding: 0.75rem 1.5rem; border-radius: var(--border-radius-md); font-weight: 600; font-family: var(--font-secondary); transition: var(--transition-default); border: 1px solid transparent; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: var(--shadow-xs); }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-primary { background-color: var(--primary-500); color: var(--white); }
+        .btn-primary:hover:not(:disabled) { background-color: var(--primary-600); }
+        .btn-secondary { background-color: var(--secondary-500); color: var(--neutral-800); }
+        .btn-secondary:hover:not(:disabled) { background-color: var(--secondary-600); }
+        .radio-group { display: flex; align-items: center; gap: 1rem; }
+        .radio-group label { font-weight: 500; cursor: pointer; }
+        .grid-2-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .grid-3-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .feedback-message { transition: opacity 0.3s; opacity: 0; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; }
+        .feedback-message.show { opacity: 1; }
+        .feedback-message.success { color: var(--success-500); }
+        .feedback-message.error { color: var(--danger-500); }
+        .subsection-tools h2 { color: var(--secondary-600); }
+        .discipline-button-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .discipline-button { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; border-radius: var(--border-radius-lg); background-color: var(--neutral-50); border: 1px solid var(--neutral-200); text-decoration: none; color: var(--neutral-800); text-align: center; transition: var(--transition-default); }
+        .discipline-button:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--accent-500); color: var(--accent-500); }
+        .discipline-button .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .discipline-button .title { font-family: var(--font-primary); font-size: 1.2rem; font-weight: 600; }
+        @media (max-width: 768px) { body { padding: 1rem; } .grid-2-cols, .grid-3-cols { grid-template-columns: 1fr; } .page-header { flex-direction: column-reverse; gap: 1rem; } .page-header h1 {font-size: 1.8rem;} }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-container">
+        <header class="page-header">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Retour à l'accueil
+            </a>
+            <h1>
+                <i class="fas fa-landmark icon"></i>
+                Générateur de Cours - Histoire
+            </h1>
+        </header>
+        <p class="page-header-subtitle">Un outil pour générer des prompts de chapitres d'Histoire pour le collège.</p>
+    </div>
+
+    <section class="section">
+        <h2>1. Sélection du Chapitre (Obligatoire)</h2>
+        <div class="grid-2-cols">
+            <div class="form-group">
+                <label for="gradeSelect" class="label-text">Niveau (Classe) :</label>
+                <select id="gradeSelect" class="select-field">
+                    <option value="">-- Choisir un niveau --</option>
+                    <option value="5e">5ème</option>
+                    <option value="4e">4ème</option>
+                    <option value="3e">3ème</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sequenceSelect" class="label-text">Chapitre :</label>
+                <select id="sequenceSelect" class="select-field" disabled>
+                    <option value="">-- Choisir un thème puis un chapitre --</option>
+                </select>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <h2>2. Personnalisation du Contenu (Optionnel)</h2>
+        <div class="form-group">
+            <label for="studyCaseInput" class="label-text">Personnage, événement ou étude de cas principal :</label>
+            <input type="text" id="studyCaseInput" class="input-field" placeholder="Ex: Charlemagne, la prise de la Bastille, la vie dans les tranchées...">
+        </div>
+        <div class="form-group">
+            <label for="planInput" class="label-text">Déroulé du chapitre (Plan) :</label>
+            <textarea id="planInput" rows="4" class="textarea-field" placeholder="Dictez la structure exacte du chapitre. Ex: I. Les causes de la Révolution, II. Les grands événements, III. Les conséquences en France et en Europe..."></textarea>
+        </div>
+        
+        <label class="label-text">Ressources et Documents d'Appui :</label>
+        <div class="grid-3-cols">
+            <div class="form-group">
+                <textarea id="videoLinks" rows="3" class="textarea-field" placeholder="Liens de vidéos / documentaires (un par ligne)"></textarea>
+            </div>
+            <div class="form-group">
+                <textarea id="websiteLinks" rows="3" class="textarea-field" placeholder="Liens vers des articles, des sites de musées..."></textarea>
+            </div>
+            <div class="form-group">
+                <textarea id="rawText" rows="3" class="textarea-field" placeholder="Texte brut (extraits de témoignages, de textes d'historiens...)"></textarea>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>3. Génération du Prompt</h2>
+        <div class="form-group">
+            <label class="label-text">Format de sortie souhaité (Obligatoire) :</label>
+            <div class="radio-group" id="outputFormatGroup">
+                <label><input type="radio" name="outputFormat" value="docx" checked> DOCX</label>
+                <label><input type="radio" name="outputFormat" value="html"> HTML</label>
+            </div>
+        </div>
+        <div class="form-group" style="text-align: center;">
+            <button id="generateButton" class="btn btn-primary">
+                <i class="fas fa-cogs"></i> Générer le Prompt Détaillé
+            </button>
+        </div>
+        <div class="form-group">
+            <label for="outputPrompt" class="label-text">Prompt de Chapitre généré :</label>
+            <textarea id="outputPrompt" rows="15" class="textarea-field" readonly placeholder="Le prompt détaillé pour la génération du chapitre apparaîtra ici..."></textarea>
+            <button id="copyButton" class="btn btn-secondary" style="margin-top: 1rem;">
+                <i class="fas fa-copy"></i> Copier le Prompt
+            </button>
+            <p id="copyMessage" class="feedback-message"></p>
+        </div>
+    </section>
+
+    <section class="section subsection-tools">
+        <h2>Outils Pédagogiques Annexes</h2>
+        <div class="grid-2-cols">
+            <button id="logbookButton" class="btn btn-primary" style="width:100%">
+                <i class="fas fa-book"></i> Phrase Cahier de Texte
+            </button>
+            <button id="summaryButton" class="btn btn-primary" style="width:100%">
+                <i class="fas fa-lightbulb"></i> Résumé Connaissances Élèves
+            </button>
+        </div>
+        <div class="form-group" style="margin-top: 1.5rem;">
+            <label for="pedagogicalOutput" id="pedagogicalOutputLabel" class="label-text">Sortie des outils annexes :</label>
+            <textarea id="pedagogicalOutput" rows="6" class="textarea-field" readonly placeholder="Le contenu généré par les outils annexes apparaîtra ici..."></textarea>
+            <button id="copyPedagogicalOutputButton" class="btn btn-secondary" style="margin-top: 1rem;">
+                <i class="fas fa-copy"></i> Copier Texte Annexe
+            </button>
+            <p id="copyPedagogicalOutputMessage" class="feedback-message"></p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Améliorer & Exercer</h2>
+        <div class="discipline-button-container">
+            <a href="design.html" class="discipline-button">
+                <i class="fas fa-palette icon"></i>
+                <span class="title">Améliorer le Design d'un cours HTML</span>
+            </a>
+            <a href="exercices.html" class="discipline-button">
+                <i class="fas fa-file-image icon"></i>
+                <span class="title">Générer des Exercices (PNG / DOCX, etc.)</span>
+            </a>
+        </div>
+    </section>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const modulesData = {
+            "5e": {
+                1: { mainTheme: "Thème 1 : Chrétientés et islam (VIe-XIIIe siècles), des mondes en contact", title: "Byzance et l'Europe carolingienne", hook: "Après la chute de Rome, deux empires chrétiens se réclament de son héritage. Comment Charlemagne et les empereurs byzantins ont-ils bâti des États puissants ?", skills: "Comparer les empires byzantin et carolingien. Identifier leur héritage.", knowledge: "Constantinople, Aix-la-Chapelle, Charlemagne, Justinien, schisme de 1054." },
+                2: { mainTheme: "Thème 1 : Chrétientés et islam (VIe-XIIIe siècles), des mondes en contact", title: "L'Islam : débuts, expansion, sociétés", hook: "Comment une nouvelle religion monothéiste a-t-elle donné naissance à un immense empire et à une civilisation brillante ?", skills: "Expliquer la naissance et l'expansion de l'islam. Caractériser la civilisation arabo-musulmane médiévale.", knowledge: "Mahomet, Hégire, Coran, califat, Bagdad, Cordoue, sciences et arts islamiques." },
+                3: { mainTheme: "Thème 1 : Chrétientés et islam (VIe-XIIIe siècles), des mondes en contact", title: "La Méditerranée : un carrefour de civilisations", hook: "Comment les mondes chrétiens et musulmans se sont-ils affrontés mais aussi influencés en Méditerranée ?", skills: "Décrire les contacts (guerriers, commerciaux, culturels) entre Chrétiens et Musulmans. Analyser la prise de Constantinople.", knowledge: "Croisades, commerce en Méditerranée (Venise, Gênes), savoirs et techniques, Reconquista." },
+                
+                4: { mainTheme: "Thème 2 : Société, Église et pouvoir politique dans l'Occident féodal (XIe-XVe siècles)", title: "L'ordre seigneurial : la formation et la domination des campagnes", hook: "Imagine un monde de châteaux forts et de paysans. Comment la société s'organise-t-elle autour des seigneurs, qui protègent et dominent la terre ?", skills: "Décrire la société féodale. Comprendre les relations entre seigneurs, chevaliers et paysans.", knowledge: "Seigneurie, fief, vassalité, hommage, corvées, redevances, château fort." },
+                5: { mainTheme: "Thème 2 : Société, Église et pouvoir politique dans l'Occident féodal (XIe-XVe siècles)", title: "L'émergence d'une nouvelle société urbaine", hook: "Les villes renaissent ! Comment les bourgeois, artisans et marchands, ont-ils gagné en pouvoir et en liberté face aux seigneurs ?", skills: "Expliquer l'essor des villes. Caractériser la société urbaine médiévale.", knowledge: "Bourgeoisie, commune, charte de franchise, corporations, foires, cathédrales." },
+                6: { mainTheme: "Thème 2 : Société, Église et pouvoir politique dans l'Occident féodal (XIe-XVe siècles)", title: "L'affirmation de l'État monarchique en France", hook: "Comment les rois de France, comme Philippe Auguste ou Saint Louis, ont-ils peu à peu imposé leur pouvoir face aux grands seigneurs ?", skills: "Expliquer l'affirmation du pouvoir royal. Comprendre la construction de l'État monarchique.", knowledge: "Capétiens, Philippe Auguste, Bouvines (1214), Saint Louis, Guerre de Cent Ans." },
+                7: { mainTheme: "Thème 2 : Société, Église et pouvoir politique dans l'Occident féodal (XIe-XVe siècles)", title: "Le rôle de l'Église dans la société", hook: "Du baptême aux funérailles, l'Église rythme la vie de tous. Comment encadre-t-elle la société et les esprits au Moyen Âge ?", skills: "Comprendre le rôle central de l'Église. Identifier ses fonctions religieuses, sociales et culturelles.", knowledge: "Clergé, sacrements, pèlerinages, art roman, art gothique, hérésie." },
+
+                8: { mainTheme: "Thème 3 : Transformations de l'Europe et ouverture sur le monde (XVIe et XVIIe siècles)", title: "Le monde au temps de Charles Quint et Soliman le Magnifique", hook: "Au XVIe siècle, deux immenses empires s'affrontent en Méditerranée. Qui étaient ces deux souverains exceptionnels et comment ont-ils marqué leur époque ?", skills: "Comparer les empires de Charles Quint et de Soliman le Magnifique. Comprendre les enjeux de leur rivalité.", knowledge: "Charles Quint, Soliman le Magnifique, Empire ottoman, Habsbourg, bataille de Lépante." },
+                9: { mainTheme: "Thème 3 : Transformations de l'Europe et ouverture sur le monde (XVIe et XVIIe siècles)", title: "Humanisme, Réformes et conflits religieux", hook: "L'imprimerie, de nouvelles idées, une critique de l'Église... Comment une révolution des esprits a-t-elle divisé la chrétienté et ensanglanté l'Europe ?", skills: "Caractériser l'Humanisme et la Renaissance. Expliquer les Réformes protestantes et la réaction catholique.", knowledge: "Humanisme, Érasme, imprimerie, Renaissance, Luther, Calvin, Concile de Trente, guerres de religion." },
+                10: { mainTheme: "Thème 3 : Transformations de l'Europe et ouverture sur le monde (XVIe et XVIIe siècles)", title: "Du Prince de la Renaissance au roi absolu", hook: "Comment le pouvoir des rois se renforce-t-il en France, jusqu'à devenir 'absolu' avec des figures comme Louis XIV ?", skills: "Comprendre l'évolution de la figure du roi. Caractériser la monarchie absolue de droit divin.", knowledge: "François Ier, Henri IV, Édit de Nantes, Louis XIV, Versailles, monarchie absolue." }
+            },
+            "4e": {
+                11: { mainTheme: "Thème 1 : Le XVIIIe siècle : Expansions, Lumières et révolutions", title: "Bourgeoisies marchandes, négoces internationaux et traite négrière", hook: "Au XVIIIe siècle, l'Europe s'enrichit grâce au commerce maritime. Quel est le rôle des grands ports et comment cet essor est-il lié au terrible commerce des esclaves ?", skills: "Expliquer l'essor du grand commerce. Décrire la traite négrière et l'économie de plantation.", knowledge: "Commerce triangulaire, traite atlantique, plantation, esclavage, Code Noir, ports (Nantes, Bordeaux)." },
+                12: { mainTheme: "Thème 1 : Le XVIIIe siècle : Expansions, Lumières et révolutions", title: "L'Europe des Lumières : circulation des idées et contestation de l'absolutisme", hook: "Comment des philosophes comme Voltaire ou Rousseau ont-ils osé critiquer le pouvoir absolu et la société de leur temps, en défendant la raison et la liberté ?", skills: "Expliquer les idées des Lumières. Comprendre comment ces idées se sont diffusées et ont remis en cause la société d'ordres.", knowledge: "Lumières, raison, Encyclopédie, philosophes (Montesquieu, Voltaire, Rousseau, Diderot), opinion publique, despotisme éclairé." },
+                13: { mainTheme: "Thème 1 : Le XVIIIe siècle : Expansions, Lumières et révolutions", title: "La Révolution française et l'Empire : un nouvel ordre politique", hook: "1789 : la France bascule ! Comment la Révolution a-t-elle mis fin à la monarchie absolue et créé une nouvelle France, avant que Napoléon ne bâtisse son Empire ?", skills: "Identifier les grandes étapes et les acteurs de la Révolution et de l'Empire. Comprendre les ruptures majeures.", knowledge: "14 juillet 1789, DDHC, République, Terreur, Napoléon Bonaparte, Consulat, Empire, Code civil." },
+                
+                14: { mainTheme: "Thème 2 : L'Europe et le monde au XIXe siècle", title: "L'Europe de la 'Révolution industrielle'", hook: "La machine à vapeur, le charbon, les usines... Comment l'industrialisation a-t-elle transformé les paysages, l'économie et les sociétés en Europe ?", skills: "Caractériser la révolution industrielle. Analyser ses conséquences économiques et sociales.", knowledge: "Machine à vapeur, charbon, chemin de fer, usine, prolétariat, bourgeoisie, exode rural." },
+                15: { mainTheme: "Thème 2 : L'Europe et le monde au XIXe siècle", title: "Conquêtes et sociétés coloniales", hook: "Comment les puissances européennes se sont-elles partagé une grande partie du monde au XIXe siècle et ont-elles imposé leur domination ?", skills: "Expliquer les motivations de l'expansion coloniale. Décrire l'organisation d'une société coloniale.", knowledge: "Empire colonial, colonisation, mission civilisatrice, travail forcé, ségrégation, résistances." },
+
+                16: { mainTheme: "Thème 3 : Société, culture et politique dans la France du XIXe siècle", title: "Une difficile conquête : voter de 1815 à 1870", hook: "Aujourd'hui, voter semble normal. Mais comment le droit de vote a-t-il été conquis de haute lutte au XIXe siècle en France ?", skills: "Décrire l'évolution du droit de vote. Comprendre les enjeux des révolutions de 1830 et 1848.", knowledge: "Suffrage censitaire, suffrage universel masculin (1848), monarchie constitutionnelle, IIe République." },
+                17: { mainTheme: "Thème 3 : Société, culture et politique dans la France du XIXe siècle", title: "La Troisième République", hook: "Comment la République finit-elle par s'imposer en France et à s'enraciner dans le pays grâce à ses lois, ses symboles et son école ?", skills: "Expliquer comment la IIIe République a construit une culture républicaine. Analyser les grandes lois républicaines.", knowledge: "Commune de Paris, Jules Ferry, lois scolaires, laïcité, symboles républicains, Affaire Dreyfus." },
+                18: { mainTheme: "Thème 3 : Société, culture et politique dans la France du XIXe siècle", title: "Conditions féminines dans une société en mutation", hook: "Au XIXe siècle, les femmes sont souvent les grandes oubliées des révolutions politiques et industrielles. Quelle était leur place dans la société ?", skills: "Décrire la condition féminine. Identifier les premières revendications féministes.", knowledge: "Code civil (la femme 'incapable'), sphère privée/publique, travail des femmes, premières suffragettes." }
+            },
+            "3e": {
+                19: { mainTheme: "Thème 1 : L'Europe, un théâtre majeur des guerres totales (1914-1945)", title: "Civils et militaires dans la Première Guerre mondiale", hook: "Comment la 'Grande Guerre' a-t-elle été une guerre 'totale', qui a mobilisé et fait souffrir non seulement les soldats dans les tranchées, mais aussi les civils à l'arrière ?", skills: "Caractériser la violence de masse. Expliquer l'implication des sociétés et de l'État.", knowledge: "Guerre de tranchées, violence de masse, guerre totale, génocide des Arméniens, mutineries, révolution russe, Traité de Versailles." },
+                20: { mainTheme: "Thème 1 : L'Europe, un théâtre majeur des guerres totales (1914-1945)", title: "Démocraties fragilisées et expériences totalitaires dans l'entre-deux-guerres", hook: "Après la guerre, la démocratie est en crise. Comment des régimes totalitaires, communiste en URSS et nazi en Allemagne, ont-ils pu naître ?", skills: "Caractériser le régime totalitaire soviétique et le régime totalitaire nazi. Expliquer la crise des démocraties.", knowledge: "Staline, Lénine, collectivisation, Goulag, Hitler, nazisme, antisémitisme, crise de 1929, Front Populaire." },
+                21: { mainTheme: "Thème 1 : L'Europe, un théâtre majeur des guerres totales (1914-1945)", title: "La Seconde Guerre mondiale, une guerre d'anéantissement", hook: "Comment la Seconde Guerre mondiale a-t-elle atteint un niveau de violence sans précédent, visant à l'anéantissement de l'adversaire ?", skills: "Décrire les grandes phases de la guerre. Caractériser la guerre d'anéantissement à travers le génocide des Juifs et des Tziganes.", knowledge: "Guerre d'anéantissement, génocide, Shoah, camps d'extermination, Einsatzgruppen." },
+                22: { mainTheme: "Thème 1 : L'Europe, un théâtre majeur des guerres totales (1914-1945)", title: "La France défaite et occupée. Régime de Vichy, collaboration, Résistance", hook: "En 1940, la France est vaincue. Comment le pays s'organise-t-il entre la collaboration avec l'Allemagne nazie et la Résistance intérieure et extérieure ?", skills: "Caractériser le régime de Vichy. Décrire les formes de la Résistance. Comprendre les enjeux de la collaboration.", knowledge: "Pétain, Régime de Vichy, collaboration, De Gaulle, France Libre, Jean Moulin, CNR, maquis, STO." },
+
+                23: { mainTheme: "Thème 2 : Le monde depuis 1945", title: "Indépendances et construction de nouveaux États", hook: "Après la guerre, les empires coloniaux s'effondrent. Comment les peuples d'Asie et d'Afrique ont-ils lutté pour obtenir leur indépendance ?", skills: "Expliquer le processus de décolonisation. Comprendre les défis des nouveaux États.", knowledge: "Décolonisation, Tiers Monde, non-alignement, Gandhi, Guerre d'Algérie." },
+                24: { mainTheme: "Thème 2 : Le monde depuis 1945", title: "Un monde bipolaire au temps de la guerre froide", hook: "Après 1945, le monde se divise en deux blocs hostiles : USA vs URSS. Comment cette 'guerre froide' a-t-elle rythmé les relations internationales ?", skills: "Caractériser le monde bipolaire. Expliquer les grandes crises de la guerre froide.", knowledge: "Guerre froide, rideau de fer, OTAN, Pacte de Varsovie, Mur de Berlin, crise de Cuba." },
+                25: { mainTheme: "Thème 2 : Le monde depuis 1945", title: "Affirmation et mise en œuvre du projet européen", hook: "Comment des pays ennemis d'hier ont-ils décidé de s'unir pour construire un projet de paix et de prospérité : l'Union européenne ?", skills: "Identifier les grandes étapes de la construction européenne. Comprendre ses objectifs et ses réalisations.", knowledge: "CECA, CEE, Traité de Rome, Traité de Maastricht, Union Européenne, Euro, élargissement." },
+                26: { mainTheme: "Thème 2 : Le monde depuis 1945", title: "Enjeux et conflits dans le monde après 1989", hook: "La guerre froide est finie, mais la paix n'est pas revenue partout. Quels sont les nouveaux enjeux et les nouveaux conflits dans le monde actuel ?", skills: "Décrire le nouvel ordre mondial. Identifier les principaux foyers de conflits et les nouveaux enjeux géopolitiques.", knowledge: "Chute du mur de Berlin, hyperpuissance américaine, conflits ethniques, terrorisme international." },
+
+                27: { mainTheme: "Thème 3 : Françaises et Français dans une République repensée", title: "La IVe République, une république nouvelle", hook: "Au lendemain de la guerre, la France se reconstruit et crée une nouvelle République. Quels sont les grands défis et les réalisations de cette période ?", skills: "Caractériser la IVe République. Comprendre son rôle dans la reconstruction et les débuts de la construction européenne.", knowledge: "GPRF, État-providence, Trente Glorieuses, décolonisation (débuts)." },
+                28: { mainTheme: "Thème 3 : Françaises et Français dans une République repensée", title: "La Ve République, de la République gaullienne à l'alternance et à la cohabitation", hook: "Comment la Ve République, créée par et pour De Gaulle, a-t-elle évolué et s'est-elle adaptée aux crises et aux changements politiques ?", skills: "Caractériser les institutions de la Ve République. Comprendre les notions d'alternance et de cohabitation.", knowledge: "Charles de Gaulle, élection du président au suffrage universel, Mai 68, alternance, cohabitation." },
+                29: { mainTheme: "Thème 3 : Françaises et Français dans une République repensée", title: "Femmes et hommes dans la société des années 1950 aux années 1980", hook: "Comment la société française a-t-elle été bouleversée dans la seconde moitié du XXe siècle (famille, travail, culture) ?", skills: "Identifier les grandes transformations sociales et culturelles. Comprendre l'évolution de la place des femmes.", knowledge: "Société de consommation, urbanisation, féminisme, loi Veil (IVG), immigration." }
+            }
+        };
+
+        // --- SCRIPT DE GESTION DE LA PAGE (LOGIQUE CORRIGÉE ET VÉRIFIÉE) ---
+        const gradeSelect = document.getElementById('gradeSelect');
+        const sequenceSelect = document.getElementById('sequenceSelect');
+        const studyCaseInput = document.getElementById('studyCaseInput');
+        const planInput = document.getElementById('planInput');
+        const videoLinks = document.getElementById('videoLinks');
+        const websiteLinks = document.getElementById('websiteLinks');
+        const rawText = document.getElementById('rawText');
+        const outputFormatGroup = document.getElementById('outputFormatGroup');
+        const generateButton = document.getElementById('generateButton');
+        const outputPrompt = document.getElementById('outputPrompt');
+        const copyButton = document.getElementById('copyButton');
+        const copyMessage = document.getElementById('copyMessage');
+        const logbookButton = document.getElementById('logbookButton');
+        const summaryButton = document.getElementById('summaryButton');
+        const pedagogicalOutput = document.getElementById('pedagogicalOutput');
+        const copyPedagogicalOutputButton = document.getElementById('copyPedagogicalOutputButton');
+        const copyPedagogicalOutputMessage = document.getElementById('copyPedagogicalOutputMessage');
+
+        function populateModules(gradeValue) {
+            sequenceSelect.innerHTML = '<option value="">-- Choisir un thème puis un chapitre --</option>';
+            sequenceSelect.disabled = true;
+
+            if (gradeValue && modulesData[gradeValue]) {
+                const modulesForGrade = modulesData[gradeValue];
+                const themes = [...new Set(Object.values(modulesForGrade).map(item => item.mainTheme))];
+                
+                themes.forEach(theme => {
+                    const optgroup = document.createElement('optgroup');
+                    optgroup.label = theme;
+                    
+                    Object.keys(modulesForGrade).forEach(key => {
+                        const moduleItem = modulesForGrade[key];
+                        if (moduleItem.mainTheme === theme) {
+                            const option = document.createElement('option');
+                            option.value = key;
+                            option.textContent = moduleItem.title;
+                            optgroup.appendChild(option);
+                        }
+                    });
+                    sequenceSelect.appendChild(optgroup);
+                });
+                
+                sequenceSelect.disabled = false;
+            }
+        }
+
+        gradeSelect.addEventListener('change', () => populateModules(gradeSelect.value));
+
+        generateButton.addEventListener('click', () => {
+            const selectedGrade = gradeSelect.value;
+            const selectedModuleKey = sequenceSelect.value;
+            const outputFormatRadio = document.querySelector('input[name="outputFormat"]:checked');
+            if (!selectedGrade || !selectedModuleKey || !outputFormatRadio) { 
+                alert("Veuillez choisir un niveau, un chapitre et un format de sortie."); return;
+            }
+            
+            const moduleDetails = modulesData[selectedGrade]?.[selectedModuleKey];
+            if (!moduleDetails) {
+                alert("Détails du chapitre non trouvés."); return;
+            }
+
+            // Récupération des valeurs des champs optionnels
+            const studyCase = studyCaseInput.value.trim();
+            const plan = planInput.value.trim();
+            const videos = videoLinks.value.trim();
+            const websites = websiteLinks.value.trim();
+            const text = rawText.value.trim();
+            const outputFormat = outputFormatRadio.value;
+
+            // Début de la construction du prompt
+            let promptText = `**RÔLE ET MISSION**
+Tu agis en tant qu'historien et pédagogue de haut niveau. Ta mission est de **rédiger un chapitre de cours d'Histoire complet, structuré et narratif**, directement utilisable par des élèves de ${selectedGrade}.\n\n`;
+
+            // Section des instructions impératives
+            const hasImperativeInstructions = studyCase || plan || videos || websites || text;
+            if (hasImperativeInstructions) {
+                promptText += `**INSTRUCTIONS IMPÉRATIVES FOURNIES PAR L'ENSEIGNANT**
+Tu dois **impérativement** baser ta conception sur les éléments suivants :\n`;
+                if (studyCase) {
+                    promptText += `- **Personnage ou événement imposé :** Le chapitre doit être entièrement centré sur l'étude de : **${studyCase}**. Tous les exemples, documents et analyses doivent concerner ce sujet.\n`;
+                }
+                if (plan) {
+                    promptText += `- **Déroulé imposé :** Le chapitre doit suivre scrupuleusement le plan suivant :\n${plan}\n`;
+                }
+                if (videos || websites || text) {
+                    promptText += `- **Ressources d'appui imposées :** Le contenu du chapitre doit se baser en priorité sur l'analyse et la synthèse des ressources suivantes :\n`;
+                    if (videos) promptText += `  - Vidéos/Documentaires à analyser : \n${videos}\n`;
+                    if (websites) promptText += `  - Sites web/articles à consulter : \n${websites}\n`;
+                    if (text) promptText += `  - Textes d'historiens ou sources à analyser : \n${text}\n`;
+                }
+                promptText += "\n";
+            }
+
+            // Section sur le contenu de base
+            promptText += `**CONTENU DE BASE DU CHAPITRE**
+- **Niveau :** ${selectedGrade}
+- **Grand Thème du Programme :** ${moduleDetails.mainTheme}
+- **Titre du Chapitre :** ${moduleDetails.title}
+- **Accroche / Idée de départ :** "${moduleDetails.hook}"
+- **Compétences à maîtriser :** ${moduleDetails.skills}
+- **Savoirs & Notions à acquérir :** ${moduleDetails.knowledge}\n\n`;
+
+            // Section sur la structure détaillée et les exigences de format
+            promptText += `**STRUCTURE DÉTAILLÉE ET FORMAT DE SORTIE EXIGÉ**
+Tu dois rédiger le cours en respectant **impérativement** le format de sortie demandé et la structure pédagogique ci-dessous.
+
+**Format de Sortie Final Requis : ${outputFormat.toUpperCase()}**\n\n` +
+`---
+**DÉBUT DU CONTENU À RÉDIGER**
+
+**1. TITRE DU CHAPITRE**
+(Rédige ici le titre : ${moduleDetails.title.toUpperCase()})
+
+**2. INTRODUCTION ET PROBLÉMATIQUE HISTORIQUE**
+Partant de l'accroche ("${moduleDetails.hook}"), rédige une introduction narrative qui pose une **problématique historique claire** sous forme de question (ex: "Comment l'Empire romain a-t-il pu dominer un territoire aussi vaste pendant si longtemps ?"). ${studyCase ? `Cette problématique doit être appliquée à l'étude de cas de (${studyCase}).` : ''} Annonce ensuite le plan du chapitre.
+
+**3. DÉVELOPPEMENT ENTIÈREMENT RÉDIGÉ**
+Rédige le corps du chapitre comme un récit fluide et chronologique (ou thématique). Pour chaque partie :
+   a. **Titre explicite.**
+   b. **Paragraphes narratifs :** Explique les causes, les événements et les conséquences. Fais vivre le récit avec des personnages et des moments clés. Définis le vocabulaire ("${moduleDetails.knowledge}") directement dans le texte en **gras**.
+   c. **Analyse de documents :**
+      - **Si le format est DOCX :** Décris précisément les documents à étudier. Ex: **[Document 1 : Extrait du "Testament de Richelieu" sur la raison d'État]** ou **[Document 2 : Carte de l'Europe en 1914]**.
+      - **Si le format est HTML :** Génère un **fichier HTML complet et auto-contenu**. Pour les documents, utilise des placeholders clairs comme \`<div class="placeholder-document">Tableau "Le Sacre de Napoléon" par David</div>\`.
+   d. **Insère un encadré "L'œil de l'Historien"** pour un document clé, expliquant comment l'analyser de manière critique.
+
+**4. CONCLUSION ET BILAN**
+Rédige une conclusion qui répond à la problématique. Termine par un encadré **"L'essentiel à retenir"** (3 à 5 points) et une **"Frise chronologique du chapitre"** (5-7 dates/événements clés).
+
+**5. EXERCICES D'APPLICATION**
+Propose 3 exercices qui évaluent les **compétences** ("${moduleDetails.skills}") :
+   - **Exercice 1 (Se repérer dans le temps) :** Compléter ou construire une frise chronologique.
+   - **Exercice 2 (Analyser un document) :** Une série de questions sur un texte, une image ou une carte historique.
+   - **Exercice 3 (Raisonner) :** Une question de synthèse demandant une réponse de quelques lignes argumentées ("développement construit").
+
+**RÈGLE FINALE :** Ton texte doit être immédiatement utilisable. Ne rédige **aucune note pour le professeur**. Ton unique sortie est le cours lui-même.`;
+
+            outputPrompt.value = promptText;
+            showFeedback(copyMessage, "Prompt de chapitre détaillé généré !", "success");
+        });
+        
+        // --- Fonctions utilitaires ---
+        function showFeedback(element, message, type = 'success', duration = 3000) { if (!element) return; element.textContent = message; element.className = `feedback-message ${type}`; requestAnimationFrame(() => { element.classList.add('show'); }); setTimeout(() => { element.classList.remove('show'); setTimeout(() => { if (element.textContent === message) { element.textContent = ''; element.className = 'feedback-message'; } }, 300); }, duration); }
+        function copyToClipboardUtil(text, messageElement, successText = "Copié avec succès !") { if (!text || text.trim() === "") { if (messageElement) showFeedback(messageElement, "Rien à copier.", 'error'); return; } navigator.clipboard.writeText(text).then(() => { if (messageElement) showFeedback(messageElement, successText, 'success'); }).catch(err => { console.error('Erreur de copie:', err); if (messageElement) showFeedback(messageElement, 'Erreur de copie.', 'error'); }); }
+        
+        copyButton.addEventListener('click', () => copyToClipboardUtil(outputPrompt.value, copyMessage));
+
+        logbookButton.addEventListener('click', () => {
+            const grade = gradeSelect.value;
+            const moduleKey = sequenceSelect.value;
+            if (!grade || !moduleKey) { alert("Sélectionnez un niveau et un chapitre."); return; }
+            const moduleDetails = modulesData[grade][moduleKey];
+            const logbookText = `Histoire ${grade} - Chapitre "${moduleDetails.title}". Compétences : ${moduleDetails.skills}. Notions : ${moduleDetails.knowledge}.`;
+            pedagogicalOutput.value = logbookText;
+            showFeedback(copyPedagogicalOutputMessage, "Phrase pour cahier de texte générée !", "success");
+        });
+
+        summaryButton.addEventListener('click', () => {
+            const grade = gradeSelect.value;
+            const moduleKey = sequenceSelect.value;
+            if (!grade || !moduleKey) { alert("Sélectionnez un niveau et un chapitre."); return; }
+            const moduleDetails = modulesData[grade][moduleKey];
+            const summaryText = `Résumé (Histoire - ${moduleDetails.title}) :\nÀ la fin de ce chapitre, tu dois connaître : ${moduleDetails.knowledge}.\nTu dois être capable de : ${moduleDetails.skills}.`;
+            pedagogicalOutput.value = summaryText;
+            showFeedback(copyPedagogicalOutputMessage, "Résumé pour élèves généré !", "success");
+        });
+    
+        copyPedagogicalOutputButton.addEventListener('click', () => copyToClipboardUtil(pedagogicalOutput.value, copyPedagogicalOutputMessage, "Texte annexe copié !"));
+
+    });
+</script>
+
+</body>
+</html>

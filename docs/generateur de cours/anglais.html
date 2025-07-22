@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Cours - Anglais</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Palette de couleurs "British Flag" */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+        :root {
+            --primary-500: #012169; --primary-600: #011a54; --primary-700: #01123f;
+            --secondary-500: #c8102e; --secondary-600: #a20d25;
+            --accent-500: #3b82f6; 
+            --danger-500: #ef4444; --success-500: #16a34a;
+            --neutral-50: #f8fafc; --neutral-100: #f1f5f9; --neutral-200: #e2e8f0; --neutral-300: #cbd5e1; --neutral-500: #64748b; --neutral-700: #334155; --neutral-800: #1e293b;
+            --white: #ffffff;
+            --font-primary: 'Poppins', sans-serif; --font-secondary: 'Inter', sans-serif;
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --border-radius-lg: 0.75rem; --border-radius-md: 0.5rem;
+            --transition-default: all 0.3s ease-in-out;
+            --shadow-focus-ring: 0 0 0 3px rgba(1, 33, 105, 0.4);
+            --shadow-xs: 0 1px 2px 0 rgba(0,0,0,0.03);
+        }
+        body { font-family: var(--font-secondary); background-color: var(--neutral-100); color: var(--neutral-700); line-height: 1.6; margin: 0; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header-container { background-color: var(--white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 2rem; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--neutral-200); padding-bottom: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .back-button { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background-color: var(--neutral-200); color: var(--neutral-700); text-decoration: none; border-radius: var(--border-radius-md); font-weight: 500; transition: var(--transition-default); }
+        .back-button:hover { background-color: var(--neutral-300); transform: translateX(-3px); }
+        .page-header h1 { font-family: var(--font-primary); font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--neutral-800); display: flex; align-items: center; gap: 1rem; margin: 0; text-align: center; flex-grow: 1; justify-content: center; }
+        .page-header h1 .icon { color: var(--primary-500); }
+        .page-header-subtitle { text-align: center; font-size: 1.1rem; color: var(--neutral-500); }
+        .section { background-color: var(--white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 2rem; }
+        .section h2 { font-family: var(--font-primary); font-size: 1.8rem; color: var(--primary-700); margin-bottom: 1.5rem; border-bottom: 1px solid var(--neutral-200); padding-bottom: 0.75rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .label-text { display: block; font-weight: 500; color: var(--neutral-700); margin-bottom: 0.5rem; }
+        .input-field, .select-field, .textarea-field { width: 100%; box-sizing: border-box; padding: 0.8rem 1rem; border: 1px solid var(--neutral-300); border-radius: var(--border-radius-md); background-color: var(--neutral-50); font-size: 0.95rem; color: var(--neutral-700); transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; font-family: var(--font-secondary); }
+        .input-field:focus, .select-field:focus, .textarea-field:focus { outline: none; border-color: var(--primary-500); box-shadow: var(--shadow-focus-ring); }
+        .btn { padding: 0.75rem 1.5rem; border-radius: var(--border-radius-md); font-weight: 600; font-family: var(--font-secondary); transition: var(--transition-default); border: 1px solid transparent; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: var(--shadow-xs); }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-primary { background-color: var(--primary-500); color: var(--white); }
+        .btn-primary:hover:not(:disabled) { background-color: var(--primary-600); }
+        .btn-secondary { background-color: var(--secondary-500); color: var(--white); }
+        .btn-secondary:hover:not(:disabled) { background-color: var(--secondary-600); }
+        .grid-2-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .radio-group { display: flex; align-items: center; gap: 1rem; }
+        .radio-group label { font-weight: 500; cursor: pointer; }
+        .feedback-message { transition: opacity 0.3s; opacity: 0; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; }
+        .feedback-message.show { opacity: 1; }
+        .feedback-message.success { color: var(--secondary-600); }
+        .feedback-message.error { color: var(--danger-500); }
+        .subsection-tools h2 { color: var(--secondary-600); }
+        .discipline-button-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .discipline-button { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; border-radius: var(--border-radius-lg); background-color: var(--neutral-50); border: 1px solid var(--neutral-200); text-decoration: none; color: var(--neutral-800); text-align: center; transition: var(--transition-default); }
+        .discipline-button:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--accent-500); color: var(--accent-500); }
+        .discipline-button .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .discipline-button .title { font-family: var(--font-primary); font-size: 1.2rem; font-weight: 600; }
+        @media (max-width: 768px) { .grid-2-cols { grid-template-columns: 1fr; } .page-header { flex-direction: column-reverse; gap: 1rem; } .page-header h1 {font-size: 1.8rem;} }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-container">
+        <header class="page-header">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Retour à l'accueil
+            </a>
+            <h1>
+                <i class="fas fa-language icon"></i>
+                Générateur de Cours - Anglais
+            </h1>
+        </header>
+        <p class="page-header-subtitle">Un outil pour générer des séquences de cours d'Anglais pour le collège (cycle 4).</p>
+    </div>
+
+    <section class="section">
+        <h2>Génération du Prompt de Séquence</h2>
+        <div class="grid-2-cols">
+            <div class="form-group">
+                <label for="gradeSelect" class="label-text">Niveau (Classe) :</label>
+                <select id="gradeSelect" class="select-field">
+                    <option value="">-- Choisir un niveau --</option>
+                    <option value="5e">5ème</option>
+                    <option value="4e">4ème</option>
+                    <option value="3e">3ème</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="moduleSelect" class="label-text">Séquence :</label>
+                <select id="moduleSelect" class="select-field" disabled>
+                    <option value="">-- Choisir un thème puis une séquence --</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="specialFocusInput" class="label-text">Œuvre ou Thème Spécifique (Optionnel) :</label>
+            <input type="text" id="specialFocusInput" class="input-field" placeholder="Ex: Un film de Tim Burton, l'Irlande, le street art à New York...">
+        </div>
+
+        <div class="form-group">
+            <label class="label-text">Documents d'Appui (Optionnel) :</label>
+            <p style="font-size:0.9rem; color:var(--neutral-500); margin-top:-0.5rem; margin-bottom:1rem;">Si vous remplissez un de ces champs, l'IA construira toute la séquence autour de vos documents.</p>
+            <div class="grid-2-cols">
+                <textarea id="videoLinks" class="textarea-field" rows="3" placeholder="Liens Vidéo (un par ligne)"></textarea>
+                <textarea id="audioLinks" class="textarea-field" rows="3" placeholder="Liens Audio (un par ligne)"></textarea>
+                <textarea id="webLinks" class="textarea-field" rows="3" placeholder="Liens de Sites Web (un par ligne)"></textarea>
+                <textarea id="textDocuments" class="textarea-field" rows="3" placeholder="Texte(s) à utiliser (copier-coller ici)"></textarea>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="label-text">Format de sortie souhaité :</label>
+            <div class="radio-group" id="outputFormatGroup">
+                <label><input type="radio" name="outputFormat" value="docx" checked> DOCX</label>
+                <label><input type="radio" name="outputFormat" value="html"> HTML</label>
+            </div>
+        </div>
+
+        <div class="form-group" style="text-align: center; margin-top: 2rem;">
+            <button id="generateButton" class="btn btn-primary">
+                <i class="fas fa-magic"></i> Générer Prompt pour Séquence
+            </button>
+        </div>
+        <div class="form-group">
+            <label for="outputPrompt" class="label-text">Prompt de Séquence généré :</label>
+            <textarea id="outputPrompt" rows="12" class="textarea-field" readonly placeholder="Le prompt détaillé pour la génération de la séquence apparaîtra ici..."></textarea>
+            <button id="copyButton" class="btn btn-secondary" style="margin-top: 1rem;">
+                <i class="fas fa-copy"></i> Copier le Prompt
+            </button>
+            <p id="copyMessage" class="feedback-message"></p>
+        </div>
+    </section>
+
+    <section class="section subsection-tools">
+        <h2>Outils Pédagogiques Annexes</h2>
+        <div class="grid-2-cols">
+            <button id="logbookButton" class="btn btn-primary" style="width:100%">
+                <i class="fas fa-book"></i> Phrase Cahier de Texte
+            </button>
+            <button id="summaryButton" class="btn btn-primary" style="width:100%">
+                <i class="fas fa-lightbulb"></i> Résumé Connaissances Élèves
+            </button>
+        </div>
+        <div class="form-group" style="margin-top: 1.5rem;">
+            <label for="pedagogicalOutput" class="label-text">Sortie des outils annexes :</label>
+            <textarea id="pedagogicalOutput" rows="6" class="textarea-field" readonly placeholder="Le contenu généré par les outils annexes apparaîtra ici..."></textarea>
+            <button id="copyPedagogicalOutputButton" class="btn btn-secondary" style="margin-top: 1rem;">
+                <i class="fas fa-copy"></i> Copier Texte Annexe
+            </button>
+            <p id="copyPedagogicalOutputMessage" class="feedback-message"></p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Améliorer & Exercer</h2>
+        <div class="discipline-button-container">
+            <a href="design.html" class="discipline-button">
+                <i class="fas fa-palette icon"></i>
+                <span class="title">Améliorer le Design d'un cours HTML</span>
+            </a>
+            <a href="exercices.html" class="discipline-button">
+                <i class="fas fa-file-image icon"></i>
+                <span class="title">Générer des Exercices (PNG / DOCX, etc.)</span>
+            </a>
+        </div>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const modulesData = {
+        "5e": {
+            1: { mainTheme: "École et société", title: "A Day in a British School", skills: "Décrire sa routine (Parler A2). Comprendre un emploi du temps simple (Lire A2).", knowledge: "Vocabulaire de l'école (subjects, classroom items). Grammaire : Présent Simple, l'heure." },
+            2: { mainTheme: "École et société", title: "My Daily Routine", skills: "Parler de ses habitudes quotidiennes. Poser des questions sur la routine de quelqu'un (Interagir A2).", knowledge: "Verbes d'action quotidienne. Adverbes de fréquence (always, sometimes, never)." },
+            3: { mainTheme: "École et société", title: "Food, a Delicious Topic!", skills: "Nommer des aliments. Commander un plat simple dans un restaurant (Interagir A2).", knowledge: "Vocabulaire de la nourriture et des boissons. Structure 'I would like...'" },
+            4: { mainTheme: "Rencontres avec d'autres cultures", title: "Introducing my Family and Friends", skills: "Présenter et décrire des personnes (physique, personnalité).", knowledge: "Vocabulaire de la famille et des traits de caractère. Adjectifs. Verbes 'be' et 'have got'." },
+            5: { mainTheme: "Rencontres avec d'autres cultures", title: "Let's Celebrate!", skills: "Décrire une fête ou une célébration. Comprendre un texte court sur une tradition.", knowledge: "Vocabulaire des fêtes (Halloween, Christmas, Thanksgiving). Le présent simple et continu." },
+            6: { mainTheme: "L'imaginaire", title: "My Favourite Hero", skills: "Décrire les capacités et qualités d'un personnage. Comprendre une courte biographie de super-héros.", knowledge: "Adjectifs de personnalité. Modaux : 'can' / 'can't' pour la capacité." },
+            7: { mainTheme: "Voyages et migrations", title: "A Trip to London", skills: "Identifier et décrire des lieux célèbres. Suivre un itinéraire simple sur une carte (Écouter A2).", knowledge: "Vocabulaire des monuments et des transports. Prépositions de lieu (next to, opposite...)." },
+            8: { mainTheme: "Voyages et migrations", title: "Getting Around Town", skills: "Demander et indiquer son chemin. Comprendre des indications simples.", knowledge: "Impératif pour donner des directions (Turn left, go straight on...). Vocabulaire de la ville." },
+            9: { mainTheme: "Langages", title: "Classroom English", skills: "Interagir en classe avec des phrases simples. Comprendre les consignes du professeur.", knowledge: "Expressions utiles pour la classe ('Can I go to...?', 'I don't understand')." },
+            10: { mainTheme: "Langages", title: "Expressing Likes and Dislikes", skills: "Exprimer ses goûts et préférences. Poser des questions sur les goûts de quelqu'un.", knowledge: "Verbes de goût (like, love, hate, enjoy) + V-ING. Vocabulaire des loisirs (musique, films, sports)." }
+        },
+        "4e": {
+            11: { mainTheme: "École et société", title: "New York, the Big Apple", skills: "Décrire une métropole et ses différents aspects (Lire B1). Présenter un quartier emblématique (Parler en continu A2+).", knowledge: "Vocabulaire de la ville (skyscraper, borough...). Le présent simple et continu pour décrire." },
+            12: { mainTheme: "École et société", title: "School Life: Rules and Debates", skills: "Exprimer l'obligation et l'interdiction. Donner son opinion sur des règles (Interagir B1).", knowledge: "Modaux : 'must' / 'mustn't', 'have to'. Vocabulaire du règlement scolaire." },
+            13: { mainTheme: "Rencontres avec d'autres cultures", title: "American High School Experience", skills: "Comprendre des témoignages sur la vie dans un lycée américain (Écouter A2+). Comparer avec son propre système.", knowledge: "Vocabulaire de la vie lycéenne (prom, yearbook, clubs). Le comparatif et le superlatif." },
+            14: { mainTheme: "Rencontres avec d'autres cultures", title: "The Story of the Pilgrim Fathers", hook: "Comment un voyage périlleux a-t-il marqué le début d'une nouvelle nation ?", skills: "Raconter un événement historique au passé (Parler en continu B1).", knowledge: "Le prétérit (Simple Past) des verbes réguliers et irréguliers. Vocabulaire historique." },
+            15: { mainTheme: "L'imaginaire", title: "Myths and Legends from Ireland", skills: "Lire et comprendre une légende simple (Lire B1). Raconter une histoire courte au passé.", knowledge: "Le prétérit simple et continu. Vocabulaire du merveilleux (leprechaun, giant...)." },
+            16: { mainTheme: "L'imaginaire", title: "Creating a Superhero", skills: "Imaginer et décrire un personnage, ses origines et ses pouvoirs. Rédiger une courte biographie fictive (Écrire A2+).", knowledge: "Utilisation du prétérit pour la biographie. Adjectifs composés." },
+            17: { mainTheme: "Voyages et migrations", title: "Planning a Road Trip Across the USA", skills: "Exprimer un projet futur. Donner des conseils pour un voyage (Interagir B1).", knowledge: "Le futur avec 'be going to'. Le modal 'should' pour le conseil." },
+            18: { mainTheme: "Voyages et migrations", title: "The Australian Outback Adventure", skills: "Comprendre le récit d'un voyage (Écouter B1). Raconter une expérience personnelle passée.", knowledge: "Marqueurs temporels du passé (ago, last year...). Vocabulaire de l'aventure et de la nature." },
+            19: { mainTheme: "Langages", title: "Expressing Opinions and Feelings", skills: "Donner son opinion et la justifier simplement. Réagir à l'opinion de quelqu'un.", knowledge: "Expressions comme 'I think that...', 'In my opinion...', 'I agree/disagree'." },
+            20: { mainTheme: "Langages", title: "The Media Around Us", skills: "Comprendre les informations clés d'un article de journal simple (Lire B1). Décrire une image ou une publicité.", knowledge: "Vocabulaire des médias. La voix passive simple ('is made', 'are sold')." }
+        },
+        "3e": {
+            21: { mainTheme: "École et société", title: "The World of Work: Getting a Job", skills: "Comprendre une petite annonce (Lire B1). Rédiger un email de candidature simple (Écrire B1). Simuler un entretien d'embauche (Interagir B1).", knowledge: "Vocabulaire du monde du travail (CV, interview, skills). Le conditionnel avec 'would'." },
+            22: { mainTheme: "École et société", title: "A Vision for a Better School", skills: "Exprimer des souhaits et des hypothèses pour l'avenir. Défendre un projet en groupe.", knowledge: "L'hypothèse avec 'If' (If I were the principal, I would...). Le futur avec 'will'." },
+            23: { mainTheme: "Rencontres avec d'autres cultures", title: "Martin Luther King Jr. and the Civil Rights Movement", skills: "Comprendre une biographie et un discours historique (Écouter B1). Raconter les grandes étapes d'un mouvement social.", knowledge: "Le prétérit et le 'present perfect'. Vocabulaire de la lutte pour les droits (freedom, equality, protest)." },
+            24: { mainTheme: "Rencontres avec d'autres cultures", title: "The American Dream: Myth or Reality?", skills: "Comprendre des points de vue différents sur un concept abstrait. Débattre et argumenter (Interagir B1+).", knowledge: "Expressions pour nuancer son propos ('On the one hand...', 'However...'). Vocabulaire de la réussite et de l'inégalité." },
+            25: { mainTheme: "L'imaginaire", title: "Dystopian Futures", skills: "Analyser des extraits de romans ou de films de science-fiction. Comparer différentes visions du futur.", knowledge: "Vocabulaire de la science-fiction et de l'anticipation. Le futur et le conditionnel." },
+            26: { mainTheme: "L'imaginaire", title: "Ghosts and Haunted Houses", skills: "Raconter une histoire effrayante en utilisant les temps du passé et en créant une atmosphère (Parler en continu B1).", knowledge: "Le prétérit simple et continu (past progressive). Adjectifs d'ambiance (creepy, spooky...)." },
+            27: { mainTheme: "Voyages et migrations", title: "Immigration and Ellis Island", skills: "Comprendre des récits de vie d'immigrants (Lire B1+). Raconter un parcours de vie en utilisant le 'present perfect'.", knowledge: "Le 'present perfect' pour faire un bilan ('He has lived...'). Le vocabulaire de l'immigration." },
+            28: { mainTheme: "Voyages et migrations", title: "My Future Gap Year", skills: "Parler de ses projets et intentions avec précision. Rédiger un projet de voyage (Écrire B1).", knowledge: "Différentes manières d'exprimer le futur ('will', 'be going to', présent continu)." },
+            29: { mainTheme: "Langages", title: "Debating Environmental Issues", skills: "Argumenter sur des solutions pour protéger la planète. Utiliser la voix passive pour décrire des phénomènes.", knowledge: "La voix passive ('The planet is being polluted...'). Vocabulaire de l'environnement." },
+            30: { mainTheme: "Langages", title: "Understanding the News", skills: "Comprendre l'essentiel d'un court reportage vidéo ou audio (Écouter B1+). Rapporter les paroles de quelqu'un (discours indirect).", knowledge: "Le discours indirect (Reported Speech). Vocabulaire de l'actualité." }
+        }
+    };
+
+    const gradeSelect = document.getElementById('gradeSelect');
+    const moduleSelect = document.getElementById('moduleSelect');
+    const specialFocusInput = document.getElementById('specialFocusInput');
+    const outputFormatGroup = document.getElementById('outputFormatGroup');
+    const generateButton = document.getElementById('generateButton');
+    const outputPrompt = document.getElementById('outputPrompt');
+    const copyButton = document.getElementById('copyButton');
+    const copyMessage = document.getElementById('copyMessage');
+    const logbookButton = document.getElementById('logbookButton');
+    const summaryButton = document.getElementById('summaryButton');
+    const pedagogicalOutput = document.getElementById('pedagogicalOutput');
+    const copyPedagogicalOutputButton = document.getElementById('copyPedagogicalOutputButton');
+    const copyPedagogicalOutputMessage = document.getElementById('copyPedagogicalOutputMessage');
+    const videoLinksInput = document.getElementById('videoLinks');
+    const audioLinksInput = document.getElementById('audioLinks');
+    const webLinksInput = document.getElementById('webLinks');
+    const textDocumentsInput = document.getElementById('textDocuments');
+
+    function populateModules(grade) {
+        moduleSelect.innerHTML = '<option value="">-- Choisir un thème puis une séquence --</option>';
+        moduleSelect.disabled = true;
+        if (grade && modulesData[grade]) {
+            const modulesForGrade = modulesData[grade];
+            const themes = [...new Set(Object.values(modulesForGrade).map(item => item.mainTheme))];
+            
+            themes.forEach(theme => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = `Thème : ${theme}`;
+                
+                Object.keys(modulesForGrade).forEach(key => {
+                    const moduleItem = modulesForGrade[key];
+                    if (moduleItem.mainTheme === theme) {
+                        const option = document.createElement('option');
+                        option.value = key;
+                        option.textContent = moduleItem.title;
+                        optgroup.appendChild(option);
+                    }
+                });
+                moduleSelect.appendChild(optgroup);
+            });
+            
+            moduleSelect.disabled = false;
+        }
+    }
+
+    gradeSelect.addEventListener('change', () => populateModules(gradeSelect.value));
+
+    generateButton.addEventListener('click', () => {
+        const grade = gradeSelect.value;
+        const moduleKey = moduleSelect.value;
+        const specialFocus = specialFocusInput.value.trim();
+        const outputFormatRadio = document.querySelector('input[name="outputFormat"]:checked');
+        
+        if (!grade || !moduleKey || !outputFormatRadio) {
+            alert("Veuillez choisir un niveau, une séquence et un format de sortie.");
+            return;
+        }
+        const moduleDetails = modulesData[grade][moduleKey];
+        const outputFormat = outputFormatRadio.value;
+
+        const videoLinks = videoLinksInput.value.trim();
+        const audioLinks = audioLinksInput.value.trim();
+        const webLinks = webLinksInput.value.trim();
+        const textDocuments = textDocumentsInput.value.trim();
+        let sourceMaterialsPrompt = "";
+        
+        let sources = [];
+        if (videoLinks) sources.push(`- Liens Vidéo :\n${videoLinks}`);
+        if (audioLinks) sources.push(`- Liens Audio :\n${audioLinks}`);
+        if (webLinks) sources.push(`- Liens Sites Web :\n${webLinks}`);
+        if (textDocuments) sources.push(`- Contenu Texte Fourni :\n"""\n${textDocuments}\n"""`);
+
+        if (sources.length > 0) {
+            sourceMaterialsPrompt = `**DOCUMENT(S) D'APPUI FOURNI(S) PAR L'ENSEIGNANT :**\n` +
+            `ATTENTION : Tu dois **impérativement** construire toute la séquence (activités, exemples, tâche finale) autour du ou des documents suivants. Ils remplacent le "Document d'Appui Principal" que tu aurais choisi toi-même.\n` +
+            sources.join('\n\n') + `\n\n`;
+        }
+        
+        let promptText = `Tu agis en tant que professeur d'anglais expérimenté, concepteur de séquences pédagogiques basées sur le CECRL. Ta mission est de rédiger le déroulé complet d'une séquence d'anglais pour des élèves de ${grade}, prête à être utilisée.\n\n` +
+            `**Séquence à traiter :** "${moduleDetails.title}"\n` +
+            `**Thème Culturel Principal :** ${moduleDetails.mainTheme}\n` +
+            `**Format de Sortie Requis :** ${outputFormat.toUpperCase()}\n\n`;
+
+        if (specialFocus) {
+            promptText += `**Focus Spécifique de l'Enseignant :** Toute la séquence devra s'articuler autour de : **${specialFocus}**.\n\n`;
+        }
+
+        if (sourceMaterialsPrompt) {
+            promptText += sourceMaterialsPrompt;
+        }
+
+        promptText += `---
+            **STRUCTURE ET CONTENU DÉTAILLÉ DE LA SÉQUENCE À RÉDIGER**\n\n` +
+            `**1. Titre et Problématique :**\n` +
+            `Titre : ${moduleDetails.title.toUpperCase()}\n` +
+            `Problématique (Objectif de communication) : Formule une question engageante qui résume ce que l'élève saura faire à la fin.\n\n` +
+            (sourceMaterialsPrompt ? `**2. Analyse des Documents Fournis et Activités :**\n` : `**2. Document d'Appui Principal et Activités :**\nChoisis et décris un document authentique principal (court texte, etc.).\n`) +
+            `À partir du ou des documents d'appui, décris une série d'activités pour chaque compétence :\n` +
+            `   a) **Compréhension (Orale/Écrite) :** Questions pour guider la compréhension.\n` +
+            `   b) **Expression Écrite :** Une courte tâche pour réutiliser le vocabulaire/la grammaire.\n` +
+            `   c) **Expression Orale (Continu/Interaction) :** Questions pour un débat ou une présentation.\n\n`+
+            `**3. Points de Langue (Language Focus) :**\n` +
+            `   a) **Grammaire :** Explique de manière simple le point de grammaire : "${(moduleDetails.knowledge.split('Grammaire : ')[1] || 'Point de grammaire principal')}". Les exemples doivent être tirés des documents d'appui si possible.\n` +
+            `   b) **Vocabulaire :** Liste 10-15 mots et expressions essentiels tirés des documents d'appui.\n\n` +
+            `**4. Tâche Finale (Final Task) :**\n` +
+            `Décris un projet de production finale (oral ou écrit) où les élèves devront mobiliser tout ce qu'ils ont appris.\n\n` +
+            `**RÈGLE FINALE :** Ton texte doit être immédiatement utilisable par un élève. Ne rédige aucune note pour le professeur.`;
+        
+        if (outputFormat === 'html') {
+            promptText += `\n\n**CONSIGNES SPÉCIFIQUES AU FORMAT HTML :**\n` +
+            `- Le code doit être un fichier HTML unique et responsive.\n` +
+            `- Si des liens YouTube/audio sont fournis, intègre-les directement dans des lecteurs (<iframe>).`;
+        } else {
+             promptText += `\n\n**CONSIGNES SPÉCIFIQUES AU FORMAT DOCX :**\n` +
+            `- Structure clairement le document avec des titres.\n` +
+            `- Mets les points de grammaire et le vocabulaire essentiel en gras.`;
+        }
+
+        outputPrompt.value = promptText;
+        showFeedback(copyMessage, "Prompt généré !", "success");
+    });
+    
+    function showFeedback(element, message, type = 'success', duration = 3000) {
+        if (!element) return;
+        element.textContent = message;
+        element.className = `feedback-message ${type}`;
+        requestAnimationFrame(() => { element.classList.add('show'); });
+        setTimeout(() => {
+            element.classList.remove('show');
+            setTimeout(() => { if (element.textContent === message) { element.textContent = ''; element.className = 'feedback-message'; } }, 300);
+        }, duration);
+    }
+
+    function copyToClipboardUtil(text, messageElement, successText = "Copié avec succès !") {
+        if (!text || text.trim() === "") { if (messageElement) showFeedback(messageElement, "Rien à copier.", 'error'); return; }
+        navigator.clipboard.writeText(text).then(() => {
+            if (messageElement) showFeedback(messageElement, successText, 'success');
+        }).catch(err => {
+            console.error('Erreur de copie:', err);
+            if (messageElement) showFeedback(messageElement, 'Erreur de copie.', 'error');
+        });
+    }
+
+    copyButton.addEventListener('click', () => copyToClipboardUtil(outputPrompt.value, copyMessage));
+
+    logbookButton.addEventListener('click', () => {
+        const grade = gradeSelect.value;
+        const moduleKey = moduleSelect.value;
+        if (!grade || !moduleKey) { alert("Sélectionnez un niveau et une séquence."); return; }
+        const moduleDetails = modulesData[grade][moduleKey];
+        const videoLinks = videoLinksInput.value.trim();
+        const textDocuments = textDocumentsInput.value.trim();
+        let supportText = "";
+        if (videoLinks || textDocuments) {
+            supportText = " à partir des documents fournis";
+        }
+        const logbookText = `Anglais ${grade} - Séquence sur "${moduleDetails.title}". Objectif : ${moduleDetails.skills}${supportText}. Notions : ${moduleDetails.knowledge}.`;
+        pedagogicalOutput.value = logbookText;
+        showFeedback(copyPedagogicalOutputMessage, "Phrase pour cahier de texte générée !", "success");
+    });
+
+    summaryButton.addEventListener('click', () => {
+        const grade = gradeSelect.value;
+        const moduleKey = moduleSelect.value;
+        if (!grade || !moduleKey) { alert("Sélectionnez un niveau et une séquence."); return; }
+        const moduleDetails = modulesData[grade][moduleKey];
+        const videoLinks = videoLinksInput.value.trim();
+        const textDocuments = textDocumentsInput.value.trim();
+        let supportText = "";
+        if (videoLinks || textDocuments) {
+            supportText = " en s'appuyant sur les documents fournis";
+        }
+        const summaryText = `Résumé (Anglais - ${moduleDetails.title}) :\nÀ la fin de cette séquence${supportText}, tu dois connaître : ${moduleDetails.knowledge}.\nTu dois être capable de : ${moduleDetails.skills}.`;
+        pedagogicalOutput.value = summaryText;
+        showFeedback(copyPedagogicalOutputMessage, "Résumé pour élèves généré !", "success");
+    });
+    
+    copyPedagogicalOutputButton.addEventListener('click', () => copyToClipboardUtil(pedagogicalOutput.value, copyPedagogicalOutputMessage, "Texte annexe copié !"));
+});
+</script>
+
+</body>
+</html>

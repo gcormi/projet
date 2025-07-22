@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Cours - Physique-Chimie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Palette de couleurs adaptée */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+        :root {
+            --primary-500: #0891b2; /* Cyan scientifique */
+            --primary-600: #06b6d4;
+            --primary-700: #0e7490;
+            --secondary-500: #f97316; /* Orange pour l'énergie */
+            --secondary-600: #ea580c;
+            --accent-500: #3b82f6;
+            --danger-500: #ef4444; --success-500: #16a34a;
+            --neutral-50: #f8fafc; --neutral-100: #f1f5f9; --neutral-200: #e2e8f0; --neutral-300: #cbd5e1; --neutral-500: #64748b; --neutral-700: #334155; --neutral-800: #1e293b;
+            --white: #ffffff;
+            --font-primary: 'Poppins', sans-serif; --font-secondary: 'Inter', sans-serif;
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --border-radius-lg: 0.75rem; --border-radius-md: 0.5rem;
+            --transition-default: all 0.3s ease-in-out;
+            --shadow-focus-ring: 0 0 0 3px rgba(8, 145, 178, 0.4);
+            --shadow-xs: 0 1px 2px 0 rgba(0,0,0,0.03);
+        }
+        body { font-family: var(--font-secondary); background-color: var(--neutral-100); color: var(--neutral-700); line-height: 1.6; margin: 0; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header-container { background-color: var(--white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 2rem; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--neutral-200); padding-bottom: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .back-button { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background-color: var(--neutral-200); color: var(--neutral-700); text-decoration: none; border-radius: var(--border-radius-md); font-weight: 500; transition: var(--transition-default); }
+        .back-button:hover { background-color: var(--neutral-300); transform: translateX(-3px); }
+        .page-header h1 { font-family: var(--font-primary); font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--neutral-800); display: flex; align-items: center; gap: 1rem; margin: 0; text-align: center; flex-grow: 1; justify-content: center; }
+        .page-header h1 .icon { color: var(--primary-500); }
+        .page-header-subtitle { text-align: center; font-size: 1.1rem; color: var(--neutral-500); }
+        .section { background-color: var(--white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 2rem; }
+        .section h2 { font-family: var(--font-primary); font-size: 1.8rem; color: var(--primary-700); margin-bottom: 1.5rem; border-bottom: 1px solid var(--neutral-200); padding-bottom: 0.75rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .label-text { display: block; font-weight: 500; color: var(--neutral-700); margin-bottom: 0.5rem; }
+        .input-field, .select-field, .textarea-field { width: 100%; box-sizing: border-box; padding: 0.8rem 1rem; border: 1px solid var(--neutral-300); border-radius: var(--border-radius-md); background-color: var(--neutral-50); font-size: 0.95rem; color: var(--neutral-700); transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; font-family: var(--font-secondary); }
+        .input-field:focus, .select-field:focus, .textarea-field:focus { outline: none; border-color: var(--primary-500); box-shadow: var(--shadow-focus-ring); }
+        .btn { padding: 0.75rem 1.5rem; border-radius: var(--border-radius-md); font-weight: 600; font-family: var(--font-secondary); transition: var(--transition-default); border: 1px solid transparent; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: var(--shadow-xs); }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-primary { background-color: var(--primary-500); color: var(--white); }
+        .btn-primary:hover:not(:disabled) { background-color: var(--primary-600); }
+        .btn-secondary { background-color: var(--secondary-500); color: var(--white); }
+        .btn-secondary:hover:not(:disabled) { background-color: var(--secondary-600); }
+        .grid-2-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .grid-3-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .radio-group { display: flex; align-items: center; gap: 1rem; }
+        .radio-group label { font-weight: 500; cursor: pointer; }
+        .feedback-message { transition: opacity 0.3s; opacity: 0; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; }
+        .feedback-message.show { opacity: 1; }
+        .feedback-message.success { color: var(--success-500); }
+        .feedback-message.error { color: var(--danger-500); }
+        .subsection-tools h2 { color: var(--secondary-600); }
+        .discipline-button-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .discipline-button { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; border-radius: var(--border-radius-lg); background-color: var(--neutral-50); border: 1px solid var(--neutral-200); text-decoration: none; color: var(--neutral-800); text-align: center; transition: var(--transition-default); }
+        .discipline-button:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--accent-500); color: var(--accent-500); }
+        .discipline-button .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .discipline-button .title { font-family: var(--font-primary); font-size: 1.2rem; font-weight: 600; }
+        @media (max-width: 768px) { .grid-2-cols, .grid-3-cols { grid-template-columns: 1fr; } .page-header { flex-direction: column-reverse; gap: 1rem; } .page-header h1 {font-size: 1.8rem;} }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-container">
+        <header class="page-header">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Retour à l'accueil
+            </a>
+            <h1>
+                <i class="fas fa-atom icon"></i>
+                Générateur de Cours - Physique-Chimie
+            </h1>
+        </header>
+        <p class="page-header-subtitle">Un outil pour générer des séquences de cours de Physique-Chimie pour le collège (cycle 4).</p>
+    </div>
+
+    <section class="section">
+        <h2>1. Sélection de la Séquence (Obligatoire)</h2>
+        <div class="grid-2-cols">
+            <div class="form-group">
+                <label for="gradeSelect" class="label-text">Niveau (Classe) :</label>
+                <select id="gradeSelect" class="select-field">
+                    <option value="">-- Choisir un niveau --</option>
+                    <option value="5e">5ème</option>
+                    <option value="4e">4ème</option>
+                    <option value="3e">3ème</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sequenceSelect" class="label-text">Séquence :</label>
+                <select id="sequenceSelect" class="select-field" disabled>
+                    <option value="">-- Choisir un thème puis une séquence --</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>2. Personnalisation du Contenu (Optionnel)</h2>
+        <div class="form-group">
+            <label for="studyPhenomenonInput" class="label-text">Phénomène, loi ou application d'étude principal :</label>
+            <input type="text" id="studyPhenomenonInput" class="input-field" placeholder="Ex: la loi d'Ohm, le fonctionnement d'une fusée, la corrosion des métaux...">
+        </div>
+        <div class="form-group">
+            <label for="planInput" class="label-text">Plan de la séquence :</label>
+            <textarea id="planInput" rows="4" class="textarea-field" placeholder="Dictez la structure exacte du cours. Ex: I. Mesure de la tension, II. Mesure de l'intensité, III. Relation U=RxI..."></textarea>
+        </div>
+        
+        <label class="label-text">Ressources et Documents d'Appui :</label>
+        <div class="grid-3-cols">
+            <div class="form-group">
+                <textarea id="videoLinks" rows="3" class="textarea-field" placeholder="Liens de vidéos (un par ligne)"></textarea>
+            </div>
+            <div class="form-group">
+                <textarea id="websiteLinks" rows="3" class="textarea-field" placeholder="Liens de sites web (un par ligne)"></textarea>
+            </div>
+            <div class="form-group">
+                <textarea id="rawText" rows="3" class="textarea-field" placeholder="Texte brut (articles, protocoles...)"></textarea>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <h2>3. Génération du Prompt</h2>
+        <div class="form-group">
+            <label class="label-text">Format de sortie souhaité (Obligatoire) :</label>
+            <div class="radio-group" id="outputFormatGroup">
+                <label><input type="radio" name="outputFormat" value="docx" checked> DOCX</label>
+                <label><input type="radio" name="outputFormat" value="html"> HTML</label>
+            </div>
+        </div>
+        
+        <div class="form-group" style="text-align: center; margin-top: 2rem;">
+            <button id="generateButton" class="btn btn-primary">
+                <i class="fas fa-magic"></i> Générer le Prompt Détaillé
+            </button>
+        </div>
+        <div class="form-group">
+            <label for="outputPrompt" class="label-text">Prompt de Séquence généré :</label>
+            <textarea id="outputPrompt" rows="15" class="textarea-field" readonly placeholder="Le prompt détaillé pour la génération de la séquence apparaîtra ici..."></textarea>
+            <button id="copyButton" class="btn btn-secondary" style="margin-top: 1rem;">
+                <i class="fas fa-copy"></i> Copier le Prompt
+            </button>
+            <p id="copyMessage" class="feedback-message"></p>
+        </div>
+    </section>
+
+    <section class="section subsection-tools">
+        <h2>Outils Pédagogiques Annexes</h2>
+        <div class="grid-2-cols">
+            <button id="logbookButton" class="btn btn-primary" style="width:100%">
+                <i class="fas fa-book"></i> Phrase Cahier de Texte
+            </button>
+            <button id="summaryButton" class="btn btn-primary" style="width:100%">
+                <i class="fas fa-lightbulb"></i> Résumé Connaissances Élèves
+            </button>
+        </div>
+        <div class="form-group" style="margin-top: 1.5rem;">
+            <label for="pedagogicalOutput" class="label-text">Sortie des outils annexes :</label>
+            <textarea id="pedagogicalOutput" rows="6" class="textarea-field" readonly placeholder="Le contenu généré par les outils annexes apparaîtra ici..."></textarea>
+            <button id="copyPedagogicalOutputButton" class="btn btn-secondary" style="margin-top: 1rem;">
+                <i class="fas fa-copy"></i> Copier Texte Annexe
+            </button>
+            <p id="copyPedagogicalOutputMessage" class="feedback-message"></p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Améliorer & Exercer</h2>
+        <div class="discipline-button-container">
+            <a href="design.html" class="discipline-button">
+                <i class="fas fa-palette icon"></i>
+                <span class="title">Améliorer le Design d'un cours HTML</span>
+            </a>
+            <a href="exercices.html" class="discipline-button">
+                <i class="fas fa-file-image icon"></i>
+                <span class="title">Générer des Exercices (PNG / DOCX, etc.)</span>
+            </a>
+        </div>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const modulesData = {
+        "5e": {
+            1: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Décrire les états de la matière", skills: "Distinguer solide, liquide, gaz. Connaître les propriétés de chaque état.", knowledge: "États de la matière, compressibilité, forme propre, volume propre." },
+            2: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Mesurer la masse et le volume", skills: "Utiliser une balance. Mesurer un volume avec une éprouvette graduée.", knowledge: "Masse (kg, g), volume (L, m³), éprouvette graduée, conservation de la masse." },
+            3: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Les mélanges", skills: "Distinguer un corps pur d'un mélange. Identifier un mélange homogène et hétérogène.", knowledge: "Mélange, corps pur, homogène, hétérogène, solution, solvant, soluté." },
+            4: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Les changements d'état", skills: "Nommer les changements d'état. Savoir que la température de changement d'état est une propriété.", knowledge: "Fusion, solidification, vaporisation, liquéfaction. Température de fusion/ébullition." },
+            5: { mainTheme: "Thème 2 : Mouvements et interactions", title: "Décrire un mouvement", skills: "Caractériser un mouvement par sa trajectoire et sa vitesse. Différencier mouvement rectiligne, circulaire, uniforme.", knowledge: "Mouvement, trajectoire, vitesse, rectiligne, circulaire, uniforme, accéléré." },
+            6: { mainTheme: "Thème 3 : L'énergie et ses conversions", title: "Identifier les sources et formes d'énergie", skills: "Citer différentes formes et sources d'énergie. Comprendre la notion de conversion.", knowledge: "Sources d'énergie (renouvelables/non renouvelables). Formes d'énergie (cinétique, thermique, lumineuse...)." },
+            7: { mainTheme: "Thème 3 : L'énergie et ses conversions", title: "Le circuit électrique simple en série", skills: "Réaliser un circuit en série. Connaître le rôle du générateur, des récepteurs et de l'interrupteur.", knowledge: "Circuit électrique, dipôle, générateur, récepteur, interrupteur, conducteur, isolant." },
+            8: { mainTheme: "Thème 4 : Des signaux pour observer et communiquer", title: "La lumière : sources et propagation", skills: "Identifier des sources de lumière. Comprendre la propagation rectiligne de la lumière.", knowledge: "Source primaire, objet diffusant, propagation rectiligne, ombre." },
+            9: { mainTheme: "Thème 4 : Des signaux pour observer et communiquer", title: "Observer le système solaire", skills: "Décrire l'organisation du système solaire. Expliquer le phénomène des saisons.", knowledge: "Planètes, Soleil, rotation, révolution, inclinaison de la Terre." },
+        },
+        "4e": {
+            10: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "L'air qui nous entoure", skills: "Décrire la composition de l'air. Mettre en évidence la présence de dioxygène.", knowledge: "Composition de l'air (diazote, dioxygène). Pression atmosphérique." },
+            11: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Le modèle moléculaire", skills: "Utiliser le modèle moléculaire pour interpréter les états de la matière et les transformations physiques.", knowledge: "Molécule, agitation moléculaire, liaisons intermoléculaires." },
+            12: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Décrire les transformations chimiques", skills: "Distinguer transformation physique et chimique. Identifier réactifs et produits.", knowledge: "Transformation chimique, réactif, produit, conservation de la masse." },
+            13: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Les combustions", skills: "Identifier le rôle du dioxygène comme comburant. Connaître les dangers des combustions incomplètes.", knowledge: "Combustion, combustible, comburant, dioxyde de carbone, monoxyde de carbone." },
+            14: { mainTheme: "Thème 2 : Mouvements et interactions", title: "Calculer la vitesse d'un mouvement", skills: "Appliquer la relation liant vitesse, distance et durée. Convertir des unités.", knowledge: "Vitesse (m/s, km/h). Relation v = d/t." },
+            15: { mainTheme: "Thème 2 : Mouvements et interactions", title: "Modéliser une action par une force", skills: "Identifier les actions mécaniques. Modéliser une action par un vecteur force.", knowledge: "Action de contact, action à distance. Force (point d'application, direction, sens, valeur)." },
+            16: { mainTheme: "Thème 2 : Mouvements et interactions", title: "Le poids et la masse", skills: "Distinguer le poids et la masse. Utiliser la relation P = m x g.", knowledge: "Poids (Newton), masse (kg), constante de gravité (g)." },
+            17: { mainTheme: "Thème 3 : L'énergie et ses conversions", title: "Les conversions d'énergie et la puissance", skills: "Réaliser une chaîne énergétique. Comprendre la notion de puissance électrique.", knowledge: "Conversion d'énergie, chaîne énergétique, puissance (Watt), énergie (Joule, kWh)." },
+            18: { mainTheme: "Thème 3 : L'énergie et ses conversions", title: "Les lois dans les circuits électriques", skills: "Appliquer les lois de l'intensité et de la tension dans les circuits en série et en dérivation.", knowledge: "Loi d'unicité de l'intensité (série), loi d'additivité des tensions (série). Loi d'additivité des intensités (dérivation), loi d'unicité de la tension (dérivation)." },
+            19: { mainTheme: "Thème 3 : L'énergie et ses conversions", title: "La loi d'Ohm", skills: "Mesurer tension et intensité. Appliquer la loi d'Ohm (U = R x I).", knowledge: "Tension (Volt), intensité (Ampère), résistance (Ohm), loi d'Ohm." },
+            20: { mainTheme: "Thème 4 : Des signaux pour observer et communiquer", title: "Les signaux sonores", skills: "Décrire les conditions de production et de perception d'un son. Connaître la vitesse du son.", knowledge: "Signal sonore, émetteur, récepteur, fréquence (Hertz), vitesse du son." },
+            21: { mainTheme: "Thème 4 : Des signaux pour observer et communiquer", title: "La lumière et les couleurs", skills: "Expliquer la décomposition de la lumière blanche. Comprendre la couleur des objets.", knowledge: "Spectre de la lumière blanche, prisme, couleurs primaires, synthèse additive." },
+        },
+        "3e": {
+            22: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "La structure de l'atome", skills: "Décrire le modèle de l'atome. Comprendre la neutralité électrique de l'atome.", knowledge: "Atome, noyau (protons, neutrons), électrons, numéro atomique Z." },
+            23: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Les ions", skills: "Expliquer la formation d'un ion à partir d'un atome. Différencier cations et anions.", knowledge: "Ion, cation (ion positif), anion (ion négatif), solution ionique." },
+            24: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "L'acidité et la basicité", skills: "Mesurer le pH d'une solution. Classer des solutions en acide, basique ou neutre.", knowledge: "pH, solution acide, solution basique, solution neutre, ions H+ et OH-." },
+            25: { mainTheme: "Thème 1 : Organisation et transformations de la matière", title: "Les métaux et les réactions chimiques", skills: "Identifier des métaux usuels. Décrire la réaction entre un acide et un métal.", knowledge: "Métaux (fer, zinc, cuivre, aluminium). Réaction chimique, ion métallique, gaz dihydrogène." },
+            26: { mainTheme: "Thème 2 : Mouvements et interactions", title: "La gravitation universelle", skills: "Appliquer la loi de la gravitation universelle. Comprendre son rôle dans l'Univers.", knowledge: "Interaction gravitationnelle, force d'attraction, masse, distance." },
+            27: { mainTheme: "Thème 2 : Mouvements et interactions", title: "L'énergie cinétique et de position", skills: "Calculer l'énergie cinétique. Comprendre la conversion entre énergie cinétique et de position.", knowledge: "Énergie cinétique (Ec), énergie potentielle de position (Epp), conservation de l'énergie mécanique." },
+            28: { mainTheme: "Thème 3 : L'énergie et ses conversions", title: "Produire de l'électricité durablement", skills: "Décrire le principe de l'alternateur. Comparer différentes sources d'énergie renouvelable.", knowledge: "Alternateur, centrale électrique (thermique, hydraulique, éolienne, solaire)." },
+            29: { mainTheme: "Thème 3 : L'énergie et ses conversions", title: "L'énergie nucléaire", skills: "Comprendre le principe de la fission nucléaire. Discuter des avantages et des inconvénients de l'énergie nucléaire.", knowledge: "Énergie nucléaire, fission, radioactivité, déchets nucléaires." },
+            30: { mainTheme: "Thème 4 : Des signaux pour observer et communiquer", title: "Les signaux périodiques", skills: "Caractériser un signal périodique par sa fréquence et sa période. Utiliser la relation f = 1/T.", knowledge: "Signal périodique, période (T), fréquence (f), tension maximale (Umax)." }
+        }
+    };
+
+    // --- Références aux éléments du DOM ---
+    const gradeSelect = document.getElementById('gradeSelect');
+    // LA CORRECTION EST ICI : L'ID du HTML est "sequenceSelect"
+    const sequenceSelect = document.getElementById('sequenceSelect'); 
+    const studyPhenomenonInput = document.getElementById('studyPhenomenonInput');
+    const planInput = document.getElementById('planInput');
+    const videoLinks = document.getElementById('videoLinks');
+    const websiteLinks = document.getElementById('websiteLinks');
+    const rawText = document.getElementById('rawText');
+    const outputFormatGroup = document.getElementById('outputFormatGroup');
+    const generateButton = document.getElementById('generateButton');
+    const outputPrompt = document.getElementById('outputPrompt');
+    const copyButton = document.getElementById('copyButton');
+    const copyMessage = document.getElementById('copyMessage');
+    const logbookButton = document.getElementById('logbookButton');
+    const summaryButton = document.getElementById('summaryButton');
+    const pedagogicalOutput = document.getElementById('pedagogicalOutput');
+    const copyPedagogicalOutputButton = document.getElementById('copyPedagogicalOutputButton');
+    const copyPedagogicalOutputMessage = document.getElementById('copyPedagogicalOutputMessage');
+    
+    // --- Logique de l'application ---
+
+    function populateModules(grade) {
+        sequenceSelect.innerHTML = '<option value="">-- Choisir un thème puis une séquence --</option>';
+        sequenceSelect.disabled = true;
+        if (grade && modulesData[grade]) {
+            const modulesForGrade = modulesData[grade];
+            const themes = [...new Set(Object.values(modulesForGrade).map(item => item.mainTheme))];
+            
+            themes.forEach(theme => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = theme;
+                
+                Object.keys(modulesForGrade).forEach(key => {
+                    const moduleItem = modulesForGrade[key];
+                    if (moduleItem.mainTheme === theme) {
+                        const option = document.createElement('option');
+                        option.value = key;
+                        option.textContent = moduleItem.title;
+                        optgroup.appendChild(option);
+                    }
+                });
+                sequenceSelect.appendChild(optgroup);
+            });
+            
+            sequenceSelect.disabled = false;
+        }
+    }
+
+    gradeSelect.addEventListener('change', () => populateModules(gradeSelect.value));
+
+    generateButton.addEventListener('click', () => {
+        const selectedGrade = gradeSelect.value;
+        const selectedModuleKey = sequenceSelect.value;
+        const outputFormatRadio = document.querySelector('input[name="outputFormat"]:checked');
+        
+        if (!selectedGrade || !selectedModuleKey || !outputFormatRadio) { 
+            alert("Veuillez choisir un niveau, une séquence et un format de sortie."); return;
+        }
+
+        const moduleDetails = modulesData[selectedGrade]?.[selectedModuleKey];
+        if (!moduleDetails) {
+            alert("Détails de la séquence non trouvés."); return;
+        }
+
+        // Récupération des valeurs des champs optionnels
+        const studyPhenomenon = studyPhenomenonInput.value.trim();
+        const plan = planInput.value.trim();
+        const videos = videoLinks.value.trim();
+        const websites = websiteLinks.value.trim();
+        const text = rawText.value.trim();
+        const outputFormat = outputFormatRadio.value;
+
+        // Début de la construction du prompt
+        let promptText = `**RÔLE ET MISSION**
+Tu agis en tant que professeur agrégé de Physique-Chimie, expert en didactique des sciences expérimentales. Ta mission est de **rédiger un cours complet, structuré et directement utilisable par un élève de ${selectedGrade}**. Tu ne dois rédiger que le contenu pour l'élève, sans aucune note pour le professeur.\n\n`;
+
+        // Section des instructions impératives (si des champs optionnels sont remplis)
+        const hasImperativeInstructions = studyPhenomenon || plan || videos || websites || text;
+        if (hasImperativeInstructions) {
+            promptText += `**INSTRUCTIONS IMPÉRATIVES FOURNIES PAR L'ENSEIGNANT**
+Tu dois **impérativement** baser ta rédaction sur les éléments suivants :\n`;
+            if (studyPhenomenon) {
+                promptText += `- **Phénomène d'étude imposé :** Le cours doit être entièrement centré sur : **${studyPhenomenon}**. Tous les exemples, analyses et schémas doivent concerner ce phénomène ou cette application.\n`;
+            }
+            if (plan) {
+                promptText += `- **Plan imposé :** Le développement du cours doit suivre scrupuleusement le plan suivant :\n${plan}\n`;
+            }
+            if (videos || websites || text) {
+                promptText += `- **Ressources d'appui imposées :** Le contenu du cours doit se baser en priorité sur l'analyse et la synthèse des ressources suivantes. Elles sont le point de départ de la rédaction :\n`;
+                if (videos) promptText += `  - Vidéos à analyser : \n${videos}\n`;
+                if (websites) promptText += `  - Sites web à consulter : \n${websites}\n`;
+                if (text) promptText += `  - Textes de référence : \n${text}\n`;
+            }
+            promptText += "\n";
+        }
+        
+        // Section sur le contenu de base
+        promptText += `**CONTENU DE BASE DE LA SÉQUENCE**
+- **Niveau :** ${selectedGrade}
+- **Thème du Programme :** ${moduleDetails.mainTheme}
+- **Titre de la Séquence :** ${moduleDetails.title}
+- **Compétences à maîtriser :** ${moduleDetails.skills}
+- **Savoirs à acquérir :** ${moduleDetails.knowledge}\n\n`;
+
+        // Section sur la structure détaillée et les exigences de format
+        promptText += `**STRUCTURE DÉTAILLÉE ET FORMAT DE SORTIE EXIGÉ**
+Tu dois rédiger le cours en respectant **impérativement** le format de sortie demandé et la structure ci-dessous.
+
+**Format de Sortie Final Requis : ${outputFormat.toUpperCase()}**\n\n` +
+`---
+**DÉBUT DU CONTENU À RÉDIGER**
+
+**1. TITRE DE LA SÉQUENCE**
+(Rédige ici le titre : ${moduleDetails.title.toUpperCase()})
+
+**2. INTRODUCTION ET PROBLÉMATIQUE SCIENTIFIQUE**
+Rédige une introduction qui part d'une **situation de la vie courante**, d'une **expérience intrigante** ou d'un **paradoxe simple** pour amener une **problématique scientifique claire** sous forme de question. ${studyPhenomenon ? `Cette problématique doit être directement liée au phénomène imposé (${studyPhenomenon}).` : `Choisis un exemple pertinent pour illustrer cette problématique.`} Annonce ensuite le plan du cours.
+
+**3. DÉVELOPPEMENT PAR DÉMARCHE EXPÉRIMENTALE**
+Rédige le corps du cours en plusieurs parties logiques. Pour chaque notion clé des **savoirs** ("${moduleDetails.knowledge}"), tu dois :
+   a. **Partir d'une expérience ou observation :** Décris une expérience simple (protocole, matériel), une observation de document ou une situation concrète qui pose question.
+   b. **Rédiger l'explication scientifique :** Explique le phénomène de manière rigoureuse. Définis le vocabulaire, les lois et les principes physiques ou chimiques.
+   c. **Intégrer Formules et Calculs :** Si applicable, introduis clairement la **formule mathématique** associée (ex: U = R x I). Donne un **exemple de calcul simple, entièrement rédigé et commenté** étape par étape, en précisant les unités.
+   d. **Intégrer des Schémas :**
+      - **Si le format est DOCX :** Insère des descriptions claires des schémas à réaliser. Utilise des balises textuelles explicites, par exemple : **[Schéma normalisé du circuit électrique comportant une pile, une lampe et une résistance en série]**.
+      - **Si le format est HTML :** Génère un **fichier HTML complet et auto-contenu** (CSS dans une balise <style>). Pour les schémas, utilise des placeholders clairs comme \`<div class="placeholder-schema">Schéma du montage pour la loi d'Ohm</div>\` que je pourrai remplacer.
+
+**4. CONCLUSION GÉNÉRALE ET BILAN**
+Rédige une conclusion qui répond à la problématique de départ. Crée un encadré **"L'essentiel à retenir"** avec les définitions et les formules clés à mémoriser.
+
+**5. EXERCICES D'APPLICATION**
+Propose 3 exercices progressifs pour évaluer la maîtrise des **compétences** ("${moduleDetails.skills}"):
+   - **Exercice 1 (Restituer ses connaissances) :** Un QCM ou une question de cours sur les définitions et lois.
+   - **Exercice 2 (Raisonner) :** Un exercice d'analyse de document ou de situation-problème qui demande un raisonnement qualitatif.
+   - **Exercice 3 (Calculer) :** Un exercice qui nécessite d'appliquer une formule du cours pour trouver un résultat numérique.
+
+**RÈGLE FINALE :** Ton texte doit être immédiatement utilisable. Ne rédige **aucune note pour le professeur**, ni aucun commentaire de mise en forme (sauf ceux demandés pour les schémas). Ton unique sortie est le cours lui-même.`;
+        
+        outputPrompt.value = promptText;
+        showFeedback(copyMessage, "Prompt détaillé généré avec succès !", "success");
+    });
+    
+    // --- Fonctions utilitaires (inchangées) ---
+    function showFeedback(element, message, type = 'success', duration = 3000) {
+        if (!element) return;
+        element.textContent = message;
+        element.className = `feedback-message ${type}`;
+        requestAnimationFrame(() => { element.classList.add('show'); });
+        setTimeout(() => {
+            element.classList.remove('show');
+            setTimeout(() => { if (element.textContent === message) { element.textContent = ''; element.className = 'feedback-message'; } }, 300);
+        }, duration);
+    }
+
+    function copyToClipboardUtil(text, messageElement, successText = "Copié avec succès !") {
+        if (!text || text.trim() === "") { if (messageElement) showFeedback(messageElement, "Rien à copier.", 'error'); return; }
+        navigator.clipboard.writeText(text).then(() => {
+            if (messageElement) showFeedback(messageElement, successText, 'success');
+        }).catch(err => {
+            console.error('Erreur de copie:', err);
+            if (messageElement) showFeedback(messageElement, 'Erreur de copie.', 'error');
+        });
+    }
+
+    copyButton.addEventListener('click', () => copyToClipboardUtil(outputPrompt.value, copyMessage));
+
+    logbookButton.addEventListener('click', () => {
+        const grade = gradeSelect.value;
+        const moduleKey = sequenceSelect.value;
+        if (!grade || !moduleKey) { alert("Sélectionnez un niveau et une séquence."); return; }
+        const moduleDetails = modulesData[grade][moduleKey];
+        const logbookText = `Physique-Chimie ${grade} - Séquence "${moduleDetails.title}". Compétences : ${moduleDetails.skills}. Notions : ${moduleDetails.knowledge}.`;
+        pedagogicalOutput.value = logbookText;
+        showFeedback(copyPedagogicalOutputMessage, "Phrase pour cahier de texte générée !", "success");
+    });
+
+    summaryButton.addEventListener('click', () => {
+        const grade = gradeSelect.value;
+        const moduleKey = sequenceSelect.value;
+        if (!grade || !moduleKey) { alert("Sélectionnez un niveau et une séquence."); return; }
+        const moduleDetails = modulesData[grade][moduleKey];
+        const summaryText = `Résumé (Physique-Chimie - ${moduleDetails.title}) :\nÀ la fin de cette séquence, tu dois connaître : ${moduleDetails.knowledge}.\nTu dois être capable de : ${moduleDetails.skills}.`;
+        pedagogicalOutput.value = summaryText;
+        showFeedback(copyPedagogicalOutputMessage, "Résumé pour élèves généré !", "success");
+    });
+    
+    copyPedagogicalOutputButton.addEventListener('click', () => copyToClipboardUtil(pedagogicalOutput.value, copyPedagogicalOutputMessage, "Texte annexe copié !"));
+});
+</script>
+
+</body>
+</html>

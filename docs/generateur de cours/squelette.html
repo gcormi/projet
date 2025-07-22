@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Prompt pour Cours d'IA</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+        :root {
+            --bg-color: #f8f9fa;
+            --container-bg: #ffffff;
+            --text-color: #212529;
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --border-color: #dee2e6;
+            --label-color: #495057;
+            --success-color: #28a745;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-size: 2.25rem;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--label-color);
+            margin-top: 0.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h2 {
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            color: var(--label-color);
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .radio-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        .btn-copy {
+            background-color: var(--success-color);
+        }
+        .btn-copy:hover {
+            background-color: #218838;
+        }
+
+        #output-section {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #outputPrompt {
+            background-color: #e9ecef;
+            color: #333;
+            font-family: monospace;
+            min-height: 300px;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.5rem; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Générateur de Prompt pour Cours Idéal</h1>
+            <p>Remplissez les champs ci-dessous pour créer une requête sur-mesure pour votre IA pédagogique.</p>
+        </header>
+
+        <form id="course-prompt-form">
+            <section class="form-section">
+                <h2>1. Cahier des Charges Pédagogique</h2>
+                <div class="form-group">
+                    <label for="niveau">Niveau de la classe (ex: 4e, Seconde)</label>
+                    <input type="text" id="niveau" required>
+                </div>
+                <div class="form-group">
+                    <label for="theme">Thème général du programme</label>
+                    <input type="text" id="theme" required>
+                </div>
+                <div class="form-group">
+                    <label for="titre">Titre précis de la séquence</label>
+                    <input type="text" id="titre" required>
+                </div>
+                <div class="form-group">
+                    <label for="accroche">Accroche / Situation problème</label>
+                    <textarea id="accroche" placeholder="Rédigez une phrase ou un court scénario pour capter l'attention de l'élève..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="competences">Compétences visées</label>
+                    <textarea id="competences" placeholder="Listez chaque compétence sur une nouvelle ligne..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="savoirs">Savoirs & Connaissances à acquérir</label>
+                    <textarea id="savoirs" placeholder="Listez chaque notion ou savoir sur une nouvelle ligne..." required></textarea>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>2. Instructions Spécifiques (Optionnel)</h2>
+                <div class="form-group">
+                    <label for="themesEtude">Thèmes d'études</label>
+                    <textarea id="themesEtude" placeholder="Indiquez ici les objets d'étude, thèmes généraux, artistes, et autres éléments pertinents."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="plan">Plan de cours imposé</label>
+                    <textarea id="plan" placeholder="Ex: &#10;I. Analyse du besoin&#10;II. Solutions techniques&#10;III. Programmation..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="videos">Ressources Vidéos</label>
+                    <textarea id="videos" placeholder="Collez un lien de vidéo par ligne..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="sites">Ressources Sites Web</label>
+                    <textarea id="sites" placeholder="Collez un lien de site web par ligne..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="texteBrut">Ressources Texte Brut</label>
+                    <textarea id="texteBrut" placeholder="Collez un article, une description technique ou tout autre texte pertinent..."></textarea>
+                </div>
+            </section>
+            
+            <section class="form-section">
+                <h2>3. Format de Sortie et Génération</h2>
+                 <div class="form-group">
+                    <label>Format de sortie final requis</label>
+                    <div class="radio-group">
+                       <label><input type="radio" name="formatSortie" value="DOCX" checked> DOCX</label>
+                       <label><input type="radio" name="formatSortie" value="HTML"> HTML</label>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button type="button" class="btn" id="generateBtn">Générer le Prompt</button>
+                </div>
+            </section>
+        </form>
+
+        <section id="output-section" style="display: none;">
+            <h2>4. Prompt Généré</h2>
+            <div class="form-group">
+                <textarea id="outputPrompt" readonly></textarea>
+            </div>
+            <div class="button-container">
+                 <button type="button" class="btn btn-copy" id="copyBtn">Copier le Prompt</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generateBtn');
+            const outputSection = document.getElementById('output-section');
+            const outputPrompt = document.getElementById('outputPrompt');
+            const copyBtn = document.getElementById('copyBtn');
+
+            generateBtn.addEventListener('click', function() {
+                // Récupération des valeurs des champs
+                const niveau = document.getElementById('niveau').value.trim();
+                const theme = document.getElementById('theme').value.trim();
+                const titre = document.getElementById('titre').value.trim();
+                const accroche = document.getElementById('accroche').value.trim();
+                const competences = document.getElementById('competences').value.trim();
+                const savoirs = document.getElementById('savoirs').value.trim();
+                const themesEtude = document.getElementById('themesEtude').value.trim();
+                const plan = document.getElementById('plan').value.trim();
+                const videos = document.getElementById('videos').value.trim();
+                const sites = document.getElementById('sites').value.trim();
+                const texteBrut = document.getElementById('texteBrut').value.trim();
+                const formatSortie = document.querySelector('input[name="formatSortie"]:checked').value;
+
+                // Vérification des champs obligatoires
+                if (!niveau || !theme || !titre || !accroche || !competences || !savoirs) {
+                    alert('Veuillez remplir tous les champs de la section "Cahier des Charges Pédagogique".');
+                    return;
+                }
+
+                // Construction de la section des instructions impératives
+                let instructionsImperatives = '';
+                
+                if (themesEtude || plan || videos || sites || texteBrut) {
+                    instructionsImperatives += `**INSTRUCTIONS IMPÉRATIVES DE L'ENSEIGNANT**\nLa conception du cours doit obligatoirement intégrer les éléments suivants :\n`;
+                    if (themesEtude) instructionsImperatives += `- **Thèmes d'études :** Le cours doit être entièrement articulé autour des thèmes, objets et artistes suivants : **${themesEtude}**.\n`;
+                    if (plan) instructionsImperatives += `- **Plan imposé :** La structure du cours doit suivre scrupuleusement ce plan :\n${plan}\n`;
+                    
+                    if (videos || sites || texteBrut) {
+                         instructionsImperatives += `- **Ressources d'appui imposées :** Le contenu doit se baser sur l'analyse et la synthèse de ces ressources :\n`;
+                         if (videos) instructionsImperatives += `  - Vidéos : \n${videos}\n`;
+                         if (sites) instructionsImperatives += `  - Sites web : \n${sites}\n`;
+                         if (texteBrut) instructionsImperatives += `  - Textes : \n${texteBrut}\n`;
+                    }
+                }
+
+                // Construction du prompt final
+                const prompt = `**RÔLE ET MISSION DE HAUT NIVEAU**
+Tu es un **concepteur pédagogique expert en ingénierie de la formation**, agissant en tant qu'auteur principal pour un éditeur de manuels scolaires de premier plan. Tu es également **Professeur agrégé** et tu maîtrises parfaitement les programmes de l'Éducation Nationale française ainsi que les sciences cognitives appliquées à l'apprentissage.
+
+Ta mission est de rédiger un **document de cours complet, exhaustif et multi-facettes** pour un élève de **${niveau}**. Ce document doit être une ressource de référence, alliant rigueur académique, clarté pédagogique et un engagement fort pour l'élève. Il ne s'agit pas d'un simple résumé, mais d'un chapitre de manuel scolaire de très haute qualité.
+
+${instructionsImperatives}
+**CAHIER DES CHARGES PÉDAGOGIQUE DU COURS**
+- **Niveau :** ${niveau}
+- **Thème :** ${theme}
+- **Titre de la Séquence :** ${titre}
+- **Accroche / Hook :** "${accroche}"
+- **Compétences Visées :** ${competences}
+- **Savoirs & Connaissances :** ${savoirs}
+
+**STRUCTURE DÉTAILLÉE DU DOCUMENT DE COURS À PRODUIRE**
+Tu dois rédiger le cours en respectant **impérativement** le format de sortie demandé et la structure complète en 11 points ci-dessous.
+**Format de Sortie Final Requis : ${formatSortie}**
+
+---
+**DÉBUT DU CONTENU DU COURS À RÉDIGER**
+
+**1. TITRE DE LA SÉQUENCE :** (${titre.toUpperCase()})
+
+**2. SITUATION DÉCLENCHANTE :** Scénarise l'accroche ("${accroche}") en un court récit engageant pour que l'élève comprenne l'intérêt de la leçon.
+
+**3. OBJECTIFS PÉDAGOGIQUES : "Ta mission, si tu l'acceptes..."**
+Présente les objectifs sous forme de listes à puces claires :
+   - **Compétences à maîtriser :** (basé sur : "${competences}").
+   - **Savoirs et connaissances à acquérir :** (basé sur : "${savoirs}").
+
+**4. INTRODUCTION ET PROBLÉMATIQUE :** Fais le lien avec la situation déclenchante, situe le sujet dans un contexte plus large et formule la problématique technique centrale. Annonce le plan.
+
+**5. DÉVELOPPEMENT DU COURS - EXPLORATION EN PROFONDEUR :**
+Ceci est le cœur du cours. Pour **CHAQUE SAVOIR ET CONNAISSANCE** listé dans "${savoirs}", tu dois **impérativement** suivre la structure de développement en 8 étapes ci-dessous.
+
+   Pour la notion de **[NOM DE LA NOTION]** :
+   **a) 🎓 Définition Académique et Enjeux**
+   **b) 🧠 Analogie et Simplification Pédagogique**
+   **c) 📱 Étude de Cas Concrète**
+   **d) 🛠️ Décortiquage Technique - "Sous le Capot"**
+   **e) 🤔 Points de Vigilance et Erreurs à Éviter**
+   **f) 💡 Le Saviez-Vous ? / Anecdote Technologique**
+   **g) 🤝 Ponts Interdisciplinaires**
+   **h) 🚀 Pour les Experts (Approfondissement)**
+
+   (Répète cette structure en 8 points pour toutes les notions de la séquence).
+
+**6. AVENIR ET PERSPECTIVES :** Aborde les innovations futures, les impacts et les métiers liés au sujet.
+
+**7. CONCLUSION :** Synthétise les points clés et répond à la problématique.
+
+**8. EXERCICES D'AUTO-ÉVALUATION :** Propose 3 exercices interactifs et auto-correctifs.
+
+**9. SYNTHÈSE VISUELLE (FORMAT CARTE MENTALE) :** Crée une synthèse de tout le cours sous forme de liste à puces imbriquées.
+
+**10. LEXIQUE / GLOSSAIRE DES TERMES CLÉS :** Liste alphabétique des termes techniques avec leur définition.
+
+**11. POUR ALLER PLUS LOIN :** Propose 3 pistes (mini-projet, vidéo, métier).
+
+**RÈGLE FINALE ABSOLUE :** Ta seule et unique sortie doit être le document de cours lui-même, en suivant scrupuleusement la structure numérotée de 1 à 11 et en respectant le format de sortie demandé. Ne rédige aucun commentaire ou méta-discours. Produis directement le contenu final.`;
+
+                // Affichage du résultat
+                outputPrompt.value = prompt;
+                outputSection.style.display = 'block';
+                outputPrompt.style.height = outputPrompt.scrollHeight + 'px'; // Adjust height
+            });
+
+            copyBtn.addEventListener('click', function() {
+                outputPrompt.select();
+                navigator.clipboard.writeText(outputPrompt.value).then(() => {
+                    copyBtn.textContent = 'Copié !';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copier le Prompt';
+                    }, 2000);
+                }).catch(err => {
+                    alert('Erreur lors de la copie.');
+                    console.error('Erreur de copie:', err);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

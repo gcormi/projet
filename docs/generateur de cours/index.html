@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Pédagogique Moderne</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="hero-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    Assistant Pédagogique
+                </h1>
+                <p class="hero-subtitle">
+                    Créez des cours structurés, des projets sur mesure et des exercices personnalisés en quelques clics. 
+                    Votre allié pour une pédagogie moderne et efficace.
+                </p>
+                <a href="#" id="openGuideBtn" class="guide-button">
+                    <i class="fas fa-book-open"></i>
+                    Guide d'utilisation
+                </a>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="discipline-count">18</span>
+                        <span class="stat-label">Outils disponibles</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Libre et Modifiable</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Possibilités</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-section">
+            <section>
+                <h2 class="section-title">Générateurs de Cours</h2>
+                <div class="section-description">
+                    <p>
+                        Les générateurs qui suivent vous permettent de construire des séquences pédagogiques structurées, module par module. Chaque discipline offre une base de connaissances et de compétences.
+                    </p>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <div class="category-header category-sciences">
+                    <i class="fas fa-atom category-icon"></i>
+                    <h3 class="category-title">Sciences et Technologies</h3>
+                </div>
+                <div class="discipline-grid">
+                    <a href="technologie.html" class="discipline-button">
+                        <i class="fas fa-laptop-code discipline-icon"></i>
+                        <span>Technologie</span>
+                    </a>
+                    <a href="svt.html" class="discipline-button">
+                        <i class="fas fa-microscope discipline-icon"></i>
+                        <span>SVT</span>
+                    </a>
+                    <a href="physique-chimie.html" class="discipline-button">
+                        <i class="fas fa-flask discipline-icon"></i>
+                        <span>Physique-Chimie</span>
+                    </a>
+                    <a href="mathematiques.html" class="discipline-button">
+                        <i class="fas fa-calculator discipline-icon"></i>
+                        <span>Mathématiques</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <div class="category-header category-humaines">
+                    <i class="fas fa-globe category-icon"></i>
+                    <h3 class="category-title">Sciences Humaines</h3>
+                </div>
+                <div class="discipline-grid">
+                    <a href="histoire.html" class="discipline-button">
+                        <i class="fas fa-landmark discipline-icon"></i>
+                        <span>Histoire</span>
+                    </a>
+                    <a href="geographie.html" class="discipline-button">
+                        <i class="fas fa-globe-americas discipline-icon"></i>
+                        <span>Géographie</span>
+                    </a>
+                    <a href="emc.html" class="discipline-button">
+                        <i class="fas fa-gavel discipline-icon"></i>
+                        <span>Éducation Civique</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <div class="category-header category-langues">
+                    <i class="fas fa-comments category-icon"></i>
+                    <h3 class="category-title">Langues et Arts</h3>
+                </div>
+                <div class="discipline-grid">
+                    <a href="francais.html" class="discipline-button">
+                        <i class="fas fa-book-open discipline-icon"></i>
+                        <span>Français</span>
+                    </a>
+                    <a href="anglais.html" class="discipline-button">
+                        <i class="fas fa-flag discipline-icon"></i>
+                        <span>Anglais</span>
+                    </a>
+                    <a href="espagnol.html" class="discipline-button">
+                        <i class="fas fa-guitar discipline-icon"></i>
+                        <span>Espagnol</span>
+                    </a>
+                    <a href="italien.html" class="discipline-button">
+                        <i class="fas fa-monument discipline-icon"></i>
+                        <span>Italien</span>
+                    </a>
+                    <a href="lcc.html" class="discipline-button">
+                        <i class="fas fa-mountain-sun discipline-icon"></i>
+                        <span>Langue et Culture Corse</span>
+                    </a>
+                    <a href="artsplastiques.html" class="discipline-button">
+                        <i class="fas fa-paint-brush discipline-icon"></i>
+                        <span>Arts Plastiques</span>
+                    </a>
+                    <a href="educmus.html" class="discipline-button">
+                        <i class="fas fa-music discipline-icon"></i>
+                        <span>Éducation Musicale</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <div class="category-header category-projets">
+                    <i class="fas fa-star category-icon"></i>
+                    <h3 class="category-title">Pédagogie de Projet & Création Libre</h3>
+                </div>
+                <div class="discipline-grid">
+                    <a href="projet.html" class="discipline-button">
+                        <i class="fas fa-project-diagram discipline-icon"></i>
+                        <span>Générateur de Projet</span>
+                    </a>
+                    <a href="squelette.html" class="discipline-button">
+                        <i class="fas fa-stream discipline-icon"></i>
+                        <span>Squelette de cours</span>
+                    </a>
+                    <p class="discipline-description">
+                        Pour une démarche de création entièrement libre, où un projet transversal est défini par vos besoins.
+                    </p>
+                </div>
+            </section>
+
+            <section class="tools-section">
+                <h2 class="section-title">Outils Transversaux</h2>
+                <div class="tools-grid">
+                    <a href="exercices.html" class="tool-card">
+                        <i class="fas fa-tasks tool-icon"></i>
+                        <h3 class="tool-title">Générateur d'Exercices</h3>
+                        <p class="tool-description">Créez des exercices personnalisés à partir de vos cours : QCM, questions courtes, textes à trous avec export professionnel.</p>
+                    </a>
+                    <a href="design.html" class="tool-card">
+                        <i class="fas fa-palette tool-icon"></i>
+                        <h3 class="tool-title">Atelier d'Amélioration & Design</h3>
+                        <p class="tool-description">Personnalisez le design et enrichissez le contenu de vos cours générés au format HTML.</p>
+                    </a>
+                    <a href="ameliorer_docx.html" class="tool-card">
+                        <i class="fas fa-file-word tool-icon"></i>
+                        <h3 class="tool-title">Amélioration Cours DOCX</h3>
+                        <p class="tool-description">Enrichissez vos cours DOCX. Ajoutez du contenu, des exercices ou des liens vidéo en re-générant le texte complet.</p>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="guideModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-book-open"></i>
+                <h3>Guide d'Utilisation</h3>
+                <span class="close-button">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4>Votre Assistant Pédagogique : Notre Philosophie</h4>
+                <p>Cet outil est conçu comme un véritable <strong>assistant</strong> pour vous faire gagner un temps précieux sur la structuration, la mise en forme et la création de contenu. Cependant, il ne remplace pas votre expertise. <strong>Vous restez le seul maître de vos choix pédagogiques, des contenus et des objectifs</strong>. Utilisez cet outil comme un point de départ puissant, puis affinez, adaptez et appropriez-vous les contenus pour qu'ils correspondent parfaitement à votre vision et aux besoins de vos élèves.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Le JavaScript de votre fichier original est conservé pour la modale et les animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById("guideModal");
+            const btn = document.getElementById("openGuideBtn");
+            const span = document.querySelector(".close-button");
+            if(btn){ btn.onclick = function(e) { e.preventDefault(); if (modal) modal.style.display = "block"; } }
+            if(span){ span.onclick = function() { if (modal) modal.style.display = "none"; } }
+            window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
+            document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && modal.style.display === 'block') { modal.style.display = 'none'; } });
+
+            // Compteur dynamique (simplifié pour fonctionner sans le reste du JS original)
+            const countElement = document.getElementById('discipline-count');
+            if(countElement) { countElement.textContent = document.querySelectorAll('.discipline-button').length + document.querySelectorAll('.tool-card').length; }
+        });
+    </script>
+</body>
+</html>
