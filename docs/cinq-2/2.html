@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séquence : Imaginer et Représenter des Solutions Techniques en Équipe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e52e65;
+            --secondary-color: #b2de12;
+            --accent-color: #7c3aed;
+            --bg-color: #fdfcff;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header h1 {
+            margin: 0;
+            font-family: 'Merriweather', serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--accent-color);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            box-shadow: var(--box-shadow);
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            font-size: 2em;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        h3 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            font-size: 1.6em;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .hook {
+            background-color: #fff9e6;
+            border-left: 5px solid #ffc107;
+            color: #664d03;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            font-style: italic;
+            position: relative;
+        }
+        
+        .hook::before {
+            content: '💬';
+            font-size: 2em;
+            position: absolute;
+            top: 20px;
+            left: -45px;
+        }
+
+        .objectives-list { list-style: none; padding: 0; }
+        .objectives-list li {
+            padding: 12px 12px 12px 45px;
+            position: relative;
+            background-color: #f2eafa;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            transition: transform var(--transition-speed), background-color var(--transition-speed);
+        }
+        .objectives-list li:hover {
+            transform: translateX(5px);
+            background-color: #e9d8f8;
+        }
+        .objectives-list li::before {
+            content: '🎯';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4em;
+        }
+        
+        /* Accordion System */
+        .knowledge-accordion details {
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: box-shadow var(--transition-speed);
+        }
+        .knowledge-accordion details[open] {
+            box-shadow: var(--box-shadow);
+        }
+        .knowledge-accordion summary {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            margin: 0;
+            font-family: 'Merriweather', serif;
+            font-size: 1.5em;
+            cursor: pointer;
+            list-style: none; /* Hide default marker */
+            position: relative;
+            transition: background-color var(--transition-speed);
+        }
+        .knowledge-accordion summary:hover {
+            background-color: #c42253;
+        }
+        .knowledge-accordion summary::-webkit-details-marker { display: none; }
+        .knowledge-accordion summary::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: transform var(--transition-speed) ease-in-out;
+        }
+        .knowledge-accordion details[open] summary::after {
+            transform: translateY(-50%) rotate(45deg);
+        }
+        .knowledge-content { padding: 25px; }
+        .knowledge-content p { margin-bottom: 15px; }
+        .knowledge-content strong { color: var(--primary-color); }
+        .knowledge-point { margin-bottom: 15px; padding-left: 35px; position: relative; }
+        .knowledge-point::before { position: absolute; left: 0; top: 0; font-size: 1.5em; }
+        .kp-def::before { content: '🎓'; }
+        .kp-analogy::before { content: '🧠'; }
+        .kp-case::before { content: '📱'; }
+        .kp-tuto::before { content: '🛠️'; }
+        .kp-warning::before { content: '🤔'; }
+        .kp-fact::before { content: '💡'; }
+        .kp-inter::before { content: '🤝'; }
+        .kp-expert::before { content: '🚀'; }
+        
+        /* Image Styles & Hotspots */
+        .hotspot-container { position: relative; display: inline-block; }
+        .hotspot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(124, 58, 237, 0.7);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            transition: transform var(--transition-speed), background-color var(--transition-speed);
+        }
+        .hotspot:hover {
+            transform: scale(1.2);
+            background-color: rgba(229, 46, 101, 0.9);
+        }
+        .hotspot .info-bubble {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 1;
+            transition: opacity var(--transition-speed), visibility var(--transition-speed);
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+        .hotspot .info-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--primary-color) transparent transparent transparent;
+        }
+        .hotspot.active .info-bubble { visibility: visible; opacity: 1; }
+        #hotspot-1 { top: 45%; left: 15%; }
+        #hotspot-2 { top: 60%; left: 40%; }
+        #hotspot-3 { top: 30%; left: 65%; }
+        #hotspot-4 { top: 70%; left: 80%; }
+
+        .img-gauche, .img-droite, .img-centre {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            background-color: #eee;
+        }
+        .img-centre { display: block; margin-left: auto; margin-right: auto; }
+        .img-gauche { float: left; margin-right: 20px; }
+        .img-droite { float: right; margin-left: 20px; }
+        .img-moyenne { max-width: 450px; width: 100%; }
+        .img-petite { max-width: 280px; width: 100%; }
+        .knowledge-content::after, .card::after, .section::after { content: ""; display: table; clear: both; }
+
+        /* Flip Cards */
+        .flip-card-container { display: flex; justify-content: space-around; flex-wrap: wrap; margin: 30px 0; }
+        .flip-card { background-color: transparent; width: 300px; height: 200px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            font-family: 'Merriweather', serif;
+            font-size: 1.5em;
+        }
+        .flip-card-front { background: linear-gradient(135deg, var(--accent-color), #a272f3); color: white; }
+        .flip-card-back { background-color: var(--secondary-color); color: var(--text-color); transform: rotateY(180deg); font-size: 1rem; font-family: 'Roboto'; }
+
+        /* Interactive Exercises */
+        .interactive-exercises .exercise-item {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .interactive-exercises h4 { margin-top: 0; font-family: 'Merriweather', serif; font-size: 1.2em; }
+        .interactive-exercises .options button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 2px solid #ddd;
+            background: #f9f9f9;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all var(--transition-speed);
+        }
+        .interactive-exercises .options button:hover { background: #f0f0f0; border-color: var(--accent-color); }
+        .interactive-exercises .options button.selected {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        .interactive-exercises input[type="text"] {
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 0 5px;
+            transition: border-color var(--transition-speed);
+        }
+        .interactive-exercises input[type="text"]:focus { outline: none; border-color: var(--accent-color); }
+        .interactive-exercises .verify-btn {
+            padding: 10px 20px;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+        }
+        .interactive-exercises .verify-btn:hover { background-color: #c42253; transform: translateY(-2px); }
+        .feedback { margin-top: 10px; font-weight: bold; padding: 10px; border-radius: 8px; }
+        .feedback.correct { color: #155724; background-color: #d4edda; }
+        .feedback.incorrect { color: #721c24; background-color: #f8d7da; }
+        .correct-answer { border-color: #28a745 !important; background-color: #d4edda; }
+        .incorrect-answer { border-color: #dc3545 !important; background-color: #f8d7da; }
+
+        /* Animated Number */
+        .animated-number {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>IMAGINER ET REPRÉSENTER DES SOLUTIONS TECHNIQUES EN ÉQUIPE</h1>
+        </header>
+
+        <section class="section">
+            <h2>Situation Déclenchante : Le Défi du Sac à Dos 2.0</h2>
+            <div class="hook">
+                <p>Te souviens-tu du défi du sac à dos ? Ton équipe et toi avez imaginé plein d'améliorations géniales : une poche isotherme pour la gourde, un compartiment secret pour les trésors, des bretelles qui s'allument la nuit pour être vu des voitures... C'est fantastique !</p>
+                <p>Mais maintenant, un nouveau défi se présente. Toutes ces idées fusent dans tous les sens ! Comment faire pour que tout le monde puisse partager ses idées sans en oublier ? Comment choisir la meilleure ? Et surtout, comment la dessiner pour que même un ingénieur puisse la comprendre et peut-être, un jour, la fabriquer ? C'est tout l'enjeu de cette nouvelle mission !</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Ta mission, si tu l'acceptes...</h2>
+            <div class="card">
+                <h3>Compétences à maîtriser :</h3>
+                <ul class="objectives-list">
+                    <li>Participer activement à une séance de créativité pour faire émerger des idées.</li>
+                    <li>Proposer des solutions techniques concrètes pour améliorer un objet.</li>
+                    <li>Représenter une idée rapidement avec un dessin simple (croquis).</li>
+                    <li>Expliquer le fonctionnement d'une solution avec un schéma clair (schéma de principe).</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Savoirs et connaissances à acquérir :</h3>
+                <ul class="objectives-list">
+                    <li>Découvrir des outils pour booster la créativité : le remue-méninges et la carte mentale.</li>
+                    <li>Comprendre la différence entre un croquis à main levée et un schéma de principe.</li>
+                    <li>Identifier le principe technique qui se cache derrière une fonction.</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>Les objets de notre enquête</h2>
+            <div class="hotspot-container">
+                <img src="image_1.png" class="img-centre img-moyenne" alt="Montage des quatre objets d'étude : smartphone, trottinette électrique, manette de jeu et drône.">
+                <div class="hotspot" id="hotspot-1" data-info="Le Smartphone : un concentré de technologies dans la poche. Son écran tactile est une merveille d'ingénierie.">1</div>
+                <div class="hotspot" id="hotspot-2" data-info="La Trottinette Électrique : la mobilité urbaine réinventée. Son moteur électrique est silencieux et efficace.">2</div>
+                <div class="hotspot" id="hotspot-3" data-info="La Manette de Jeu : notre lien avec les mondes virtuels. Elle utilise des vibrations pour nous immerger dans l'action.">3</div>
+                <div class="hotspot" id="hotspot-4" data-info="Le Drône de Loisir : voir le monde d'en haut. Sa stabilité en vol dépend de capteurs et d'algorithmes complexes.">4</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>De l'idée à l'objet : le secret des inventeurs</h2>
+            <p>Chaque objet qui nous entoure, de la plus simple fourchette au plus complexe des <strong>smartphones</strong>, est né d'une idée. Mais une idée seule, enfermée dans une tête, ne sert à rien. Pour qu'elle devienne un objet réel, elle doit être partagée, discutée, améliorée et surtout, représentée. Les inventeurs, les designers et les ingénieurs ne travaillent jamais seuls. Ils utilisent des méthodes et des langages communs pour transformer une étincelle de créativité en un produit innovant.</p>
+            <p>Notre problématique sera donc la suivante : <strong>Comment passer d'une idée floue à une solution technique claire et compréhensible par toute une équipe ?</strong></p>
+            <p>Pour y répondre, nous explorerons ensemble les outils de la créativité, puis nous apprendrons à dessiner nos idées de deux manières différentes et complémentaires : le croquis et le schéma.</p>
+        </section>
+
+        <section class="section knowledge-accordion">
+            <h2>Exploration en profondeur : la boîte à outils du créateur</h2>
+            
+            <details>
+                <summary>Le Remue-Méninges (Brainstorming)</summary>
+                <div class="knowledge-content">
+                    <img src="image_2.png" class="img-droite img-moyenne" alt="Illustration d'une séance de brainstorming.">
+                    <p class="knowledge-point kp-def"><strong>Définition Académique et Enjeux :</strong> Le remue-méninges est une technique de créativité de groupe visant à générer un maximum d'idées sur un sujet donné, dans un temps limité, en suspendant tout jugement. L'enjeu est de libérer la pensée créative en quantité pour ensuite en extraire la qualité.</p>
+                    <p class="knowledge-point kp-analogy"><strong>Analogie Pédagogique :</strong> Imagine un feu d'artifice d'idées ! Le but est de lancer le plus de fusées possible (les idées), sans se demander si elles seront rouges, bleues, grandes ou petites. On triera les plus belles à la fin. La seule règle : toutes les fusées ont le droit de décoller !</p>
+                    <p class="knowledge-point kp-case"><strong>Étude de Cas Concrète :</strong> Pour améliorer une <strong>manette de jeu vidéo</strong>, une équipe pourrait lancer des idées en vrac : "des poignées qui chauffent en hiver", "un bouton 'partage de pizza'", "des joysticks qui s'adaptent à la taille des pouces", "une coque en bambou", "un mini-ventilateur pour les mains qui transpirent", "une batterie qui se recharge avec les mouvements".</p>
+                    <p class="knowledge-point kp-tuto"><strong>"Sous le Capot" :</strong> Pour un bon remue-méninges : 1. Définir un thème clair (ex: "Rendre la trottinette électrique plus sûre"). 2. Fixer une durée (10-15 min). 3. Rappeler les 4 règles d'or : a) La critique est interdite. b) Viser la quantité. c) Les idées folles sont les bienvenues. d) S'inspirer et rebondir sur les idées des autres. 4. Noter TOUTES les idées sur un tableau ou des post-its.</p>
+                    <p class="knowledge-point kp-warning"><strong>Points de Vigilance :</strong> 1. Ne jamais dire "c'est une mauvaise idée" pendant la phase de production. 2. Éviter qu'une seule personne monopolise la parole. 3. Ne pas commencer à débattre ou à trier les idées trop tôt.</p>
+                    <p class="knowledge-point kp-fact"><strong>Le Saviez-Vous ?</strong> Le terme "Brainstorming" a été inventé dans les années <span class="animated-number" data-target="1940">0</span> par Alex Osborn, un publicitaire américain. Il a découvert que les groupes généraient beaucoup plus d'idées de qualité avec cette méthode qu'en travaillant seuls.</p>
+                    <p class="knowledge-point kp-inter"><strong>Ponts Interdisciplinaires :</strong> En <strong>Français</strong>, c'est une super technique pour trouver des idées avant une rédaction. En <strong>Histoire</strong>, on peut imaginer ce qu'un personnage historique aurait pu faire dans une situation donnée.</p>
+                    <p class="knowledge-point kp-expert"><strong>Pour les Experts :</strong> Une technique avancée est le "brainwriting". Au lieu de parler, chacun écrit 3 idées sur une feuille en 5 minutes, puis passe sa feuille à son voisin qui s'en inspire pour écrire 3 nouvelles idées. Cela permet aux plus timides de s'exprimer pleinement.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>La Carte Mentale (Mind Map)</summary>
+                <div class="knowledge-content">
+                    <img src="image_3.png" class="img-gauche img-moyenne" alt="Exemple d'une carte mentale.">
+                    <p class="knowledge-point kp-def"><strong>Définition Académique et Enjeux :</strong> La carte mentale est un diagramme qui représente les liens sémantiques entre différentes idées. Elle organise l'information de manière irradiante autour d'un noyau central. L'enjeu est de structurer la pensée, de faciliter la mémorisation et de faire apparaître des connexions inattendues.</p>
+                    <p class="knowledge-point kp-analogy"><strong>Analogie Pédagogique :</strong> C'est comme dessiner un arbre à idées. Le tronc, c'est ton sujet principal. Les grosses branches sont les thèmes importants, les petites branches sont les sous-thèmes, et les feuilles sont les détails. Ton cerveau adore cette façon de voir les choses, c'est plus naturel qu'une simple liste !</p>
+                    <p class="knowledge-point kp-case"><strong>Étude de Cas Concrète :</strong> Après un remue-méninges sur le <strong>smartphone</strong> idéal, on peut organiser les idées. Au centre : "Mon Smartphone de Rêve". Une branche "Écran" avec des sous-branches "Incassable", "Pliable", "Holographique". Une branche "Batterie" avec "Charge solaire", "1 semaine d'autonomie", "Charge sans fil". Une branche "Fonctions" avec "Traducteur universel", "Propreteur d'étoiles", etc.</p>
+                    <p class="knowledge-point kp-tuto"><strong>"Sous le Capot" :</strong> 1. Prends une feuille en format paysage. 2. Dessine ton sujet principal au centre. 3. Trace des branches épaisses pour les idées principales. 4. Utilise un mot-clé par branche. 5. Ajoute des branches plus fines pour les détails. 6. Utilise des couleurs et des petits dessins pour rendre ça plus visuel et mémorable !</p>
+                    <p class="knowledge-point kp-warning"><strong>Points de Vigilance :</strong> 1. Éviter d'écrire de longues phrases sur les branches (un mot ou deux suffisent). 2. Ne pas faire une liste déguisée (les branches doivent partir du centre, pas les unes en dessous des autres). 3. Ne pas avoir peur de dessiner, même si on se trouve "nul" !</p>
+                    <p class="knowledge-point kp-fact"><strong>Le Saviez-Vous ?</strong> Le cerveau humain ne pense pas de manière linéaire (en listes), mais par associations d'idées. La carte mentale imite ce fonctionnement naturel, c'est pourquoi elle est si efficace pour apprendre et créer.</p>
+                    <p class="knowledge-point kp-inter"><strong>Ponts Interdisciplinaires :</strong> En <strong>SVT</strong>, on peut l'utiliser pour classer les espèces. En <strong>Géographie</strong>, pour organiser les informations sur un pays (capitale, relief, climat...). C'est un super outil pour réviser n'importe quelle leçon !</p>
+                    <p class="knowledge-point kp-expert"><strong>Pour les Experts :</strong> Il existe de nombreux logiciels (gratuits ou payants) pour créer des cartes mentales sur ordinateur ou tablette. Cela permet de les modifier facilement, d'y insérer des liens internet ou des vidéos, et de les partager avec son équipe.</p>
+                </div>
+            </details>
+            
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">Croquis</div>
+                        <div class="flip-card-back">Dessin rapide pour montrer la FORME et l'APPARENCE. Le but : communiquer une idée visuelle vite !</div>
+                    </div>
+                </div>
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">Schéma de principe</div>
+                        <div class="flip-card-back">Dessin codifié pour expliquer le FONCTIONNEMENT. Le but : montrer comment les pièces interagissent.</div>
+                    </div>
+                </div>
+            </div>
+
+            <details>
+                <summary>Le Croquis à main levée</summary>
+                <div class="knowledge-content">
+                    <img src="image_4.png" class="img-droite img-moyenne" alt="Main réalisant un croquis.">
+                    <p class="knowledge-point kp-def"><strong>Définition Académique et Enjeux :</strong> Le croquis est une représentation graphique rapide et simplifiée, réalisée sans instruments de dessin, visant à communiquer l'idée générale d'une forme, d'un volume ou d'une organisation. L'enjeu est de matérialiser une pensée visuelle de manière quasi-instantanée pour la partager.</p>
+                    <p class="knowledge-point kp-analogy"><strong>Analogie Pédagogique :</strong> C'est un "brouillon dessiné". Tu ne cherches pas à faire une œuvre d'art pour un musée, mais à expliquer ton idée à ton voisin avec un crayon, comme si tu lui parlais avec des images. La vitesse est plus importante que la perfection.</p>
+                    <p class="knowledge-point kp-case"><strong>Étude de Cas Concrète :</strong> Pour une nouvelle idée de <strong>trottinette électrique</strong>, tu pourrais dessiner rapidement sa silhouette générale. Un trait pour le guidon, un rectangle pour le plateau, deux cercles pour les roues. Puis tu ajoutes des détails avec des flèches et des notes : "Ici, un phare puissant", "Plateau plus large", "Garde-boue enveloppant".</p>
+                    <p class="knowledge-point kp-tuto"><strong>"Sous le Capot" :</strong> 1. Ne pas avoir peur de la page blanche ! Lance-toi. 2. Utilise des formes géométriques simples (cubes, cylindres, sphères) pour construire ton objet. 3. N'appuie pas trop fort au début. 4. Ajoute des détails et des annotations (textes) pour expliquer ce qui n'est pas évident. 5. Un peu d'ombre peut donner une impression de volume.</p>
+                    <p class="knowledge-point kp-warning"><strong>Points de Vigilance :</strong> 1. Vouloir être trop parfait et passer 1h sur un dessin qui devrait prendre 2 minutes. 2. Oublier d'écrire des notes : un croquis est souvent un mélange de dessin et de texte. 3. Utiliser une règle (c'est interdit pour un croquis !).</p>
+                    <p class="knowledge-point kp-fact"><strong>Le Saviez-Vous ?</strong> Les plus grands designers de voitures, comme ceux de Ferrari ou de Peugeot, commencent toujours par des centaines de croquis à la main pour explorer de nouvelles formes avant même de toucher un ordinateur.</p>
+                    <p class="knowledge-point kp-inter"><strong>Ponts Interdisciplinaires :</strong> En <strong>Arts Plastiques</strong>, c'est la base de tout travail. En <strong>Géométrie</strong>, c'est utile pour visualiser une figure avant de la construire proprement. En <strong>SVT</strong>, le croquis d'observation est un exercice fondamental.</p>
+                    <p class="knowledge-point kp-expert"><strong>Pour les Experts :</strong> Les designers utilisent des techniques de "perspective" pour donner une impression de profondeur à leurs croquis. Les plus simples sont la perspective cavalière (vue en 3D simple) et la perspective à un ou deux points de fuite (plus réaliste).</p>
+                </div>
+            </details>
+            
+            <details>
+                <summary>Le Schéma de principe</summary>
+                <div class="knowledge-content">
+                    <img src="image_5.png" class="img-centre img-petite" alt="Schéma d'un drône.">
+                    <p class="knowledge-point kp-def"><strong>Définition Académique et Enjeux :</strong> Le schéma de principe est une représentation graphique simplifiée et codifiée d'un objet ou d'un système, qui montre les composants principaux et leurs relations fonctionnelles. L'enjeu n'est pas de montrer à quoi ça ressemble (l'apparence), mais de comprendre comment ça marche (le fonctionnement).</p>
+                    <p class="knowledge-point kp-analogy"><strong>Analogie Pédagogique :</strong> Si le croquis est la photo de la carrosserie d'une voiture, le schéma de principe est une carte qui montre comment le moteur est relié aux roues. On utilise des symboles (des boîtes, des cercles) et des flèches pour montrer le chemin de l'énergie ou de l'information. C'est la recette de cuisine de l'objet !</p>
+                    <p class="knowledge-point kp-case"><strong>Étude de Cas Concrète :</strong> Pour un <strong>drône de loisir</strong>, le schéma de principe ne montrerait pas sa forme design. Il montrerait une boîte "Batterie" reliée par une flèche "Énergie" à une boîte "Carte Électronique". De cette carte partiraient 4 flèches vers 4 boîtes "Moteur + Hélice". Une autre flèche "Signal Radio" arriverait de la manette vers la carte électronique.</p>
+                    <p class="knowledge-point kp-tuto"><strong>"Sous le Capot" :</strong> 1. Identifie les "acteurs" principaux de ton système (ex: batterie, moteur, bouton, lumière). 2. Représente chaque acteur par une forme simple (un rectangle avec son nom dedans). 3. Relie les acteurs avec des flèches pour montrer les liens. 4. Annote les flèches pour préciser ce qui circule : de l'énergie, une information, un mouvement...</p>
+                    <p class="knowledge-point kp-warning"><strong>Points de Vigilance :</strong> 1. Confondre schéma et croquis : ne pas dessiner l'objet de manière réaliste ! 2. Oublier les flèches ou le nom des éléments, ce qui rend le schéma illisible. 3. Dessiner des fils qui se croisent dans tous les sens : il faut essayer de l'organiser pour qu'il soit le plus clair possible.</p>
+                    <p class="knowledge-point kp-fact"><strong>Le Saviez-Vous ?</strong> Les schémas de circuits électroniques que tu vois au dos de certains appareils sont des schémas de principe extrêmement détaillés. Chaque symbole (résistance, condensateur, etc.) est normalisé pour être compris par tous les techniciens du monde.</p>
+                    <p class="knowledge-point kp-inter"><strong>Ponts Interdisciplinaires :</strong> En <strong>Physique-Chimie</strong>, on utilise des schémas pour représenter des montages. En <strong>SVT</strong>, le schéma du cycle de l'eau ou de la chaîne alimentaire sont des schémas de principe.</p>
+                    <p class="knowledge-point kp-expert"><strong>Pour les Experts :</strong> On peut complexifier un schéma en utilisant différents types de traits ou de flèches pour représenter différents types de flux. Par exemple, une flèche pleine pour un flux d'énergie, une flèche en pointillés pour un flux d'information.</p>
+                </div>
+            </details>
+
+            <details>
+                 <summary>Le Principe Technique</summary>
+                 <div class="knowledge-content">
+                    <p class="knowledge-point kp-def"><strong>Définition Académique et Enjeux :</strong> Le principe technique est la loi ou le phénomène physique, chimique ou biologique qui permet d'assurer une fonction technique. L'enjeu est de relier une solution de construction à une loi scientifique fondamentale.</p>
+                    <p class="knowledge-point kp-analogy"><strong>Analogie Pédagogique :</strong> C'est le "super-pouvoir" scientifique caché dans l'objet. La fonction, c'est ce que l'objet fait ("s'allumer"). La solution technique, c'est la pièce qui le fait ("une ampoule LED"). Le principe technique, c'est le secret scientifique qui permet à la pièce de fonctionner ("l'électroluminescence").</p>
+                    <p class="knowledge-point kp-case"><strong>Étude de Cas Concrète :</strong>
+                        <ul>
+                            <li><strong>Smartphone :</strong> La fonction "réagir au doigt" utilise le principe de la <em>capacitance</em> (ton doigt modifie le champ électrique de l'écran).</li>
+                            <li><strong>Trottinette électrique :</strong> La fonction "avancer" utilise le principe de l'<em>électromagnétisme</em> (le courant dans le moteur crée un champ magnétique qui fait tourner les roues).</li>
+                            <li><strong>Drône :</strong> La fonction "décoller" utilise le principe de la <em>portance aérodynamique</em> (les hélices en tournant créent une différence de pression d'air, comme une aile d'avion).</li>
+                        </ul>
+                    </p>
+                    <p class="knowledge-point kp-tuto"><strong>"Sous le Capot" :</strong> 1. Choisis une fonction de l'objet (ex: "vibrer" pour une manette de jeu). 2. Identifie la solution technique (la pièce qui le fait) : "un petit moteur avec une masse excentrée". 3. Pose la question "Mais comment ça marche, scientifiquement ?". La rotation de la masse déséquilibrée crée une vibration. C'est le principe de la <em>force centrifuge</em>.</p>
+                    <p class="knowledge-point kp-warning"><strong>Points de Vigilance :</strong> 1. Confondre la fonction (le verbe d'action, ce que ça fait) et le principe (la loi scientifique). 2. Confondre la solution (la pièce) et le principe. L'ampoule est la solution, pas le principe. 3. Donner un nom trop vague ("le principe de l'électricité"). Il faut être précis ("l'effet Joule" pour chauffer, "l'électromagnétisme" pour faire tourner).</p>
+                    <p class="knowledge-point kp-fact"><strong>Le Saviez-Vous ?</strong> Le principe du sonar des sous-marins (envoyer un son et écouter son écho pour détecter des objets) est le même que celui utilisé par les chauves-souris et les dauphins pour se repérer : l'écholocation. La nature est le plus grand des inventeurs !</p>
+                    <p class="knowledge-point kp-inter"><strong>Ponts Interdisciplinaires :</strong> Ici, le lien avec la <strong>Physique-Chimie</strong> et la <strong>SVT</strong> est total ! C'est la concrétisation de toutes les lois scientifiques que tu étudies dans ces matières.</p>
+                    <p class="knowledge-point kp-expert"><strong>Pour les Experts :</strong> En cherchant le brevet d'une invention (sur des sites comme Google Patents), on peut souvent trouver la description précise du principe technique fondamental qui a permis de protéger l'invention. C'est un vrai travail de détective technologique !</p>
+                 </div>
+            </details>
+        </section>
+
+        <section class="section">
+            <h2>Demain, tous designers ?</h2>
+            <img src="image_6.png" class="img-centre img-moyenne" alt="Image futuriste montrant des interfaces holographiques.">
+            <p>Les outils que tu viens de découvrir sont la base du "Design Thinking", une méthode utilisée par les plus grandes entreprises comme Apple ou Google pour innover. Demain, avec l'impression 3D, l'intelligence artificielle et les objets connectés, nous pourrons tous, de plus en plus facilement, passer de l'idée à l'objet. Imaginer une coque de smartphone personnalisée et l'imprimer chez soi, programmer sa manette de jeu pour qu'elle réagisse différemment, ou même concevoir un petit drône pour arroser les plantes de son balcon deviendra courant.</p>
+            <p>Cela pose de nouvelles questions : comment s'assurer que ces objets sont sans danger ? Quel est leur impact sur l'environnement (consommation d'énergie, déchets électroniques) ? Savoir imaginer et représenter des solutions, c'est un grand pouvoir, qui implique de grandes responsabilités ! Les métiers de designer, d'ingénieur, d'ergonome ou de chef de projet seront de plus en plus passionnants et nécessaires.</p>
+        </section>
+
+        <section class="section">
+            <h2>Conclusion : L'idée, c'est le début de l'aventure</h2>
+            <p>Nous nous étions demandé comment passer d'une idée floue à une solution technique claire et partageable. Nous avons maintenant la réponse. Le voyage commence par une explosion créative et sans jugement (<strong>le remue-méninges</strong>), que l'on organise ensuite de manière logique (avec <strong>la carte mentale</strong>). Pour rendre l'idée visible, on la "photographie" rapidement avec <strong>un croquis</strong>. Enfin, pour expliquer sa mécanique secrète, on en dessine la "recette de cuisine" avec <strong>un schéma de principe</strong>, qui repose sur une loi scientifique, <strong>le principe technique</strong>.</p>
+            <p>Maîtriser ces étapes, c'est posséder les clés pour transformer une simple pensée en un projet concret. C'est le premier pas pour ne plus seulement utiliser la technologie, mais pour commencer à l'inventer.</p>
+        </section>
+
+        <section class="section interactive-exercises">
+            <h2>À toi de jouer : Exercices Interactifs</h2>
+            
+            <div class="exercise-item" id="ex1">
+                <h4>1. Quel outil utilises-tu pour générer un maximum d'idées sans aucune critique ? (QCM)</h4>
+                <div class="options">
+                    <button>Carte Mentale</button>
+                    <button data-correct="true">Remue-méninges (Brainstorming)</button>
+                    <button>Croquis</button>
+                    <button>Schéma de principe</button>
+                </div>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="exercise-item" id="ex2">
+                <h4>2. Un schéma de principe est idéal pour montrer l'apparence réaliste d'un objet. (Vrai/Faux)</h4>
+                <div class="options">
+                    <button>Vrai</button>
+                    <button data-correct="true">Faux</button>
+                </div>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="exercise-item" id="ex3">
+                <h4>3. Complète la phrase : Pour expliquer le fonctionnement d'un objet, on utilise un <input type="text" data-answer="schéma de principe" size="20">, alors que pour montrer sa forme générale, on fait un <input type="text" data-answer="croquis" size="10">. (Texte à trous)</h4>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="exercise-item" id="ex4">
+                <h4>4. Quel est le but principal d'un croquis ? (QCM)</h4>
+                <div class="options">
+                    <button>Expliquer une loi scientifique</button>
+                    <button>Être une œuvre d'art parfaite</button>
+                    <button data-correct="true">Communiquer rapidement une idée de forme</button>
+                    <button>Lister des composants</button>
+                </div>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="exercise-item" id="ex5">
+                <h4>5. La critique est encouragée pendant une séance de remue-méninges. (Vrai/Faux)</h4>
+                <div class="options">
+                    <button>Vrai</button>
+                    <button data-correct="true">Faux</button>
+                </div>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="exercise-item" id="ex6">
+                <h4>6. La loi physique qui permet à un drône de décoller s'appelle la <input type="text" data-answer="portance aérodynamique" size="25">. (Texte à trous)</h4>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Pour aller plus loin...</h2>
+            <div class="card">
+                <p><strong>Mini-projet :</strong> Choisis un objet simple de ta trousse (stylo, gomme, ciseaux...). Organise un remue-méninges de 5 minutes pour trouver des idées d'amélioration. Choisis la meilleure idée et représente-la par un croquis et un schéma de principe.</p>
+                <p><strong>Vidéo à regarder :</strong> Cherche sur YouTube "C'est pas sorcier - Du design à l'objet". Tu y verras toutes les étapes de la création d'un produit, de l'idée à la fabrication.</p>
+                <p><strong>Métier à découvrir :</strong> Le métier de <strong>Designer Produit</strong>. C'est la personne qui imagine la forme, les couleurs, les matériaux et l'utilisation des objets de tous les jours, de la brosse à dents à la voiture, en passant par les smartphones.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- Flip Cards ---
+        const flipCards = document.querySelectorAll('.flip-card');
+        flipCards.forEach(card => {
+            card.addEventListener('click', function() {
+                card.classList.toggle('is-flipped');
+            });
+        });
+
+        // --- Hotspots ---
+        const hotspots = document.querySelectorAll('.hotspot');
+        hotspots.forEach(hotspot => {
+            const info = hotspot.dataset.info;
+            const bubble = document.createElement('div');
+            bubble.classList.add('info-bubble');
+            bubble.textContent = info;
+            hotspot.appendChild(bubble);
+
+            hotspot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Deactivate all other hotspots
+                hotspots.forEach(h => {
+                    if (h !== hotspot) h.classList.remove('active');
+                });
+                // Toggle current hotspot
+                hotspot.classList.toggle('active');
+            });
+        });
+        // Hide hotspot bubble when clicking elsewhere
+        document.addEventListener('click', () => {
+            hotspots.forEach(h => h.classList.remove('active'));
+        });
+
+        // --- Animated Numbers ---
+        const animatedNumbers = document.querySelectorAll('.animated-number');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target, 10);
+                    let current = 0;
+                    const increment = target / 100; // Animate over ~100 frames
+                    
+                    const updateNumber = () => {
+                        if (current < target) {
+                            current += increment;
+                            el.textContent = Math.ceil(current);
+                            requestAnimationFrame(updateNumber);
+                        } else {
+                            el.textContent = target;
+                        }
+                    };
+                    updateNumber();
+                    observer.unobserve(el); // Animate only once
+                }
+            });
+        }, { threshold: 0.5 });
+
+        animatedNumbers.forEach(num => {
+            observer.observe(num);
+        });
+
+        // --- Interactive Exercises ---
+        const exerciseItems = document.querySelectorAll('.exercise-item');
+        exerciseItems.forEach(exercise => {
+            const optionsContainer = exercise.querySelector('.options');
+            const verifyBtn = exercise.querySelector('.verify-btn');
+            const feedbackEl = exercise.querySelector('.feedback');
+
+            // Handle QCM and True/False selection
+            if (optionsContainer) {
+                const options = optionsContainer.querySelectorAll('button');
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        options.forEach(o => o.classList.remove('selected'));
+                        option.classList.add('selected');
+                    });
+                });
+            }
+
+            verifyBtn.addEventListener('click', () => {
+                let isCorrect = false;
+                
+                // Reset feedback
+                feedbackEl.textContent = '';
+                feedbackEl.className = 'feedback';
+
+                // QCM & True/False Logic
+                const selectedOption = exercise.querySelector('.options .selected');
+                if (selectedOption) {
+                    if (selectedOption.hasAttribute('data-correct')) {
+                        isCorrect = true;
+                        selectedOption.classList.add('correct-answer');
+                    } else {
+                        selectedOption.classList.add('incorrect-answer');
+                        const correctBtn = exercise.querySelector('[data-correct="true"]');
+                        if(correctBtn) correctBtn.classList.add('correct-answer');
+                    }
+                }
+
+                // Fill in the blanks Logic
+                const inputs = exercise.querySelectorAll('input[type="text"]');
+                if (inputs.length > 0) {
+                    let allCorrect = true;
+                    inputs.forEach(input => {
+                        const answer = input.dataset.answer.toLowerCase().trim();
+                        const userAnswer = input.value.toLowerCase().trim();
+                        input.classList.remove('correct-answer', 'incorrect-answer');
+                        if (userAnswer === answer) {
+                            input.classList.add('correct-answer');
+                        } else {
+                            input.classList.add('incorrect-answer');
+                            allCorrect = false;
+                        }
+                    });
+                    isCorrect = allCorrect;
+                }
+
+                // Display feedback message
+                if (isCorrect) {
+                    feedbackEl.textContent = 'Bravo, c\'est la bonne réponse !';
+                    feedbackEl.classList.add('correct');
+                } else {
+                    feedbackEl.textContent = 'Oups, ce n\'est pas tout à fait ça. Réessaye !';
+                    feedbackEl.classList.add('incorrect');
+                }
+            });
+        });
+    });
+    </script>
+
+</body>
+</html>
