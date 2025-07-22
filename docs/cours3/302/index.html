@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innover : Veille technologique et propriété intellectuelle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --secondary: #c5ce46;
+            --accent: #eea33a;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+            --bg-light: #f8f9fa;
+            --bg-dark: #343a40;
+            --border-color: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: #f1f2f6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--text-light);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 2em;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 1.6em;
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        img {
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            margin: 20px auto;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 12px;
+        }
+        
+        /* Micro-interactions */
+        a, button, .objective-card, .further-card, .accordion-trigger, .flip-card, .hotspot, .interactive-exercise button {
+            transition: all 0.3s ease;
+        }
+
+        a:hover, button:hover, .objective-card:hover, .further-card:hover, .accordion-trigger:hover, .hotspot:hover, .interactive-exercise button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary), #3c5ae8);
+            color: var(--text-light);
+            padding: 50px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section h2 {
+            color: var(--text-light);
+            border: none;
+            font-size: 2.2em;
+        }
+
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .objective-card {
+            background: var(--primary);
+            color: var(--text-light);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .objective-card h3 {
+            color: var(--text-light);
+            margin-top: 0;
+        }
+        
+        .objective-card ul {
+            padding-left: 20px;
+        }
+        
+        .objective-card li {
+            font-size: 1.1em;
+        }
+
+        .definition, .analogy, .case-study, .technical, .warning, .fun-fact, .interdisciplinary, .expert {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid;
+        }
+
+        .definition { background: #eef2ff; border-color: var(--primary); }
+        .analogy { background: #fefce8; border-color: var(--accent); }
+        .case-study { background: #f7fee7; border-color: var(--secondary); }
+        .technical { background: #f0f9ff; border-color: #38bdf8; }
+        .warning { background: #fff1f2; border-color: #f43f5e; }
+        .fun-fact { background: #fffbeb; border-color: var(--accent); }
+        .interdisciplinary { background: #ecfeff; border-color: #22d3ee; }
+        .expert { background: #faf5ff; border-color: #a855f7; }
+        
+        .definition h4, .analogy h4, .case-study h4, .technical h4, .warning h4, .fun-fact h4, .interdisciplinary h4, .expert h4 {
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .knowledge-block::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .img-gauche {
+            float: left;
+            margin-right: 20px;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .img-droite {
+            float: right;
+            margin-left: 20px;
+            max-width: 280px;
+            width: 100%;
+        }
+
+        .synthesis {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+        .synthesis h2, .synthesis h3 { color: var(--text-light); border-color: var(--secondary); }
+        .synthesis ul { list-style: none; }
+        .synthesis li { margin: 10px 0; padding-left: 20px; position: relative; }
+        .synthesis li::before { content: "→"; position: absolute; left: 0; color: var(--secondary); font-weight: bold; }
+
+        .conclusion {
+            background: linear-gradient(135deg, var(--accent), #fca5a5);
+            color: var(--text-light);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .conclusion h2 { color: var(--text-light); border: none; }
+        
+        .further-reading {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .further-card {
+            background: var(--text-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .further-card h4 { color: var(--primary); }
+        .further-card a { color: var(--accent); text-decoration: none; font-weight: bold; }
+
+        /* Accordion Styles */
+        .accordion-trigger {
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            padding: 15px 0;
+            font-size: 1.6em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion-trigger:hover {
+            color: var(--accent);
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-left: 15px;
+        }
+        .accordion-trigger.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            border-left: 3px solid var(--border-color);
+            margin-left: 8px;
+        }
+        .knowledge-block {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 25px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+        .knowledge-block h3 { margin: 0; padding: 0; }
+
+        /* Flip Card Styles */
+        .flip-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+            perspective: 1000px;
+        }
+        .flip-card {
+            background-color: transparent;
+            height: 180px;
+            border: none;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .flip-card-front {
+            background: linear-gradient(135deg, var(--primary), #3c5ae8);
+            color: white;
+        }
+        .flip-card-back {
+            background: var(--secondary);
+            color: var(--text-dark);
+            transform: rotateY(180deg);
+        }
+        .flip-card-back p {
+            font-size: 0.9em;
+            margin: 0;
+        }
+
+        /* Hotspot Styles */
+        .hotspot-container {
+            position: relative;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .hotspot {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--accent);
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 0 0 rgba(238, 163, 58, 1);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(238, 163, 58, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(238, 163, 58, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(238, 163, 58, 0); }
+        }
+        .hotspot-tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--bg-dark);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+        }
+        .hotspot-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--bg-dark) transparent transparent transparent;
+        }
+        .hotspot:hover .hotspot-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container.left { left: 0; }
+        .timeline-container.right { left: 50%; }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: white;
+            border: 4px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-container.right::after { left: -16px; }
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+        .timeline-content h4 { color: var(--primary); margin-top: 0; }
+
+        /* Interactive Exercises Styles */
+        .interactive-exercise {
+            background: #f8f9fa;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .interactive-exercise h4 { color: var(--primary); }
+        .interactive-exercise .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .interactive-exercise .option {
+            background-color: white;
+            border: 2px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .interactive-exercise .option.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(30, 64, 175, 0.3);
+        }
+        .interactive-exercise .option.correct {
+            background-color: #dcfce7;
+            border-color: #4ade80;
+        }
+        .interactive-exercise .option.incorrect {
+            background-color: #fee2e2;
+            border-color: #f87171;
+        }
+        .interactive-exercise input[type="text"] {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            margin: 0 5px;
+            width: 150px;
+        }
+        .interactive-exercise input.correct {
+            background-color: #dcfce7;
+            border-color: #4ade80;
+        }
+        .interactive-exercise input.incorrect {
+            background-color: #fee2e2;
+            border-color: #f87171;
+        }
+        .interactive-exercise button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .interactive-exercise button:hover {
+            background-color: #1d4ed8;
+        }
+        .interactive-exercise .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .interactive-exercise .feedback.correct {
+            background-color: #f0fdf4;
+            color: #166534;
+        }
+        .interactive-exercise .feedback.incorrect {
+            background-color: #fef2f2;
+            color: #991b1b;
+        }
+        .interactive-exercise textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .interactive-exercise .hint, .interactive-exercise .model-answer {
+            background-color: #fffbeb;
+            border-left: 4px solid var(--accent);
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        .interactive-exercise button.secondary {
+            background-color: var(--accent);
+        }
+        .interactive-exercise button.secondary:hover {
+            background-color: #d97706;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { margin: 10px; padding: 15px; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.6em; }
+            .hero-section { padding: 30px; }
+            .hotspot-container { max-width: 100%; }
+            .timeline::after { left: 31px; }
+            .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-container.left::after, .timeline-container.right::after { left: 15px; }
+            .timeline-container.right { left: 0%; }
+            .img-gauche, .img-droite { float: none; margin: 15px auto; display: block; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Innover : Veille technologique et propriété intellectuelle</h1>
+
+        <div class="hero-section">
+            <div class="hero-content">
+                <h2 style="color: white; border: none; background: none; padding: 0;">🚀 Mission Innovation : Enquêtez et Protégez !</h2>
+                <p style="font-size: 1.2em; margin-top: 20px;">
+                    Léa, 15 ans, vient d'avoir une idée géniale : une trottinette électrique qui se plie automatiquement avec une application ! 
+                    Surexcitée, elle dessine ses plans et imagine déjà sa fortune. Mais son grand frère, étudiant en école d'ingénieur, 
+                    lui pose une question qui la fait redescendre sur terre : "Tu es sûre que ça n'existe pas déjà ? Et comment vas-tu 
+                    empêcher qu'on te copie ton idée ?"
+                </p>
+                <p style="font-size: 1.1em; margin-top: 15px; font-style: italic;">
+                    <strong>Avant de lancer votre projet innovant, comment être sûr que votre idée n'existe pas déjà ? 
+                    Et une fois créée, comment la protéger pour que personne ne vous la vole ? 
+                    Enquêtez comme un ingénieur et protégez comme un avocat !</strong>
+                </p>
+            </div>
+        </div>
+
+        <img src="image_1.png" alt="Illustration de la veille technologique avec des écrans, recherches et innovation">
+
+        <h2>🎯 Ta mission, si tu l'acceptes...</h2>
+        
+        <div class="objectives-grid">
+            <div class="objective-card">
+                <h3><span class="emoji">💪</span>Compétences à maîtriser</h3>
+                <ul>
+                    <li>Mener une recherche d'antériorité pour une solution technique</li>
+                    <li>Identifier les principales formes de protection industrielle et intellectuelle</li>
+                    <li>Comprendre la différence entre une idée libre et une invention brevetable</li>
+                </ul>
+            </div>
+            
+            <div class="objective-card">
+                <h3><span class="emoji">🧠</span>Savoirs et connaissances à acquérir</h3>
+                <ul>
+                    <li>Veille technologique</li>
+                    <li>Propriété intellectuelle et industrielle</li>
+                    <li>Brevet d'invention</li>
+                    <li>Marque</li>
+                    <li>Droit d'auteur</li>
+                    <li>Licence d'utilisation (Creative Commons, Open Source)</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>🔍 Introduction : Dans l'arène de l'innovation</h2>
+        
+        <p>L'histoire de Léa n'est pas isolée. Chaque jour, des milliers d'inventeurs, d'entrepreneurs et d'étudiants comme vous ont des idées brillantes. Mais dans notre monde hyper-connecté où l'innovation va à la vitesse de la lumière, deux questions cruciales se posent :</p>
+        
+        <p>Historiquement, les grands inventeurs comme Edison, Bell ou Jobs ont tous été confrontés à ces mêmes défis. Edison a déposé plus de 1000 brevets, Jobs a révolutionné notre rapport aux interfaces tactiles, et aujourd'hui, les entreprises technologiques se livrent de véritables "guerres de brevets" où chaque innovation compte.</p>
+        
+        <p><strong>Problématique centrale :</strong> Comment un innovateur peut-il s'assurer de l'originalité de son idée et protéger efficacement sa création dans un écosystème technologique en perpétuel mouvement ?</p>
+        
+        <p><strong>Plan du cours :</strong></p>
+        <ol>
+            <li>La veille technologique : espionner légalement pour innover</li>
+            <li>La propriété intellectuelle : votre bouclier juridique</li>
+            <li>Le brevet d'invention : protéger l'innovation technique</li>
+            <li>La marque : défendre votre identité</li>
+            <li>Le droit d'auteur : préserver la création artistique</li>
+            <li>Les licences libres : partager pour mieux innover</li>
+        </ol>
+
+        <h2>✨ Concepts Clés en un clin d'œil</h2>
+        <p>Cliquez sur les cartes pour révéler la différence entre ces concepts fondamentaux.</p>
+        <div class="flip-card-grid">
+            <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h4>Brevet vs Marque</h4></div>
+                    <div class="flip-card-back"><p>Un <strong>brevet</strong> protège une <strong>invention technique</strong> (comment ça marche). Une <strong>marque</strong> protège un <strong>signe distinctif</strong> (nom, logo) pour identifier un produit.</p></div>
+                </div>
+            </div>
+            <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h4>Droit d'Auteur vs Licence Libre</h4></div>
+                    <div class="flip-card-back"><p>Le <strong>droit d'auteur</strong> est la protection <strong>automatique</strong> d'une œuvre. Une <strong>licence libre</strong> (ex: Creative Commons) est une <strong>autorisation</strong> donnée par l'auteur pour partager/modifier son œuvre sous conditions.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <h2>🗺️ Le Chemin de l'Innovation</h2>
+        <div class="timeline">
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <h4>Phase 1 : Veille</h4>
+                    <p>Analyser l'existant pour s'assurer de la nouveauté de l'idée et identifier les opportunités.</p>
+                </div>
+            </div>
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <h4>Phase 2 : Création</h4>
+                    <p>Développer l'innovation, la concrétiser sous forme de prototype, de code ou de design.</p>
+                </div>
+            </div>
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <h4>Phase 3 : Protection</h4>
+                    <p>Choisir les outils de propriété intellectuelle adaptés : brevet, marque, droit d'auteur...</p>
+                </div>
+            </div>
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <h4>Phase 4 : Exploitation</h4>
+                    <p>Valoriser sa création (vente, licence) et la défendre contre la contrefaçon.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>🚀 Exploration en profondeur</h2>
+
+        <div class="knowledge-block">
+            <button class="accordion-trigger">
+                <h3><span class="emoji">🔭</span>La Veille Technologique</h3>
+                <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="accordion-panel">
+                <div class="definition">
+                    <h4><span class="emoji">🎓</span>Définition Académique et Enjeux</h4>
+                    <p>La veille technologique est un processus systématique de collecte, d'analyse et de diffusion d'informations techniques et scientifiques permettant d'anticiper les évolutions technologiques et d'identifier les opportunités d'innovation. Elle constitue un enjeu stratégique majeur pour maintenir la compétitivité et éviter les échecs d'innovation dus à l'ignorance de l'existant.</p>
+                </div>
+                <div class="analogy">
+                    <h4><span class="emoji">🧠</span>Analogie et Simplification Pédagogique</h4>
+                    <p>Imagine que tu es un détective privé spécialisé dans les inventions ! Ton job est de surveiller en permanence ce qui se passe dans le monde de la technologie, comme un radar qui scrute l'horizon. Tu fouilles sur internet, tu lis des magazines spécialisés, tu visites des salons... Exactement comme un joueur de jeux vidéo qui consulte les forums pour connaître les dernières stratégies avant de créer la sienne !</p>
+                </div>
+                <img src="image_2.png" class="img-droite" alt="Schéma de la veille technologique avec sources d'information">
+                <div class="case-study">
+                    <h4><span class="emoji">📱</span>Étude de Cas Concrète</h4>
+                    <p><strong>Exemple avec le Smartphone :</strong> Avant de créer l'iPhone en 2007, Apple a mené une veille intensive sur les PDA (assistants personnels), les téléphones existants, les écrans tactiles, et les interfaces utilisateur. Ils ont étudié les brevets de Palm, Microsoft, BlackBerry pour identifier ce qui manquait : un smartphone vraiment intuitif avec un écran tactile multi-touch.</p>
+                </div>
+                <div class="technical">
+                    <h4><span class="emoji">🛠️</span>Décortiquage Technique - "Sous le Capot"</h4>
+                    <p><strong>Mini-tutoriel : Faire de la veille sur les drones de loisir</strong></p>
+                    <ol>
+                        <li><strong>Étape 1 :</strong> Définir ses mots-clés (drone, UAV, quadricoptère, FPV...)</li>
+                        <li><strong>Étape 2 :</strong> Consulter les bases de brevets (Espacenet, Google Patents)</li>
+                        <li><strong>Étape 3 :</strong> Surveiller les sites spécialisés (DroneZone, UAV Systems...)</li>
+                        <li><strong>Étape 4 :</strong> Analyser la concurrence (DJI, Parrot, Yuneec...)</li>
+                        <li><strong>Étape 5 :</strong> Synthétiser et identifier les tendances émergentes</li>
+                    </ol>
+                </div>
+                <div class="warning">
+                    <h4><span class="emoji">🤔</span>Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Se limiter à Google ! Les vraies innovations sont souvent dans des bases de données spécialisées.</li>
+                        <li><strong>Erreur 2 :</strong> Faire de la veille une seule fois. C'est un processus continu, pas un événement ponctuel.</li>
+                        <li><strong>Erreur 3 :</strong> Ignorer les brevets expirés : ils peuvent être une mine d'or d'idées réutilisables !</li>
+                    </ul>
+                </div>
+                <div class="fun-fact">
+                    <h4><span class="emoji">💡</span>Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <p>Netflix surveille en permanence nos habitudes de visionnage pour prédire les prochains succès ! Leur algorithme analyse plus de 30 millions de "données de veille" par jour. Cette veille comportementale leur a permis de créer des séries à succès comme "House of Cards" en analysant les goûts du public avant même de la produire !</p>
+                </div>
+                <div class="interdisciplinary">
+                    <h4><span class="emoji">🤝</span>Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>Mathématiques :</strong> Algorithmes de recherche et analyse statistique des tendances</li>
+                        <li><strong>Histoire :</strong> Évolution des techniques d'espionnage industriel depuis la révolution industrielle</li>
+                        <li><strong>Géographie :</strong> Cartographie mondiale de l'innovation technologique</li>
+                        <li><strong>Anglais :</strong> 80% des publications scientifiques et brevets sont en anglais</li>
+                    </ul>
+                </div>
+                <div class="expert">
+                    <h4><span class="emoji">🚀</span>Pour les Experts (Approfondissement)</h4>
+                    <p><strong>Métier à découvrir :</strong> Veilleur technologique / Analyst en intelligence économique. Ces professionnels gagnent entre 35 000€ et 60 000€ par an et sont très recherchés par les grandes entreprises. <strong>Défi expert :</strong> Pouvez-vous identifier la prochaine révolution technologique en analysant les dépôts de brevets des 6 derniers mois dans le domaine de l'IA ?</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="knowledge-block">
+            <button class="accordion-trigger">
+                <h3><span class="emoji">🛡️</span>Propriété Intellectuelle et Industrielle</h3>
+                <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="accordion-panel">
+                <div class="definition">
+                    <h4><span class="emoji">🎓</span>Définition Académique et Enjeux</h4>
+                    <p>La propriété intellectuelle est l'ensemble des droits exclusifs accordés aux créateurs d'œuvres de l'esprit (inventions, œuvres artistiques, signes distinctifs). Elle se divise en propriété industrielle (brevets, marques, dessins) et propriété littéraire et artistique (droits d'auteur). L'enjeu est de protéger l'innovation et la création pour encourager les investissements en R&D.</p>
+                </div>
+                <div class="analogy">
+                    <h4><span class="emoji">🧠</span>Analogie et Simplification Pédagogique</h4>
+                    <p>C'est comme un système de "propriété virtuelle" ! Imagine que tes idées sont ta maison : tu peux mettre une clôture (brevet), une pancarte avec ton nom (marque), et des caméras de surveillance (surveillance du marché). Personne ne peut rentrer chez toi sans permission, voler tes meubles (copier tes inventions) ou squatter ton jardin (utiliser ta marque) !</p>
+                </div>
+                <img src="image_3.png" class="img-gauche" alt="Schéma des différents types de propriété intellectuelle avec icônes">
+                <div class="case-study">
+                    <h4><span class="emoji">📱</span>Étude de Cas Concrète</h4>
+                    <p><strong>Exemple avec la Trottinette Électrique :</strong> Xiaomi protège ses trottinettes par des brevets (système de pliage, gestion de la batterie), des marques (logo Mi, nom "Mi Electric Scooter"), et des droits d'auteur (interface de l'application mobile). Cette protection multiple leur permet de dominer le marché mondial.</p>
+                </div>
+                <div class="technical">
+                    <h4><span class="emoji">🛠️</span>Décortiquage Technique - "Sous le Capot"</h4>
+                    <p><strong>Comment analyser la propriété intellectuelle d'un produit :</strong></p>
+                    <ol>
+                        <li><strong>Identifier les éléments techniques :</strong> mécanismes, électronique, logiciels</li>
+                        <li><strong>Rechercher les brevets :</strong> sur Espacenet ou Google Patents</li>
+                        <li><strong>Analyser les marques :</strong> logo, nom, slogan</li>
+                        <li><strong>Examiner les droits d'auteur :</strong> design, interface, documentation</li>
+                        <li><strong>Vérifier les licences :</strong> composants open source utilisés</li>
+                    </ol>
+                </div>
+                <div class="warning">
+                    <h4><span class="emoji">🤔</span>Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Penser qu'une idée seule peut être protégée. Il faut une réalisation concrète !</li>
+                        <li><strong>Erreur 2 :</strong> Confondre brevet et marque. Un iPhone est une marque, l'écran tactile multi-touch est breveté.</li>
+                        <li><strong>Erreur 3 :</strong> Croire que "publier sur internet" protège automatiquement. C'est faux et même risqué !</li>
+                    </ul>
+                </div>
+                <div class="fun-fact">
+                    <h4><span class="emoji">💡</span>Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <p>La "guerre des brevets" entre Apple et Samsung a duré 7 ans (2011-2018) et a coûté plus de 1 milliard de dollars ! Tout ça pour des disputes sur la forme rectangulaire des smartphones et les icônes carrées. Apple avait même breveté le geste "glisser pour déverrouiller" !</p>
+                </div>
+                <div class="interdisciplinary">
+                    <h4><span class="emoji">🤝</span>Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>Droit :</strong> Fondements juridiques de la propriété intellectuelle</li>
+                        <li><strong>Économie :</strong> Impact économique des brevets sur l'innovation et la concurrence</li>
+                        <li><strong>Philosophie :</strong> Débat éthique sur la privatisation des idées</li>
+                        <li><strong>Arts plastiques :</strong> Protection des œuvres artistiques et du design</li>
+                    </ul>
+                </div>
+                <div class="expert">
+                    <h4><span class="emoji">🚀</span>Pour les Experts (Approfondissement)</h4>
+                    <p><strong>Métier à découvrir :</strong> Conseil en propriété industrielle. Ces experts gagnent 50 000€ à 120 000€ par an et aident les entreprises à protéger leurs innovations. <strong>Réflexion expert :</strong> Faut-il breveter les algorithmes d'IA ? Débat crucial pour l'avenir de l'innovation numérique !</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="knowledge-block">
+            <button class="accordion-trigger">
+                <h3><span class="emoji">⚡</span>Brevet d'Invention</h3>
+                <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="accordion-panel">
+                <div class="definition">
+                    <h4><span class="emoji">🎓</span>Définition Académique et Enjeux</h4>
+                    <p>Le brevet d'invention est un titre de propriété industrielle qui confère à son titulaire un monopole d'exploitation temporaire (20 ans) sur une invention, en contrepartie de sa divulgation publique. L'invention doit être nouvelle, impliquer une activité inventive et être susceptible d'application industrielle. C'est l'outil principal de protection de l'innovation technique.</p>
+                </div>
+                <div class="analogy">
+                    <h4><span class="emoji">🧠</span>Analogie et Simplification Pédagogique</h4>
+                    <p>Un brevet, c'est comme un "contrat magique" avec l'État ! Tu lui révèles le secret de ton invention (la recette de ta potion magique), et en échange, il te donne le droit exclusif de la fabriquer et la vendre pendant 20 ans. Après, ta recette devient publique et tout le monde peut s'en servir. C'est un deal gagnant-gagnant : toi tu gagnes de l'argent, et l'humanité progresse !</p>
+                </div>
+                <div class="case-study">
+                    <h4><span class="emoji">📱</span>Étude de Cas Concrète</h4>
+                    <p><strong>Exemple avec le Drone de Loisir :</strong> DJI possède plus de 1500 brevets sur ses drones : stabilisation gimbal, évitement d'obstacles, retour automatique, transmission vidéo HD. Le brevet le plus célèbre (US8,876,094) protège leur système de stabilisation 3 axes qui révolutionne la qualité vidéo des drones grand public.</p>
+                </div>
+                <img src="image_4.png" class="img-droite" alt="Illustration d'un document de brevet avec schémas techniques">
+                <div class="technical">
+                    <h4><span class="emoji">🛠️</span>Décortiquage Technique - "Sous le Capot"</h4>
+                    <p><strong>Étapes pour déposer un brevet (version simplifiée) :</strong></p>
+                    <ol>
+                        <li><strong>Recherche d'antériorité :</strong> Vérifier que l'invention n'existe pas déjà</li>
+                        <li><strong>Rédaction du dossier :</strong> Description technique détaillée + revendications</li>
+                        <li><strong>Dépôt à l'INPI :</strong> Coût environ 700€, examen de forme</li>
+                        <li><strong>Publication :</strong> 18 mois après le dépôt, visible par tous</li>
+                        <li><strong>Examen de fond :</strong> Vérification nouveauté et activité inventive</li>
+                        <li><strong>Délivrance :</strong> Si accepté, protection pour 20 ans</li>
+                    </ol>
+                </div>
+                <div class="warning">
+                    <h4><span class="emoji">🤔</span>Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Publier son invention avant le dépôt. Ça détruit la nouveauté et rend le brevet impossible !</li>
+                        <li><strong>Erreur 2 :</strong> Penser que le brevet protège automatiquement dans le monde entier. Chaque pays a ses règles !</li>
+                        <li><strong>Erreur 3 :</strong> Négliger les coûts de maintenance. Un brevet coûte environ 5000€ sur 20 ans pour être maintenu.</li>
+                    </ul>
+                </div>
+                <div class="fun-fact">
+                    <h4><span class="emoji">💡</span>Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <p>Le brevet le plus cher de l'histoire a été vendu 4,5 milliards de dollars ! Il s'agit d'un portefeuille de brevets sur les réseaux sans fil, acheté par un consortium d'entreprises tech. Et le plus inutile ? Le brevet américain n°6,004,596 pour... "une méthode pour faire swinguer sur une balançoire" ! 😂</p>
+                </div>
+                <div class="interdisciplinary">
+                    <h4><span class="emoji">🤝</span>Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>Physique-Chimie :</strong> Compréhension des principes scientifiques brevetés</li>
+                        <li><strong>Mathématiques :</strong> Algorithmes et méthodes de calcul brevetables</li>
+                        <li><strong>Histoire :</strong> Évolution du système des brevets depuis Venise (1474)</li>
+                        <li><strong>SVT :</strong> Brevets sur les biotechnologies et la génétique</li>
+                    </ul>
+                </div>
+                <div class="expert">
+                    <h4><span class="emoji">🚀</span>Pour les Experts (Approfondissement)</h4>
+                    <p><strong>Métier à découvrir :</strong> Ingénieur brevet. Ils analysent les inventions pour les breveter, salaire 45 000€-80 000€. <strong>Défi expert :</strong> Les algorithmes d'IA sont-ils brevetables ? Cette question divise les experts mondiaux et va redéfinir l'innovation de demain !</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="knowledge-block">
+            <button class="accordion-trigger">
+                <h3><span class="emoji">🏷️</span>Marque</h3>
+                <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="accordion-panel">
+                 <div class="definition">
+                    <h4><span class="emoji">🎓</span>Définition Académique et Enjeux</h4>
+                    <p>Une marque est un signe distinctif (nom, logo, slogan, son) qui permet d'identifier les produits ou services d'une entreprise et de les distinguer de ceux des concurrents. Elle peut être protégée indéfiniment par renouvellement décennal. L'enjeu est de créer une identité forte et de protéger la réputation commerciale contre la contrefaçon et la concurrence déloyale.</p>
+                </div>
+                <div class="analogy">
+                    <h4><span class="emoji">🧠</span>Analogie et Simplification Pédagogique</h4>
+                    <p>Une marque, c'est comme ton pseudo sur les réseaux sociaux, mais en version super-protégée ! C'est TON identité dans le monde commercial. Personne d'autre ne peut utiliser le même nom, le même logo, ou imiter ton style. C'est ton "nom de famille" dans l'univers des entreprises, et comme dans la vraie vie, il n'peut y en avoir qu'un seul par domaine !</p>
+                </div>
+                <div class="case-study">
+                    <h4><span class="emoji">📱</span>Étude de Cas Concrète</h4>
+                    <p><strong>Exemple avec le Smartphone :</strong> Apple protège férocement sa marque "iPhone" dans 150 pays. Ils ont même dû racheter le nom à Cisco pour 1 million de dollars ! Le logo "pomme croquée" est reconnu mondialement et vaut plus de 300 milliards de dollars selon les experts en valorisation de marques.</p>
+                </div>
+                <img src="image_5.png" class="img-gauche" alt="Collection de logos de marques technologiques célèbres">
+                <div class="technical">
+                    <h4><span class="emoji">🛠️</span>Décortiquage Technique - "Sous le Capot"</h4>
+                    <p><strong>Comment créer et protéger sa marque :</strong></p>
+                    <ol>
+                        <li><strong>Recherche d'antériorité :</strong> Vérifier que le nom/logo n'existe pas déjà</li>
+                        <li><strong>Création de l'identité :</strong> Nom, logo, charte graphique cohérents</li>
+                        <li><strong>Dépôt à l'INPI :</strong> Coût 190€ pour 3 classes, protection 10 ans</li>
+                        <li><strong>Utilisation commerciale :</strong> Apposer le symbole ® ou ™</li>
+                        <li><strong>Surveillance :</strong> Veiller contre les contrefaçons et imitations</li>
+                        <li><strong>Renouvellement :</strong> Tous les 10 ans pour maintenir la protection</li>
+                    </ol>
+                </div>
+                <div class="warning">
+                    <h4><span class="emoji">🤔</span>Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Choisir un nom trop générique. "Super Smartphone" ne peut pas être une marque !</li>
+                        <li><strong>Erreur 2 :</strong> Oublier les classes de produits. Une marque "Nike" chaussures ≠ "Nike" informatique.</li>
+                        <li><strong>Erreur 3 :</strong> Ne pas surveiller sa marque. Si vous ne défendez pas vos droits, vous les perdez !</li>
+                    </ul>
+                </div>
+                <div class="fun-fact">
+                    <h4><span class="emoji">💡</span>Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <p>Google dépense 1 million de dollars par an rien que pour empêcher que "Google" devienne un mot générique ! Ils envoient des lettres aux dictionnaires pour qu'ils écrivent "faire une recherche Google" et non "googler". Sinon, ils perdraient leur marque comme "Frigidaire" ou "Kleenex" !</p>
+                </div>
+                <div class="interdisciplinary">
+                    <h4><span class="emoji">🤝</span>Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>Arts plastiques :</strong> Création de logos et identité visuelle</li>
+                        <li><strong>Psychologie :</strong> Impact des couleurs et formes sur la perception</li>
+                        <li><strong>Marketing :</strong> Stratégies de construction de l'image de marque</li>
+                        <li><strong>Langues :</strong> Adaptation des marques aux différentes cultures</li>
+                    </ul>
+                </div>
+                <div class="expert">
+                    <h4><span class="emoji">🚀</span>Pour les Experts (Approfondissement)</h4>
+                    <p><strong>Métier à découvrir :</strong> Brand Manager (Responsable de marque). Salaire 40 000€-90 000€, ils développent et protègent l'image des marques. <strong>Question expert :</strong> À l'ère du metaverse, comment protéger sa marque dans les mondes virtuels ? Nouveau défi juridique et technologique !</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="knowledge-block">
+            <button class="accordion-trigger">
+                <h3><span class="emoji">🎨</span>Droit d'Auteur</h3>
+                <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="accordion-panel">
+                <div class="definition">
+                    <h4><span class="emoji">🎓</span>Définition Académique et Enjeux</h4>
+                    <p>Le droit d'auteur protège les œuvres de l'esprit (textes, musiques, films, logiciels, bases de données) dès leur création, sans formalité. Il comprend des droits moraux (paternité, intégrité) inaliénables et des droits patrimoniaux (reproduction, représentation) cessibles. La protection dure 70 ans après la mort de l'auteur. L'enjeu est de protéger la création artistique et intellectuelle.</p>
+                </div>
+                <div class="analogy">
+                    <h4><span class="emoji">🧠</span>Analogie et Simplification Pédagogique</h4>
+                    <p>Le droit d'auteur, c'est comme une protection automatique et magique ! Dès que tu crées quelque chose d'original (un dessin, une chanson, un code), c'est immédiatement protégé, sans démarche ! C'est comme si chaque création portait automatiquement ta signature invisible. Personne ne peut la copier, la modifier ou la vendre sans ta permission !</p>
+                </div>
+                <div class="case-study">
+                    <h4><span class="emoji">📱</span>Étude de Cas Concrète</h4>
+                    <p><strong>Exemple avec la Trottinette Électrique :</strong> L'application mobile Xiaomi Mi Home est protégée par le droit d'auteur : code source, interface utilisateur, icônes, sons. Même les algorithmes de gestion de batterie et les tutoriels vidéo sont protégés. Copier l'interface serait une contrefaçon passible d'amendes !</p>
+                </div>
+                <div class="technical">
+                    <h4><span class="emoji">🛠️</span>Décortiquage Technique - "Sous le Capot"</h4>
+                    <p><strong>Comment prouver l'antériorité de sa création :</strong></p>
+                    <ol>
+                        <li><strong>Enveloppe Soleau :</strong> Dépôt à l'INPI, coût 15€, validité 5 ans</li>
+                        <li><strong>Dépôt chez notaire :</strong> Constat d'huissier, preuve juridique forte</li>
+                        <li><strong>E-dépôt horodaté :</strong> Plateformes spécialisées avec blockchain</li>
+                        <li><strong>Publication :</strong> Blog, réseaux sociaux (preuve de date)</li>
+                        <li><strong>Envoi postal à soi-même :</strong> Enveloppe cachetée non ouverte (peu fiable)</li>
+                    </ol>
+                </div>
+                <div class="warning">
+                    <h4><span class="emoji">🤔</span>Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Penser que les idées sont protégées. Seule la forme d'expression l'est !</li>
+                        <li><strong>Erreur 2 :</strong> Croire qu'on peut utiliser 10% d'une œuvre sans autorisation. C'est faux !</li>
+                        <li><strong>Erreur 3 :</strong> Confondre "gratuit sur internet" et "libre de droits". Gratuit ≠ libre !</li>
+                    </ul>
+                </div>
+                <div class="fun-fact">
+                    <h4><span class="emoji">💡</span>Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <p>Le code source du jeu Tetris a généré plus de 100 procès ! Le créateur russe Alexey Pajitnov n'a touché aucun droit pendant 10 ans à cause des lois soviétiques. Aujourd'hui, Tetris rapporte encore 500 millions de dollars par an, 40 ans après sa création !</p>
+                </div>
+                <div class="interdisciplinary">
+                    <h4><span class="emoji">🤝</span>Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>Littérature :</strong> Protection des textes et scénarios</li>
+                        <li><strong>Musique :</strong> Droits sur les compositions et enregistrements</li>
+                        <li><strong>Arts plastiques :</strong> Protection des œuvres visuelles et design</li>
+                        <li><strong>Informatique :</strong> Droit d'auteur sur les logiciels et bases de données</li>
+                    </ul>
+                </div>
+                <div class="expert">
+                    <h4><span class="emoji">🚀</span>Pour les Experts (Approfondissement)</h4>
+                    <p><strong>Métier à découvrir :</strong> Juriste spécialisé en propriété intellectuelle, salaire 35 000€-70 000€. <strong>Défi expert :</strong> Les créations d'IA peuvent-elles être protégées par le droit d'auteur ? Qui est l'auteur : le programmeur, l'utilisateur, ou l'IA elle-même ? Débat d'avenir !</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="knowledge-block">
+            <button class="accordion-trigger">
+                <h3><span class="emoji">🔓</span>Licences d'Utilisation</h3>
+                <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="accordion-panel">
+                <div class="definition">
+                    <h4><span class="emoji">🎓</span>Définition Académique et Enjeux</h4>
+                    <p>Les licences d'utilisation définissent les conditions d'usage d'une création protégée. Les licences libres (Creative Commons, GPL, MIT) favorisent le partage et la collaboration, tandis que les licences propriétaires limitent l'usage. L'enjeu est de trouver l'équilibre entre protection des créateurs et diffusion des innovations pour le progrès collectif.</p>
+                </div>
+                <div class="analogy">
+                    <h4><span class="emoji">🧠</span>Analogie et Simplification Pédagogique</h4>
+                    <p>Les licences, c'est comme les règles d'utilisation de ta bibliothèque personnelle ! Tu peux décider : "Mes livres sont prêtables mais pas photocopiables" (licence restrictive), ou "Servez-vous, copiez, modifiez, mais citez-moi" (Creative Commons), ou encore "Tout est gratuit et libre" (Open Source). C'est toi qui fixes les règles du jeu !</p>
+                </div>
+                <img src="image_6.png" class="img-droite" alt="Logos des différentes licences Creative Commons et Open Source">
+                <div class="case-study">
+                    <h4><span class="emoji">📱</span>Étude de Cas Concrète</h4>
+                    <p><strong>Exemple avec le Drone de Loisir :</strong> Les projets de drones open source comme ArduPilot utilisent la licence GPL : le code est libre, modifiable et redistribuable, mais toute modification doit rester open source. À l'inverse, le firmware DJI est propriétaire : impossible d'accéder au code ou de le modifier.</p>
+                </div>
+                <div class="technical">
+                    <h4><span class="emoji">🛠️</span>Décortiquage Technique - "Sous le Capot"</h4>
+                    <p><strong>Guide des principales licences :</strong></p>
+                    <ul>
+                        <li><strong>CC BY :</strong> Attribution simple, usage libre</li>
+                        <li><strong>CC BY-SA :</strong> Attribution + partage dans les mêmes conditions</li>
+                        <li><strong>CC BY-NC :</strong> Attribution + usage non commercial uniquement</li>
+                        <li><strong>MIT :</strong> Très permissive, usage commercial autorisé</li>
+                        <li><strong>GPL :</strong> Copyleft fort, modifications redistribuables sous GPL</li>
+                        <li><strong>Propriétaire :</strong> Tous droits réservés, usage restreint</li>
+                    </ul>
+                </div>
+                <div class="warning">
+                    <h4><span class="emoji">🤔</span>Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Mélanger du code GPL et propriétaire. Le GPL "contamine" tout !</li>
+                        <li><strong>Erreur 2 :</strong> Utiliser du contenu "Creative Commons" sans respecter les conditions d'attribution.</li>
+                        <li><strong>Erreur 3 :</strong> Penser que "open source" = "sans auteur". Les crédits restent obligatoires !</li>
+                    </ul>
+                </div>
+                <div class="fun-fact">
+                    <h4><span class="emoji">💡</span>Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <p>Linux, le système qui fait tourner 97% des serveurs mondiaux, est entièrement open source ! Plus de 30 000 développeurs du monde entier y contribuent gratuitement. Cette collaboration massive a permis de créer un système plus fiable que Windows, utilisé par Google, Facebook, Amazon... La puissance du partage !</p>
+                </div>
+                <div class="interdisciplinary">
+                    <h4><span class="emoji">🤝</span>Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>Philosophie :</strong> Éthique du partage vs propriété privée des idées</li>
+                        <li><strong>Économie :</strong> Modèles économiques de l'open source</li>
+                        <li><strong>Sociologie :</strong> Communautés collaboratives et intelligence collective</li>
+                        <li><strong>Droit :</strong> Évolution juridique face aux nouveaux modèles</li>
+                    </ul>
+                </div>
+                <div class="expert">
+                    <h4><span class="emoji">🚀</span>Pour les Experts (Approfondissement)</h4>
+                    <p><strong>Métier à découvrir :</strong> Community Manager Open Source, ils animent les communautés de développeurs. <strong>Réflexion expert :</strong> Comment concilier innovation ouverte et rentabilité ? Tesla a ouvert ses brevets en 2014 pour accélérer l'adoption des véhicules électriques. Stratégie gagnante ou risquée ?</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>✅ Testez vos connaissances !</h2>
+        <div id="interactive-exercises-section">
+            <div class="interactive-exercise" id="qcm1">
+                <h4><span class="emoji">1.</span> QCM : Les conditions d'un brevet</h4>
+                <p>Pour être brevetable, une invention doit obligatoirement être :</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Nouvelle, chère et compliquée</div>
+                    <div class="option" data-correct="true">Nouvelle, impliquer une activité inventive et avoir une application industrielle</div>
+                    <div class="option" data-correct="false">Utile, vendable et approuvée par le public</div>
+                </div>
+                <button onclick="checkQCM('qcm1')">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="interactive-exercise" id="vrai-faux1">
+                <h4><span class="emoji">2.</span> Vrai ou Faux ?</h4>
+                <p>"Je peux utiliser librement une image trouvée sur Google Images pour mon site commercial car elle est publiquement accessible."</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Vrai</div>
+                    <div class="option" data-correct="true">Faux</div>
+                </div>
+                <button onclick="checkQCM('vrai-faux1')">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="interactive-exercise" id="fill-blank1">
+                <h4><span class="emoji">3.</span> Texte à trous</h4>
+                <p>Une <input type="text" data-answer="marque"> est un signe distinctif, comme un nom ou un <input type="text" data-answer="logo">, qui permet de différencier les produits d'une entreprise de ceux de ses concurrents.</p>
+                <button onclick="checkFillBlank('fill-blank1')">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="interactive-exercise" id="open-question1">
+                <h4><span class="emoji">4.</span> Question ouverte</h4>
+                <p>Vous avez une idée de génie pour une application mobile. Quelle est la toute première action à faire avant même d'écrire une ligne de code, et pourquoi est-elle si cruciale ?</p>
+                <textarea placeholder="Rédigez votre réponse ici..."></textarea>
+                <button class="secondary" onclick="toggleVisibility('hint1')">Afficher un indice</button>
+                <button onclick="toggleVisibility('answer1')">Comparer avec la réponse type</button>
+                <div class="hint" id="hint1">L'indice est dans le titre de la première section du cours... Il s'agit d'une action de recherche et d'analyse.</div>
+                <div class="model-answer" id="answer1"><strong>Réponse type :</strong> La première action est de mener une <strong>veille technologique</strong> et une <strong>recherche d'antériorité</strong>. C'est crucial pour s'assurer que l'idée n'existe pas déjà (pour ne pas perdre de temps et d'argent) et pour vérifier qu'on ne viole pas de brevet existant. Cela permet aussi d'identifier les concurrents et d'affiner son propre concept.</div>
+            </div>
+        </div>
+        <script>
+            function checkQCM(exerciseId) {
+                const exercise = document.getElementById(exerciseId);
+                const selected = exercise.querySelector('.option.selected');
+                const feedbackEl = exercise.querySelector('.feedback');
+                
+                if (!selected) {
+                    feedbackEl.textContent = "Veuillez sélectionner une réponse.";
+                    feedbackEl.className = 'feedback incorrect';
+                    feedbackEl.style.display = 'block';
+                    return;
+                }
+
+                const isCorrect = selected.dataset.correct === 'true';
+                
+                exercise.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                    if (opt.dataset.correct === 'true') {
+                        opt.classList.add('correct');
+                    }
+                });
+
+                if (isCorrect) {
+                    selected.classList.add('correct');
+                    feedbackEl.textContent = "Bravo, c'est la bonne réponse !";
+                    feedbackEl.className = 'feedback correct';
+                } else {
+                    selected.classList.add('incorrect');
+                    feedbackEl.textContent = "Ce n'est pas tout à fait ça. La bonne réponse est mise en surbrillance.";
+                    feedbackEl.className = 'feedback incorrect';
+                }
+                feedbackEl.style.display = 'block';
+            }
+
+            function checkFillBlank(exerciseId) {
+                const exercise = document.getElementById(exerciseId);
+                const inputs = exercise.querySelectorAll('input[type="text"]');
+                const feedbackEl = exercise.querySelector('.feedback');
+                let allCorrect = true;
+
+                inputs.forEach(input => {
+                    const isCorrect = input.value.trim().toLowerCase() === input.dataset.answer.toLowerCase();
+                    input.classList.remove('correct', 'incorrect');
+                    if (isCorrect) {
+                        input.classList.add('correct');
+                    } else {
+                        input.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                });
+                
+                if (allCorrect) {
+                    feedbackEl.textContent = "Parfait ! Toutes les réponses sont correctes.";
+                    feedbackEl.className = 'feedback correct';
+                } else {
+                    feedbackEl.textContent = "Certaines réponses sont incorrectes. Essayez encore !";
+                    feedbackEl.className = 'feedback incorrect';
+                }
+                feedbackEl.style.display = 'block';
+            }
+
+            function toggleVisibility(elementId) {
+                const el = document.getElementById(elementId);
+                el.style.display = el.style.display === 'block' ? 'none' : 'block';
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const accordions = document.querySelectorAll('.accordion-trigger');
+                accordions.forEach(acc => {
+                    acc.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        const panel = this.nextElementSibling;
+                        if (panel.style.maxHeight) {
+                            panel.style.maxHeight = null;
+                        } else {
+                            panel.style.maxHeight = panel.scrollHeight + "px";
+                        }
+                    });
+                });
+
+                const options = document.querySelectorAll('.interactive-exercise .option');
+                options.forEach(opt => {
+                    opt.addEventListener('click', function() {
+                        const parentOptions = this.parentElement;
+                        parentOptions.querySelectorAll('.option').forEach(sibling => sibling.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
+
+                const hotspots = document.querySelectorAll('.hotspot');
+                hotspots.forEach(hotspot => {
+                    const tooltipText = hotspot.dataset.tooltip;
+                    const tooltip = hotspot.querySelector('.hotspot-tooltip');
+                    tooltip.textContent = tooltipText;
+                });
+            });
+        </script>
+
+        <div class="conclusion">
+            <h2>🎯 Conclusion</h2>
+            <p style="font-size: 1.2em;">
+                Nous avons découvert que l'innovation responsable repose sur deux piliers indissociables : <strong>la veille technologique</strong> pour éviter de réinventer la roue et <strong>la propriété intellectuelle</strong> pour protéger et valoriser ses créations.
+            </p>
+            <p style="font-size: 1.1em; margin-top: 15px; font-weight: bold;">
+                Un innovateur moderne doit maîtriser l'art de la veille pour naviguer dans l'existant et construire un arsenal de protection adapté. L'avenir appartient à ceux qui sauront allier créativité, vigilance et protection intelligente !
+            </p>
+        </div>
+
+        <h2>🚀 Pour Aller Plus Loin</h2>
+        <div class="further-reading">
+            <div class="further-card">
+                <h4>🛠️ Mini-Projet</h4>
+                <h5>"Créez votre Startup Tech !"</h5>
+                <p>Inventez un accessoire innovant pour smartphone, conduisez une veille complète, et rédigez une stratégie de protection intellectuelle.</p>
+            </div>
+            <div class="further-card">
+                <h4>🌐 Sites de Référence</h4>
+                <p>Explorez les sites de l'INPI (France), de l'OEB (Europe) et de l'OMPI (Monde) pour des informations officielles.</p>
+            </div>
+            <div class="further-card">
+                <h4>💼 Métier à Découvrir</h4>
+                <h5>Conseil en Propriété Industrielle</h5>
+                <p>Un métier passionnant à la croisée du droit, de la science et de la stratégie d'entreprise.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, var(--primary), #3c5ae8); color: white; border-radius: 10px;">
+            <p style="font-size: 1.2em; font-weight: bold;">🎓 Félicitations ! Vous maîtrisez maintenant les secrets de l'innovation protégée !</p>
+            <p>Vous êtes prêts à enquêter comme un ingénieur et protéger comme un avocat ! 🕵️‍♂️⚖️</p>
+        </div>
+    </div>
+
+</body>
+</html>

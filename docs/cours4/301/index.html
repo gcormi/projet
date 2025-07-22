@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Cahier des Charges Fonctionnel (CdCF) - Cours de Technologie 4e</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* Vert vif */
+            --secondary-color: #FFC107; /* Jaune énergie */
+            --accent-color: #2196F3; /* Bleu dynamique */
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #e0e0e0;
+            --border-color: #ddd;
+            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-medium);
+            margin: 20px;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            color: var(--accent-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: var(--secondary-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: var(--dark-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            position: relative; /* Pour le clear float */
+        }
+
+        .section::after { /* Correction pour le "float" */
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .hook {
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .objectives ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives li {
+            background-color: #e8f5e9; /* Light green */
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .knowledge-block {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-light);
+            position: relative; /* Pour le clear float */
+        }
+
+        .knowledge-block::after { /* Correction pour le "float" */
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .knowledge-block h4 {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .knowledge-block h4 i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .knowledge-block p {
+            margin-bottom: 10px;
+        }
+
+        .case-study {
+            background-color: #f0f8ff; /* Light blue */
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .did-you-know {
+            background-color: #fffde7; /* Light yellow */
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .interdisciplinary-link {
+            background-color: #e3f2fd; /* Lighter blue */
+            border-left: 4px solid #90CAF9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .for-experts {
+            background-color: #f3e5f5; /* Light purple */
+            border-left: 4px solid #AB47BC;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .exercise-block {
+            background-color: #e0f2f7; /* Light cyan */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .exercise-block h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .exercise-block button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .exercise-block button:hover {
+            background-color: #1976D2;
+        }
+
+        .exercise-feedback {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .correct {
+            color: var(--primary-color);
+        }
+
+        .incorrect {
+            color: #D32F2F; /* Red */
+        }
+
+        .synthesis ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .synthesis li {
+            margin-bottom: 8px;
+        }
+
+        .synthesis ul ul {
+            padding-left: 25px;
+            list-style: disc;
+        }
+
+        .glossary dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px 15px;
+            margin-top: 15px;
+        }
+
+        .glossary dt {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .glossary dd {
+            margin-left: 0;
+        }
+
+        .further-reading ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .further-reading li {
+            margin-bottom: 10px;
+            background-color: #f1f8e9; /* Lighter green */
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .further-reading a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .further-reading a:hover {
+            text-decoration: underline;
+        }
+
+        /* Image specific CSS */
+        .img-gauche, .img-droite {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .img-gauche {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .img-droite {
+            float: right;
+            margin-left: 20px;
+        }
+
+        .img-moyenne {
+            max-width: 450px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        .img-petite {
+            max-width: 280px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            .img-gauche, .img-droite {
+                float: none;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+                max-width: 100%;
+            }
+            .img-moyenne, .img-petite {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 1. TITRE DE LA SÉQUENCE -->
+        <h1>LE CAHIER DES CHARGES FONCTIONNEL (CDCF)</h1>
+
+        <!-- 2. SITUATION DÉCLENCHANTE -->
+        <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Situation Déclenchante : Le Défi de "TechFutur"</h2>
+            <p>Imaginez l'entreprise "TechFutur", une start-up innovante qui rêve de lancer la trottinette électrique la plus connectée et la plus sûre du marché. Le PDG est super enthousiaste, les ingénieurs sont prêts à souder, les designers ont déjà des croquis incroyables, et les marketeurs imaginent déjà la publicité géniale !</p>
+            <p class="hook">Mais attendez... Comment s'assurer que tout ce beau monde travaille dans la même direction ? Que la trottinette rêvée par le designer est bien celle que l'ingénieur va construire et que le marketeur va vendre ? Sans un guide clair, c'est la pagaille assurée ! Ils utilisent un document secret et super puissant : le **Cahier des Charges Fonctionnel (CdCF)**. Prêt à le décrypter et à découvrir comment il transforme une idée en un produit concret ?</p>
+        </div>
+
+        <!-- 3. OBJECTIFS PÉDAGOGIQUES -->
+        <div class="section objectives">
+            <h2><i class="fas fa-bullseye"></i> Tes Missions, si tu les acceptes...</h2>
+            <p>À la fin de cette séquence, tu seras capable de :</p>
+            <h3>Compétences à maîtriser :</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Traduire un besoin en fonctions de service.</li>
+                <li><i class="fas fa-check-circle"></i> Lister et hiérarchiser les fonctions principales et les fonctions contraintes.</li>
+                <li><i class="fas fa-check-circle"></i> Définir des critères d'appréciation et des niveaux de performance pour chaque fonction.</li>
+            </ul>
+            <h3>Savoirs et connaissances à acquérir :</h3>
+            <ul>
+                <li><i class="fas fa-book"></i> Le Cahier des Charges Fonctionnel (CdCF).</li>
+                <li><i class="fas fa-book"></i> Les Fonctions de service (principale, complémentaire).</li>
+                <li><i class="fas fa-book"></i> Les Fonctions contraintes.</li>
+                <li><i class="fas fa-book"></i> Les Critères d'appréciation (quantifiable ou qualifiable).</li>
+                <li><i class="fas fa-book"></i> Le Niveau de performance (valeur, flexibilité).</li>
+            </ul>
+        </div>
+
+        <!-- 4. INTRODUCTION ET PROBLÉMATIQUE -->
+        <div class="section">
+            <h2><i class="fas fa-puzzle-piece"></i> Introduction : Du Besoin au Produit</h2>
+            <p>Dans la situation de "TechFutur", nous avons vu qu'une bonne idée ne suffit pas. Pour qu'un objet technique voie le jour, il faut qu'il réponde à un besoin précis. Mais comment s'assurer que ce besoin est bien compris par tous ceux qui vont travailler sur le projet ? Historiquement, les artisans et inventeurs travaillaient souvent seuls ou en petits groupes, le "cahier des charges" était alors dans leur tête ! Avec l'industrialisation et la complexité croissante des objets (pense au premier téléphone, puis au smartphone !), il est devenu indispensable de formaliser ces attentes.</p>
+            <p>La problématique centrale de ce cours est donc : <strong>Comment passer d'une idée ou d'un besoin général à la conception détaillée d'un objet technique qui satisfait pleinement son utilisateur et respecte toutes les exigences ?</strong></p>
+            <p>Pour y répondre, nous allons explorer ensemble les différentes facettes du Cahier des Charges Fonctionnel, un outil essentiel en technologie et en ingénierie.</p>
+        </div>
+
+        <!-- 5. DÉVELOPPEMENT DU COURS - EXPLORATION EN PROFONDEUR -->
+        <h2><i class="fas fa-cogs"></i> Développement du Cours : Décortiquons le CdCF</h2>
+
+        <!-- Notion: Cahier des Charges Fonctionnel (CdCF) -->
+        <div class="knowledge-block">
+            <h4><i class="fas fa-file-alt"></i> Le Cahier des Charges Fonctionnel (CdCF)</h4>
+            <img src="image_1.png" class="img-droite img-moyenne" alt="Illustration d'un Cahier des Charges Fonctionnel avec des schémas et du texte.">
+            <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Le Cahier des Charges Fonctionnel (CdCF) est un document qui exprime le besoin d'un utilisateur ou d'un client en termes de fonctions de service que l'objet technique doit remplir. Il ne dit PAS "comment" fabriquer l'objet, mais "ce qu'il doit faire" et "pourquoi". Son enjeu est capital : c'est la feuille de route qui assure que le produit final correspondra aux attentes, évitant ainsi les malentendus, les retards et les coûts supplémentaires.</p>
+            <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Imagine que tu organises une fête d'anniversaire surprise pour un ami. Le CdCF, c'est comme la liste de souhaits (ou "cahier des charges") de ton ami : il doit y avoir de la musique (fonction), des gâteaux (fonction), des jeux (fonction). Tu ne précises pas la marque du gâteau ou le type de musique, mais ce qu'il faut pour que la fête soit réussie et que ton ami soit content !</p>
+            <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong> Pour notre trottinette électrique "TechFutur", le CdCF va lister des éléments comme : "La trottinette doit permettre à l'utilisateur de se déplacer en ville", "Elle doit être facile à transporter", "Elle doit pouvoir se connecter à un smartphone". Pour un Smartphone, le CdCF inclurait : "Permettre de communiquer", "Prendre des photos de qualité", "Accéder à internet".</p>
+            <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour commencer un CdCF, on identifie d'abord l'utilisateur et son besoin principal. On se pose la question : "À quoi sert cet objet pour l'utilisateur ?" Puis, on liste toutes les actions que l'objet doit pouvoir réaliser pour satisfaire ce besoin. Par exemple, pour un drone : "Filmer des vidéos aériennes", "Être pilotable à distance", "Transporter une petite charge".</p>
+            <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> La principale erreur est de commencer à parler de solutions techniques trop tôt. Le CdCF est un document de "quoi", pas de "comment". Ne dis pas "La trottinette aura un moteur de 500W" (c'est une solution), mais "La trottinette doit atteindre une vitesse de 25 km/h" (c'est une fonction). Une autre erreur est d'oublier des fonctions importantes ou d'en ajouter qui ne correspondent pas au besoin réel.</p>
+            <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Les premiers cahiers des charges étaient souvent des documents très simples, parfois de simples lettres. Aujourd'hui, pour des projets complexes comme un avion ou une voiture, un CdCF peut faire des milliers de pages et impliquer des centaines d'experts !</p>
+            <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Français</strong>, le CdCF est un exercice de rédaction claire et précise. En <strong>Mathématiques</strong>, il faut savoir quantifier les besoins (vitesse, autonomie). En <strong>Arts Plastiques</strong>, le design de l'objet est influencé par les fonctions qu'il doit remplir (ergonomie, esthétique).</p>
+            <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Il existe plusieurs types de cahiers des charges (fonctionnel, technique, de maintenance...). Le CdCF est souvent la première étape, avant le Cahier des Charges Technique (CdCT) qui, lui, détaillera les solutions constructives. Les entreprises utilisent des logiciels spécialisés pour gérer ces documents complexes.</p>
+        </div>
+
+        <!-- Notion: Fonctions de service (principale, complémentaire) -->
+        <div class="knowledge-block">
+            <h4><i class="fas fa-tools"></i> Les Fonctions de Service (Principale, Complémentaire)</h4>
+            <img src="image_2.png" class="img-gauche img-moyenne" alt="Schéma expliquant les fonctions principales et complémentaires d'un objet.">
+            <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Une fonction de service est une action qu'un produit doit réaliser pour satisfaire un besoin de l'utilisateur. On distingue la <strong>fonction principale (FP)</strong>, qui est la raison d'être de l'objet, et les <strong>fonctions complémentaires (FC)</strong>, qui améliorent le service rendu ou facilitent l'utilisation. L'enjeu est de bien identifier toutes ces fonctions pour que l'objet soit complet et performant.</p>
+            <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Pense à un stylo. Sa fonction principale (FP) est d'écrire. Mais il peut avoir des fonctions complémentaires (FC) : être beau (esthétique), avoir une gomme (correction), être facile à tenir (ergonomie). Toutes ces FC améliorent l'expérience d'écriture.</p>
+            <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong>
+                <ul>
+                    <li><strong>Trottinette électrique :</strong>
+                        <ul>
+                            <li>FP : Permettre à l'utilisateur de se déplacer rapidement en milieu urbain.</li>
+                            <li>FC : Être pliable pour un rangement facile, avoir un éclairage pour la sécurité nocturne, afficher la vitesse sur un écran, se connecter à une application mobile pour le suivi.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Smartphone :</strong>
+                        <ul>
+                            <li>FP : Permettre à l'utilisateur de communiquer à distance.</li>
+                            <li>FC : Prendre des photos et vidéos, accéder à internet, jouer à des jeux, écouter de la musique, servir de GPS.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+            <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour identifier les fonctions, on utilise souvent le "diagramme pieuvre" (ou graphe des interactions). On place l'objet au centre et on relie les éléments de son environnement (utilisateur, énergie, autres objets...) par des flèches. Chaque flèche représente une interaction qui peut être une fonction. Par exemple, une flèche entre "Trottinette" et "Utilisateur" peut être "Permettre de se déplacer".</p>
+            <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> Ne pas confondre fonction et solution ! "Avoir des roues" n'est pas une fonction, c'est une solution pour se déplacer. La fonction est "Permettre le déplacement". Autre erreur : oublier des fonctions complémentaires qui, même si elles ne sont pas vitales, peuvent rendre le produit beaucoup plus attractif.</p>
+            <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Le concept de "fonction de service" est au cœur de l'analyse de la valeur, une méthode utilisée en ingénierie pour optimiser le rapport qualité/prix d'un produit en se concentrant sur les fonctions essentielles pour l'utilisateur.</p>
+            <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>SVT</strong>, on étudie les fonctions vitales des êtres vivants, ce qui est une forme de "cahier des charges naturel". En <strong>Économie</strong>, la distinction entre fonctions principales et complémentaires aide à définir le positionnement marketing d'un produit.</p>
+            <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Les fonctions de service sont classées selon la norme AFNOR XP X50-150. On parle aussi de "fonctions d'estime" qui sont liées à l'image du produit (design, marque) et qui peuvent être très importantes pour le succès commercial, même si elles ne sont pas directement "utilitaires".</p>
+        </div>
+
+        <!-- Notion: Fonctions contraintes -->
+        <div class="knowledge-block">
+            <h4><i class="fas fa-ban"></i> Les Fonctions Contraintes</h4>
+            <img src="image_3.png" class="img-droite img-petite" alt="Icône représentant des contraintes ou des limites.">
+            <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Une fonction contrainte (FCt) est une exigence que l'objet technique doit respecter, non pas pour satisfaire directement un besoin de l'utilisateur, mais à cause de son environnement, des normes, de la sécurité, des coûts, etc. L'enjeu est de les identifier toutes pour éviter des problèmes légaux, des dangers, ou un coût de production trop élevé.</p>
+            <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Si tu construis une cabane dans ton jardin, la fonction principale est d'avoir un abri. Mais il y a des contraintes : elle doit être stable (sécurité), ne pas dépasser une certaine taille (règlementation de la ville), et ne pas coûter trop cher (budget). Ce sont des fonctions contraintes.</p>
+            <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong>
+                <ul>
+                    <li><strong>Trottinette électrique :</strong>
+                        <ul>
+                            <li>FCt : Respecter la législation sur les engins de déplacement personnel (vitesse max 25 km/h en France), être résistante à l'eau (norme IPX4), avoir une autonomie minimale de 20 km, être fabriquée avec un budget de X euros.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Drone de loisir :</strong>
+                        <ul>
+                            <li>FCt : Respecter la réglementation aérienne (hauteur de vol, zones interdites), avoir une autonomie de batterie suffisante, être résistant aux chocs légers, être facile à transporter.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+            <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour identifier les fonctions contraintes, on se pose des questions sur l'environnement de l'objet : Est-ce qu'il doit respecter des normes de sécurité ? Quel est le budget maximum ? Quelle est la durée de vie attendue ? Où sera-t-il utilisé (chaleur, froid, humidité) ?</p>
+            <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> La confusion entre fonction de service et fonction contrainte est courante. Une fonction de service est ce que l'objet FAIT pour l'utilisateur. Une fonction contrainte est ce que l'objet DOIT RESPECTER. Par exemple, "être rapide" est une fonction de service (pour se déplacer vite), tandis que "ne pas dépasser 25 km/h" est une fonction contrainte (légale).</p>
+            <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Les normes de sécurité sont souvent le résultat d'accidents passés. Par exemple, les normes sur les jouets pour enfants sont très strictes pour éviter les risques d'étouffement ou d'ingestion de petites pièces.</p>
+            <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Éducation Civique</strong>, on comprend l'importance des lois et réglementations que les objets techniques doivent respecter. En <strong>Physique-Chimie</strong>, les contraintes de matériaux (résistance, conductivité) sont étudiées.</p>
+            <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Les fonctions contraintes sont souvent regroupées par catégories : contraintes d'environnement (climatique, mécanique), contraintes d'utilisation (ergonomie), contraintes économiques (coût, maintenance), contraintes réglementaires (normes, lois), contraintes de production (matériaux, procédés).</p>
+        </div>
+
+        <!-- Notion: Critère d'appréciation (quantifiable ou qualifiable) -->
+        <div class="knowledge-block">
+            <h4><i class="fas fa-chart-bar"></i> Les Critères d'Appréciation</h4>
+            <img src="image_4.png" class="img-gauche img-moyenne" alt="Graphique montrant des critères de performance.">
+            <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Un critère d'appréciation est un élément qui permet de juger si une fonction est bien remplie. Il peut être <strong>quantifiable</strong> (mesurable avec un chiffre, ex: "vitesse maximale") ou <strong>qualifiable</strong> (évaluable par une description, ex: "design moderne"). L'enjeu est de rendre les fonctions mesurables ou évaluables pour savoir si l'objectif est atteint.</p>
+            <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Si tu dois évaluer un plat de cuisine, les critères quantifiables seraient "la température" ou "le poids". Les critères qualifiables seraient "le goût" (délicieux, fade) ou "la présentation" (appétissante, désordonnée).</p>
+            <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong>
+                <ul>
+                    <li><strong>Trottinette électrique :</strong>
+                        <ul>
+                            <li>Fonction : Permettre de se déplacer rapidement. Critère quantifiable : Vitesse maximale.</li>
+                            <li>Fonction : Être facile à transporter. Critère qualifiable : Encombrement une fois pliée (faible, moyen, élevé), poids (léger, moyen, lourd).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Smartphone :</strong>
+                        <ul>
+                            <li>Fonction : Prendre des photos de qualité. Critère quantifiable : Résolution de l'appareil photo (en mégapixels). Critère qualifiable : Qualité des couleurs (fidèle, saturée), netteté de l'image (bonne, floue).</li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+            <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour chaque fonction (principale, complémentaire ou contrainte), il faut se demander : "Comment saurai-je si cette fonction est remplie ?" ou "Qu'est-ce qui me permettra de dire que c'est réussi ?". Si c'est un chiffre, c'est quantifiable. Si c'est une description, c'est qualifiable.</p>
+            <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> Ne pas oublier de définir des critères pour TOUTES les fonctions. Une fonction sans critère est difficile à évaluer. Attention aussi à la subjectivité pour les critères qualifiables : il faut essayer d'être le plus précis possible dans la description (ex: "design moderne" peut être précisé par "lignes épurées, couleurs vives").</p>
+            <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Dans l'industrie automobile, des tests très précis sont réalisés pour chaque critère : crash tests pour la sécurité, tests en soufflerie pour l'aérodynamisme, etc. Chaque critère est mesuré avec des instruments de haute précision.</p>
+            <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Physique</strong>, on utilise des instruments de mesure (mètre, chronomètre, voltmètre) pour évaluer les critères quantifiables. En <strong>Arts Plastiques</strong>, on développe un vocabulaire pour décrire et évaluer des critères qualifiables (couleur, forme, texture).</p>
+            <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Les critères d'appréciation sont souvent associés à des protocoles de test pour s'assurer que l'évaluation est reproductible et objective. On parle de "vérification" (est-ce que le produit est conforme au CdCF ?) et de "validation" (est-ce que le produit répond au besoin réel de l'utilisateur ?).</p>
+        </div>
+
+        <!-- Notion: Niveau de performance (valeur, flexibilité) -->
+        <div class="knowledge-block">
+            <h4><i class="fas fa-tachometer-alt"></i> Les Niveaux de Performance</h4>
+            <img src="image_5.png" class="img-droite img-moyenne" alt="Jauge de performance avec des niveaux.">
+            <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Le niveau de performance est la valeur ou la plage de valeurs que le critère d'appréciation doit atteindre. Il peut être exprimé par une <strong>valeur</strong> précise (ex: "25 km/h") ou une <strong>flexibilité</strong> (ex: "entre 20 et 25 km/h"). L'enjeu est de définir des niveaux réalistes et mesurables, qui garantissent la satisfaction du besoin sans rendre la fabrication impossible ou trop coûteuse.</p>
+            <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Si tu dois sauter par-dessus une barre, le critère est la hauteur. Le niveau de performance, c'est la hauteur précise que tu dois atteindre (ex: "1 mètre") ou la flexibilité ("entre 90 cm et 1,10 mètre").</p>
+            <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong>
+                <ul>
+                    <li><strong>Trottinette électrique :</strong>
+                        <ul>
+                            <li>Critère : Vitesse maximale. Niveau de performance : 25 km/h (valeur).</li>
+                            <li>Critère : Autonomie. Niveau de performance : Minimum 20 km (valeur).</li>
+                            <li>Critère : Temps de charge. Niveau de performance : Moins de 4 heures (valeur).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Drone de loisir :</strong>
+                        <ul>
+                            <li>Critère : Portée du signal. Niveau de performance : 500 mètres (valeur).</li>
+                            <li>Critère : Résistance au vent. Niveau de performance : Capable de voler par vent de 20 km/h (valeur).</li>
+                            <li>Critère : Qualité vidéo. Niveau de performance : Résolution 1080p (valeur), Couleurs fidèles (qualifiable, niveau : très bon).</li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+            <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Une fois le critère défini, il faut lui attribuer une valeur chiffrée ou une description précise. Pour les valeurs, on peut utiliser des unités (km/h, kg, heures). Pour la flexibilité, on donne une plage de valeurs (min/max) ou des niveaux (faible, moyen, élevé) avec des descriptions associées.</p>
+            <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> Ne pas fixer des niveaux de performance irréalistes (ex: une trottinette qui va à 200 km/h). Cela rendrait le projet impossible ou trop cher. Ne pas non plus être trop vague (ex: "bonne autonomie" sans chiffre). Il faut trouver le juste équilibre entre l'idéal et le réalisable.</p>
+            <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Les ingénieurs utilisent des "marges de sécurité" pour les niveaux de performance. Par exemple, si une pièce doit supporter 100 kg, elle sera conçue pour en supporter 150 kg, juste au cas où !</p>
+            <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Mathématiques</strong>, on utilise les nombres, les unités et les intervalles pour définir les niveaux de performance. En <strong>Technologie</strong>, la connaissance des matériaux et des technologies existantes aide à définir des niveaux de performance réalistes.</p>
+            <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Les niveaux de performance peuvent être associés à des "niveaux de criticité" (obligatoire, souhaitable, optionnel). Cela permet de hiérarchiser les exigences et de prendre des décisions en cas de compromis. La "méthode APTE" (Application aux Projets par la Théorie de l'Évaluation) est une approche avancée pour définir et évaluer les performances.</p>
+        </div>
+
+        <!-- 6. AVENIR ET PERSPECTIVES -->
+        <div class="section">
+            <h2><i class="fas fa-globe-americas"></i> Avenir et Perspectives : Vers des Objets Toujours Plus Intelligents</h2>
+            <p>Le Cahier des Charges Fonctionnel est un document vivant qui évolue avec les technologies et les besoins. L'avenir des objets techniques est passionnant !</p>
+            <ul>
+                <li><strong>Innovation continue :</strong> Nos trottinettes électriques seront peut-être autonomes, nos smartphones projetteront des hologrammes, et nos drones livreront nos repas en quelques minutes. Le CdCF devra s'adapter à ces nouvelles fonctions.</li>
+                <li><strong>Impacts Sociétaux :</strong> Ces innovations transforment nos villes, nos modes de vie, notre façon de travailler et de communiquer. Elles posent des questions éthiques (vie privée avec les données des smartphones), environnementales (recyclage des batteries de trottinettes), et de sécurité (réglementation des drones).</li>
+                <li><strong>Nouveaux Métiers :</strong> De nombreux métiers émergent autour de la conception, de la fabrication, de la maintenance et de la réglementation de ces objets. Pense aux ingénieurs en intelligence artificielle, aux experts en cybersécurité, aux designers d'interfaces utilisateur, ou aux spécialistes de la logistique par drone.</li>
+            </ul>
+            <p>Le CdCF sera toujours là pour s'assurer que ces objets, aussi futuristes soient-ils, répondent à un besoin clair et respectent les contraintes de notre monde.</p>
+        </div>
+
+        <!-- 7. CONCLUSION -->
+        <div class="section">
+            <h2><i class="fas fa-check-double"></i> Conclusion : La Clé du Succès d'un Projet</h2>
+            <p>Pour répondre à notre problématique initiale ("Comment passer d'une idée ou d'un besoin général à la conception détaillée d'un objet technique ?"), nous avons découvert que le <strong>Cahier des Charges Fonctionnel (CdCF)</strong> est l'outil indispensable. Il permet de transformer une idée en un ensemble clair de fonctions et d'exigences.</p>
+            <p>En identifiant les fonctions de service (principales et complémentaires) et les fonctions contraintes, puis en définissant pour chacune des critères d'appréciation et des niveaux de performance, on s'assure que tous les acteurs d'un projet (ingénieurs, designers, marketeurs) travaillent vers un objectif commun et bien défini. C'est la garantie que l'objet final sera non seulement fonctionnel, mais aussi adapté aux besoins de l'utilisateur et aux réalités du monde qui l'entoure.</p>
+        </div>
+
+        <!-- 8. EXERCICES D'AUTO-ÉVALUATION -->
+        <div class="section">
+            <h2><i class="fas fa-question-circle"></i> Exercices d'Auto-Évaluation</h2>
+
+            <div class="exercise-block">
+                <h3>Exercice 1 : Identifie la Fonction !</h3>
+                <p>Pour chaque affirmation, dis s'il s'agit d'une <strong>Fonction Principale (FP)</strong>, une <strong>Fonction Complémentaire (FC)</strong> ou une <strong>Fonction Contrainte (FCt)</strong> pour un <strong>Smartphone</strong>.</p>
+                <ol>
+                    <li>Permettre de passer des appels.
+                        <select id="q1">
+                            <option value="">Choisir...</option>
+                            <option value="FP">FP</option>
+                            <option value="FC">FC</option>
+                            <option value="FCt">FCt</option>
+                        </select>
+                    </li>
+                    <li>Avoir une autonomie de batterie de 24h minimum.
+                        <select id="q2">
+                            <option value="">Choisir...</option>
+                            <option value="FP">FP</option>
+                            <option value="FC">FC</option>
+                            <option value="FCt">FCt</option>
+                        </select>
+                    </li>
+                    <li>Permettre de prendre des photos de haute qualité.
+                        <select id="q3">
+                            <option value="">Choisir...</option>
+                            <option value="FP">FP</option>
+                            <option value="FC">FC</option>
+                            <option value="FCt">FCt</option>
+                        </select>
+                    </li>
+                </ol>
+                <button onclick="checkExercise1()">Vérifier</button>
+                <div id="feedback1" class="exercise-feedback"></div>
+            </div>
+
+            <div class="exercise-block">
+                <h3>Exercice 2 : Critère ou Niveau ?</h3>
+                <p>Pour la fonction "La trottinette électrique doit rouler vite", indique si l'affirmation est un <strong>Critère d'appréciation (C)</strong> ou un <strong>Niveau de performance (N)</strong>.</p>
+                <ol>
+                    <li>Vitesse maximale.
+                        <select id="q4">
+                            <option value="">Choisir...</option>
+                            <option value="C">C</option>
+                            <option value="N">N</option>
+                        </select>
+                    </li>
+                    <li>25 km/h.
+                        <select id="q5">
+                            <option value="">Choisir...</option>
+                            <option value="C">C</option>
+                            <option value="N">N</option>
+                        </select>
+                    </li>
+                </ol>
+                <button onclick="checkExercise2()">Vérifier</button>
+                <div id="feedback2" class="exercise-feedback"></div>
+            </div>
+
+            <div class="exercise-block">
+                <h3>Exercice 3 : Complète le CdCF du Drone !</h3>
+                <p>Complète le tableau pour la fonction "Le drone doit être facile à piloter".</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fonction</th>
+                            <th>Critère d'appréciation</th>
+                            <th>Niveau de performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Le drone doit être facile à piloter.</td>
+                            <td><input type="text" id="q6_critere" placeholder="Ex: Nombre de commandes"></td>
+                            <td><input type="text" id="q6_niveau" placeholder="Ex: Moins de 5 boutons"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button onclick="checkExercise3()">Vérifier</button>
+                <div id="feedback3" class="exercise-feedback"></div>
+            </div>
+        </div>
+
+        <!-- 9. SYNTHÈSE VISUELLE (FORMAT CARTE MENTALE) -->
+        <div class="section synthesis">
+            <h2><i class="fas fa-map-marked-alt"></i> Synthèse Visuelle : La Carte Mentale du CdCF</h2>
+            <ul>
+                <li><strong>LE CAHIER DES CHARGES FONCTIONNEL (CdCF)</strong>
+                    <ul>
+                        <li>Document clé pour la conception d'un objet.</li>
+                        <li>Exprime le "QUOI" (ce que l'objet doit faire), pas le "COMMENT".</li>
+                        <li>Assure que tous travaillent vers le même but.</li>
+                    </ul>
+                </li>
+                <li><strong>LES FONCTIONS DE SERVICE</strong>
+                    <ul>
+                        <li><strong>Fonction Principale (FP) :</strong> La raison d'être de l'objet (ex: se déplacer pour la trottinette).</li>
+                        <li><strong>Fonctions Complémentaires (FC) :</strong> Améliorent le service, facilitent l'utilisation (ex: pliable, éclairage).</li>
+                    </ul>
+                </li>
+                <li><strong>LES FONCTIONS CONTRAINTES (FCt)</strong>
+                    <ul>
+                        <li>Exigences à respecter liées à l'environnement, normes, coûts, sécurité (ex: vitesse max 25 km/h, budget).</li>
+                    </ul>
+                </li>
+                <li><strong>LES CRITÈRES D'APPRÉCIATION</strong>
+                    <ul>
+                        <li>Permettent de juger si une fonction est remplie.</li>
+                        <li><strong>Quantifiable :</strong> Mesurable (ex: vitesse maximale).</li>
+                        <li><strong>Qualifiable :</strong> Descriptible (ex: design moderne).</li>
+                    </ul>
+                </li>
+                <li><strong>LES NIVEAUX DE PERFORMANCE</strong>
+                    <ul>
+                        <li>La valeur ou la plage que le critère doit atteindre.</li>
+                        <li><strong>Valeur :</strong> Chiffre précis (ex: 25 km/h).</li>
+                        <li><strong>Flexibilité :</strong> Plage de valeurs (ex: entre 20 et 25 km/h).</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 10. LEXIQUE / GLOSSAIRE DES TERMES CLÉS -->
+        <div class="section glossary">
+            <h2><i class="fas fa-book-open"></i> Lexique / Glossaire des Termes Clés</h2>
+            <dl>
+                <dt><strong>Cahier des Charges Fonctionnel (CdCF) :</strong></dt>
+                <dd>Document décrivant les fonctions et contraintes d'un produit, exprimées en termes de services rendus à l'utilisateur.</dd>
+                <dt><strong>Critère d'appréciation :</strong></dt>
+                <dd>Élément mesurable ou descriptible permettant de juger si une fonction est remplie.</dd>
+                <dt><strong>Fonction Complémentaire (FC) :</strong></dt>
+                <dd>Action secondaire qu'un produit doit réaliser pour améliorer le service rendu ou faciliter son utilisation.</dd>
+                <dt><strong>Fonction Contrainte (FCt) :</strong></dt>
+                <dd>Exigence que l'objet doit respecter en raison de son environnement, de normes, de coûts, etc.</dd>
+                <dt><strong>Fonction Principale (FP) :</strong></dt>
+                <dd>Action principale qu'un produit doit réaliser pour satisfaire le besoin essentiel de l'utilisateur.</dd>
+                <dt><strong>Fonction de service :</strong></dt>
+                <dd>Action qu'un produit doit réaliser pour satisfaire un besoin de l'utilisateur.</dd>
+                <dt><strong>Niveau de performance :</strong></dt>
+                <dd>Valeur ou plage de valeurs que le critère d'appréciation doit atteindre.</dd>
+                <dt><strong>Quantifiable :</strong></dt>
+                <dd>Qui peut être mesuré par un chiffre ou une quantité.</dd>
+                <dt><strong>Qualifiable :</strong></dt>
+                <dd>Qui peut être évalué par une description ou une qualité.</dd>
+            </dl>
+        </div>
+
+        <!-- 11. POUR ALLER PLUS LOIN -->
+        <div class="section further-reading">
+            <h2><i class="fas fa-compass"></i> Pour Aller Plus Loin...</h2>
+            <ul>
+                <li>
+                    <strong>Mini-projet à réaliser :</strong> Choisis un objet technique simple de ton quotidien (une gourde, un sac à dos, une lampe de poche) et essaie de rédiger son Cahier des Charges Fonctionnel. Identifie sa FP, ses FC, ses FCt, et propose des critères et niveaux de performance.
+                </li>
+                <li>
+                    <strong>Vidéo de référence à regarder :</strong> Cherche sur YouTube "Qu'est-ce qu'un cahier des charges ?" ou "Design thinking explication". Tu trouveras des vidéos qui illustrent ces concepts de manière ludique.
+                </li>
+                <li>
+                    <strong>Métier à découvrir :</strong> Le métier d'<strong>Ingénieur Produit</strong> ou de <strong>Chef de Projet Technique</strong>. Ces professionnels sont au cœur de la définition et du suivi du Cahier des Charges Fonctionnel pour s'assurer que les produits voient le jour et répondent aux attentes.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function checkExercise1() {
+            let score = 0;
+            const q1 = document.getElementById('q1').value;
+            const q2 = document.getElementById('q2').value;
+            const q3 = document.getElementById('q3').value;
+            const feedback1 = document.getElementById('feedback1');
+
+            let results = [];
+            if (q1 === 'FP') { score++; results.push("1. Correct !"); } else { results.push("1. Incorrect."); }
+            if (q2 === 'FCt') { score++; results.push("2. Correct !"); } else { results.push("2. Incorrect."); }
+            if (q3 === 'FC') { score++; results.push("3. Correct !"); } else { results.push("3. Incorrect."); }
+
+            feedback1.innerHTML = results.join('<br>');
+            if (score === 3) {
+                feedback1.className = 'exercise-feedback correct';
+                feedback1.innerHTML += '<br>Bravo, tu as tout bon !';
+            } else {
+                feedback1.className = 'exercise-feedback incorrect';
+                feedback1.innerHTML += `<br>Tu as ${score} bonne(s) réponse(s) sur 3. Relis bien la leçon !`;
+            }
+        }
+
+        function checkExercise2() {
+            let score = 0;
+            const q4 = document.getElementById('q4').value;
+            const q5 = document.getElementById('q5').value;
+            const feedback2 = document.getElementById('feedback2');
+
+            let results = [];
+            if (q4 === 'C') { score++; results.push("1. Correct !"); } else { results.push("1. Incorrect."); }
+            if (q5 === 'N') { score++; results.push("2. Correct !"); } else { results.push("2. Incorrect."); }
+
+            feedback2.innerHTML = results.join('<br>');
+            if (score === 2) {
+                feedback2.className = 'exercise-feedback correct';
+                feedback2.innerHTML += '<br>Excellent ! Tu maîtrises la différence.';
+            } else {
+                feedback2.className = 'exercise-feedback incorrect';
+                feedback2.innerHTML += `<br>Tu as ${score} bonne(s) réponse(s) sur 2. Attention aux définitions !`;
+            }
+        }
+
+        function checkExercise3() {
+            const critere = document.getElementById('q6_critere').value.toLowerCase();
+            const niveau = document.getElementById('q6_niveau').value.toLowerCase();
+            const feedback3 = document.getElementById('feedback3');
+
+            let correct = false;
+            if (critere.includes('nombre de commandes') && niveau.includes('moins de 5 boutons')) {
+                correct = true;
+            } else if (critere.includes('facilité d\'utilisation') && niveau.includes('interface intuitive')) {
+                correct = true;
+            } else if (critere.includes('temps d\'apprentissage') && niveau.includes('moins de 10 minutes')) {
+                correct = true;
+            }
+
+            if (correct) {
+                feedback3.className = 'exercise-feedback correct';
+                feedback3.innerHTML = 'Très bien ! Tes propositions sont pertinentes et logiques.';
+            } else {
+                feedback3.className = 'exercise-feedback incorrect';
+                feedback3.innerHTML = 'Pas tout à fait. Pense à des critères mesurables ou des descriptions précises. Exemples possibles :<br>Critère: "Nombre de commandes" / Niveau: "Moins de 5 boutons"<br>Critère: "Temps d\'apprentissage" / Niveau: "Moins de 10 minutes"';
+            }
+        }
+    </script>
+</body>
+</html>

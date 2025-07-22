@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séquence : Ergonomie et Design - L'expérience utilisateur (UX)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Baloo+2:wght@700&display=swap');
+
+        :root {
+            --color-primary: #3f8f14; /* Green */
+            --color-secondary: #f97316; /* Orange */
+            --color-accent: #ee3a79; /* Pink/Magenta */
+            --color-text: #1f2937;
+            --color-bg: #f9fafb;
+            --color-white: #ffffff;
+            --color-success: #16a34a;
+            --color-danger: #dc2626;
+            --font-title: 'Baloo 2', cursive;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--color-white);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-title);
+            color: var(--color-primary);
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+        }
+        
+        h1 { font-size: 2.8em; text-align: center; color: var(--color-white); background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); padding: 20px; border-radius: 8px 8px 0 0; margin: -20px -20px 20px -20px;}
+        h2 { font-size: 2.2em; border-bottom: 3px solid var(--color-accent); padding-bottom: 10px;}
+        h3 { font-size: 1.8em; color: #2f6f0f;}
+        h4 { font-size: 1.4em; color: var(--color-accent);}
+
+        hr {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--color-accent), transparent);
+            margin: 40px 0;
+        }
+        
+        .hook-box {
+            background-color: #fff7ed;
+            border-left: 5px solid var(--color-secondary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            position: relative;
+        }
+        .hook-box::before {
+            content: '🎮';
+            font-size: 2em;
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--color-secondary);
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        .objectives {
+            display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;
+        }
+        .objectives > div {
+            flex: 1; min-width: 280px; padding: 20px; border-radius: 8px;
+        }
+        .objectives .skills {
+            background-color: #f0fdf4; border: 2px solid var(--color-primary);
+        }
+        .objectives .knowledge {
+            background-color: #fffbeb; border: 2px solid var(--color-accent);
+        }
+        .objectives h3 { margin-top: 0; font-size: 1.5em; }
+        ul { list-style: none; padding-left: 20px; }
+        .objectives ul li::before { content: '🏆'; color: var(--color-accent); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+
+        .knowledge-block h4 {
+            margin-top: 15px; margin-bottom: 10px; padding-left: 10px; border-left: 4px solid var(--color-secondary);
+        }
+        .card {
+            background: #f9fafb; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px solid #f3f4f6;
+        }
+        .did-you-know {
+            background-color: #fefce8; border: 1px solid #facc15; padding: 15px; border-radius: 8px; margin: 15px 0; position: relative; overflow: hidden;
+        }
+        .did-you-know::before {
+            content: "💡"; font-size: 3em; position: absolute; right: 10px; bottom: -10px; color: #facc15; opacity: 0.2;
+        }
+        .expert-box {
+            background-color: #f5f3ff; border: 1px solid var(--color-primary);
+        }
+        .expert-box::before { content: "🚀"; opacity: 0.3; }
+
+        .img-gauche, .img-droite {
+            border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 15px;
+        }
+        .img-gauche { float: left; margin-right: 20px; }
+        .img-droite { float: right; margin-left: 20px; }
+        .img-moyenne { max-width: 450px; width: 100%; }
+        .img-petite { max-width: 280px; width: 100%; }
+        .knowledge-block::after, .card::after, .section::after { content: ""; display: table; clear: both; }
+        
+        /* --- Accordion --- */
+        .accordion-title {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .accordion-title:hover { background-color: #f0fdf4; }
+        .accordion-title::after {
+            content: '+';
+            font-size: 2em;
+            color: var(--color-primary);
+            transition: transform 0.3s;
+        }
+        .accordion.active .accordion-title::after {
+            transform: rotate(45deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        /* --- Flip Cards --- */
+        .interactive-concepts {
+            display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 20px 0; perspective: 1000px;
+        }
+        .flip-card {
+            background-color: transparent; width: 250px; height: 150px; border: none; cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 10px;
+        }
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 10px; display: flex; justify-content: center; align-items: center; padding: 10px; font-size: 1.2em;
+        }
+        .flip-card-front {
+            background: linear-gradient(135deg, var(--color-primary), #84cc16); color: white;
+        }
+        .flip-card-back {
+            background-color: var(--color-accent); color: white; transform: rotateY(180deg);
+        }
+
+        /* --- Hotspots --- */
+        .hotspot-container {
+            position: relative;
+            max-width: 450px;
+            margin: 15px auto;
+        }
+        .hotspot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--color-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(0.95); }
+        }
+        .hotspot-tooltip {
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-text);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 10;
+        }
+        .hotspot:hover .hotspot-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* --- Interactive Exercises --- */
+        .exercise-card {
+            background: var(--color-white); border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        .exercise-card h4 { margin-top: 0; color: var(--color-primary); }
+        .qcm-options .option, .true-false-options .option {
+            display: block; background: #f3f4f6; padding: 12px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease-in-out;
+        }
+        .qcm-options .option:hover, .true-false-options .option:hover {
+            border-color: var(--color-accent); transform: translateY(-2px);
+        }
+        .qcm-options .option.selected, .true-false-options .option.selected {
+            border-color: var(--color-primary); background-color: #e0e7ff;
+        }
+        .qcm-options .option.correct, .true-false-options .option.correct { background-color: #dcfce7; border-color: var(--color-success); }
+        .qcm-options .option.incorrect, .true-false-options .option.incorrect { background-color: #fee2e2; border-color: var(--color-danger); }
+        
+        .fill-in-the-blanks p { font-size: 1.1em; line-height: 2; }
+        .fill-in-the-blanks input {
+            width: 120px; border: none; border-bottom: 2px solid #9ca3af; background: transparent; text-align: center; font-family: var(--font-body); font-size: 1em; transition: all 0.2s;
+        }
+        .fill-in-the-blanks input:focus { outline: none; border-bottom-color: var(--color-primary); }
+        .fill-in-the-blanks input.correct { border-bottom-color: var(--color-success); background-color: #dcfce7; }
+        .fill-in-the-blanks input.incorrect { border-bottom-color: var(--color-danger); background-color: #fee2e2; }
+
+        .open-question textarea {
+            width: 100%; min-height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #d1d5db; font-family: var(--font-body); resize: vertical;
+        }
+        .open-question .hidden-content {
+            display: none; margin-top: 10px; padding: 15px; background-color: #f9fafb; border-radius: 8px;
+        }
+        
+        .exercise-feedback {
+            display: none; margin-top: 15px; padding: 10px; border-radius: 8px; font-weight: bold;
+        }
+        .exercise-feedback.correct { display: block; background-color: #dcfce7; color: #166534; }
+        .exercise-feedback.incorrect { display: block; background-color: #fee2e2; color: #991b1b; }
+        
+        .btn-verify {
+            background-color: var(--color-primary); color: var(--color-white); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: var(--font-body); font-weight: bold; margin-top: 10px; transition: all 0.2s ease-in-out;
+        }
+        .btn-verify:hover {
+            background-color: #2f6f0f; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-secondary { background-color: #6b7280; }
+        .btn-secondary:hover { background-color: #4b5563; }
+
+        /* Lexicon */
+        .lexicon dl dt { font-weight: bold; color: var(--color-primary); }
+        .lexicon dl dd { margin-left: 20px; margin-bottom: 10px; }
+
+        .go-further .card-link {
+            display: block; text-decoration: none; color: var(--color-text); padding: 20px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .go-further .card-link:hover {
+            transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .go-further h4 { margin-top: 0; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 1. TITRE DE LA SÉQUENCE -->
+    <h1>2. ERGONOMIE ET DESIGN : L'EXPÉRIENCE UTILISATEUR (UX)</h1>
+
+    <!-- 2. SITUATION DÉCLENCHANTE -->
+    <section class="section">
+        <h2>2. Situation Déclenchante : Le secret des objets qu'on adore</h2>
+        <div class="hook-box">
+            Tu viens de passer une heure sur un jeu vidéo avec une manette qui semble être le prolongement de tes mains. Tout est fluide, intuitif. Juste après, tu essaies de configurer une application sur ton smartphone et c'est la catastrophe : les menus sont incompréhensibles, les boutons sont trop petits... Tu abandonnes, frustré(e).<br><br>
+            Pourquoi une expérience est-elle si agréable et l'autre si pénible ? Le hasard ? Certainement pas ! C'est une science appelée <strong>ergonomie</strong> et une discipline, le <strong>design de l'expérience utilisateur (UX)</strong>. Ensemble, nous allons analyser une interface de pilotage de drone pour percer les secrets d'un design qui ne laisse pas l'utilisateur sur le bord de la route.
+        </div>
+    </section>
+
+    <hr>
+
+    <!-- 3. OBJECTIFS PÉDAGOGIQUES -->
+    <section class="section">
+        <h2>3. Ta mission, si tu l'acceptes...</h2>
+        <div class="objectives">
+            <div class="skills">
+                <h3>Compétences à maîtriser</h3>
+                <ul>
+                    <li>Analyser l'ergonomie d'un produit ou d'une interface.</li>
+                    <li>Évaluer le confort, la facilité et l'efficacité d'utilisation.</li>
+                    <li>Proposer des améliorations concrètes pour une Interface Homme-Machine (IHM).</li>
+                </ul>
+            </div>
+            <div class="knowledge">
+                <h3>Savoirs et connaissances à acquérir</h3>
+                <ul>
+                    <li>Ergonomie (physique, cognitive, organisationnelle).</li>
+                    <li>Confort d'utilisation.</li>
+                    <li>Interface Homme-Machine (IHM).</li>
+                    <li>Design d'interaction.</li>
+                    <li>Expérience Utilisateur (UX Design).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <!-- 4. INTRODUCTION ET PROBLÉMATIQUE -->
+    <section class="section">
+        <h2>4. Introduction et Problématique</h2>
+        <p>
+            Au-delà de son apparence (sa fonction d'estime) et de son utilité (sa fonction d'usage), un objet technique se juge sur le plaisir et la simplicité que l'on a à l'utiliser. C'est là qu'interviennent l'ergonomie et le design UX. Ces disciplines ne sont pas nouvelles, elles ont commencé dans l'industrie et l'aviation pour rendre les postes de travail plus sûrs et plus efficaces. Aujourd'hui, elles sont au cœur de la conception de tous les produits numériques que nous utilisons.
+        </p>
+        <p>
+            De la forme d'une manette de jeu à la disposition des icônes sur l'écran d'un smartphone, chaque détail est pensé pour nous. Mais sur quels critères se basent les concepteurs pour prendre ces décisions ?
+        </p>
+        <p>
+            Notre problématique sera donc : <strong>Comment l'ergonomie et le design d'expérience utilisateur (UX) permettent-ils de concevoir des produits et des interfaces qui sont à la fois efficaces, faciles et agréables à utiliser ?</strong>
+        </p>
+        <p>
+            Pour y répondre, nous allons décortiquer ce qu'est l'ergonomie, comprendre la notion d'Interface Homme-Machine, et enfin assembler toutes les pièces du puzzle avec le design d'interaction et l'UX.
+        </p>
+    </section>
+
+    <hr>
+    
+    <!-- Concepts Clés Interactifs -->
+    <section>
+        <h2>Concepts Clés Interactifs</h2>
+        <p>Clique sur les cartes pour découvrir la définition des concepts que nous allons explorer.</p>
+        <div class="interactive-concepts">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>Ergonomie</h3></div>
+                    <div class="flip-card-back"><p>Adapter l'objet à l'humain (corps et esprit).</p></div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>IHM</h3></div>
+                    <div class="flip-card-back"><p>Le point de contact entre toi et la machine (écran, manette).</p></div>
+                </div>
+            </div>
+             <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>UX vs UI</h3></div>
+                    <div class="flip-card-back"><p>UX = le ressenti global. UI = l'aspect visuel.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <!-- 5. DÉVELOPPEMENT DU COURS -->
+    <section class="section">
+        <h2>5. Développement du cours - Exploration en profondeur</h2>
+
+        <div class="accordion">
+            <div class="accordion-title"><h3>Ergonomie (physique, cognitive, organisationnelle)</h3></div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <div class="hotspot-container img-droite">
+                        <img src="image_1.png" class="img-moyenne" alt="Infographie montrant les 3 types d'ergonomie.">
+                        <div class="hotspot" style="top: 45%; left: 20%;">
+                            <span class="hotspot-tooltip"><strong>Physique :</strong> Concerne le corps. La forme de la manette doit éviter les crampes.</span>
+                        </div>
+                        <div class="hotspot" style="top: 25%; left: 55%;">
+                            <span class="hotspot-tooltip"><strong>Cognitive :</strong> Concerne le cerveau. Les symboles sur les boutons doivent être faciles à comprendre.</span>
+                        </div>
+                        <div class="hotspot" style="top: 70%; left: 80%;">
+                            <span class="hotspot-tooltip"><strong>Organisationnelle :</strong> Concerne l'efficacité. L'interface doit bien organiser les informations pour une équipe.</span>
+                        </div>
+                    </div>
+                    <h4>a) 🎓 Définition Académique et Enjeux</h4>
+                    <p>L'<strong>ergonomie</strong> est la science qui étudie l'interaction entre les êtres humains et les autres éléments d'un système. Son but est d'adapter le travail, les outils et l'environnement aux capacités et aux limites de l'Homme pour améliorer son bien-être et sa performance. On la divise souvent en trois branches.</p>
+                    <h4>b) 🧠 Analogie et Simplification Pédagogique</h4>
+                    <p>L'ergonomie, c'est comme choisir la bonne taille de chaussures. Des chaussures trop petites (mauvaise ergonomie physique) te font mal. Des lacets trop compliqués (mauvaise ergonomie cognitive) te font perdre du temps. Devoir changer de chaussures toutes les 5 minutes (mauvaise ergonomie organisationnelle) est inefficace. Des chaussures parfaitement adaptées, c'est ça, l'ergonomie réussie !</p>
+                    <h4>c) 📱 Étude de Cas Concrète</h4>
+                    <div class="card">
+                        <p>Prenons la <strong>manette de jeu vidéo</strong> :</p>
+                        <ul>
+                            <li><strong>Ergonomie physique :</strong> La forme de la manette doit épouser celle des mains. Le poids doit être équilibré. Les boutons et joysticks doivent être accessibles sans effort.</li>
+                            <li><strong>Ergonomie cognitive :</strong> Les symboles sur les boutons (croix, rond, carré, triangle) doivent être faciles à mémoriser. Les vibrations doivent donner des informations claires (un choc, un tir...).</li>
+                            <li><strong>Ergonomie organisationnelle :</strong> Dans un jeu en équipe, l'interface doit montrer clairement la vie et le statut de tes coéquipiers pour bien s'organiser.</li>
+                        </ul>
+                    </div>
+                    <h4>d) 🛠️ Décortiquage Technique - "Sous le Capot"</h4>
+                    <p>Comment analyser l'ergonomie d'une trottinette électrique ?</p>
+                    <ol>
+                        <li><strong>Analyse physique :</strong> La hauteur du guidon est-elle réglable ? La position des poignées de frein et de l'accélérateur est-elle naturelle ? Le plateau est-il assez large et antidérapant ?</li>
+                        <li><strong>Analyse cognitive :</strong> L'écran d'affichage est-il lisible en plein soleil ? Les informations (vitesse, batterie) sont-elles comprises d'un seul coup d'œil ? Le son émis au démarrage est-il clair ?</li>
+                        <li><strong>Analyse organisationnelle :</strong> Le pliage de la trottinette est-il rapide et simple pour la prendre dans les transports en commun ? Le temps de charge de <span class="counter" data-target="180">0</span> minutes s'intègre-t-il bien dans une journée type ?</li>
+                    </ol>
+                    <h4>e) 🤔 Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Penser qu'à la beauté :</strong> Un objet peut être magnifique mais totalement inconfortable. L'ergonomie prime sur l'esthétique pure.</li>
+                        <li><strong>Concevoir pour soi-même :</strong> Un designer adulte avec de grandes mains ne doit pas concevoir une manette pour un enfant de 10 ans en se basant sur son propre confort. Il faut penser à l'utilisateur final.</li>
+                    </ul>
+                    <h4>f) 💡 Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <div class="did-you-know">
+                        Le clavier que tu utilises (AZERTY ou QWERTY) n'a pas du tout été conçu pour être le plus rapide à utiliser ! Au contraire, il a été inventé à l'époque des machines à écrire pour... ralentir la frappe ! Les secrétaires tapaient si vite que les tiges métalliques des lettres se coinçaient. Le clavier a donc été organisé pour séparer les paires de lettres les plus fréquentes. Un exemple historique d'ergonomie pensée pour la machine, et non pour l'humain !
+                    </div>
+                    <h4>g) 🤝 Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>SVT :</strong> L'ergonomie physique est directement liée à l'étude du corps humain (biomécanique, anthropométrie - la science des mesures du corps).</li>
+                        <li><strong>Psychologie :</strong> L'ergonomie cognitive fait appel à la psychologie cognitive, qui étudie comment notre cerveau perçoit, mémorise et traite l'information.</li>
+                    </ul>
+                    <h4>h) 🚀 Pour les Experts (Approfondissement)</h4>
+                    <div class="card expert-box">
+                        Les ergonomes utilisent des outils de mesure très précis : des capteurs de pression pour analyser l'appui des mains sur une manette, des systèmes d'eye-tracking (suivi du regard) pour voir où l'utilisateur regarde sur un écran, et même des électroencéphalogrammes (EEG) pour mesurer la charge mentale. Le but est de passer d'une impression ("c'est facile") à des données objectives et chiffrées.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-title"><h3>Interface Homme-Machine (IHM)</h3></div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <img src="image_2.png" class="img-gauche img-moyenne" alt="Montage montrant une interface de smartphone, une manette de jeu et un tableau de bord de voiture.">
+                    <h4>a) 🎓 Définition Académique et Enjeux</h4>
+                    <p>L'<strong>Interface Homme-Machine (IHM)</strong>, en anglais Human-Machine Interface (HMI), est le moyen par lequel un utilisateur interagit avec une machine. Elle inclut tous les éléments qui permettent de donner des ordres à la machine (entrées) et de recevoir des informations en retour (sorties). Une bonne IHM est "transparente" : on l'oublie et on se concentre sur sa tâche.</p>
+                    <h4>b) 🧠 Analogie et Simplification Pédagogique</h4>
+                    <p>L'IHM, c'est comme la couverture et les pages d'un livre. Pour lire l'histoire (la fonction de la machine), tu dois pouvoir ouvrir le livre, tourner les pages, et le texte doit être lisible. La couverture, les pages, la police de caractères, c'est l'interface. Une mauvaise IHM, c'est un livre avec des pages collées ou écrit en tout petit : tu n'arrives pas à accéder à l'histoire !</p>
+                    <h4>c) 📱 Étude de Cas Concrète</h4>
+                    <div class="card">
+                        <ul>
+                            <li><strong>Smartphone :</strong> L'IHM est l'écran tactile (entrée/sortie), les boutons de volume (entrée), le haut-parleur (sortie), le vibreur (sortie), et bien sûr, toute l'interface graphique (icônes, menus...).</li>
+                            <li><strong>Drone de loisir :</strong> L'IHM est composée de la radiocommande (joysticks, boutons) et de l'interface sur l'écran du smartphone qui affiche le retour vidéo et les données de vol (altitude, vitesse, batterie).</li>
+                        </ul>
+                    </div>
+                    <h4>d) 🛠️ Décortiquage Technique - "Sous le Capot"</h4>
+                    <p>Comment décortiquer l'IHM de l'application de pilotage d'un drone ?</p>
+                    <ol>
+                        <li><strong>Lister les Entrées (ce que fait l'utilisateur) :</strong> Toucher le bouton "Décollage", incliner le joystick sur la radiocommande pour avancer, appuyer sur le bouton "Photo".</li>
+                        <li><strong>Lister les Sorties (ce que la machine répond) :</strong> L'application affiche "Décollage en cours...", le retour vidéo montre le drone qui s'élève, un son "clic" confirme la prise de photo et une miniature apparaît à l'écran.</li>
+                        <li><strong>Évaluer l'efficacité :</strong> L'information de la batterie est-elle bien visible ? Le bouton d'atterrissage d'urgence est-il facile à trouver ? Le lien entre l'action sur le joystick et le mouvement du drone est-il immédiat ?</li>
+                    </ol>
+                    <h4>e) 🤔 Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Confondre IHM et logiciel :</strong> L'IHM n'est que la "surface" visible et interactive. Le logiciel, c'est tout le code qui est derrière et qui fait les calculs.</li>
+                        <li><strong>Surcharger l'interface :</strong> Une erreur classique est de vouloir tout afficher en même temps. Une bonne IHM montre la bonne information au bon moment, et cache le reste.</li>
+                    </ul>
+                    <h4>f) 💡 Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <div class="did-you-know">
+                        La première IHM grand public a été popularisée par le Macintosh d'Apple en <span class="counter" data-target="1984">0</span>. Avant cela, pour interagir avec un ordinateur, il fallait taper des lignes de commande complexes. Le Macintosh a introduit la "métaphore du bureau" avec des icônes (fichiers, corbeille), des fenêtres et surtout, la souris ! Une révolution qui a rendu l'informatique accessible à tous.
+                    </div>
+                    <h4>g) 🤝 Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>Arts Plastiques :</strong> Le design graphique (choix des couleurs, des icônes, des typographies) est une composante essentielle d'une IHM réussie.</li>
+                        <li><strong>Anglais :</strong> De nombreux termes de l'IHM viennent de l'anglais : UI (User Interface), GUI (Graphical User Interface), HMI (Human-Machine Interface).</li>
+                    </ul>
+                    <h4>h) 🚀 Pour les Experts (Approfondissement)</h4>
+                    <div class="card expert-box">
+                        On parle de plus en plus d'interfaces "multimodales", qui combinent plusieurs modes d'interaction. Par exemple, dans une voiture, tu peux utiliser l'écran tactile (visuel/tactile), les commandes au volant (tactile) et la commande vocale (oral). Le défi est de rendre la transition entre ces modes fluide et naturelle. Les assistants comme Siri ou Google Assistant sont des IHM purement vocales (VUI - Voice User Interface).
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion">
+            <div class="accordion-title"><h3>Design d'interaction et Expérience Utilisateur (UX)</h3></div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <img src="image_3.png" class="img-droite img-moyenne" alt="Schéma montrant un utilisateur au centre, et autour de lui des bulles : 'Facile', 'Utile', 'Agréable', 'Efficace', le tout formant l'UX.">
+                    <h4>a) 🎓 Définition Académique et Enjeux</h4>
+                    <p>Le <strong>Design d'interaction (IxD)</strong> se concentre sur la manière dont un utilisateur interagit avec un produit : le "dialogue" entre l'homme et la machine. L'<strong>Expérience Utilisateur (UX Design)</strong> est une discipline plus large qui englobe l'IxD. Elle s'intéresse à l'ensemble des perceptions et des ressentis d'une personne lorsqu'elle utilise un produit, avant, pendant et après l'utilisation.</p>
+                    <h4>b) 🧠 Analogie et Simplification Pédagogique</h4>
+                    <p>Imagine un parc d'attractions. Le <strong>design d'interaction</strong>, c'est la conception d'une attraction : comment on s'attache, comment le wagon bouge, les sensations pendant le tour. L'<strong>expérience utilisateur (UX)</strong>, c'est TOUT le reste : la facilité pour acheter le billet, le temps d'attente, la propreté du parc, l'amabilité du personnel, le prix de la gaufre et le souvenir que tu en gardes. L'UX, c'est l'expérience globale !</p>
+                    <h4>c) 📱 Étude de Cas Concrète</h4>
+                    <div class="card">
+                        <p>Pour l'application d'une <strong>trottinette électrique</strong> en libre-service :</p>
+                        <ul>
+                            <li><strong>Design d'interaction :</strong> Comment déverrouille-t-on la trottinette ? Un swipe ? Un bouton ? Un QR Code ? Comment l'application réagit-elle ? (animation, son). C'est le dialogue direct avec l'interface.</li>
+                            <li><strong>Expérience Utilisateur (UX) :</strong> Est-ce facile de s'inscrire ? La carte pour trouver une trottinette est-elle claire ? Le prix est-il transparent ? Est-ce simple de terminer la course et de payer ? L'application est-elle fiable ou plante-t-elle souvent ? Tout cela forme l'UX.</li>
+                        </ul>
+                    </div>
+                    <h4>d) 🛠️ Décortiquage Technique - "Sous le Capot"</h4>
+                    <p>Comment améliorer l'UX d'un joueur sur smartphone ?</p>
+                    <ol>
+                        <li><strong>Avant le jeu (Onboarding) :</strong> Le tutoriel est-il court et amusant, ou long et ennuyeux ? L'inscription est-elle rapide (ex: via un compte Google/Apple) ?</li>
+                        <li><strong>Pendant le jeu (Interaction) :</strong> Les contrôles tactiles sont-ils réactifs ? Les menus pour changer d'équipement sont-ils clairs ? Les publicités sont-elles trop intrusives ?</li>
+                        <li><strong>Après le jeu (Rétention) :</strong> Le jeu propose-t-il des récompenses quotidiennes pour donner envie de revenir ? Est-il facile de partager ses exploits avec des amis ?</li>
+                    </ol>
+                    <p>Améliorer l'UX, c'est analyser et optimiser chacun de ces points.</p>
+                    <h4>e) 🤔 Points de Vigilance et Erreurs à Éviter</h4>
+                    <ul>
+                        <li><strong>Confondre UX et UI :</strong> L'UI (User Interface), c'est l'aspect visuel de l'interface (les boutons, les couleurs). L'UX, c'est le ressenti global. On peut avoir une très belle UI mais une très mauvaise UX (ex: une application magnifique mais très lente).</li>
+                        <li><strong>Négliger les émotions :</strong> L'UX design s'intéresse beaucoup aux émotions : la joie d'une réussite, la frustration d'un échec, la confiance dans le service. Un bon design cherche à créer des émotions positives.</li>
+                    </ul>
+                    <h4>f) 💡 Le Saviez-Vous ? / Anecdote Technologique</h4>
+                    <div class="did-you-know">
+                        Le terme "User Experience" a été inventé dans les années 90 par Don Norman, un scientifique cognitif qui travaillait chez Apple. Il trouvait que les termes "Interface Homme-Machine" ou "utilisabilité" étaient trop réducteurs. Il voulait un mot qui couvre l'ensemble des aspects de l'interaction d'une personne avec un produit, y compris les émotions.
+                    </div>
+                    <h4>g) 🤝 Ponts Interdisciplinaires</h4>
+                    <ul>
+                        <li><strong>Français / Scénario :</strong> Concevoir une bonne UX, c'est un peu comme écrire une histoire. Il y a un début (découverte du produit), un milieu (utilisation) et une fin (objectif atteint). On parle de "parcours utilisateur".</li>
+                        <li><strong>Marketing / Économie :</strong> Une bonne UX est un avantage concurrentiel énorme. À produit égal, les clients choisiront toujours celui qui est le plus simple et le plus agréable à utiliser. C'est pour ça que les entreprises investissent des millions dans l'UX.</li>
+                    </ul>
+                    <h4>h) 🚀 Pour les Experts (Approfondissement)</h4>
+                    <div class="card expert-box">
+                        Les UX Designers utilisent une méthode appelée "Design Thinking" (ou pensée design). C'est un processus en 5 étapes : 1. Empathie (comprendre l'utilisateur), 2. Définition (définir son problème), 3. Idéation (imaginer plein de solutions), 4. Prototypage (créer des versions simplifiées), 5. Test (faire tester par de vrais utilisateurs). C'est un cycle : on teste, on apprend, on améliore, et on recommence !
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <hr>
+    
+    <!-- 6. AVENIR ET PERSPECTIVES -->
+    <section class="section">
+        <h2>6. Avenir et Perspectives : Des interactions invisibles ?</h2>
+        <p>
+            Le futur de l'ergonomie et de l'UX se dirige vers des interactions de plus en plus naturelles, voire invisibles. Les <strong>interfaces vocales</strong> (comme Alexa, Siri) suppriment le besoin d'écrans. La <strong>réalité augmentée (AR)</strong>, comme sur certains smartphones ou futurs lunettes, intégrera l'information numérique directement dans notre champ de vision.
+        </p>
+        <p>
+            Cela pose de nouveaux défis ergonomiques : comment afficher des informations sans surcharger la vue ? Comment s'assurer que les commandes gestuelles ou vocales sont fiables et ne se déclenchent pas par erreur ? Les métiers d'<strong>Ergonome</strong>, d'<strong>UX/UI Designer</strong>, de <strong>Chercheur Utilisateur (User Researcher)</strong> sont en pleine explosion, car plus la technologie devient complexe, plus on a besoin de spécialistes pour la rendre simple et humaine. Le grand défi éthique sera de concevoir des expériences qui nous aident, sans nous rendre dépendants ou nous manipuler.
+        </p>
+    </section>
+
+    <hr>
+
+    <!-- 7. CONCLUSION -->
+    <section class="section">
+        <h2>7. Conclusion</h2>
+        <p>
+            Alors, quel est le secret des objets qu'on adore ? Ce n'est pas de la magie. Pour répondre à notre problématique, nous avons vu que la conception d'un produit efficace et agréable repose sur une démarche scientifique et créative :
+        </p>
+        <ol>
+            <li><strong>L'Ergonomie</strong> adapte l'objet au corps (physique) et au cerveau (cognitive) de l'utilisateur.</li>
+            <li>L'<strong>Interface Homme-Machine (IHM)</strong> est le pont de communication entre les deux. Elle doit être claire et efficace.</li>
+            <li>Le <strong>Design d'interaction</strong> et le <strong>Design UX</strong> orchestrent le tout pour créer une expérience globale cohérente, utile, et surtout, positive.</li>
+        </ol>
+        <p>
+            Une manette de jeu, une application de smartphone ou une trottinette électrique ne sont pas réussies parce qu'elles sont "jolies", mais parce qu'elles ont été pensées POUR l'utilisateur, à chaque étape. Elles respectent ses limites, anticipent ses besoins et lui procurent une sensation de contrôle et de satisfaction.
+        </p>
+    </section>
+
+    <hr>
+    
+    <!-- 8. EXERCICES INTERACTIFS -->
+    <section class="section">
+        <h2>8. Exercices Interactifs</h2>
+        
+        <div class="exercise-card" id="exo-1">
+            <h4>Exercice 1 : QCM</h4>
+            <p>L'ensemble des émotions ressenties par un utilisateur avant, pendant et après l'utilisation d'un produit s'appelle :</p>
+            <div class="qcm-options">
+                <div class="option" data-correct="false">L'Interface Homme-Machine (IHM)</div>
+                <div class="option" data-correct="true">L'Expérience Utilisateur (UX)</div>
+                <div class="option" data-correct="false">L'Ergonomie Physique</div>
+            </div>
+            <button class="btn-verify">Vérifier</button>
+            <div class="exercise-feedback"></div>
+        </div>
+
+        <div class="exercise-card" id="exo-2">
+            <h4>Exercice 2 : Texte à trous</h4>
+            <div class="fill-in-the-blanks">
+                <p>
+                    L'ergonomie <input type="text" data-answer="cognitive"> s'assure que les informations sont faciles à comprendre, tandis que l'ergonomie <input type="text" data-answer="physique"> s'occupe du confort du corps. L'aspect visuel d'une interface s'appelle l'<input type="text" data-answer="ui">, mais ce n'est qu'une partie de l'<input type="text" data-answer="ux">.
+                </p>
+            </div>
+            <button class="btn-verify">Vérifier</button>
+        </div>
+        
+        <div class="exercise-card" id="exo-3">
+            <h4>Exercice 3 : Vrai ou Faux</h4>
+            <p>"Un produit peut avoir une très belle Interface Utilisateur (UI) mais une très mauvaise Expérience Utilisateur (UX)."</p>
+            <div class="true-false-options">
+                <div class="option" data-correct="true">Vrai</div>
+                <div class="option" data-correct="false">Faux</div>
+            </div>
+            <button class="btn-verify">Vérifier</button>
+            <div class="exercise-feedback"></div>
+        </div>
+
+        <div class="exercise-card" id="exo-4">
+            <h4>Exercice 4 : QCM</h4>
+            <p>Quel élément ne fait PAS partie de l'IHM d'un smartphone ?</p>
+            <div class="qcm-options">
+                <div class="option" data-correct="false">L'écran tactile</div>
+                <div class="option" data-correct="false">Les icônes des applications</div>
+                <div class="option" data-correct="true">Le processeur interne</div>
+            </div>
+            <button class="btn-verify">Vérifier</button>
+            <div class="exercise-feedback"></div>
+        </div>
+
+        <div class="exercise-card" id="exo-5">
+            <h4>Exercice 5 : Question ouverte</h4>
+            <p>Imagine une application de pilotage de drone. Comment pourrais-tu utiliser les vibrations du smartphone (retour haptique) pour améliorer l'ergonomie et l'expérience utilisateur ?</p>
+            <div class="open-question">
+                <textarea placeholder="Ta réponse ici..."></textarea>
+                <button class="btn-verify btn-secondary" id="show-hint-btn-5">Afficher un indice</button>
+                <button class="btn-verify" id="show-answer-btn-5">Comparer avec la réponse type</button>
+                <div class="hidden-content" id="hint-5">
+                    <strong>Indice :</strong> Pense aux informations importantes que le pilote doit recevoir sans quitter le drone des yeux...
+                </div>
+                <div class="hidden-content" id="answer-5">
+                    <strong>Réponse type :</strong><br>
+                    On pourrait utiliser les vibrations pour donner des informations importantes sans que le pilote ait besoin de regarder son écran. Par exemple :
+                    <ul>
+                        <li>Une vibration courte quand on prend une photo.</li>
+                        <li>Une double vibration quand la batterie du drone devient faible.</li>
+                        <li>Des vibrations qui s'intensifient si le drone s'approche trop d'un obstacle ou de sa limite de portée.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="exo-6">
+            <h4>Exercice 6 : Texte à trous</h4>
+            <div class="fill-in-the-blanks">
+                <p>
+                    Le clavier AZERTY a été conçu pour <input type="text" data-answer="ralentir"> la frappe sur les anciennes machines à écrire. C'est un exemple d'ergonomie pensée pour la <input type="text" data-answer="machine"> et non pour l'humain.
+                </p>
+            </div>
+            <button class="btn-verify">Vérifier</button>
+        </div>
+    </section>
+
+    <hr>
+
+    <!-- 9. SYNTHÈSE VISUELLE (FORMAT CARTE MENTALE) -->
+    <section class="section">
+        <h2>9. Synthèse Visuelle (Carte Mentale)</h2>
+        <img src="image_4.png" class="img-moyenne" style="display:block; margin-left:auto; margin-right:auto;" alt="Carte mentale des concepts du cours : Ergonomie, IHM, UX.">
+        <ul class="mind-map">
+            <li>
+                <span>Ergonomie & Design UX</span>
+                <ul>
+                    <li>
+                        <span>Ergonomie (Adapter l'objet à l'humain)</span>
+                        <ul>
+                            <li><span>Physique (le corps) -> ex: forme de la manette</span></li>
+                            <li><span>Cognitive (le cerveau) -> ex: icônes claires</span></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>Interface Homme-Machine (IHM)</span>
+                        <ul>
+                            <li><span>Définition : Pont entre l'utilisateur et la machine</span></li>
+                            <li><span>Exemple : Écran tactile, manette, application</span></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>Expérience Utilisateur (UX)</span>
+                        <ul>
+                            <li><span>Définition : Ressenti global (avant, pendant, après)</span></li>
+                            <li><span>Composants : Utilité, facilité, plaisir</span></li>
+                            <li><span>Inclut le Design d'Interaction (le "dialogue")</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <hr>
+    
+    <!-- 10. LEXIQUE / GLOSSAIRE DES TERMES CLÉS -->
+    <section class="section lexicon">
+        <h2>10. Lexique / Glossaire</h2>
+        <dl>
+            <dt>Design d'interaction (IxD)</dt>
+            <dd>Discipline centrée sur la conception du "dialogue" entre un utilisateur et un produit.</dd>
+            <dt>Ergonomie</dt>
+            <dd>Science qui vise à adapter les outils et l'environnement de travail à l'être humain.</dd>
+            <dt>Ergonomie Cognitive</dt>
+            <dd>Branche de l'ergonomie qui s'intéresse aux processus mentaux (mémoire, perception, raisonnement) dans l'interaction.</dd>
+            <dt>Expérience Utilisateur (UX)</dt>
+            <dd>Ensemble des émotions et perceptions d'une personne résultant de l'utilisation d'un produit ou service.</dd>
+            <dt>Interface Homme-Machine (IHM)</dt>
+            <dd>Dispositif (matériel ou logiciel) qui permet à un humain de contrôler et de communiquer avec une machine.</dd>
+            <dt>UI (User Interface)</dt>
+            <dd>Interface Utilisateur. Concerne l'aspect visuel et la disposition des éléments d'une IHM. C'est une partie de l'UX.</dd>
+        </dl>
+    </section>
+
+    <hr>
+
+    <!-- 11. POUR ALLER PLUS LOIN -->
+    <section class="section go-further">
+        <img src="image_5.png" class="img-droite img-petite" alt="Icône d'un UX designer travaillant sur un écran.">
+        <h2>11. Pour aller plus loin</h2>
+        <a href="#" class="card-link">
+            <h4>🚀 Mini-projet à réaliser</h4>
+            <p>Prends une application que tu utilises tous les jours (TikTok, Instagram, Snapchat...). Fais une "analyse ergonomique" rapide : liste 2 choses que tu trouves très faciles à faire (bonne ergonomie) et 1 chose qui pourrait être améliorée. Fais un petit croquis de l'interface avec ton idée d'amélioration.</p>
+        </a>
+        <a href="#" class="card-link">
+            <h4>🎬 Vidéo à regarder</h4>
+            <p>Cherche sur YouTube "L'UX design, c'est quoi ?". Tu trouveras de nombreuses vidéos de professionnels qui expliquent leur métier avec des exemples concrets de sites web et d'applications connues. C'est idéal pour voir l'envers du décor !</p>
+        </a>
+        <a href="#" class="card-link">
+            <h4>🧑‍🎨 Métier à découvrir</h4>
+            <p>Le métier d'<strong>UX/UI Designer</strong>. Ce spécialiste est à la fois un créatif, un psychologue et un détective. Il passe son temps à observer les utilisateurs, à comprendre leurs frustrations, à dessiner des interfaces sur des logiciels (comme Figma ou Sketch) et à les tester pour créer l'expérience la plus fluide possible. C'est un métier très recherché dans le numérique.</p>
+        </a>
+    </section>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- Accordion ---
+    const accordions = document.querySelectorAll('.accordion');
+    accordions.forEach(accordion => {
+        const title = accordion.querySelector('.accordion-title');
+        const content = accordion.querySelector('.accordion-content');
+        title.addEventListener('click', () => {
+            accordion.classList.toggle('active');
+            if (accordion.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = 0;
+            }
+        });
+    });
+
+    // --- Flip Cards ---
+    const flipCards = document.querySelectorAll('.flip-card');
+    flipCards.forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('is-flipped');
+        });
+    });
+
+    // --- Number Counter Animation ---
+    const counters = document.querySelectorAll('.counter');
+    const animateCounter = (counter) => {
+        const target = +counter.getAttribute('data-target');
+        const duration = 1500; // ms
+        const stepTime = Math.abs(Math.floor(duration / target));
+        let current = 0;
+        const timer = setInterval(() => {
+            current += 1;
+            counter.textContent = current;
+            if (current == target) {
+                clearInterval(timer);
+            }
+        }, stepTime);
+    };
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.7 });
+    counters.forEach(counter => {
+        observer.observe(counter);
+    });
+
+    // --- Interactive Exercises ---
+    function handleOptionSelection(container) {
+        const options = container.querySelectorAll('.option');
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+    }
+
+    function verifyQCM(exoContainer) {
+        const selectedOption = exoContainer.querySelector('.option.selected');
+        const feedback = exoContainer.querySelector('.exercise-feedback');
+        if (!selectedOption) {
+            alert("Veuillez sélectionner une réponse.");
+            return;
+        }
+        const isCorrect = selectedOption.dataset.correct === 'true';
+        feedback.className = isCorrect ? 'exercise-feedback correct' : 'exercise-feedback incorrect';
+        
+        // Custom feedback messages can be stored in data attributes
+        if(isCorrect) {
+            feedback.textContent = selectedOption.dataset.feedbackCorrect || 'Bonne réponse !';
+        } else {
+            feedback.textContent = selectedOption.dataset.feedbackIncorrect || 'Ce n\'est pas la bonne réponse. Essayez encore.';
+        }
+        
+        exoContainer.querySelectorAll('.option').forEach(opt => {
+            opt.classList.remove('selected');
+            opt.classList.add(opt.dataset.correct === 'true' ? 'correct' : 'incorrect');
+        });
+    }
+    
+    // EXO 1 (QCM)
+    const exo1 = document.getElementById('exo-1');
+    handleOptionSelection(exo1.querySelector('.qcm-options'));
+    exo1.querySelector('.btn-verify').addEventListener('click', () => verifyQCM(exo1));
+
+    // EXO 2 (Fill Blanks)
+    const exo2 = document.getElementById('exo-2');
+    exo2.querySelector('.btn-verify').addEventListener('click', () => {
+        exo2.querySelectorAll('input').forEach(input => {
+            const isCorrect = input.value.trim().toLowerCase() === input.dataset.answer.toLowerCase();
+            input.className = isCorrect ? 'correct' : 'incorrect';
+        });
+    });
+
+    // EXO 3 (True/False)
+    const exo3 = document.getElementById('exo-3');
+    handleOptionSelection(exo3.querySelector('.true-false-options'));
+    exo3.querySelector('.btn-verify').addEventListener('click', () => {
+        const selected = exo3.querySelector('.option.selected');
+        const feedback = exo3.querySelector('.exercise-feedback');
+        if (!selected) return;
+        const isCorrect = selected.dataset.correct === 'true';
+        feedback.textContent = isCorrect ? 'C\'est exact ! Une application peut être très belle (bonne UI) mais lente, peu fiable et frustrante (mauvaise UX).' : 'Incorrect. C\'est une distinction très importante : la beauté (UI) ne garantit pas la facilité d\'utilisation (UX).';
+        verifyQCM(exo3);
+    });
+
+    // EXO 4 (QCM)
+    const exo4 = document.getElementById('exo-4');
+    handleOptionSelection(exo4.querySelector('.qcm-options'));
+    exo4.querySelector('.btn-verify').addEventListener('click', () => {
+        const selected = exo4.querySelector('.option.selected');
+        const feedback = exo4.querySelector('.exercise-feedback');
+        if (!selected) return;
+        const isCorrect = selected.dataset.correct === 'true';
+        feedback.textContent = isCorrect ? 'Correct ! Le processeur est un composant interne, pas un point d\'interaction pour l\'utilisateur.' : 'Incorrect. L\'écran et les icônes sont des éléments avec lesquels tu interagis directement.';
+        verifyQCM(exo4);
+    });
+    
+    // EXO 5 (Open Question)
+    const exo5 = document.getElementById('exo-5');
+    exo5.querySelector('#show-hint-btn-5').addEventListener('click', () => {
+        exo5.querySelector('#hint-5').style.display = 'block';
+    });
+    exo5.querySelector('#show-answer-btn-5').addEventListener('click', () => {
+        exo5.querySelector('#answer-5').style.display = 'block';
+    });
+
+    // EXO 6 (Fill Blanks)
+    const exo6 = document.getElementById('exo-6');
+    exo6.querySelector('.btn-verify').addEventListener('click', () => {
+        exo6.querySelectorAll('input').forEach(input => {
+            const isCorrect = input.value.trim().toLowerCase() === input.dataset.answer.toLowerCase();
+            input.className = isCorrect ? 'correct' : 'incorrect';
+        });
+    });
+
+});
+</script>
+
+</body>
+</html>

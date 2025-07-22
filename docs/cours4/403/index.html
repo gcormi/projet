@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Tendances du Design : pourquoi les objets ont ce look ?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6A0DAD; /* Violet profond */
+            --secondary-color: #FF6F61; /* Corail */
+            --accent-color: #FFD700; /* Or */
+            --text-color: #333;
+            --bg-color: #f4f7f6;
+            --card-bg: #fff;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-top: 0;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary-color);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        h3 {
+            font-size: 1.6em;
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        h3::before {
+            content: '✨'; /* Icône pour les sous-titres */
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+            top: -2px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        ul li::before {
+            content: '👉'; /* Icône pour les listes */
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-size: 1.2em;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .highlight-box {
+            background-color: #e6f7ff; /* Bleu très clair */
+            border-left: 5px solid #007bff; /* Bleu vif */
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-style: italic;
+            color: #0056b3;
+        }
+
+        .knowledge-block {
+            background-color: #f9f9f9;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .knowledge-block h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .knowledge-block h3::before {
+            content: ''; /* Supprime l'icône par défaut pour les sous-titres de block */
+        }
+
+        .knowledge-block .step {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .knowledge-block .step strong {
+            color: var(--secondary-color);
+        }
+
+        .exercice-card {
+            background-color: #f0f8ff; /* Bleu très clair pour exercices */
+            border: 2px dashed var(--secondary-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+        }
+
+        .exercice-card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .exercice-card h3::before {
+            content: '🎯'; /* Icône pour les exercices */
+        }
+
+        .glossary-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .glossary-item {
+            background-color: #fefefe;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+        }
+
+        .glossary-item strong {
+            color: var(--primary-color);
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .for-more-list li {
+            margin-bottom: 10px;
+        }
+
+        .for-more-list li::before {
+            content: '💡'; /* Icône pour "Pour aller plus loin" */
+            color: var(--accent-color);
+        }
+
+        /* Styles spécifiques pour les images */
+        .img-gauche, .img-droite {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            max-width: 100%; /* S'assure que l'image ne dépasse pas la largeur du conteneur */
+            height: auto; /* Maintient le ratio */
+        }
+
+        .img-gauche {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .img-droite {
+            float: right;
+            margin-left: 20px;
+        }
+
+        .img-moyenne {
+            max-width: 450px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        .img-petite {
+            max-width: 280px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        /* Correction pour le "float" */
+        .knowledge-block::after, .card::after, .section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animated-element {
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+
+        .fade-in-down { animation-name: fadeInDown; }
+        .fade-in-up { animation-name: fadeInUp; }
+        .slide-in-left { animation-name: slideInLeft; }
+        .slide-in-right { animation-name: slideInRight; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.4em; }
+            .container { padding: 15px; }
+            .img-gauche, .img-droite {
+                float: none;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+            .img-moyenne, .img-petite {
+                max-width: 100%; /* Ensure images scale down on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- 1. TITRE DE LA SÉQUENCE -->
+        <h1 class="animated-element fade-in-down">LES TENDANCES DU DESIGN : POURQUOI LES OBJETS ONT CE LOOK ?</h1>
+
+        <!-- 2. SITUATION DÉCLENCHANTE -->
+        <div class="section animated-element fade-in-up">
+            <h2>🔎 L'énigme du temps qui passe sur les objets</h2>
+            <p>Imagine un instant : tu es chez tes grands-parents et tu tombes sur une vieille photo de famille. Sur cette photo, il y a la voiture de tes parents quand ils étaient jeunes, ou même leur premier téléphone portable. Regarde bien... puis pense à la voiture que tu croises tous les jours sur la route ou au smartphone que tu tiens dans ta main en ce moment.</p>
+            <p><strong>Incroyable, n'est-ce pas ? Le look a radicalement changé !</strong> Les lignes, les couleurs, la taille, tout est différent. Mais pourquoi ? Est-ce juste une question de mode qui va et vient, comme les vêtements ? Ou bien y a-t-il des raisons plus profondes, liées à la technologie, aux matériaux, ou même à la façon dont nous vivons ?</p>
+            <p>Dans ce cours, nous allons devenir de véritables détectives du design. Nous allons décrypter les codes secrets qui expliquent l'apparence des objets qui nous entourent. Prêt(e) à percer le mystère du "look" des objets ? C'est parti !</p>
+        </div>
+
+        <!-- 3. OBJECTIFS PÉDAGOGIQUES -->
+        <div class="section animated-element fade-in-up">
+            <h2>🎯 Ta mission, si tu l'acceptes...</h2>
+            <p>À la fin de cette séquence, tu seras capable de :</p>
+            <h3>Compétences à maîtriser :</h3>
+            <ul>
+                <li>Identifier les caractéristiques d'un courant de design (par exemple : minimaliste, vintage, industriel).</li>
+                <li>Mettre en relation une contrainte technique avec une forme esthétique.</li>
+                <li>Argumenter un choix de design en utilisant un vocabulaire spécifique (ligne, forme, couleur, texture).</li>
+            </ul>
+            <h3>Savoirs et connaissances à acquérir :</h3>
+            <ul>
+                <li>Le Design d'objet.</li>
+                <li>Les tendances et courants stylistiques.</li>
+                <li>Les contraintes techniques et esthétiques.</li>
+                <li>L'identité visuelle d'une marque (logo, couleurs).</li>
+                <li>L'influence de l'évolution des matériaux sur le design.</li>
+                <li>La Fonction d'estime.</li>
+            </ul>
+        </div>
+
+        <!-- 4. INTRODUCTION ET PROBLÉMATIQUE -->
+        <div class="section animated-element fade-in-up">
+            <h2>💡 Introduction et Problématique : Au-delà de l'apparence</h2>
+            <p>Nous venons de le voir avec la situation déclenchante : les objets évoluent, et leur apparence avec. Mais cette évolution n'est jamais le fruit du hasard. Derrière chaque courbe d'un smartphone, chaque couleur d'un sac à dos, chaque matériau d'une chaise, il y a des choix, des intentions et des contraintes.</p>
+            <p>Depuis la préhistoire, l'être humain conçoit des outils et des objets. Au début, c'était purement fonctionnel : une pierre taillée pour couper, une gourde pour boire. Mais très vite, l'envie d'embellir, de rendre l'objet agréable à l'œil et au toucher, est apparue. C'est là qu'intervient le <strong>design</strong>.</p>
+            <p>La problématique centrale de ce cours sera donc : <strong>Comment les choix esthétiques des objets sont-ils influencés par les avancées technologiques, les matériaux disponibles, les modes culturelles et les besoins des utilisateurs ?</strong></p>
+            <p>Pour y répondre, nous allons explorer ensemble les différentes facettes du design, des contraintes techniques aux fonctions d'estime, en passant par l'identité des marques et l'évolution des matériaux. Accroche-toi, le voyage commence !</p>
+        </div>
+
+        <!-- 5. DÉVELOPPEMENT DU COURS - EXPLORATION EN PROFONDEUR -->
+        <div class="section">
+            <h2>📚 Développement du Cours : Exploration en profondeur</h2>
+
+            <!-- Notion : Design d'objet -->
+            <div class="knowledge-block animated-element slide-in-left">
+                <h3>Le Design d'objet</h3>
+                <div class="step">
+                    <strong>a) 🎓 Définition Académique et Enjeux :</strong> Le design d'objet est une discipline qui consiste à concevoir des objets manufacturés, en intégrant à la fois leur fonction, leur esthétique, leur ergonomie (facilité d'utilisation), leur mode de fabrication et leur impact environnemental. L'enjeu est de créer des objets qui répondent à un besoin, sont agréables à utiliser et à regarder, tout en étant réalisables industriellement et durables.
+                </div>
+                <div class="step">
+                    <strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Imagine que le design, c'est comme la recette d'un gâteau. Tu ne penses pas seulement au goût (la fonction), mais aussi à sa forme (l'esthétique), à sa facilité à être coupé (l'ergonomie), aux ingrédients que tu as (les matériaux), et à la façon de le cuire (la fabrication). Le designer, c'est le chef pâtissier qui pense à tout !
+                </div>
+                <div class="step">
+                    <strong>c) 📱 Étude de Cas Concrète :</strong> Prenons le <strong>Smartphone</strong>. Son design n'est pas juste "beau". Il est pensé pour être facile à tenir (ergonomie), pour que l'écran soit grand (fonction), pour qu'il soit fin (technologie des composants), et pour qu'il reflète une image de modernité (esthétique). Chaque détail, du bouton à la position des caméras, est le fruit d'une décision de design.
+                    <img src="https://placehold.co/450x250/6A0DAD/FFFFFF?text=Design+Smartphone" class="img-droite img-moyenne" alt="Exemple de design de smartphone minimaliste et fonctionnel">
+                </div>
+                <div class="step">
+                    <strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour analyser le design d'un objet comme une <strong>Souris d'ordinateur</strong>, tu peux suivre ces étapes :
+                    <ol>
+                        <li><strong>Fonction :</strong> À quoi sert-elle ? (Cliquer, déplacer le curseur).</li>
+                        <li><strong>Forme/Esthétique :</strong> Est-elle arrondie, anguleuse, futuriste ? Quelles couleurs utilise-t-elle ?</li>
+                        <li><strong>Matériaux :</strong> En plastique, en métal, en caoutchouc ? Pourquoi ces choix ? (Légèreté, résistance, toucher).</li>
+                        <li><strong>Ergonomie :</strong> Est-elle confortable dans la main ? Pour gaucher ou droitier ? Les boutons sont-ils bien placés ?</li>
+                        <li><strong>Fabrication :</strong> Comment est-elle assemblée ? Cela influence-t-il sa forme ?</li>
+                    </ol>
+                </div>
+                <div class="step">
+                    <strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Penser que le design, c'est juste "faire joli". Non, c'est aussi rendre l'objet utile et facile à utiliser.</li>
+                        <li><strong>Erreur 2 :</strong> Oublier que le design doit aussi prendre en compte comment l'objet sera fabriqué et s'il est bon pour l'environnement.</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Le mot "design" vient de l'italien "disegno", qui signifie à la fois "dessin" et "intention". Un bon design, c'est donc un objet bien dessiné et conçu avec une intention claire !
+                </div>
+                <div class="step">
+                    <strong>g) 🤝 Ponts Interdisciplinaires :</strong> Le design est lié aux <strong>Arts Plastiques</strong> (esthétique, couleurs, formes), à la <strong>Technologie</strong> (matériaux, fabrication), aux <strong>Mathématiques</strong> (proportions, géométrie des formes) et même à la <strong>SVT</strong> (ergonomie, étude du corps humain).
+                </div>
+                <div class="step">
+                    <strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Le "design thinking" est une méthode de résolution de problèmes utilisée par les designers, qui met l'utilisateur au centre de la réflexion. Elle se déroule en plusieurs étapes : empathie, définition, idéation, prototypage, test. C'est une approche très utilisée aujourd'hui pour innover !
+                </div>
+            </div><!-- Fin Design d'objet -->
+
+            <!-- Notion : Tendance/Courant stylistique -->
+            <div class="knowledge-block animated-element slide-in-right">
+                <h3>Tendance/Courant stylistique</h3>
+                <div class="step">
+                    <strong>a) 🎓 Définition Académique et Enjeux :</strong> Une tendance stylistique est une orientation générale dans l'esthétique des objets à une période donnée, influencée par la culture, la société, la technologie et l'économie. Un courant stylistique est une tendance plus durable et structurée, avec des codes esthétiques bien définis (ex: Art Déco, Bauhaus, Minimalisme). L'enjeu est de comprendre que le "look" des objets n'est pas figé mais évolue avec le temps et les idées dominantes.
+                </div>
+                <div class="step">
+                    <strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> C'est comme la musique ! Il y a des tendances (le tube de l'été qui passe partout) et des courants (le rock, le rap, le classique, qui ont des règles et des sons bien reconnaissables et durent plus longtemps). Les objets aussi ont leurs "genres musicaux" visuels !
+                </div>
+                <div class="step">
+                    <strong>c) 📱 Étude de Cas Concrète :</strong> La <strong>Voiture</strong> est un excellent exemple. Dans les années 50, les voitures avaient des formes rondes et des ailerons (tendance "Futuriste/Streamline"). Dans les années 80, on a vu apparaître des formes plus anguleuses et "carrées" (tendance "Géométrique/Fonctionnaliste"). Aujourd'hui, on revient souvent à des lignes plus fluides et épurées (tendance "Minimaliste" ou "Bio-design").
+                    <img src="https://placehold.co/450x250/FF6F61/FFFFFF?text=Voiture+Design+Evolution" class="img-gauche img-moyenne" alt="Comparaison de design de voitures de différentes époques">
+                </div>
+                <div class="step">
+                    <strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour identifier un courant stylistique sur une <strong>Chaise en bois</strong> :
+                    <ol>
+                        <li><strong>Lignes :</strong> Sont-elles droites, courbes, brisées ? (Ex: droites pour le minimalisme, courbes pour l'Art Nouveau).</li>
+                        <li><strong>Formes :</strong> Sont-elles simples, complexes, géométriques, organiques ?</li>
+                        <li><strong>Matériaux :</strong> Quel bois ? Est-il brut, verni, peint ? (Ex: bois clair et simple pour le design scandinave).</li>
+                        <li><strong>Ornements :</strong> Y a-t-il des décorations ? Sont-elles discrètes ou exubérantes ?</li>
+                        <li><strong>Couleurs :</strong> Quelles sont les couleurs dominantes ?</li>
+                    </ol>
+                </div>
+                <div class="step">
+                    <strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Confondre "mode" et "tendance". La mode est très éphémère, la tendance dure plus longtemps et influence plus profondément.</li>
+                        <li><strong>Erreur 2 :</strong> Penser qu'un objet appartient à un seul courant. Souvent, les designers mélangent les influences !</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Le courant "Bauhaus" (début du 20e siècle en Allemagne) a révolutionné le design en prônant la simplicité, la fonctionnalité et l'utilisation de matériaux industriels. Leurs chaises sont encore très célèbres aujourd'hui !
+                </div>
+                <div class="step">
+                    <strong>g) 🤝 Ponts Interdisciplinaires :</strong> L'étude des tendances est très liée à l'<strong>Histoire</strong> (contexte social et culturel), à la <strong>Géographie</strong> (influences régionales), et aux <strong>Arts Plastiques</strong> (analyse des formes et des couleurs).
+                </div>
+                <div class="step">
+                    <strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Les "chasseurs de tendances" ou "trend forecasters" sont des professionnels qui étudient les signaux faibles de la société pour anticiper les futures tendances du design, de la mode, de l'alimentation, etc. C'est un métier passionnant !
+                </div>
+            </div><!-- Fin Tendance/Courant stylistique -->
+
+            <!-- Notion : Contraintes techniques et esthétiques -->
+            <div class="knowledge-block animated-element slide-in-left">
+                <h3>Contraintes techniques et esthétiques</h3>
+                <div class="step">
+                    <strong>a) 🎓 Définition Académique et Enjeux :</strong> Les contraintes techniques sont les limites imposées par les matériaux, les procédés de fabrication, la technologie disponible ou les normes de sécurité (ex: un objet doit être solide). Les contraintes esthétiques sont les limites liées à l'apparence désirée, aux tendances du moment ou à l'identité d'une marque (ex: un objet doit être élégant). L'enjeu est de trouver le meilleur équilibre entre ce qui est possible de faire (technique) et ce que l'on veut obtenir (esthétique).
+                </div>
+                <div class="step">
+                    <strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> C'est comme quand tu construis une cabane : la contrainte technique, c'est que tu n'as que du bois et des clous (matériaux) et qu'elle doit tenir debout (stabilité). La contrainte esthétique, c'est que tu veux qu'elle ressemble à un château fort ! Le défi est de faire un château fort avec juste du bois et des clous.
+                </div>
+                <div class="step">
+                    <strong>c) 📱 Étude de Cas Concrète :</strong> Le <strong>Sac à dos</strong>. Une contrainte technique est qu'il doit être résistant pour transporter des affaires lourdes, donc il faut des matériaux solides et des coutures renforcées. Une contrainte esthétique est qu'il doit être à la mode, avec des couleurs et des formes qui plaisent aux jeunes. Le designer doit faire en sorte que le sac soit solide ET stylé !
+                    <img src="https://placehold.co/450x250/FFD700/333333?text=Sac+a+Dos+Design" class="img-droite img-moyenne" alt="Exemple de sac à dos alliant robustesse et design moderne">
+                </div>
+                <div class="step">
+                    <strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Sur une <strong>Chaise en bois</strong> :
+                    <ul>
+                        <li><strong>Contrainte technique :</strong> La chaise doit supporter le poids d'une personne sans casser. Cela implique une certaine épaisseur de bois, des assemblages solides (tenons-mortaises, vis), et une structure stable (4 pieds bien écartés).</li>
+                        <li><strong>Contrainte esthétique :</strong> La chaise doit être confortable et s'intégrer dans un salon moderne. Cela peut influencer la courbure du dossier, le type de bois utilisé (clair ou foncé), et l'absence ou la présence d'ornements.</li>
+                    </ul>
+                    Le designer doit trouver des solutions techniques (ex: un bois très résistant) qui permettent d'atteindre l'objectif esthétique (ex: des pieds très fins).
+                </div>
+                <div class="step">
+                    <strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Privilégier l'esthétique au détriment de la technique. Un objet magnifique mais qui ne fonctionne pas ou casse vite est un mauvais design.</li>
+                        <li><strong>Erreur 2 :</strong> Négliger l'esthétique en se concentrant uniquement sur la technique. Un objet ultra-performant mais moche ne trouvera pas son public.</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Les ingénieurs et les designers travaillent main dans la main. Par exemple, pour concevoir une <strong>Voiture</strong>, les ingénieurs développent le moteur et le châssis (contraintes techniques), et les designers sculptent la carrosserie pour qu'elle soit aérodynamique ET belle (contraintes esthétiques).
+                </div>
+                <div class="step">
+                    <strong>g) 🤝 Ponts Interdisciplinaires :</strong> Ces contraintes sont au cœur de la <strong>Technologie</strong> (étude des solutions techniques), de la <strong>Physique-Chimie</strong> (propriétés des matériaux), et des <strong>Arts Appliqués</strong> (recherche de l'esthétique).
+                </div>
+                <div class="step">
+                    <strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Le concept de "design paramétrique" utilise des logiciels pour générer des formes complexes en fonction de paramètres techniques et esthétiques précis. Cela permet d'optimiser le design pour la performance et la fabrication.
+                </div>
+            </div><!-- Fin Contraintes techniques et esthétiques -->
+
+            <!-- Notion : L'identité visuelle d'une marque (logo, couleurs) -->
+            <div class="knowledge-block animated-element slide-in-right">
+                <h3>L'identité visuelle d'une marque (logo, couleurs)</h3>
+                <div class="step">
+                    <strong>a) 🎓 Définition Académique et Enjeux :</strong> L'identité visuelle d'une marque est l'ensemble des éléments graphiques (logo, couleurs, typographies, formes spécifiques) qui la représentent et la rendent reconnaissable. L'enjeu est de créer une image cohérente et mémorable qui véhicule les valeurs de la marque et la différencie de ses concurrents.
+                </div>
+                <div class="step">
+                    <strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> C'est comme ton uniforme de sport ou le blason de ton collège. Quand tu le vois, tu sais tout de suite de qui il s'agit. Pour une marque, c'est pareil : son logo et ses couleurs, c'est son "uniforme" pour se faire reconnaître !
+                </div>
+                <div class="step">
+                    <strong>c) 📱 Étude de Cas Concrète :</strong> Le <strong>Smartphone</strong> est un excellent exemple. Pense aux grandes marques de smartphones. Elles ont toutes un logo distinctif, des couleurs souvent associées à leurs produits (ex: le blanc épuré, le noir profond, des couleurs vives pour certaines gammes). Même la forme générale de leurs téléphones, la disposition des boutons, contribuent à leur identité visuelle et les rendent immédiatement identifiables.
+                    <img src="https://placehold.co/280x200/6A0DAD/FFFFFF?text=Logo+Marque" class="img-gauche img-petite" alt="Exemple de logo de marque de smartphone">
+                </div>
+                <div class="step">
+                    <strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour analyser l'identité visuelle d'une marque sur une <strong>Voiture</strong> :
+                    <ol>
+                        <li><strong>Logo :</strong> Où est-il placé ? Quelle est sa forme ? Ses couleurs ? (Ex: un lion, un losange, des anneaux).</li>
+                        <li><strong>Calandre :</strong> La grille à l'avant de la voiture est souvent un élément clé de l'identité. Est-elle grande, petite, chromée, noire ?</li>
+                        <li><strong>Signature lumineuse :</strong> La forme des phares (avant et arrière) est de plus en plus unique à chaque marque.</li>
+                        <li><strong>Couleurs emblématiques :</strong> Certaines marques sont associées à des couleurs spécifiques (ex: le rouge pour une marque sportive italienne).</li>
+                        <li><strong>Lignes générales :</strong> Les courbes ou les angles dominants sur la carrosserie peuvent être une signature de la marque.</li>
+                    </ol>
+                </div>
+                <div class="step">
+                    <strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Penser que le logo est le seul élément de l'identité visuelle. Les couleurs, la typographie, et même le style général des objets sont tout aussi importants.</li>
+                        <li><strong>Erreur 2 :</strong> Sous-estimer l'impact psychologique des couleurs. Le rouge peut évoquer la passion, le bleu la confiance, le vert la nature, etc.</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Le logo de Nike, le "Swoosh", a été créé pour seulement 35 dollars en 1971 par une étudiante. Il est devenu l'un des logos les plus reconnaissables au monde !
+                </div>
+                <div class="step">
+                    <strong>g) 🤝 Ponts Interdisciplinaires :</strong> Ce sujet fait le lien avec le <strong>Marketing</strong> (comment vendre un produit), l'<strong>Économie</strong> (l'importance de la marque dans le commerce), et les <strong>Arts Plastiques</strong> (création graphique, typographie).
+                </div>
+                <div class="step">
+                    <strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Le "branding" est l'art de construire une marque forte. Cela inclut l'identité visuelle, mais aussi le ton de voix, les valeurs, l'expérience client. Une marque forte peut même influencer nos décisions d'achat inconsciemment.
+                </div>
+            </div><!-- Fin L'identité visuelle d'une marque -->
+
+            <!-- Notion : L'influence de l'évolution des matériaux sur le design -->
+            <div class="knowledge-block animated-element slide-in-left">
+                <h3>L'influence de l'évolution des matériaux sur le design</h3>
+                <div class="step">
+                    <strong>a) 🎓 Définition Académique et Enjeux :</strong> L'évolution des matériaux désigne la découverte de nouveaux matériaux (plastiques, composites, alliages légers) ou l'amélioration des propriétés de ceux existants (verre plus résistant, bois plus léger). Cette évolution influence directement le design car de nouveaux matériaux permettent de créer de nouvelles formes, d'améliorer les performances ou de réduire les coûts. L'enjeu est de comprendre que le "quoi" (le matériau) détermine souvent le "comment" (la forme et la fonction).
+                </div>
+                <div class="step">
+                    <strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Imagine que tu es un sculpteur. Si tu as seulement de la pierre, tu feras des statues lourdes et massives. Mais si tu découvres de l'argile, tu pourras faire des formes plus fines et détaillées ! Le matériau que tu utilises change ce que tu peux créer.
+                </div>
+                <div class="step">
+                    <strong>c) 📱 Étude de Cas Concrète :</strong> Le <strong>Smartphone</strong> est un exemple parfait. Les premiers téléphones étaient gros et lourds car ils utilisaient beaucoup de plastique et des composants volumineux. Aujourd'hui, grâce à des écrans plus fins, des batteries plus compactes, et l'utilisation d'alliages d'aluminium ou de verre renforcé, les smartphones sont devenus incroyablement fins, légers et résistants. Le design a pu évoluer vers des formes épurées et des surfaces lisses, impensables il y a 20 ans.
+                    <img src="https://placehold.co/450x250/FF6F61/FFFFFF?text=Materiaux+Smartphone" class="img-droite img-moyenne" alt="Illustration de l'évolution des matériaux dans les smartphones">
+                </div>
+                <div class="step">
+                    <strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Sur une <strong>Chaise en bois</strong> :
+                    <ul>
+                        <li><strong>Bois massif traditionnel :</strong> Permet des formes robustes, souvent sculptées, mais peut être lourd. Les assemblages sont visibles.</li>
+                        <li><strong>Contreplaqué moulé :</strong> L'invention du contreplaqué (fines feuilles de bois collées) a permis de créer des chaises aux formes courbes et légères, impossibles à réaliser avec du bois massif. C'est le cas de nombreuses chaises célèbres du 20e siècle.</li>
+                        <li><strong>Bois composite/recyclé :</strong> Des matériaux innovants permettent de créer des chaises avec des propriétés améliorées (plus légères, plus résistantes à l'humidité) ou avec un impact environnemental réduit, ouvrant la voie à de nouveaux designs.</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Penser que le design vient toujours avant le matériau. Souvent, la découverte d'un nouveau matériau inspire de nouvelles possibilités de design.</li>
+                        <li><strong>Erreur 2 :</strong> Oublier que le matériau influence aussi le coût de fabrication et l'impact environnemental de l'objet.</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Le plastique a révolutionné le design au 20e siècle. Il a permis de fabriquer des objets aux formes audacieuses, colorées et à bas coût, rendant le design accessible à tous. Cependant, son impact environnemental est aujourd'hui un défi majeur.
+                </div>
+                <div class="step">
+                    <strong>g) 🤝 Ponts Interdisciplinaires :</strong> Ce thème est directement lié à la <strong>Physique-Chimie</strong> (propriétés des matériaux), à la <strong>Technologie</strong> (procédés de transformation des matériaux), et à la <strong>SVT</strong> (impact environnemental des matériaux).
+                </div>
+                <div class="step">
+                    <strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> La "bio-inspiration" est une approche de design qui consiste à s'inspirer des formes et des processus de la nature pour créer de nouveaux matériaux ou objets. Par exemple, la solidité d'une toile d'araignée inspire de nouveaux matériaux composites.
+                </div>
+            </div><!-- Fin L'influence de l'évolution des matériaux -->
+
+            <!-- Notion : Fonction d'estime -->
+            <div class="knowledge-block animated-element slide-in-right">
+                <h3>Fonction d'estime</h3>
+                <div class="step">
+                    <strong>a) 🎓 Définition Académique et Enjeux :</strong> La fonction d'estime d'un objet est ce qu'il apporte à l'utilisateur en termes d'image, de statut social, de plaisir, d'émotion ou d'appartenance à un groupe. C'est ce qui fait qu'on aime un objet non pas seulement pour ce qu'il fait, mais pour ce qu'il représente pour nous ou pour les autres. L'enjeu est de créer des objets qui, au-delà de leur utilité, procurent une satisfaction émotionnelle ou symbolique à l'utilisateur.
+                </div>
+                <div class="step">
+                    <strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Pense à tes chaussures préférées. Elles te servent à marcher (fonction d'usage), mais si tu les aimes tant, c'est peut-être parce qu'elles sont de ta marque préférée, qu'elles te donnent un certain style, ou que tes amis les trouvent cool. C'est ça, la fonction d'estime !
+                </div>
+                <div class="step">
+                    <strong>c) 📱 Étude de Cas Concrète :</strong> La <strong>Souris d'ordinateur</strong>. Une souris basique permet de cliquer et de bouger le curseur (fonction d'usage). Mais une souris de gamer, avec ses lumières LED, ses boutons programmables, son design agressif et son prix élevé, apporte une fonction d'estime : elle montre que tu es un joueur sérieux, elle te donne l'impression d'être plus performant, et elle fait partie de l'équipement "pro" du joueur.
+                    <img src="https://placehold.co/450x250/FFD700/333333?text=Souris+Gaming" class="img-gauche img-moyenne" alt="Exemple de souris gaming avec des lumières LED">
+                </div>
+                <div class="step">
+                    <strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour analyser la fonction d'estime d'un <strong>Sac à dos</strong> :
+                    <ol>
+                        <li><strong>Marque :</strong> Est-ce une marque connue, "tendance" ?</li>
+                        <li><strong>Design :</strong> A-t-il un look particulier (vintage, sportif, urbain) qui correspond à un style de vie ?</li>
+                        <li><strong>Matériaux :</strong> Utilise-t-il des matériaux "nobles" (cuir, toile épaisse) ou des matériaux techniques (tissu imperméable, recyclé) qui lui donnent une valeur perçue ?</li>
+                        <li><strong>Détails :</strong> Y a-t-il des éléments distinctifs (boucles spéciales, broderies, couleurs uniques) qui le rendent "désirable" ?</li>
+                        <li><strong>Publicité/Image :</strong> Comment la marque présente-t-elle le sac ? Pour qui est-il fait ? (Ex: "pour les aventuriers", "pour les créatifs").</li>
+                    </ol>
+                </div>
+                <div class="step">
+                    <strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong>
+                    <ul>
+                        <li><strong>Erreur 1 :</strong> Confondre fonction d'estime et fonction d'usage. La fonction d'usage, c'est ce que l'objet fait concrètement. La fonction d'estime, c'est ce qu'il nous fait ressentir ou ce qu'il dit de nous.</li>
+                        <li><strong>Erreur 2 :</strong> Penser que la fonction d'estime n'est que pour les objets de luxe. Même un objet simple peut avoir une fonction d'estime (ex: un mug qui nous a été offert par quelqu'un qu'on aime).</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Les marques utilisent le "storytelling" (raconter une histoire) pour renforcer la fonction d'estime de leurs produits. Par exemple, une marque de chaussures de randonnée va raconter des histoires d'aventuriers qui ont gravi des montagnes avec leurs chaussures.
+                </div>
+                <div class="step">
+                    <strong>g) 🤝 Ponts Interdisciplinaires :</strong> La fonction d'estime est liée à la <strong>Sociologie</strong> (étude des groupes sociaux et de leur consommation), à la <strong>Psychologie</strong> (émotions, perception), et bien sûr au <strong>Marketing</strong> et aux <strong>Arts Plastiques</strong> (création d'une image désirable).
+                </div>
+                <div class="step">
+                    <strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Le "luxe" est un domaine où la fonction d'estime est prédominante. Les objets de luxe ne sont pas seulement fonctionnels ; ils sont des symboles de réussite, d'exclusivité et d'artisanat d'exception.
+                </div>
+            </div><!-- Fin Fonction d'estime -->
+
+        </div><!-- Fin Développement du Cours -->
+
+        <!-- 6. AVENIR ET PERSPECTIVES -->
+        <div class="section animated-element fade-in-up">
+            <h2>🔮 Avenir et Perspectives : Le design de demain</h2>
+            <p>Le monde du design est en constante évolution, et les défis de demain sont passionnants !</p>
+            <p><strong>L'innovation technologique</strong> continuera de transformer les objets. Pensez aux interfaces holographiques, aux matériaux auto-réparants, ou aux objets connectés qui s'adaptent à nos émotions. Le design devra intégrer ces avancées pour créer des expériences toujours plus fluides et intuitives.</p>
+            <p>Un enjeu majeur sera le <strong>design durable et responsable</strong>. Face aux défis environnementaux, les designers sont de plus en plus amenés à concevoir des objets qui durent plus longtemps, qui sont réparables, recyclables, ou fabriqués à partir de matériaux écologiques. Le "beau" devra aussi être "bon" pour la planète.</p>
+            <p>Enfin, le design ne se limite plus aux objets physiques. On parle de "design de services" (comment rendre un service plus agréable, comme une application mobile) ou de "design d'expériences" (comment créer une expérience mémorable, par exemple dans un parc d'attractions). Les métiers du design sont donc très variés et en pleine expansion !</p>
+        </div>
+
+        <!-- 7. CONCLUSION -->
+        <div class="section animated-element fade-in-up">
+            <h2>✅ Conclusion : Le design, bien plus qu'un simple look !</h2>
+            <p>Nous avons parcouru un long chemin ensemble pour comprendre pourquoi les objets ont ce look si particulier. Pour répondre à notre problématique initiale : <strong>les choix esthétiques des objets sont influencés par un mélange complexe d'avancées technologiques, de disponibilité des matériaux, de modes culturelles, de l'identité des marques et, surtout, des besoins et des désirs des utilisateurs.</strong></p>
+            <p>Le design n'est donc pas une simple affaire de "beau" ou de "moche". C'est une discipline qui combine la créativité artistique, la rigueur scientifique et l'ingéniosité technique pour créer des objets qui nous facilitent la vie, nous procurent du plaisir et racontent une histoire. La prochaine fois que tu regarderas un smartphone, une souris, une voiture, une chaise ou un sac à dos, tu ne les verras plus jamais de la même manière ! Tu seras un(e) véritable expert(e) du design !</p>
+        </div>
+
+        <!-- 8. EXERCICES D'AUTO-ÉVALUATION -->
+        <div class="section animated-element fade-in-up">
+            <h2>📝 Exercices d'Auto-Évaluation</h2>
+            <p>Vérifie tes connaissances ! Réponds aux questions, puis clique sur "Afficher la réponse" pour te corriger.</p>
+
+            <div class="exercice-card">
+                <h3>Exercice 1 : Analyse de l'évolution</h3>
+                <p>Observe une <strong>voiture des années 70</strong> (recherche une image sur internet si besoin) et une <strong>voiture électrique moderne</strong>. Cite deux différences majeures dans leur design et explique, pour chaque différence, si elle est due principalement à une contrainte technique, une tendance stylistique, ou la fonction d'estime.</p>
+                <button onclick="document.getElementById('reponse1').style.display='block'">Afficher la réponse</button>
+                <div id="reponse1" style="display:none; margin-top: 15px; padding: 10px; background-color: #e9f5e9; border-left: 3px solid #4CAF50; border-radius: 5px;">
+                    <p><strong>Exemple de réponse :</strong></p>
+                    <ul>
+                        <li><strong>Différence 1 :</strong> Les voitures modernes ont des formes plus aérodynamiques et fluides, moins anguleuses.
+                            <ul><li><strong>Explication :</strong> C'est principalement dû à une <strong>contrainte technique</strong> (réduire la résistance à l'air pour économiser l'énergie, surtout pour les voitures électriques) et à une <strong>tendance stylistique</strong> (le minimalisme et les lignes épurées).</li></ul>
+                        </li>
+                        <li><strong>Différence 2 :</strong> Les voitures modernes intègrent de grands écrans tactiles à l'intérieur.
+                            <ul><li><strong>Explication :</strong> C'est une <strong>contrainte technique</strong> (intégration de nouvelles technologies comme le GPS, l'infodivertissement) et aussi une <strong>fonction d'estime</strong> (donner une image de modernité, de luxe et de technologie avancée).</li></ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exercice-card">
+                <h3>Exercice 2 : Identifie la notion</h3>
+                <p>Pour chaque affirmation ci-dessous, indique si elle correspond au <strong>Design d'objet</strong>, à une <strong>Tendance stylistique</strong>, à une <strong>Contrainte technique</strong>, à l'<strong>Identité visuelle d'une marque</strong>, à l'<strong>Influence des matériaux</strong>, ou à la <strong>Fonction d'estime</strong>.</p>
+                <ol>
+                    <li>"Ce <strong>sac à dos</strong> est fait en tissu recyclé pour être plus écologique."</li>
+                    <li>"La nouvelle <strong>souris d'ordinateur</strong> est conçue pour épouser parfaitement la forme de la main."</li>
+                    <li>"Le logo de cette marque de <strong>smartphone</strong> est une pomme mordue."</li>
+                    <li>"Les <strong>chaises en bois</strong> des années 50 avaient souvent des pieds compas."</li>
+                    <li>"Cette <strong>voiture de sport</strong> me donne l'impression d'être un pilote de course."</li>
+                </ol>
+                <button onclick="document.getElementById('reponse2').style.display='block'">Afficher la réponse</button>
+                <div id="reponse2" style="display:none; margin-top: 15px; padding: 10px; background-color: #e9f5e9; border-left: 3px solid #4CAF50; border-radius: 5px;">
+                    <p><strong>Réponses :</strong></p>
+                    <ol>
+                        <li>Influence de l'évolution des matériaux (et contrainte technique/environnementale).</li>
+                        <li>Design d'objet (plus précisément l'ergonomie, qui est une composante du design).</li>
+                        <li>L'identité visuelle d'une marque.</li>
+                        <li>Tendance stylistique.</li>
+                        <li>Fonction d'estime.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="exercice-card">
+                <h3>Exercice 3 : Argumente ton choix</h3>
+                <p>Tu es un designer et tu dois concevoir une nouvelle <strong>chaise en bois</strong> pour un collège. Choisis un courant de design (ex: minimaliste, industriel, vintage...) et argumente ton choix en utilisant au moins trois mots du vocabulaire spécifique vu dans le cours (ligne, forme, couleur, texture, matériau, ergonomie, fonction d'estime...).</p>
+                <button onclick="document.getElementById('reponse3').style.display='block'">Afficher la réponse</button>
+                <div id="reponse3" style="display:none; margin-top: 15px; padding: 10px; background-color: #e9f5e9; border-left: 3px solid #4CAF50; border-radius: 5px;">
+                    <p><strong>Exemple de réponse :</strong></p>
+                    <p>Je choisirais un design <strong>minimaliste</strong> pour la chaise de collège.</p>
+                    <ul>
+                        <li>Les <strong>lignes</strong> seraient très droites et épurées, sans fioritures, pour une apparence simple et moderne.</li>
+                        <li>La <strong>forme</strong> serait fonctionnelle, privilégiant la robustesse et l'empilabilité.</li>
+                        <li>La <strong>couleur</strong> serait un bois clair naturel ou un gris neutre pour s'intégrer facilement dans n'importe quelle salle de classe et ne pas distraire les élèves.</li>
+                        <li>Le <strong>matériau</strong> serait un bois massif ou du contreplaqué de bouleau pour sa solidité et sa légèreté.</li>
+                        <li>L'<strong>ergonomie</strong> serait pensée pour un confort optimal, même sur de longues périodes.</li>
+                        <li>La <strong>fonction d'estime</strong> de cette chaise serait sa discrétion et son efficacité, favorisant la concentration.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. SYNTHÈSE VISUELLE (FORMAT CARTE MENTALE) -->
+        <div class="section animated-element fade-in-up">
+            <h2>🧠 Synthèse Visuelle : La carte du design</h2>
+            <p>Voici une carte mentale pour t'aider à retenir l'essentiel de ce cours :</p>
+            <ul>
+                <li><strong>Le Design d'objet</strong>
+                    <ul>
+                        <li>Concevoir des objets : fonction + esthétique + ergonomie + fabrication + impact.</li>
+                        <li>Le designer : un "chef d'orchestre" de l'objet.</li>
+                    </ul>
+                </li>
+                <li><strong>Tendances & Courants Stylistiques</strong>
+                    <ul>
+                        <li>Évolution du "look" des objets dans le temps.</li>
+                        <li>Influencé par culture, technologie, société.</li>
+                        <li>Ex: Minimaliste, Vintage, Industriel.</li>
+                    </ul>
+                </li>
+                <li><strong>Contraintes Techniques & Esthétiques</strong>
+                    <ul>
+                        <li>Techniques : ce qui est possible (matériaux, fabrication, normes).</li>
+                        <li>Esthétiques : ce qui est désiré (apparence, mode, marque).</li>
+                        <li>Le défi : trouver l'équilibre parfait.</li>
+                    </ul>
+                </li>
+                <li><strong>Identité Visuelle d'une Marque</strong>
+                    <ul>
+                        <li>Logo, couleurs, formes spécifiques.</li>
+                        <li>Rendre la marque reconnaissable et unique.</li>
+                        <li>Véhicule les valeurs et l'image.</li>
+                    </ul>
+                </li>
+                <li><strong>Influence des Matériaux</strong>
+                    <ul>
+                        <li>Nouveaux matériaux = nouvelles formes et fonctions.</li>
+                        <li>Ex: Finesse des smartphones grâce aux nouveaux alliages.</li>
+                        <li>Impact sur coût et environnement.</li>
+                    </ul>
+                </li>
+                <li><strong>Fonction d'Estime</strong>
+                    <ul>
+                        <li>Ce que l'objet représente (image, statut, plaisir, émotion).</li>
+                        <li>Au-delà de l'utilité, le "plus" qui nous fait aimer l'objet.</li>
+                        <li>Ex: Souris de gamer, voiture de sport.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 10. LEXIQUE / GLOSSAIRE DES TERMES CLÉS -->
+        <div class="section animated-element fade-in-up">
+            <h2>📚 Lexique / Glossaire des Termes Clés</h2>
+            <div class="glossary-list">
+                <div class="glossary-item">
+                    <strong>Aérodynamisme :</strong> Qualité d'une forme qui offre peu de résistance à l'air, souvent utilisée pour les voitures ou avions.
+                </div>
+                <div class="glossary-item">
+                    <strong>Bio-design :</strong> Courant de design qui s'inspire des formes et des processus de la nature.
+                </div>
+                <div class="glossary-item">
+                    <strong>Branding :</strong> Ensemble des actions visant à construire et développer l'image d'une marque.
+                </div>
+                <div class="glossary-item">
+                    <strong>Contrainte esthétique :</strong> Exigence liée à l'apparence, au style ou à la beauté d'un objet.
+                </div>
+                <div class="glossary-item">
+                    <strong>Contrainte technique :</strong> Limite imposée par les matériaux, les outils ou les méthodes de fabrication.
+                </div>
+                <div class="glossary-item">
+                    <strong>Courant stylistique :</strong> Ensemble de caractéristiques esthétiques qui définissent le "look" des objets à une certaine époque ou dans un certain mouvement artistique.
+                </div>
+                <div class="glossary-item">
+                    <strong>Design d'objet :</strong> Discipline qui conçoit des objets manufacturés en tenant compte de leur fonction, esthétique, ergonomie, fabrication et impact.
+                </div>
+                <div class="glossary-item">
+                    <strong>Design thinking :</strong> Méthode de résolution de problèmes centrée sur l'utilisateur, utilisée en design.
+                </div>
+                <div class="glossary-item">
+                    <strong>Ergonomie :</strong> Étude de l'adaptation d'un outil ou d'un objet aux capacités physiques et mentales de l'utilisateur pour un confort et une efficacité optimaux.
+                </div>
+                <div class="glossary-item">
+                    <strong>Fonction d'estime :</strong> Ce qu'un objet apporte à l'utilisateur en termes d'image, de plaisir, d'émotion ou d'appartenance sociale.
+                </div>
+                <div class="glossary-item">
+                    <strong>Fonction d'usage :</strong> Ce à quoi sert concrètement un objet (son utilité principale).
+                </div>
+                <div class="glossary-item">
+                    <strong>Identité visuelle :</strong> Ensemble des éléments graphiques (logo, couleurs, typographie) qui représentent une marque.
+                </div>
+                <div class="glossary-item">
+                    <strong>Minimalisme :</strong> Courant de design prônant la simplicité, la réduction des formes à l'essentiel, et l'absence d'ornements superflus.
+                </div>
+                <div class="glossary-item">
+                    <strong>Paramétrique (design) :</strong> Méthode de design utilisant des algorithmes pour générer des formes basées sur des paramètres variables.
+                </div>
+                <div class="glossary-item">
+                    <strong>Storytelling :</strong> Technique de communication qui consiste à raconter une histoire pour promouvoir une marque ou un produit.
+                </div>
+                <div class="glossary-item">
+                    <strong>Tendance stylistique :</strong> Orientation générale dans l'esthétique des objets à une période donnée, moins durable qu'un courant.
+                </div>
+                <div class="glossary-item">
+                    <strong>Texture :</strong> Aspect de la surface d'un matériau (lisse, rugueux, brillant, mat...).
+                </div>
+                <div class="glossary-item">
+                    <strong>Typographie :</strong> Art de choisir et d'arranger les caractères d'écriture.
+                </div>
+                <div class="glossary-item">
+                    <strong>Vintage :</strong> Style qui s'inspire des designs des décennies passées.
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. POUR ALLER PLUS LOIN -->
+        <div class="section animated-element fade-in-up">
+            <h2>🚀 Pour aller plus loin...</h2>
+            <p>Si tu as soif de découvertes, voici quelques pistes pour explorer le monde du design :</p>
+            <ul class="for-more-list">
+                <li><strong>Mini-projet à réaliser :</strong>
+                    <p>Choisis un objet du quotidien (un stylo, une gourde, une paire de ciseaux). Dessine-le tel qu'il est, puis imagine une version "revisitée" dans un style futuriste ou éco-responsable. Explique tes choix de design (formes, matériaux, couleurs) et les contraintes que tu as rencontrées.</p>
+                </li>
+                <li><strong>Vidéo de référence à regarder :</strong>
+                    <p>Regarde la vidéo "Abstract: The Art of Design" sur Netflix (si tu y as accès) ou cherche des documentaires sur le design sur YouTube. De nombreux épisodes sont dédiés à des designers célèbres et à leurs créations. Par exemple, recherche "Le Corbusier" ou "Philippe Starck".</p>
+                </li>
+                <li><strong>Métier à découvrir :</strong>
+                    <p>Explore le métier de <strong>Designer Industriel</strong> ou de <strong>Designer Produit</strong>. Ces professionnels sont ceux qui imaginent et conçoivent les objets que nous utilisons tous les jours. Renseigne-toi sur les études nécessaires et les différentes spécialisations (design automobile, design de mobilier, design d'interfaces...).</p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

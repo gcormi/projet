@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piloter un système : Capteurs, actionneurs et microcontrôleur</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5a623;
+            --accent-color: #7ed321;
+            --bg-color: #f4f7f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: var(--card-bg);
+            padding: 20px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-top: 1.5em;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            text-align: center;
+            border-bottom: 4px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 1em;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: var(--secondary-color);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.6em;
+        }
+        
+        h4 {
+            font-size: 1.2em;
+            color: #50e3c2;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hook {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            font-style: italic;
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hook::before {
+            content: '💡';
+            font-size: 3em;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        .objectives ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .objectives li {
+            background: #eef5ff;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid var(--accent-color);
+            transition: transform 0.2s;
+        }
+        
+        .objectives li:hover {
+            transform: translateX(5px);
+        }
+
+        .knowledge-block {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #fafcff;
+        }
+
+        .knowledge-block h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .knowledge-block h3::before {
+            content: '⚙️';
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .card h4 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h4 .icon {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        
+        .analogy { background-color: #fffbe6; border-left: 4px solid #f5a623; }
+        .case-study { background-color: #e6f7ff; border-left: 4px solid #1890ff; }
+        .tech-deep-dive { background-color: #f6ffed; border-left: 4px solid #52c41a; }
+        .warning { background-color: #fff1f0; border-left: 4px solid #f5222d; }
+        .did-you-know { background-color: #e6f7ff; border-left: 4px solid #13c2c2; }
+        .interdisciplinary { background-color: #f9f0ff; border-left: 4px solid #722ed1; }
+        .expert-corner { background-color: #f0f5ff; border-left: 4px solid #2f54eb; }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        code {
+            font-family: 'Roboto Mono', monospace;
+            background: #e8e8e8;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .lexicon dl dt {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .lexicon dl dd {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .mind-map ul {
+            list-style-type: '🧠';
+            padding-left: 20px;
+        }
+        
+        .mind-map ul ul {
+            list-style-type: '⚙️';
+        }
+
+        .mind-map ul ul ul {
+            list-style-type: '➡️';
+        }
+
+        .exercise {
+            margin-bottom: 20px;
+        }
+
+        .exercise button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .exercise .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #e6ffed;
+            border: 1px solid #b7eb8f;
+        }
+
+        .feedback.incorrect {
+            background-color: #fff1f0;
+            border: 1px solid #ffa39e;
+        }
+        
+        .img-gauche, .img-droite {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .img-gauche {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .img-droite {
+            float: right;
+            margin-left: 20px;
+        }
+
+        .img-moyenne {
+            max-width: 450px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        .img-petite {
+            max-width: 280px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+        
+        /* Correction pour le "float" */
+        .knowledge-block::after, .card::after, .section::after, .container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>PILOTER UN SYSTÈME :<br>CAPTEURS, ACTIONNEURS ET MICROCONTRÔLEUR</h1>
+        </header>
+        
+        <img src="image_1.png" class="img-moyenne" alt="Illustration d'un microcontrôleur central connecté à des icônes de drone, smartphone, trottinette, arrosage automatique et station météo." style="display: block; margin: 20px auto;">
+
+        <section class="section">
+            <h2>Situation Déclenchante</h2>
+            <div class="hook">
+                Imagine... Il fait nuit, tu es seul(e) à la maison et soudain, une lumière s'allume dans le jardin. Est-ce un chat ou un intrus ? Et si un système pouvait non seulement détecter le mouvement, mais aussi allumer une lumière, faire sonner une alarme et t'envoyer une alerte sur ton smartphone ? Ou encore, imagine tes plantes qui ne meurent plus jamais de soif parce qu'un système intelligent sait exactement quand les arroser. Magique ? Non, technologique ! C'est exactement ce que nous allons apprendre à construire : des systèmes qui pensent, ressentent et agissent. Pour cela, il nous faut un 'cerveau' (le microcontrôleur), des 'sens' (les capteurs) et des 'muscles' (les actionneurs). Prêt(e) à assembler et programmer ton premier système intelligent ?
+            </div>
+        </section>
+
+        <section class="section objectives">
+            <h2>Ta mission, si tu l'acceptes...</h2>
+            <h4>Compétences à maîtriser :</h4>
+            <ul>
+                <li>✅ Choisir le bon capteur et le bon actionneur pour réaliser une tâche précise.</li>
+                <li>✅ Câbler correctement les composants (capteurs, actionneurs) à un microcontrôleur.</li>
+                <li>✅ Écrire un programme simple pour faire interagir les capteurs et les actionneurs.</li>
+            </ul>
+            <h4>Savoirs et connaissances à acquérir :</h4>
+            <ul>
+                <li>📚 Comprendre ce qu'est un microcontrôleur (ex: Arduino, Micro:bit) et son rôle de "cerveau".</li>
+                <li>📚 Différencier un capteur Tout-Ou-Rien (TOR) d'un capteur analogique.</li>
+                <li>📚 Savoir ce qu'est un actionneur et donner des exemples.</li>
+                <li>📚 Comprendre la différence entre un signal logique (haut/bas) et un signal analogique.</li>
+                <li>📚 Identifier les entrées et les sorties d'un microcontrôleur.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Introduction et Problématique</h2>
+            <p>
+                De ton smartphone à la station météo de ton jardin, en passant par les drones qui filment des paysages incroyables, nous sommes entourés d'objets "intelligents". Mais qu'est-ce qui les rend si malins ? Ce n'est pas de la magie ! C'est le résultat d'une collaboration parfaite entre trois types de composants électroniques que nous allons explorer. Ces objets ne font qu'obéir à des instructions, en réagissant à leur environnement.
+            </p>
+            <p>
+                Ce cours va te donner les clés pour comprendre et même créer tes propres objets connectés. Nous allons littéralement ouvrir le capot de ces technologies pour voir comment elles fonctionnent.
+            </p>
+            <p>
+                <strong>La problématique centrale est donc la suivante : Comment un système électronique peut-il percevoir son environnement et agir dessus de manière autonome et programmée ?</strong>
+            </p>
+            <p>
+                Pour y répondre, nous allons d'abord découvrir le rôle du chef d'orchestre : le <strong>microcontrôleur</strong>. Puis, nous étudierons ses "sens", les <strong>capteurs</strong>, et ses "muscles", les <strong>actionneurs</strong>. Enfin, nous apprendrons le langage qu'ils utilisent pour communiquer : les <strong>signaux logiques et analogiques</strong>, via les <strong>entrées et sorties</strong> du microcontrôleur.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Exploration en Profondeur</h2>
+
+            <div class="knowledge-block">
+                <h3>Le Microcontrôleur</h3>
+                <img src="image_2.png" class="img-droite img-moyenne" alt="Image d'un microcontrôleur de type Arduino avec ses broches mises en évidence.">
+                
+                <div class="card analogy"><h4><span class="icon">🧠</span> Analogie et Simplification Pédagogique</h4><p>Le microcontrôleur, c'est comme le <strong>cerveau</strong> d'un robot. Il n'est pas très puissant (il ne peut pas faire tourner de jeux vidéo complexes), mais il est excellent pour une chose : recevoir des informations, prendre des décisions très rapides basées sur un programme, et donner des ordres. Ton cerveau reçoit l'information "j'ai faim", décide "je vais manger une pomme" et ordonne à ta main de la prendre. Le microcontrôleur fait pareil, mais avec des composants électroniques !</p></div>
+                <div class="card case-study"><h4><span class="icon">📱</span> Étude de Cas Concrète</h4><p>Dans un <strong>système d'arrosage automatique</strong>, le microcontrôleur (souvent un petit circuit de type Arduino ou similaire) est le chef. Il reçoit l'information d'un capteur d'humidité ("La terre est sèche") et, en suivant son programme, il prend la décision d'ordonner à une électrovanne (un actionneur) de s'ouvrir pour laisser passer l'eau. Dans un <strong>drône de loisir</strong>, il reçoit en permanence les données des gyroscopes (capteurs) et donne des ordres des milliers de fois par seconde aux moteurs (actionneurs) pour rester stable.</p></div>
+                <div class="card tech-deep-dive"><h4><span class="icon">🛠️</span> Décortiquage Technique - "Sous le Capot"</h4><p>Pour mettre en œuvre un microcontrôleur comme un <strong>Arduino Uno</strong> : 1) On le connecte à un ordinateur via un câble USB. 2) On utilise un logiciel (l'IDE Arduino) pour écrire un programme (appelé "sketch"). 3) Dans ce programme, on définit quelles broches (les "pattes" du microcontrôleur) seront des entrées (pour lire les capteurs) et lesquelles seront des sorties (pour commander les actionneurs). 4) On "téléverse" le programme dans la mémoire du microcontrôleur. 5) On débranche l'ordinateur, on alimente l'Arduino (avec une pile par exemple), et il exécute le programme en boucle, de manière autonome.</p></div>
+                <div class="card warning"><h4><span class="icon">🤔</span> Points de Vigilance et Erreurs à Éviter</h4><p>1. <strong>Confondre microcontrôleur et microprocesseur :</strong> Le processeur de ton ordinateur (Intel, AMD) est un microprocesseur, il est très puissant mais a besoin de beaucoup d'autres composants pour fonctionner (mémoire RAM, disque dur...). Un microcontrôleur est un mini-ordinateur tout-en-un sur une seule puce : il a déjà son processeur, sa mémoire et ses entrées/sorties. 2. <strong>Penser qu'il est "intelligent" :</strong> Un microcontrôleur est "bête". Il n'exécute que ce qu'on lui a programmé, sans aucune improvisation.</p></div>
+                <div class="card did-you-know"><h4><span class="icon">💡</span> Le Saviez-Vous ?</h4><p>Le premier microcontrôleur commercial, le TMS 1000, a été créé par Texas Instruments en 1974. Il était notamment utilisé dans des calculatrices et a ouvert la voie à toute l'électronique embarquée que nous connaissons aujourd'hui !</p></div>
+                <div class="card interdisciplinary"><h4><span class="icon">🤝</span> Ponts Interdisciplinaires</h4><p><strong>Mathématiques :</strong> La programmation d'un microcontrôleur repose sur la logique (conditions "si... alors... sinon"), les variables et les opérations arithmétiques. <strong>Physique-Chimie :</strong> On manipule des grandeurs électriques fondamentales comme la tension (en Volts) et le courant (en Ampères).</p></div>
+                <div class="card expert-corner"><h4><span class="icon">🚀</span> Pour les Experts</h4><p>Les microcontrôleurs comme l'Arduino fonctionnent généralement avec une tension de 5V ou 3.3V. C'est très faible ! Le défi pour les ingénieurs est de concevoir des systèmes de plus en plus économes en énergie, surtout pour les objets sur batterie comme les <strong>stations météo connectées</strong> ou les trackers GPS. Le choix d'un microcontrôleur "basse consommation" est un critère essentiel dans l'industrie de l'Internet des Objets (IoT).</p></div>
+            </div>
+
+            <div class="knowledge-block">
+                <h3>Le Capteur (TOR et Analogique)</h3>
+                <img src="image_3.png" class="img-gauche img-moyenne" alt="Illustration de différents types de capteurs : lumière, température, mouvement.">
+                
+                <div class="card analogy"><h4><span class="icon">🧠</span> Analogie et Simplification Pédagogique</h4><p>Les capteurs sont les <strong>sens</strong> de notre système. Ton corps a des capteurs : tes yeux (lumière), ta peau (température, pression), tes oreilles (son). Un système électronique, c'est pareil. Un capteur transforme une grandeur physique (lumière, température, distance...) en un signal électrique que le microcontrôleur peut comprendre.</p></div>
+                <div class="card case-study"><h4><span class="icon">📱</span> Étude de Cas Concrète</h4><p>Sur ton <strong>smartphone</strong>, tu as des dizaines de capteurs : l'accéléromètre (qui détecte l'inclinaison pour faire pivoter l'écran), le capteur de proximité (qui éteint l'écran quand tu le portes à l'oreille), le capteur de luminosité (qui ajuste la clarté de l'écran). Dans une <strong>trottinette électrique</strong>, un capteur "à effet Hall" dans la gâchette d'accélération mesure à quel point tu appuies pour envoyer plus ou moins de puissance au moteur.</p></div>
+                <div class="card tech-deep-dive"><h4><span class="icon">🛠️</span> Décortiquage Technique - "Sous le Capot"</h4><p>Il y a deux grandes familles :<br><strong>1. Capteur TOR (Tout Ou Rien) :</strong> Il ne donne que deux informations, comme un interrupteur. Exemple : un capteur de contact sur une porte. Soit la porte est fermée (état BAS), soit elle est ouverte (état HAUT). Il envoie 0V ou 5V.<br><strong>2. Capteur Analogique :</strong> Il donne une information nuancée, une valeur qui peut varier. Exemple : un capteur de température. Il ne dit pas juste "chaud" ou "froid", mais il donne une tension proportionnelle à la température (ex: 1V pour 10°C, 1.5V pour 15°C...). Le microcontrôleur lit cette tension et la convertit en un nombre pour l'utiliser dans son programme.</p></div>
+                <div class="card warning"><h4><span class="icon">🤔</span> Points de Vigilance et Erreurs à Éviter</h4><p>1. <strong>Brancher un capteur au mauvais endroit :</strong> Un capteur analogique doit être branché sur une entrée analogique du microcontrôleur (souvent marquées A0, A1...). Un capteur TOR peut être branché sur n'importe quelle entrée numérique. 2. <strong>Oublier la "calibration" :</strong> Un capteur brut donne une valeur (ex: 452). Il faut souvent la "traduire" en une unité compréhensible (ex: 22°C) grâce à une petite formule mathématique donnée par le fabricant.</p></div>
+                <div class="card did-you-know"><h4><span class="icon">💡</span> Le Saviez-Vous ?</h4><p>Les animaux sont une grande source d'inspiration pour les capteurs ! La vision infrarouge des serpents a inspiré les caméras thermiques, et le sonar des chauves-souris et des dauphins a inspiré les capteurs à ultrasons utilisés dans les détecteurs de recul des voitures ou les <strong>drônes</strong> pour éviter les obstacles.</p></div>
+                <div class="card interdisciplinary"><h4><span class="icon">🤝</span> Ponts Interdisciplinaires</h4><p><strong>SVT :</strong> C'est une parfaite analogie avec le système nerveux humain, où les nerfs sensitifs transmettent les informations des organes des sens (peau, yeux...) au cerveau. <strong>Mathématiques :</strong> La lecture d'un capteur analogique est une fonction affine : y = ax + b, où 'x' est la valeur lue par le microcontrôleur et 'y' est la grandeur physique réelle (température, distance...).</p></div>
+                <div class="card expert-corner"><h4><span class="icon">🚀</span> Pour les Experts</h4><p>Certains capteurs sont bien plus complexes et communiquent via des protocoles numériques comme I2C ou SPI. C'est le cas des capteurs très précis comme les gyroscopes 9 axes (accéléromètre + gyroscope + magnétomètre) qu'on trouve dans les <strong>smartphones</strong> ou les <strong>drônes</strong>. Ils envoient des "trames" de données numériques au lieu d'une simple tension variable.</p></div>
+            </div>
+
+            <div class="knowledge-block">
+                <h3>L'Actionneur</h3>
+                <img src="image_4.png" class="img-droite img-moyenne" alt="Illustration de différents types d'actionneurs : moteur, LED, buzzer.">
+                
+                <div class="card analogy"><h4><span class="icon">🧠</span> Analogie et Simplification Pédagogique</h4><p>Si les capteurs sont les sens, les actionneurs sont les <strong>muscles</strong> (et la bouche !). Ils reçoivent un ordre du microcontrôleur (le cerveau) et agissent sur le monde physique. Un actionneur convertit un signal électrique en une action : mouvement, lumière, son, chaleur...</p></div>
+                <div class="card case-study"><h4><span class="icon">📱</span> Étude de Cas Concrète</h4><p>Dans une <strong>trottinette électrique</strong>, l'actionneur principal est le <strong>moteur</strong> qui fait tourner la roue. Dans un <strong>smartphone</strong>, le <strong>vibeur</strong> est un actionneur (c'est un petit moteur avec une masse excentrée), tout comme l'<strong>écran</strong> (qui produit de la lumière) ou le <strong>haut-parleur</strong> (qui produit du son). Dans un <strong>système d'arrosage automatique</strong>, l'actionneur est l'<strong>électrovanne</strong> qui s'ouvre ou se ferme.</p></div>
+                <div class="card tech-deep-dive"><h4><span class="icon">🛠️</span> Décortiquage Technique - "Sous le Capot"</h4><p>Pour commander un actionneur simple comme une LED (une petite lampe) : on la branche sur une broche de sortie numérique du microcontrôleur. Dans le programme, on donne l'ordre <code>digitalWrite(broche_LED, HIGH);</code> pour l'allumer (on envoie 5V) et <code>digitalWrite(broche_LED, LOW);</code> pour l'éteindre (on envoie 0V). Pour des actionneurs plus puissants comme un moteur, on ne peut pas les brancher directement sur le microcontrôleur (il ne fournirait pas assez de courant). On doit utiliser un "intermédiaire de puissance" comme un transistor ou un "driver" de moteur.</p></div>
+                <div class="card warning"><h4><span class="icon">🤔</span> Points de Vigilance et Erreurs à Éviter</h4><p>1. <strong>Brancher un moteur directement sur l'Arduino :</strong> C'est l'erreur la plus classique et le meilleur moyen de "griller" son microcontrôleur ! Il faut TOUJOURS une alimentation externe et un composant de commande pour les actionneurs qui consomment beaucoup de courant. 2. <strong>Inverser la polarité d'une LED :</strong> Une LED a un sens de branchement (une patte longue, l'anode +, et une courte, la cathode -). Si on la branche à l'envers, elle ne s'allume pas.</p></div>
+                <div class="card did-you-know"><h4><span class="icon">💡</span> Le Saviez-Vous ?</h4><p>Les écrans de nos <strong>smartphones</strong> sont des matrices de millions de micro-actionneurs ! Chaque pixel d'un écran OLED est une minuscule diode électroluminescente organique qui peut être allumée, éteinte et dont on peut faire varier la couleur et l'intensité individuellement.</p></div>
+                <div class="card interdisciplinary"><h4><span class="icon">🤝</span> Ponts Interdisciplinaires</h4><p><strong>Arts Plastiques :</strong> On peut créer des œuvres d'art interactives en combinant des actionneurs (LEDs, moteurs...) pilotés par un microcontrôleur qui réagit à des capteurs (présence, son, lumière). C'est ce qu'on appelle l'art numérique. <strong>SVT :</strong> C'est l'équivalent du système moteur chez l'humain : le cerveau envoie un influx nerveux (ordre) aux muscles (actionneurs) qui se contractent pour produire un mouvement.</p></div>
+                <div class="card expert-corner"><h4><span class="icon">🚀</span> Pour les Experts</h4><p>Pour faire varier la vitesse d'un moteur ou l'intensité d'une LED, on utilise une technique appelée PWM (Pulse Width Modulation, ou Modulation de Largeur d'Impulsion). Le microcontrôleur envoie des impulsions de 5V très rapides. En jouant sur la durée de ces impulsions (le "rapport cyclique"), on fait varier la puissance moyenne perçue par l'actionneur. C'est comme allumer et éteindre une lumière très vite : si on l'allume la moitié du temps, elle paraîtra à moitié moins lumineuse.</p></div>
+            </div>
+
+            <div class="knowledge-block">
+                <h3>Les Signaux : Logique et Analogique</h3>
+                <div class="card analogy"><h4><span class="icon">🧠</span> Analogie et Simplification Pédagogique</h4><p>Imagine que tu communiques avec un ami. Tu peux lui faire un signe "pouce en l'air" 👍 ou "pouce en bas" 👎. C'est un <strong>signal logique</strong> : il n'y a que deux options claires. Maintenant, imagine que tu décris à quel point tu aimes une chanson sur une échelle de 0 à 10. Tu peux dire "7.5/10". C'est un <strong>signal analogique</strong> : il y a une infinité de valeurs possibles entre les deux extrêmes.</p></div>
+                <div class="card case-study"><h4><span class="icon">📱</span> Étude de Cas Concrète</h4><p>Dans une <strong>station météo connectée</strong>, un capteur de pluie (pluviomètre à auget basculant) envoie une impulsion (un signal logique HAUT bref) à chaque fois qu'une petite quantité d'eau est collectée. Le microcontrôleur compte ces impulsions. En revanche, le capteur de température envoie un signal analogique : une tension qui varie continuellement avec la température.</p></div>
+                <div class="card tech-deep-dive"><h4><span class="icon">🛠️</span> Décortiquage Technique - "Sous le Capot"</h4><p><strong>Signal Logique :</strong> Dans le monde de l'Arduino (en 5V), c'est très simple. Une tension proche de 0V est interprétée comme un niveau <strong>BAS</strong> (ou <code>LOW</code>, ou 0). Une tension proche de 5V est interprétée comme un niveau <strong>HAUT</strong> (ou <code>HIGH</code>, ou 1). C'est le langage des capteurs TOR et des commandes simples d'actionneurs (allumer/éteindre).<br><strong>Signal Analogique :</strong> Le microcontrôleur ne peut pas vraiment comprendre une infinité de valeurs. Il utilise un "Convertisseur Analogique-Numérique" (CAN). Sur un Arduino, il découpe la plage de tension (0-5V) en 1024 petits morceaux (de 0 à 1023). Ainsi, 0V sera lu comme 0, 2.5V sera lu comme 511, et 5V sera lu comme 1023. C'est ce qu'on appelle la "quantification".</p></div>
+                <div class="card warning"><h4><span class="icon">🤔</span> Points de Vigilance et Erreurs à Éviter</h4><p>1. <strong>Lire un signal analogique sur une broche numérique :</strong> Si on branche un capteur de température (analogique) sur une entrée numérique, le microcontrôleur ne lira que HAUT ou BAS, on perd toute la nuance de la mesure. 2. <strong>Bruit électrique :</strong> Les signaux analogiques sont sensibles aux perturbations (le "bruit"). Un long fil peut agir comme une antenne et capter des parasites qui faussent la mesure. On utilise parfois des techniques de filtrage (logiciel ou matériel) pour lisser le signal.</p></div>
+            </div>
+            
+            <div class="knowledge-block">
+                <h3>Les Entrées et Sorties (E/S ou I/O)</h3>
+                <div class="card analogy"><h4><span class="icon">🧠</span> Analogie et Simplification Pédagogique</h4><p>Les broches d'entrées/sorties (en anglais Input/Output ou I/O) sont les <strong>portes de communication</strong> du microcontrôleur. Une broche configurée en <strong>entrée</strong>, c'est une "oreille" : le microcontrôleur écoute ce qu'un capteur a à lui dire. Une broche configurée en <strong>sortie</strong>, c'est une "bouche" : le microcontrôleur donne un ordre à un actionneur.</p></div>
+                <div class="card case-study"><h4><span class="icon">📱</span> Étude de Cas Concrète</h4><p>Dans notre <strong>système d'arrosage automatique</strong> : la broche connectée au capteur d'humidité du sol est configurée en <strong>entrée</strong> (analogique). La broche connectée au relais qui commande l'électrovanne est configurée en <strong>sortie</strong> (numérique).</p></div>
+                <div class="card tech-deep-dive"><h4><span class="icon">🛠️</span> Décortiquage Technique - "Sous le Capot"</h4><p>La première chose à faire dans un programme Arduino, dans la fonction <code>setup()</code>, est de déclarer le "rôle" de chaque broche qu'on va utiliser avec la commande <code>pinMode()</code>. Par exemple : <code>pinMode(13, OUTPUT);</code> signifie "la broche numéro 13 sera une sortie". Et <code>pinMode(A0, INPUT);</code> signifie "la broche A0 sera une entrée". Une fois ce rôle défini, on utilise les commandes correspondantes dans la boucle principale <code>loop()</code> : <code>digitalWrite()</code> ou <code>analogWrite()</code> pour les sorties, et <code>digitalRead()</code> ou <code>analogRead()</code> pour les entrées.</p></div>
+            </div>
+
+        </section>
+
+        <section class="section">
+            <h2>Avenir et Perspectives</h2>
+            <p>
+                La maîtrise des capteurs, actionneurs et microcontrôleurs est la clé d'entrée dans le monde de demain. L'<strong>Internet des Objets (IoT)</strong> n'en est qu'à ses débuts : imagine des villes intelligentes où les feux de circulation s'adaptent en temps réel au trafic, des vêtements qui surveillent ta santé, ou une agriculture de précision où chaque plante reçoit exactement l'eau et les nutriments dont elle a besoin grâce à des drônes et des capteurs.
+            </p>
+            <p>
+                Cela soulève aussi des défis importants. La <strong>cybersécurité</strong> devient cruciale : qui voudrait qu'un hacker prenne le contrôle de sa voiture ou de sa maison ? La question de la <strong>protection des données</strong> (que font les entreprises de toutes les informations collectées par les capteurs de nos smartphones ?) est au cœur des débats. Enfin, l'impact <strong>environnemental</strong> de la production et de la fin de vie de ces milliards d'appareils électroniques est un enjeu majeur pour les ingénieurs de demain.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Conclusion</h2>
+            <p>
+                Nous avons commencé avec une question simple : comment un objet peut-il devenir "intelligent" ? Nous avons maintenant la réponse. Il ne s'agit pas d'une intelligence abstraite, mais d'une boucle d'interaction très concrète :
+            </p>
+            <ol>
+                <li>Un <strong>capteur</strong> perçoit une information du monde réel et la traduit en signal électrique.</li>
+                <li>Le <strong>microcontrôleur</strong>, véritable cerveau programmé, reçoit ce signal sur une <strong>entrée</strong>.</li>
+                <li>Il exécute les instructions de son programme ("Si la terre est sèche...") et prend une décision.</li>
+                <li>Il envoie un ordre, sous forme de signal électrique, via une <strong>sortie</strong>.</li>
+                <li>Un <strong>actionneur</strong> reçoit cet ordre et produit une action sur le monde réel (...alors ouvre la vanne d'eau).</li>
+            </ol>
+            <p>
+                De la trottinette électrique au drône, tous les systèmes automatisés reposent sur ce dialogue permanent entre des "sens" (capteurs) et des "muscles" (actionneurs), orchestré par un "cerveau" (microcontrôleur). Vous avez maintenant les bases pour non seulement comprendre ce monde, mais aussi pour commencer à y participer en créant vos propres systèmes.
+            </p>
+        </section>
+        
+        <img src="image_5.png" class="img-moyenne" alt="Infographie résumant les concepts de microcontrôleurs, capteurs et actionneurs." style="display: block; margin: 20px auto;">
+
+        <section class="section">
+            <h2>Exercices d'Auto-évaluation</h2>
+            <div class="exercise" id="q1">
+                <p><strong>Exercice 1 :</strong> Dans un smartphone, le composant qui fait pivoter l'affichage lorsque vous penchez le téléphone est un...</p>
+                <input type="radio" name="q1" value="a"> Actionneur<br>
+                <input type="radio" name="q1" value="b"> Capteur<br>
+                <input type="radio" name="q1" value="c"> Microcontrôleur<br>
+                <button onclick="checkAnswer('q1', 'b')">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+            <div class="exercise" id="q2">
+                <p><strong>Exercice 2 :</strong> Je veux construire une alarme pour ma chambre. J'utilise un capteur de mouvement. Si un mouvement est détecté, je veux allumer une grosse lampe rouge et faire sonner un buzzer. La lampe et le buzzer sont des...</p>
+                <input type="radio" name="q2" value="a"> Actionneurs<br>
+                <input type="radio" name="q2" value="b"> Capteurs<br>
+                <input type="radio" name="q2" value="c"> Signaux analogiques<br>
+                <button onclick="checkAnswer('q2', 'a')">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+            <div class="exercise" id="q3">
+                <p><strong>Exercice 3 :</strong> Un capteur de luminosité pour une station météo, qui doit mesurer précisément si le ciel est juste un peu nuageux ou complètement noir, enverra un signal de type...</p>
+                <input type="radio" name="q3" value="a"> Logique (TOR)<br>
+                <input type="radio" name="q3" value="b"> Numérique<br>
+                <input type="radio" name="q3" value="c"> Analogique<br>
+                <button onclick="checkAnswer('q3', 'c')">Vérifier</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <section class="section mind-map">
+            <h2>Synthèse Visuelle (Carte Mentale)</h2>
+            <ul>
+                <li>Piloter un Système
+                    <ul>
+                        <li>Le Cerveau : <strong>Microcontrôleur</strong>
+                            <ul>
+                                <li>Rôle : Exécute un programme, prend des décisions.</li>
+                                <li>Exemples : Arduino, Micro:bit.</li>
+                                <li>Communique via les Entrées/Sorties.</li>
+                            </ul>
+                        </li>
+                        <li>Les Sens : <strong>Capteurs</strong>
+                            <ul>
+                                <li>Rôle : Mesure une grandeur physique.</li>
+                                <li>Type 1 : TOR (Tout Ou Rien) -> Signal Logique (Haut/Bas).</li>
+                                <li>Type 2 : Analogique -> Signal Analogique (valeur variable).</li>
+                                <li>Exemples : Température (Smartphone), Humidité (Arrosage), Mouvement (Drône).</li>
+                            </ul>
+                        </li>
+                        <li>Les Muscles : <strong>Actionneurs</strong>
+                            <ul>
+                                <li>Rôle : Agit sur l'environnement.</li>
+                                <li>Exemples : Moteur (Trottinette), LED, Buzzer, Écran (Smartphone).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section lexicon">
+            <h2>Lexique / Glossaire</h2>
+            <dl>
+                <dt>Actionneur</dt>
+                <dd>Composant qui transforme un signal électrique en une action physique (mouvement, lumière, son...).</dd>
+                <dt>Analogique (Signal)</dt>
+                <dd>Signal électrique dont la tension peut varier continuellement pour représenter une information nuancée (ex: température).</dd>
+                <dt>Capteur</dt>
+                <dd>Composant qui transforme une grandeur physique (température, lumière...) en un signal électrique.</dd>
+                <dt>Entrée/Sortie (E/S ou I/O)</dt>
+                <dd>Broches (pattes) du microcontrôleur qui servent à recevoir des informations (entrée) ou à envoyer des commandes (sortie).</dd>
+                <dt>Logique (Signal)</dt>
+                <dd>Signal électrique qui ne peut prendre que deux états : HAUT (HIGH) ou BAS (LOW). Aussi appelé signal numérique ou TOR.</dd>
+                <dt>Microcontrôleur</dt>
+                <dd>Circuit intégré qui contient un processeur, de la mémoire et des périphériques d'entrée/sortie. C'est le "cerveau" programmable d'un système.</dd>
+                <dt>TOR (Tout Ou Rien)</dt>
+                <dd>Se dit d'un capteur ou d'un signal qui n'a que deux états possibles (ex: ouvert/fermé).</dd>
+            </dl>
+        </section>
+
+        <section class="section">
+            <h2>Pour Aller Plus Loin</h2>
+            <ul>
+                <li><strong>Mini-Projet à Réaliser :</strong> Avec un kit de démarrage Arduino ou Micro:bit, essaie de construire un "thermomètre lumineux". Utilise un capteur de température (analogique) et 3 LEDs (verte, orange, rouge). Programme le microcontrôleur pour que la LED verte s'allume s'il fait moins de 20°C, l'orange entre 20°C et 25°C, et la rouge au-dessus de 25°C.</li>
+                <li><strong>Vidéo de Référence à Regarder :</strong> Cherche sur YouTube "Arduino pour les nuls" ou "Comment fonctionne un drone". De nombreuses chaînes de vulgarisation scientifique expliquent ces concepts de manière très visuelle.</li>
+                <li><strong>Métier à Découvrir :</strong> <strong>Ingénieur(e) en systèmes embarqués</strong>. C'est le professionnel qui conçoit et programme les systèmes électroniques intelligents que l'on trouve partout, des jouets aux fusées, en passant par les trottinettes électriques et les stations météo.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script>
+        function checkAnswer(questionId, correctAnswer) {
+            const questionDiv = document.getElementById(questionId);
+            const feedbackDiv = questionDiv.querySelector('.feedback');
+            const selectedAnswer = questionDiv.querySelector(`input[name="${questionId}"]:checked`);
+
+            if (!selectedAnswer) {
+                feedbackDiv.textContent = 'Veuillez sélectionner une réponse.';
+                feedbackDiv.className = 'feedback incorrect';
+                feedbackDiv.style.display = 'block';
+                return;
+            }
+
+            if (selectedAnswer.value === correctAnswer) {
+                feedbackDiv.textContent = 'Bravo, c\'est la bonne réponse !';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                feedbackDiv.textContent = 'Oups, ce n\'est pas tout à fait ça. Essayez encore !';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            feedbackDiv.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

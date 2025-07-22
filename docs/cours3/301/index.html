@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conduire une démarche de projet en équipe - Cours de Technologie 3e</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Arvo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #811eae; /* Violet */
+            --secondary-color: #f49048; /* Orange */
+            --accent-color: #dd5a7b; /* Rose */
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #e9ecef;
+            --border-color: #dee2e6;
+            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-medium);
+            margin: 20px;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Arvo', serif;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            color: var(--primary-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: var(--secondary-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: var(--dark-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            position: relative; /* Pour le clear float */
+        }
+
+        .section::after { /* Correction pour le "float" */
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .hook {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .objectives ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives li {
+            background-color: #f3e5f5; /* Light purple */
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        /* Accordion styles */
+        .accordion-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 1.3em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 10px 10px 0 0;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: #6a0f96; /* Darker primary */
+            transform: translateY(-2px);
+        }
+
+        .accordion-header i {
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active i {
+            transform: rotate(90deg);
+        }
+
+        .accordion-content {
+            background-color: #fff;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+        }
+
+        .accordion-content.show {
+            max-height: 1000px; /* Large enough to contain content */
+            padding: 20px;
+            transition: max-height 0.5s ease-in, padding 0.5s ease-in;
+        }
+
+        .accordion-content .case-study,
+        .accordion-content .did-you-know,
+        .accordion-content .interdisciplinary-link,
+        .accordion-content .for-experts {
+            margin-top: 15px;
+            margin-bottom: 10px; /* Adjust margin for nested blocks */
+        }
+
+        .knowledge-block h4 {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .knowledge-block h4 i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+
+        .knowledge-block p {
+            margin-bottom: 10px;
+        }
+
+        .case-study {
+            background-color: #fef3e0; /* Light orange */
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .did-you-know {
+            background-color: #ffe0e6; /* Light pink */
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .interdisciplinary-link {
+            background-color: #e6f7ff; /* Lighter blue */
+            border-left: 4px solid #8ecae6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .for-experts {
+            background-color: #f3e5f5; /* Light purple */
+            border-left: 4px solid #AB47BC;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        /* Flip Card Styles */
+        .flip-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 280px;
+            height: 180px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: var(--shadow-light);
+            border-radius: 10px;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-sizing: border-box;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .flip-card-front {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .flip-card-back {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Hotspot Styles */
+        .image-container {
+            position: relative;
+            display: inline-block; /* To make container wrap image */
+            max-width: 100%;
+            height: auto;
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--accent-color);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            z-index: 10;
+        }
+
+        .hotspot:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .hotspot-info {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 11;
+            transform: translateY(-10px); /* Initial position for animation */
+        }
+
+        .hotspot:hover .hotspot-info {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Chronologie Interactive */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            margin: 40px 0;
+            padding: 0 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+            width: 100%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-item-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            width: 45%;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .timeline-item-content h3 {
+            color: var(--secondary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item-dot {
+            position: absolute;
+            top: 15px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            border: 3px solid var(--light-bg);
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even) .timeline-item-dot {
+            left: 50%;
+            transform: translateX(-50%);
+            margin-left: -10px; /* Adjust to center on the line */
+        }
+
+        .timeline-item:nth-child(odd) .timeline-item-dot {
+            left: 50%;
+            transform: translateX(-50%);
+            margin-right: -10px; /* Adjust to center on the line */
+        }
+
+        .timeline-item:nth-child(even) .timeline-item-content {
+            margin-right: 55%;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-item-content {
+            margin-left: 55%;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+                transform: translateX(0);
+            }
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start;
+            }
+            .timeline-item-content {
+                width: calc(100% - 40px);
+                margin-left: 40px !important;
+                margin-right: 0 !important;
+            }
+            .timeline-item-dot {
+                left: 20px !important;
+                transform: translateX(-50%) !important;
+            }
+        }
+
+
+        /* Exercise Styles */
+        .exercise-block {
+            background-color: #e0f2f7; /* Light cyan */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .exercise-block h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .exercise-block button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .exercise-block button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .exercise-feedback {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .correct {
+            color: var(--secondary-color);
+        }
+
+        .incorrect {
+            color: #DC3545; /* Red */
+        }
+
+        .qcm-option, .true-false-option {
+            display: block;
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .qcm-option:hover, .true-false-option:hover {
+            background-color: #e0e0e0;
+            transform: translateX(3px);
+        }
+
+        .qcm-option.selected, .true-false-option.selected {
+            border: 2px solid var(--primary-color);
+            background-color: #e6f7ff;
+        }
+
+        .qcm-option.correct-feedback, .true-false-option.correct-feedback {
+            background-color: #d4edda; /* Light green */
+            border-color: var(--secondary-color);
+        }
+
+        .qcm-option.incorrect-feedback, .true-false-option.incorrect-feedback {
+            background-color: #f8d7da; /* Light red */
+            border-color: #DC3545;
+        }
+
+        .fill-in-the-blanks input {
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 5px 8px;
+            font-family: 'Montserrat', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .fill-in-the-blanks input.correct-feedback {
+            border-color: var(--secondary-color);
+            background-color: #d4edda;
+        }
+
+        .fill-in-the-blanks input.incorrect-feedback {
+            border-color: #DC3545;
+            background-color: #f8d7da;
+        }
+
+        .synthesis ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .synthesis li {
+            margin-bottom: 8px;
+        }
+
+        .synthesis ul ul {
+            padding-left: 25px;
+            list-style: disc;
+        }
+
+        .glossary dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px 15px;
+            margin-top: 15px;
+        }
+
+        .glossary dt {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .glossary dd {
+            margin-left: 0;
+        }
+
+        .further-reading ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .further-reading li {
+            margin-bottom: 10px;
+            background-color: #e6f7ff; /* Lighter blue */
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .further-reading a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .further-reading a:hover {
+            text-decoration: underline;
+            color: #6a0f96; /* Darker primary */
+        }
+
+        /* Image specific CSS */
+        .img-gauche, .img-droite {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .img-gauche {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .img-droite {
+            float: right;
+            margin-left: 20px;
+        }
+
+        .img-moyenne {
+            max-width: 450px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        .img-petite {
+            max-width: 280px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        /* Animated numbers */
+        .animated-number {
+            font-weight: bold;
+            color: var(--accent-color);
+            display: inline-block;
+        }
+
+        /* Micro-interactions */
+        button:hover, select:hover, input[type="text"]:focus, .qcm-option:hover, .true-false-option:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Reset transform for specific elements if needed */
+        .accordion-header:hover {
+            transform: translateY(-2px); /* Keep specific transform */
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            .img-gauche, .img-droite {
+                float: none;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+                max-width: 100%;
+            }
+            .img-moyenne, .img-petite {
+                max-width: 100%;
+            }
+            .timeline-item-content {
+                width: calc(100% - 40px);
+                margin-left: 40px !important;
+                margin-right: 0 !important;
+            }
+            .timeline-item-dot {
+                left: 20px !important;
+                transform: translateX(-50%) !important;
+            }
+            .flip-card {
+                width: 100%;
+                height: 150px; /* Adjust height for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 1. TITRE DE LA SÉQUENCE -->
+        <h1>CONDUIRE UNE DÉMARCHE DE PROJET EN ÉQUIPE</h1>
+
+        <!-- 2. SITUATION DÉCLENCHANTE -->
+        <div class="section">
+            <h2><i class="fas fa-users-cog"></i> Situation Déclenchante : Le Défi du Brevet !</h2>
+            <p>Cette année, pour l'oral du brevet, vous avez un défi de taille : créer en groupe un objet innovant ! Votre équipe est pleine d'idées géniales : une enceinte Bluetooth qui change de couleur avec la musique, une trottinette électrique pliable en un clin d'œil, ou même un site de vente en ligne pour des produits faits maison !</p>
+            <p class="hook">Mais très vite, les questions fusent : Qui fait quoi ? Dans quel ordre devons-nous travailler ? Comment être sûr de finir à temps et que tout le monde soit d'accord sur le résultat ? La réussite de votre projet ne dépend pas seulement de votre idée, mais surtout de votre organisation ! Préparez-vous à devenir de véritables chefs de projet !</p>
+        </div>
+
+        <!-- 3. OBJECTIFS PÉDAGOGIQUES -->
+        <div class="section objectives">
+            <h2><i class="fas fa-bullseye"></i> Tes Missions, si tu les acceptes...</h2>
+            <p>À la fin de cette séquence, tu seras capable de :</p>
+            <h3>Compétences à maîtriser :</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Participer à la définition des objectifs et du cahier des charges d'un projet.</li>
+                <li><i class="fas fa-check-circle"></i> Planifier les tâches (diagramme de Gantt).</li>
+                <li><i class="fas fa-check-circle"></i> Mener des revues de projet pour valider les étapes.</li>
+                <li><i class="fas fa-check-circle"></i> Utiliser des outils collaboratifs.</li>
+            </ul>
+            <h3>Savoirs et connaissances à acquérir :</h3>
+            <ul>
+                <li><i class="fas fa-book"></i> La Gestion de projet.</li>
+                <li><i class="fas fa-book"></i> La Démarche de projet (analyse, conception, réalisation, validation).</li>
+                <li><i class="fas fa-book"></i> La Planification (tâches, jalons, délais).</li>
+                <li><i class="fas fa-book"></i> Le Diagramme de Gantt.</li>
+                <li><i class="fas fa-book"></i> La Revue de projet.</li>
+                <li><i class="fas fa-book"></i> Les Outils de travail collaboratif.</li>
+            </ul>
+        </div>
+
+        <!-- 4. INTRODUCTION ET PROBLÉMATIQUE -->
+        <div class="section">
+            <h2><i class="fas fa-project-diagram"></i> Introduction : L'Art d'Organiser un Projet</h2>
+            <p>Dans la situation du brevet, vous avez une idée, une équipe, et un objectif : créer un objet innovant. Mais comment transformer cette idée en réalité sans se perdre en chemin ? Que ce soit pour construire une maison, lancer une fusée, organiser un concert, ou développer une application, tous ces grands défis ont un point commun : ils sont gérés comme des projets !</p>
+            <p>Historiquement, les grands bâtisseurs de cathédrales ou les ingénieurs des premières usines ont dû apprendre à organiser le travail de nombreuses personnes. Aujourd'hui, avec la complexité des objets techniques et le travail en équipe, la gestion de projet est devenue une compétence essentielle. Elle permet de transformer une idée floue en un plan d'action clair.</p>
+            <p>La problématique centrale de ce cours est donc : <strong>Comment organiser efficacement un projet en équipe pour atteindre un objectif commun dans les délais impartis ?</strong></p>
+            <p>Nous allons explorer les outils et les méthodes qui vous transformeront en de véritables chefs de projet !</p>
+        </div>
+
+        <!-- 5. DÉVELOPPEMENT DU COURS - EXPLORATION EN PROFONDEUR -->
+        <h2><i class="fas fa-cogs"></i> Développement du Cours : Les Clés de la Réussite d'un Projet</h2>
+
+        <!-- Notion: Gestion de projet (Accordion Item) -->
+        <div class="accordion-item">
+            <div class="accordion-header">
+                La Gestion de Projet <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <div class="image-container">
+                        <img src="image_1.png" class="img-droite img-moyenne" alt="Illustration de la gestion de projet avec des engrenages, des personnes collaborant et des symboles de progrès.">
+                        <div class="hotspot" style="top: 20%; left: 15%;">1
+                            <span class="hotspot-info">La Collaboration d'Équipe : Le cœur de tout projet réussi.</span>
+                        </div>
+                        <div class="hotspot" style="top: 50%; left: 40%;">2
+                            <span class="hotspot-info">La Planification Stratégique : Définir les étapes et les objectifs.</span>
+                        </div>
+                        <div class="hotspot" style="top: 70%; left: 75%;">3
+                            <span class="hotspot-info">Le Suivi du Progrès : S'assurer que le projet avance comme prévu.</span>
+                        </div>
+                    </div>
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> La gestion de projet, c'est l'ensemble des méthodes et des techniques utilisées pour organiser, planifier, exécuter, suivre et clôturer un projet. Son enjeu principal est d'atteindre un objectif spécifique (créer un produit, organiser un événement) en respectant des contraintes de temps, de budget et de qualité. C'est elle qui assure que le projet sera mené à bien, sans dérapages.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Imagine que tu prépares un grand voyage scolaire avec tes amis. La gestion de projet, c'est comme organiser ce voyage : choisir la destination (objectif), décider qui s'occupe des billets, qui gère l'hébergement, qui prépare les activités (planification et exécution), vérifier que tout est prêt avant le départ (suivi), et enfin, profiter du voyage (clôture) !</p>
+                    <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong> Pour créer une nouvelle <strong>enceinte Bluetooth</strong>, la gestion de projet va permettre de coordonner les équipes : les ingénieurs qui s'occupent du son, les designers pour l'esthétique, les développeurs pour la connectivité, et les marketeurs pour la vente. Chaque étape, de l'idée initiale à l'enceinte prête à être vendue, est gérée comme un projet.</p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> La gestion de projet suit généralement <span class="animated-number" data-value="5">0</span> grandes phases : 1. <strong>Initialisation</strong> (définir l'objectif et l'équipe), 2. <strong>Planification</strong> (détailler les tâches, les délais), 3. <strong>Exécution</strong> (réaliser les tâches), 4. <strong>Suivi et Maîtrise</strong> (vérifier l'avancement et corriger si besoin), 5. <strong>Clôture</strong> (livrer le produit et faire le bilan).</p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> La première erreur est de ne pas définir d'objectif clair : si l'équipe ne sait pas exactement ce qu'elle doit faire, le projet va à la dérive. Une autre erreur est de ne pas anticiper les problèmes : un projet est rarement un long fleuve tranquille, il faut prévoir des solutions de secours !</p>
+                    <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Les pyramides d'Égypte sont considérées par certains comme les premiers exemples de projets de grande envergure, nécessitant une organisation et une planification incroyables pour l'époque !</p>
+                    <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Histoire</strong>, on peut analyser comment les grands projets (construction de châteaux, exploration) étaient gérés. En <strong>Mathématiques</strong>, la gestion de budget et de délais implique des calculs précis.</p>
+                    <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Il existe différentes méthodologies de gestion de projet. Les plus connues sont le "Cycle en V" (très structuré, séquentiel) et les méthodes "Agiles" (plus flexibles, itératives, comme Scrum), très utilisées dans le développement de logiciels et de sites web.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notion: Démarche de projet (analyse, conception, réalisation, validation) (Accordion Item) -->
+        <div class="accordion-item">
+            <div class="accordion-header">
+                La Démarche de Projet : Les Étapes Clés <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <img src="image_2.png" class="img-gauche img-moyenne" alt="Schéma de la démarche de projet avec des flèches entre les étapes : Analyse, Conception, Réalisation, Validation.">
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> La démarche de projet est une succession d'étapes structurées qui permettent de passer d'une idée initiale à un produit ou un service fonctionnel. Elle se décompose généralement en quatre phases principales : <strong>Analyse du besoin</strong>, <strong>Conception</strong>, <strong>Réalisation</strong>, et <strong>Validation</strong>. L'enjeu est de ne rien oublier et de s'assurer à chaque étape que le projet avance dans la bonne direction.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> C'est comme construire une maison :
+                        <ul>
+                            <li><strong>Analyse :</strong> Tu discutes avec la famille pour savoir ce dont ils ont besoin (nombre de pièces, jardin...).</li>
+                            <li><strong>Conception :</strong> L'architecte dessine les plans de la maison.</li>
+                            <li><strong>Réalisation :</strong> Les ouvriers construisent la maison.</li>
+                            <li><strong>Validation :</strong> Tu visites la maison finie pour vérifier qu'elle correspond bien à tes attentes.</li>
+                        </ul>
+                    </p>
+                    <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong> Pour la création d'un <strong>site de vente en ligne</strong> :
+                        <ul>
+                            <li><strong>Analyse :</strong> On définit ce que le site doit vendre, à qui, quelles fonctionnalités (paiement, recherche...).</li>
+                            <li><strong>Conception :</strong> On dessine les maquettes des pages, l'organisation des menus.</li>
+                            <li><strong>Réalisation :</strong> Les développeurs écrivent le code du site.</li>
+                            <li><strong>Validation :</strong> On teste le site pour s'assurer que tout fonctionne bien (paiement, affichage, sécurité) avant de le lancer.</li>
+                        </ul>
+                    </p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong>
+                        <ul>
+                            <li><strong>Analyse :</strong> On utilise des outils comme le Cahier des Charges Fonctionnel (CdCF) pour bien comprendre le besoin.</li>
+                            <li><strong>Conception :</strong> On réalise des croquis, des schémas, des maquettes, des plans.</li>
+                            <li><strong>Réalisation :</strong> C'est la phase de fabrication, de construction, de programmation.</li>
+                            <li><strong>Validation :</strong> On effectue des tests, des essais, des revues pour vérifier la conformité et la performance.</li>
+                        </ul>
+                    </p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> Ne jamais sauter d'étapes ! Si l'analyse est bâclée, la conception sera fausse, et le produit final ne correspondra pas au besoin. Autre erreur : ne pas valider à chaque phase. Il est plus facile de corriger une erreur sur un plan qu'une fois le produit fabriqué !</p>
+                    <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Le "Design Thinking" est une approche très populaire aujourd'hui qui met l'utilisateur au centre de la démarche de projet, en insistant sur l'empathie et le prototypage rapide.</p>
+                    <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Arts Plastiques</strong>, la phase de conception est essentielle pour l'esthétique et l'ergonomie. En <strong>Français</strong>, la rédaction du Cahier des Charges ou de la documentation est cruciale pour la clarté du projet.</p>
+                    <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> La validation peut se faire par des "tests utilisateurs" (faire essayer le produit à de vrais utilisateurs) ou des "tests d'intégration" (vérifier que toutes les parties du produit fonctionnent bien ensemble). Le concept de "MVP" (Minimum Viable Product) consiste à réaliser un produit avec le minimum de fonctions pour le tester rapidement sur le marché.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notion: Planification (tâches, jalons, délais) (Accordion Item) -->
+        <div class="accordion-item">
+            <div class="accordion-header">
+                La Planification : Organiser le Temps du Projet <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <img src="image_3.png" class="img-droite img-moyenne" alt="Illustration d'un calendrier ou d'un agenda avec des tâches et des dates clés.">
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> La planification consiste à organiser le travail du projet dans le temps. Elle implique de définir les <strong>tâches</strong> (les actions à réaliser), les <strong>jalons</strong> (les étapes clés ou points de contrôle importants) et les <strong>délais</strong> (les dates de début et de fin pour chaque tâche et pour le projet entier). L'enjeu est de s'assurer que le projet sera terminé à temps, en allouant les bonnes ressources à chaque tâche.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Pense à la préparation d'un marathon. Tes tâches sont les entraînements quotidiens. Tes jalons sont les courses de préparation (<span class="animated-number" data-value="10">0</span>km, semi-marathon). Ton délai, c'est la date du marathon. Sans planification, tu risques de ne pas être prêt le jour J !</p>
+                    <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong> Pour planifier la création d'une <strong>montre connectée</strong> :
+                        <ul>
+                            <li>Tâche : Choisir les composants électroniques (délai : <span class="animated-number" data-value="2">0</span> semaines).</li>
+                            <li>Jalon : Réception des premiers prototypes (date fixe).</li>
+                            <li>Tâche : Développer l'application mobile (délai : <span class="animated-number" data-value="6">0</span> semaines).</li>
+                            <li>Délai final : Présentation du produit au salon technologique (date limite).</li>
+                        </ul>
+                    </p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong>
+                        1.  <strong>Découpage du projet :</strong> Divise le projet en grandes phases, puis chaque phase en tâches plus petites et gérables.
+                        2.  <strong>Estimation des durées :</strong> Estime le temps nécessaire pour chaque tâche. Sois réaliste !
+                        3.  <strong>Identification des dépendances :</strong> Certaines tâches ne peuvent commencer que si d'autres sont terminées (ex: on ne peut pas coder l'application avant d'avoir choisi les composants).
+                        4.  <strong>Attribution des responsabilités :</strong> Qui fait quoi ?</p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> La principale erreur est de sous-estimer le temps nécessaire pour les tâches. Il faut toujours prévoir une petite "marge de sécurité". Autre erreur : ne pas identifier les dépendances. Si une tâche est bloquée parce qu'une autre n'est pas finie, tout le projet prend du retard.</p>
+                    <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> La "loi de Parkinson" dit que "le travail s'étale de façon à occuper le temps disponible pour son achèvement". C'est pourquoi fixer des délais clairs est si important !</p>
+                    <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Mathématiques</strong>, la planification utilise des notions de durée, de dates, et parfois de calculs de probabilités pour estimer les risques. En <strong>Économie</strong>, la planification est liée à la gestion des ressources (humaines, matérielles, financières).</p>
+                    <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Le "chemin critique" est la séquence de tâches qui détermine la durée minimale du projet. Retarder une tâche sur le chemin critique retarde tout le projet. La gestion des risques est aussi une partie importante de la planification, pour anticiper et préparer des solutions aux problèmes potentiels.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notion: Diagramme de Gantt (Accordion Item) -->
+        <div class="accordion-item">
+            <div class="accordion-header">
+                Le Diagramme de Gantt <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <img src="image_4.png" class="img-gauche img-moyenne" alt="Exemple de diagramme de Gantt montrant des tâches, des durées et des dépendances sous forme de barres sur une ligne de temps.">
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Le diagramme de Gantt est un outil de planification visuel qui représente les tâches d'un projet sous forme de barres horizontales sur une ligne de temps. Chaque barre indique la durée d'une tâche, et les flèches peuvent montrer les dépendances entre les tâches. Son enjeu est de donner une vue d'ensemble claire de l'avancement du projet et de faciliter la coordination de l'équipe.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> C'est comme un emploi du temps géant pour votre projet ! Chaque matière (tâche) a une durée (longueur de la barre) et certaines matières doivent être faites avant d'autres (flèches). Tu peux voir en un coup d'œil où tu en es et ce qu'il reste à faire.</p>
+                    <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong> Pour le développement d'un <strong>drone de loisir</strong>, un diagramme de Gantt pourrait montrer :
+                        <ul>
+                            <li>Tâche "Conception du châssis" (barre de <span class="animated-number" data-value="3">0</span> semaines).</li>
+                            <li>Tâche "Choix des moteurs" (barre de <span class="animated-number" data-value="2">0</span> semaines).</li>
+                            <li>Une flèche de "Conception du châssis" vers "Assemblage des composants", car l'assemblage ne peut commencer qu'une fois le châssis conçu.</li>
+                        </ul>
+                    </p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong>
+                        1.  <strong>Liste des tâches :</strong> Écris toutes les tâches à faire dans l'ordre chronologique.
+                        2.  <strong>Durée :</strong> Pour chaque tâche, estime sa durée.
+                        3.  <strong>Dépendances :</strong> Indique si une tâche dépend d'une autre (ex: "Tâche B commence après Tâche A").
+                        4.  <strong>Représentation :</strong> Trace une ligne de temps (jours, semaines, mois). Pour chaque tâche, dessine une barre de la bonne longueur à la bonne date. Relie les tâches dépendantes par des flèches.</p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> Ne pas mettre à jour le diagramme de Gantt. Un Gantt n'est utile que s'il reflète la réalité du projet. Si une tâche prend plus de temps, il faut le modifier. Évitez de le rendre trop complexe avec trop de détails, il doit rester lisible.</p>
+                    <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Le diagramme de Gantt a été inventé par Henry Gantt au début du <span class="animated-number" data-value="20">0</span>e siècle, pour aider à gérer la production dans les usines. Il est encore très utilisé aujourd'hui, même avec des logiciels modernes.</p>
+                    <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Arts Plastiques</strong>, le Gantt est un exercice de représentation graphique claire et organisée. En <strong>Mathématiques</strong>, il permet de visualiser les durées et les chevauchements.</p>
+                    <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Des logiciels de gestion de projet comme Microsoft Project, Asana, ou Trello permettent de créer des diagrammes de Gantt interactifs et collaboratifs, qui se mettent à jour automatiquement. On peut aussi y ajouter des ressources (personnes, matériel) et des coûts.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notion: Revue de projet (Accordion Item) -->
+        <div class="accordion-item">
+            <div class="accordion-header">
+                La Revue de Projet <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <img src="image_5.png" class="img-droite img-moyenne" alt="Illustration d'une équipe en réunion, discutant autour d'un tableau ou d'un écran, symbolisant une revue de projet.">
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Une revue de projet est une réunion régulière et structurée de l'équipe projet (et parfois du client) pour évaluer l'avancement, identifier les problèmes rencontrés, prendre des décisions, et planifier les prochaines étapes. Son enjeu est de maintenir le projet sur la bonne voie, d'assurer la communication au sein de l'équipe et de résoudre les blocages rapidement.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> C'est comme le "point météo" que vous faites avec votre famille avant une longue randonnée : "Où en sommes-nous ? Le chemin est-il clair ? Y a-t-il des nuages à l'horizon ? Que faisons-nous ensuite ?" C'est un moment pour faire le point et s'assurer que tout le monde est sur la même page.</p>
+                    <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong> Pour le projet de la <strong>trottinette électrique</strong>, l'équipe se réunit chaque semaine. Lors de la revue, ils discutent : "Est-ce que le prototype du moteur est prêt comme prévu ? Non, il y a un problème de fournisseur. Que faisons-nous ? Cherchons un autre fournisseur ou modifions la date de livraison du prototype."</p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Une revue de projet typique inclut :
+                        1.  <strong>Tour de table :</strong> Chaque membre présente son avancement depuis la dernière revue.
+                        2.  <strong>Points bloquants :</strong> Discussion des problèmes et des difficultés.
+                        3.  <strong>Décisions :</strong> Prise de décisions collectives pour résoudre les problèmes.
+                        4.  <strong>Prochaines étapes :</strong> Définition des actions à mener avant la prochaine revue.
+                        5.  <strong>Compte-rendu :</strong> Il est essentiel de noter les décisions et les actions à faire.</p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> Ne pas faire de revues régulières, ou les faire sans ordre du jour. Cela transforme la réunion en simple discussion sans décision. Autre erreur : ne pas prendre de notes des décisions. On risque d'oublier ce qui a été décidé et de refaire les mêmes discussions.</p>
+                    <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Dans les méthodes Agiles, il existe des "Daily Stand-up Meetings" (réunions debout quotidiennes) qui sont des revues de projet très courtes (<span class="animated-number" data-value="15">0</span> minutes maximum) où chacun répond à <span class="animated-number" data-value="3">0</span> questions : Qu'ai-je fait hier ? Que vais-je faire aujourd'hui ? Quels sont mes obstacles ?</p>
+                    <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Français</strong>, la revue de projet est un excellent exercice de communication orale et de prise de notes. En <strong>Éducation Civique</strong>, elle permet de pratiquer la prise de décision collective et le respect des opinions.</p>
+                    <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> Le rôle du chef de projet est crucial lors des revues : il anime la discussion, s'assure que chacun s'exprime, et prend les décisions finales si l'équipe ne parvient pas à un consensus. Un "procès-verbal de réunion" est un document officiel qui résume les discussions et les décisions prises.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notion: Outils de travail collaboratif (Accordion Item) -->
+        <div class="accordion-item">
+            <div class="accordion-header">
+                Les Outils de Travail Collaboratif <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="knowledge-block">
+                    <img src="image_6.png" class="img-gauche img-moyenne" alt="Icônes d'outils de collaboration numérique comme des applications de chat, de partage de documents et de gestion de tâches.">
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Les outils de travail collaboratif sont des logiciels ou des plateformes numériques qui permettent à plusieurs personnes de travailler ensemble sur un même projet, souvent à distance, en partageant des informations, des documents et en gérant des tâches. Leur enjeu est de faciliter la communication, la coordination et le partage des connaissances au sein de l'équipe, rendant le travail plus efficace et transparent.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> C'est comme si toute votre équipe avait un carnet de notes magique et un tableau blanc numérique partagés, où chacun peut écrire, dessiner, et voir ce que les autres font en temps réel, même s'ils ne sont pas dans la même pièce !</p>
+                    <p class="case-study"><strong>c) 📱 Étude de Cas Concrète :</strong> Pour le développement du <strong>site de vente en ligne</strong>, l'équipe pourrait utiliser :
+                        <ul>
+                            <li>Google Docs pour rédiger le Cahier des Charges ensemble.</li>
+                            <li>Trello ou Asana pour organiser les tâches (qui fait quoi, quand).</li>
+                            <li>Discord ou Slack pour communiquer rapidement par chat ou appel vidéo.</li>
+                            <li>GitHub pour les développeurs pour partager et gérer le code.</li>
+                        </ul>
+                    </p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong>
+                        <ul>
+                            <li><strong>Partage de documents :</strong> Permet de créer et modifier des documents à plusieurs (ex: Google Docs, Microsoft 365).</li>
+                            <li><strong>Gestion de tâches :</strong> Permet de créer des listes de tâches, de les attribuer, de suivre leur avancement (ex: Trello, Asana, Monday.com).</li>
+                            <li><strong>Communication :</strong> Messagerie instantanée, appels vidéo, forums (ex: Discord, Slack, Microsoft Teams).</li>
+                            <li><strong>Gestion de versions :</strong> Pour le code, permet de suivre les modifications et de travailler à plusieurs sur les mêmes fichiers (ex: GitHub, GitLab).</li>
+                        </ul>
+                    </p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> La surcharge d'informations : trop d'outils ou trop de notifications peuvent rendre le travail plus difficile. Il faut choisir les outils adaptés au projet et les utiliser de manière organisée. Autre erreur : ne pas respecter les règles d'utilisation (ex: ne pas modifier le travail d'un autre sans prévenir).</p>
+                    <p class="did-you-know"><strong>f) 💡 Le Saviez-Vous ? / Anecdote Technologique :</strong> Avec l'essor du télétravail et des équipes réparties dans le monde entier, ces outils sont devenus absolument indispensables pour la plupart des entreprises technologiques.</p>
+                    <p class="interdisciplinary-link"><strong>g) 🤝 Ponts Interdisciplinaires :</strong> En <strong>Informatique</strong>, l'utilisation de ces outils développe vos compétences numériques. En <strong>Éducation Civique</strong>, ils renforcent la capacité à collaborer et à communiquer efficacement en groupe.</p>
+                    <p class="for-experts"><strong>h) 🚀 Pour les Experts (Approfondissement) :</strong> La "cybersécurité" est un enjeu majeur pour ces outils, car ils gèrent des données sensibles. La "gestion des versions" est également cruciale pour les développeurs, afin de pouvoir revenir à une version précédente du code en cas d'erreur.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flip Cards Section -->
+        <div class="section">
+            <h2><i class="fas fa-sync-alt"></i> Concepts Clés à Retourner !</h2>
+            <p>Teste tes connaissances sur ces paires de concepts essentiels à la gestion de projet !</p>
+            <div class="flip-card-container">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            Tâches
+                        </div>
+                        <div class="flip-card-back">
+                            Actions spécifiques à réaliser pour faire avancer le projet.
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            Jalons
+                        </div>
+                        <div class="flip-card-back">
+                            Étapes clés ou points de contrôle importants dans l'avancement d'un projet.
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            Analyse du besoin
+                        </div>
+                        <div class="flip-card-back">
+                            Identifier et formaliser ce que le produit doit faire pour l'utilisateur.
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            Conception
+                        </div>
+                        <div class="flip-card-back">
+                            Élaborer les solutions techniques et esthétiques (plans, schémas).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chronologie Interactive -->
+        <div class="section">
+            <h2><i class="fas fa-history"></i> Chronologie Interactive de la Démarche de Projet</h2>
+            <p>Explore les étapes clés de la démarche de projet et ce qui se passe à chaque phase.</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-item-dot"></div>
+                    <div class="timeline-item-content">
+                        <h3>1. Analyse du besoin</h3>
+                        <p>C'est la phase de démarrage ! On identifie le problème à résoudre, les attentes de l'utilisateur, et on rédige le Cahier des Charges Fonctionnel (CdCF). C'est le "QUOI" du projet.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-item-dot"></div>
+                    <div class="timeline-item-content">
+                        <h3>2. Conception</h3>
+                        <p>Une fois le besoin clair, on passe au "COMMENT". On imagine les solutions techniques, on dessine les plans, les schémas, les maquettes. C'est la phase de création des idées concrètes.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-item-dot"></div>
+                    <div class="timeline-item-content">
+                        <h3>3. Réalisation</h3>
+                        <p>C'est le moment de la fabrication ! On construit le produit, on assemble les composants, on code le logiciel. C'est la transformation des plans en réalité.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-item-dot"></div>
+                    <div class="timeline-item-content">
+                        <h3>4. Validation</h3>
+                        <p>Le produit est terminé, mais est-il bon ? On le teste, on l'évalue, on vérifie qu'il répond bien au besoin initial et qu'il respecte toutes les contraintes. C'est la phase d'approbation finale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 6. AVENIR ET PERSPECTIVES -->
+        <div class="section">
+            <h2><i class="fas fa-chart-area"></i> Avenir et Perspectives : L'Ère des Projets Connectés</h2>
+            <p>La gestion de projet est une discipline en constante évolution, notamment grâce aux avancées technologiques :</p>
+            <ul>
+                <li><strong>L'Intelligence Artificielle (IA) :</strong> L'IA commence à aider les chefs de projet à estimer les délais, à identifier les risques, ou même à optimiser l'attribution des tâches.</li>
+                <li><strong>L'Agilité généralisée :</strong> Les méthodes agiles, nées dans le développement logiciel, se répandent dans tous les secteurs pour leur capacité à s'adapter rapidement aux changements.</li>
+                <li><strong>Le Travail à distance :</strong> Les outils collaboratifs continueront à se perfectionner pour rendre le travail en équipe fluide, même si les membres sont à des milliers de kilomètres.</li>
+                <li><strong>Les Nouveaux Métiers :</strong> Les "Scrum Masters", les "Product Owners", les "Data Analysts" en gestion de projet sont des exemples de métiers émergents qui nécessitent une maîtrise de ces concepts.</li>
+            </ul>
+            <p>Savoir gérer un projet en équipe est et restera une compétence clé pour naviguer dans le monde professionnel de demain, où l'innovation et la collaboration sont reines.</p>
+        </div>
+
+        <!-- 7. CONCLUSION -->
+        <div class="section">
+            <h2><i class="fas fa-clipboard-check"></i> Conclusion : Devenez des Maîtres de Projet !</h2>
+            <p>Pour répondre à notre problématique initiale ("Comment organiser efficacement un projet en équipe pour atteindre un objectif commun dans les délais impartis ?"), nous avons vu que la <strong>gestion de projet</strong> est la réponse. C'est elle qui vous permet de transformer une idée en un plan d'action concret et de le mener à bien en équipe.</p>
+            <p>En suivant une <strong>démarche structurée</strong> (analyse, conception, réalisation, validation), en utilisant une <strong>planification rigoureuse</strong> (tâches, jalons, délais, Diagramme de Gantt), en réalisant des <strong>revues de projet</strong> régulières, et en exploitant les <strong>outils collaboratifs</strong>, vous avez toutes les clés en main pour réussir vos projets, qu'ils soient scolaires ou futurs !</p>
+        </div>
+
+        <!-- 8. EXERCICES INTERACTIFS -->
+        <div class="section">
+            <h2><i class="fas fa-question-circle"></i> Exercices Interactifs</h2>
+
+            <!-- Exercice 1: QCM -->
+            <div class="exercise-block">
+                <h3>Exercice 1 : QCM - La Gestion de Projet</h3>
+                <p>Quel est l'objectif principal de la gestion de projet ?</p>
+                <div class="qcm-options" id="qcm-ex1">
+                    <div class="qcm-option" data-correct="false">A. Créer un produit sans se soucier du coût.</div>
+                    <div class="qcm-option" data-correct="true">B. Atteindre un objectif spécifique en respectant temps, budget et qualité.</div>
+                    <div class="qcm-option" data-correct="false">C. Laisser chaque membre de l'équipe travailler à son rythme.</div>
+                    <div class="qcm-option" data-correct="false">D. Éviter toute forme de planification.</div>
+                </div>
+                <button onclick="checkQCM('qcm-ex1')">Vérifier</button>
+                <div id="feedback-qcm-ex1" class="exercise-feedback"></div>
+            </div>
+
+            <!-- Exercice 2: Vrai / Faux -->
+            <div class="exercise-block">
+                <h3>Exercice 2 : Vrai ou Faux ?</h3>
+                <p>Indique si les affirmations suivantes sont Vraies ou Fausses.</p>
+                <ol>
+                    <li>Un jalon est une étape clé du projet, souvent une date importante.
+                        <div class="true-false-options" id="tf-ex2-q1">
+                            <div class="true-false-option" data-correct="true">Vrai</div>
+                            <div class="true-false-option" data-correct="false">Faux</div>
+                        </div>
+                    </li>
+                    <li>La phase de réalisation vient toujours avant la phase de conception.
+                        <div class="true-false-options" id="tf-ex2-q2">
+                            <div class="true-false-option" data-correct="false">Vrai</div>
+                            <div class="true-false-option" data-correct="true">Faux</div>
+                        </div>
+                    </li>
+                </ol>
+                <button onclick="checkTrueFalse('tf-ex2-q1', 'tf-ex2-q2')">Vérifier</button>
+                <div id="feedback-tf-ex2" class="exercise-feedback"></div>
+            </div>
+
+            <!-- Exercice 3: Texte à trous -->
+            <div class="exercise-block fill-in-the-blanks">
+                <h3>Exercice 3 : Complète les Phrases !</h3>
+                <p>Complète les phrases avec les termes corrects.</p>
+                <p>Le <input type="text" id="blank-ex3-1" data-answer="diagramme de gantt"> est un outil visuel de <input type="text" id="blank-ex3-2" data-answer="planification"> qui représente les tâches sur une ligne de temps.</p>
+                <p>Les <input type="text" id="blank-ex3-3" data-answer="revues de projet"> sont des réunions régulières pour évaluer l'avancement.</p>
+                <button onclick="checkFillInTheBlanks('blank-ex3-1', 'blank-ex3-2', 'blank-ex3-3')">Vérifier</button>
+                <div id="feedback-fill-ex3" class="exercise-feedback"></div>
+            </div>
+
+            <!-- Exercice 4: QCM - Outils Collaboratifs -->
+            <div class="exercise-block">
+                <h3>Exercice 4 : QCM - Outils Collaboratifs</h3>
+                <p>Lequel de ces outils est principalement utilisé pour la gestion de tâches en équipe ?</p>
+                <div class="qcm-options" id="qcm-ex4">
+                    <div class="qcm-option" data-correct="false">A. Google Search</div>
+                    <div class="qcm-option" data-correct="true">B. Trello</div>
+                    <div class="qcm-option" data-correct="false">C. Netflix</div>
+                    <div class="qcm-option" data-correct="false">D. Calculatrice</div>
+                </div>
+                <button onclick="checkQCM('qcm-ex4')">Vérifier</button>
+                <div id="feedback-qcm-ex4" class="exercise-feedback"></div>
+            </div>
+        </div>
+
+        <!-- 9. SYNTHÈSE VISUELLE (FORMAT CARTE MENTALE) -->
+        <div class="section synthesis">
+            <h2><i class="fas fa-mind-map"></i> Synthèse Visuelle : La Carte Mentale du Projet</h2>
+            <ul>
+                <li><strong>CONDUIRE UN PROJET EN ÉQUIPE</strong>
+                    <ul>
+                        <li><strong>Gestion de Projet :</strong> Organiser, planifier, exécuter, suivre, clôturer.</li>
+                        <li><strong>Démarche de Projet :</strong>
+                            <ul>
+                                <li>Analyse du besoin (Quoi ? Pour qui ?).</li>
+                                <li>Conception (Comment ? Plans, maquettes).</li>
+                                <li>Réalisation (Fabriquer, coder).</li>
+                                <li>Validation (Tester, vérifier).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Planification :</strong>
+                            <ul>
+                                <li>Tâches (Actions à faire).</li>
+                                <li>Jalons (Étapes clés).</li>
+                                <li>Délais (Dates de début/fin).</li>
+                                <li>Outil : Diagramme de Gantt.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Revue de Projet :</strong>
+                            <ul>
+                                <li>Réunion régulière pour suivre l'avancement.</li>
+                                <li>Identifier les problèmes, prendre des décisions.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Outils Collaboratifs :</strong>
+                            <ul>
+                                <li>Partage de documents (Google Docs).</li>
+                                <li>Gestion de tâches (Trello, Asana).</li>
+                                <li>Communication (Discord, Slack).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 10. LEXIQUE / GLOSSAIRE DES TERMES CLÉS -->
+        <div class="section glossary">
+            <h2><i class="fas fa-book-open"></i> Lexique / Glossaire des Termes Clés</h2>
+            <dl>
+                <dt><strong>Analyse du besoin :</strong></dt>
+                <dd>Première phase d'un projet où l'on identifie et formalise ce que le produit ou service doit faire pour l'utilisateur.</dd>
+                <dt><strong>Cahier des Charges Fonctionnel (CdCF) :</strong></dt>
+                <dd>Document décrivant les fonctions et contraintes d'un produit, exprimées en termes de services rendus à l'utilisateur.</dd>
+                <dt><strong>Conception :</strong></dt>
+                <dd>Phase du projet où l'on élabore les solutions techniques et esthétiques (plans, schémas, maquettes).</dd>
+                <dt><strong>Délais :</strong></dt>
+                <dd>Dates de début et de fin fixées pour les tâches et pour l'ensemble du projet.</dd>
+                <dt><strong>Démarche de projet :</strong></dt>
+                <dd>Ensemble des étapes structurées (analyse, conception, réalisation, validation) pour mener un projet à bien.</dd>
+                <dt><strong>Diagramme de Gantt :</strong></dt>
+                <dd>Outil visuel de planification qui représente les tâches et leurs durées sur une ligne de temps.</dd>
+                <dt><strong>Gestion de projet :</strong></dt>
+                <dd>Discipline qui organise, planifie, exécute, suit et clôture un projet pour atteindre ses objectifs.</dd>
+                <dt><strong>Jalons :</strong></dt>
+                <dd>Étapes clés ou points de contrôle importants dans l'avancement d'un projet.</dd>
+                <dt><strong>Outils de travail collaboratif :</strong></dt>
+                <dd>Logiciels ou plateformes numériques permettant à une équipe de travailler ensemble (partage de documents, gestion de tâches, communication).</dd>
+                <dt><strong>Planification :</strong></dt>
+                <dd>Action d'organiser les tâches d'un projet dans le temps, en définissant les durées, les dépendances et les délais.</dd>
+                <dt><strong>Réalisation :</strong></dt>
+                <dd>Phase du projet où le produit ou service est fabriqué, construit ou programmé.</dd>
+                <dt><strong>Revue de projet :</strong></dt>
+                <dd>Réunion régulière de l'équipe pour évaluer l'avancement, identifier les problèmes et prendre des décisions.</dd>
+                <dt><strong>Tâches :</strong></dt>
+                <dd>Actions spécifiques à réaliser pour faire avancer le projet.</dd>
+                <dt><strong>Validation :</strong></dt>
+                <dd>Phase finale du projet où l'on vérifie que le produit ou service correspond bien aux attentes et aux besoins définis.</dd>
+            </dl>
+        </div>
+
+        <!-- 11. POUR ALLER PLUS LOIN -->
+        <div class="section further-reading">
+            <h2><i class="fas fa-compass"></i> Pour Aller Plus Loin...</h2>
+            <ul>
+                <li>
+                    <strong>Mini-projet à réaliser :</strong> Organise un petit événement dans ton collège (un tournoi sportif, une collecte pour une association). Applique les principes de la gestion de projet : définis les tâches, crée un mini-Gantt, et fais des revues de projet avec ton équipe !
+                </li>
+                <li>
+                    <strong>Vidéo de référence à regarder :</strong> Cherche sur YouTube "Qu'est-ce que le Design Thinking ?" ou "Introduction à la gestion de projet agile". Tu découvriras des approches modernes de la gestion de projet.
+                </li>
+                <li>
+                    <strong>Métier à découvrir :</strong> Le métier de <strong>Chef de Projet</strong>. C'est la personne qui est responsable de l'ensemble du projet, de son démarrage à sa clôture, en s'assurant que les objectifs sont atteints dans les délais et le budget.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                header.classList.toggle('active');
+                content.classList.toggle('show');
+            });
+        });
+
+        // Animated Numbers functionality
+        const animateNumber = (element) => {
+            const target = parseInt(element.dataset.value, 10);
+            let current = 0;
+            const duration = 1000; // milliseconds
+            const stepTime = 10; // milliseconds
+
+            const increment = (target / (duration / stepTime));
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.round(current);
+                }
+            }, stepTime);
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateNumber(entry.target);
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, { threshold: 0.5 }); // Trigger when 50% of the element is visible
+
+        document.querySelectorAll('.animated-number').forEach(number => {
+            observer.observe(number);
+        });
+
+        // Exercise 1: QCM
+        function checkQCM(containerId) {
+            const container = document.getElementById(containerId);
+            const options = container.querySelectorAll('.qcm-option');
+            const feedbackDiv = document.getElementById(`feedback-${containerId}`);
+            let correct = false;
+            let selectedOption = null;
+
+            options.forEach(option => {
+                option.classList.remove('correct-feedback', 'incorrect-feedback', 'selected');
+                if (option.classList.contains('selected')) {
+                    selectedOption = option;
+                }
+            });
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            selectedOption = container.querySelector('.qcm-option.selected');
+
+            if (selectedOption) {
+                if (selectedOption.dataset.correct === 'true') {
+                    selectedOption.classList.add('correct-feedback');
+                    feedbackDiv.textContent = 'Correct !';
+                    feedbackDiv.className = 'exercise-feedback correct';
+                    correct = true;
+                } else {
+                    selectedOption.classList.add('incorrect-feedback');
+                    feedbackDiv.textContent = 'Incorrect. La bonne réponse est : ' + container.querySelector('[data-correct="true"]').textContent;
+                    feedbackDiv.className = 'exercise-feedback incorrect';
+                }
+            } else {
+                feedbackDiv.textContent = 'Veuillez sélectionner une option.';
+                feedbackDiv.className = 'exercise-feedback incorrect';
+            }
+        }
+
+        // Exercise 2: True/False
+        function checkTrueFalse(q1Id, q2Id) {
+            const q1Options = document.getElementById(q1Id).querySelectorAll('.true-false-option');
+            const q2Options = document.getElementById(q2Id).querySelectorAll('.true-false-option');
+            const feedbackDiv = document.getElementById('feedback-tf-ex2');
+            let allCorrect = true;
+            let results = [];
+
+            // Reset feedback
+            q1Options.forEach(opt => opt.classList.remove('correct-feedback', 'incorrect-feedback', 'selected'));
+            q2Options.forEach(opt => opt.classList.remove('correct-feedback', 'incorrect-feedback', 'selected'));
+
+            // Add click listeners for selection
+            q1Options.forEach(option => {
+                option.addEventListener('click', function() {
+                    q1Options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            q2Options.forEach(option => {
+                option.addEventListener('click', function() {
+                    q2Options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            const checkQuestion = (options, correctValue, questionNum) => {
+                const selected = Array.from(options).find(opt => opt.classList.contains('selected'));
+                if (!selected) {
+                    allCorrect = false;
+                    results.push(`Question ${questionNum}: Non répondue.`);
+                    return;
+                }
+                if (selected.dataset.correct === String(correctValue)) {
+                    selected.classList.add('correct-feedback');
+                    results.push(`Question ${questionNum}: Correct !`);
+                } else {
+                    selected.classList.add('incorrect-feedback');
+                    allCorrect = false;
+                    results.push(`Question ${questionNum}: Incorrect. La bonne réponse était ${correctValue ? 'Vrai' : 'Faux'}.`);
+                }
+            };
+
+            checkQuestion(q1Options, true, 1); // "Un jalon est une étape clé du projet, souvent une date importante." -> Vrai
+            checkQuestion(q2Options, false, 2); // "La phase de réalisation vient toujours avant la phase de conception." -> Faux
+
+            feedbackDiv.innerHTML = results.join('<br>');
+            if (allCorrect) {
+                feedbackDiv.className = 'exercise-feedback correct';
+                feedbackDiv.innerHTML += '<br>Excellent ! Toutes tes réponses sont correctes.';
+            } else {
+                feedbackDiv.className = 'exercise-feedback incorrect';
+                feedbackDiv.innerHTML += '<br>Vérifie tes réponses et réessaie.';
+            }
+        }
+
+        // Exercise 3: Fill in the Blanks
+        function checkFillInTheBlanks(id1, id2, id3) {
+            const input1 = document.getElementById(id1);
+            const input2 = document.getElementById(id2);
+            const input3 = document.getElementById(id3);
+            const feedbackDiv = document.getElementById('feedback-fill-ex3');
+            let allCorrect = true;
+            let messages = [];
+
+            const checkBlank = (inputElement, expectedAnswer, messagePrefix) => {
+                const userAnswer = inputElement.value.trim().toLowerCase();
+                const isCorrect = userAnswer === expectedAnswer.toLowerCase();
+                if (isCorrect) {
+                    inputElement.classList.add('correct-feedback');
+                    inputElement.classList.remove('incorrect-feedback');
+                    messages.push(`${messagePrefix}: Correct !`);
+                } else {
+                    inputElement.classList.add('incorrect-feedback');
+                    inputElement.classList.remove('correct-feedback');
+                    allCorrect = false;
+                    messages.push(`${messagePrefix}: Incorrect. La bonne réponse était "${expectedAnswer}".`);
+                }
+            };
+
+            checkBlank(input1, input1.dataset.answer, 'Premier blanc');
+            checkBlank(input2, input2.dataset.answer, 'Deuxième blanc');
+            checkBlank(input3, input3.dataset.answer, 'Troisième blanc');
+
+            feedbackDiv.innerHTML = messages.join('<br>');
+            if (allCorrect) {
+                feedbackDiv.className = 'exercise-feedback correct';
+                feedbackDiv.innerHTML += '<br>Félicitations ! Toutes les phrases sont complétées correctement.';
+            } else {
+                feedbackDiv.className = 'exercise-feedback incorrect';
+                feedbackDiv.innerHTML += '<br>Continue de t\'entraîner !';
+            }
+        }
+
+        // Custom functions for the original exercises (now removed or modified)
+        // Keeping them as placeholders if needed, but they are replaced by new interactive ones.
+        function checkExercise1_old() { /* This function is no longer used */ }
+        function checkExercise2_old() { /* This function is no longer used */ }
+        function checkExercise3_old() { /* This function is no longer used */ }
+
+        // Initial setup for QCM and True/False options to allow selection
+        document.querySelectorAll('.qcm-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.closest('.qcm-options');
+                parent.querySelectorAll('.qcm-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.true-false-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.closest('.true-false-options');
+                parent.querySelectorAll('.true-false-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+    </script>
+</body>
+</html>
