@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Prompts pour Modules de Technologie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+        }
+        .label-text {
+            font-weight: 500;
+            color: #374151; /* Tailwind gray-700 */
+        }
+        /* Custom scrollbar for textarea */
+        textarea::-webkit-scrollbar {
+            width: 10px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #e5e7eb; /* Tailwind gray-200 */
+            border-radius: 10px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: #9ca3af; /* Tailwind gray-400 */
+            border-radius: 10px;
+        }
+        textarea::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* Tailwind gray-500 */
+        }
+        /* Styling for radio button labels */
+        .radio-label {
+            display: flex;
+            align-items: center;
+            padding: 0.85rem 1.25rem;
+            border: 1px solid #d1d5db; /* Tailwind gray-300 */
+            border-radius: 0.5rem; /* Tailwind rounded-lg */
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+            background-color: #ffffff; /* bg-white */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Tailwind shadow-sm */
+        }
+        .radio-label:hover {
+            background-color: #f9fafb; /* Tailwind gray-50 */
+            border-color: #60a5fa; /* Tailwind blue-400 */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Tailwind shadow */
+        }
+        .radio-label input[type="radio"] {
+            margin-right: 0.75rem; /* mr-3 */
+            accent-color: #2563eb; /* Tailwind blue-600 */
+            transform: scale(1.25);
+        }
+        .radio-label.selected {
+            background-color: #eff6ff; /* Tailwind blue-50 */
+            border-color: #2563eb; /* Tailwind blue-600 */
+            font-weight: 600; /* font-semibold */
+            color: #1e40af; /* Tailwind blue-800 */
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4); /* Ring effect */
+        }
+        .main-container {
+            background-color: #ffffff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Tailwind shadow-xl */
+            border-radius: 0.75rem; /* Tailwind rounded-xl */
+        }
+        .input-field {
+            border: 1px solid #d1d5db; /* Tailwind gray-300 */
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .input-field:focus {
+            border-color: #2563eb; /* Tailwind blue-600 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Focus ring, slightly larger */
+        }
+        /* Button styling */
+        .btn {
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 600; /* font-semibold */
+            text-align: center;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Tailwind shadow */
+        }
+        .btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Focus ring + shadow */
+        }
+        .btn-primary {
+            background-color: #2563eb; /* Tailwind blue-600 */
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8; /* Tailwind blue-700 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Tailwind shadow-md */
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background-color: #10b981; /* Tailwind emerald-500 */
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #059669; /* Tailwind emerald-600 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
+        }
+        .btn-info {
+            background-color: #06b6d4; /* Tailwind cyan-500 */
+            color: white;
+        }
+        .btn-info:hover {
+            background-color: #0891b2; /* Tailwind cyan-600 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
+        }
+        .btn-accent {
+            background-color: #8b5cf6; /* Tailwind violet-500 */
+            color: white;
+        }
+        .btn-accent:hover {
+            background-color: #7c3aed; /* Tailwind violet-600 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
+        }
+         .btn-copy-alt {
+            background-color: #64748b; /* Tailwind slate-500 */
+            color: white;
+        }
+        .btn-copy-alt:hover {
+            background-color: #475569; /* Tailwind slate-600 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
+        }
+
+
+    </style>
+</head>
+<body class="text-slate-800 p-4 md:p-8 min-h-screen flex flex-col items-center justify-center">
+    <div class="w-full max-w-3xl main-container p-6 md:p-10">
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-sky-700">Générateur de Prompts pour Modules de Technologie</h1>
+            <p class="text-slate-600 mt-3 text-lg">Créez des ressources pédagogiques adaptées à vos besoins.</p>
+        </header>
+
+        <main>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
+                <div>
+                    <label for="gradeSelect" class="block text-sm label-text text-slate-700 mb-1.5">Niveau (Classe) :</label>
+                    <select id="gradeSelect" class="w-full p-3 rounded-md shadow-sm input-field">
+                        <option value="">-- Choisir un niveau --</option>
+                        <option value="5e">5ème</option>
+                        <option value="4e">4ème</option>
+                        <option value="3e">3ème</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="moduleSelect" class="block text-sm label-text text-slate-700 mb-1.5">Module :</label>
+                    <select id="moduleSelect" class="w-full p-3 rounded-md shadow-sm input-field" disabled>
+                        <option value="">-- Choisir un module --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <label for="studentThemesInput" class="block text-sm label-text text-slate-700 mb-1.5">Thèmes chers aux élèves (ex: jeux vidéo, réseaux sociaux) :</label>
+                <input type="text" id="studentThemesInput" value="les jeux vidéo, les smartphones, les réseaux sociaux, les robots" class="w-full p-3 rounded-md shadow-sm input-field">
+            </div>
+
+            <div class="mb-10">
+                <label class="block text-sm label-text text-slate-700 mb-2.5">Format de sortie souhaité pour le module :</label>
+                <div class="flex flex-col sm:flex-row gap-4" id="outputFormatGroup">
+                    <label class="radio-label flex-1" for="formatDocx">
+                        <input type="radio" id="formatDocx" name="outputFormat" value="docx" checked>
+                        Document DOCX
+                    </label>
+                    <label class="radio-label flex-1" for="formatHtml">
+                        <input type="radio" id="formatHtml" name="outputFormat" value="html">
+                        Page Web Interactive
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-8 text-center">
+                <button id="generateButton" class="btn btn-primary text-lg">
+                    Générer le Prompt pour le Module
+                </button>
+            </div>
+
+            <div>
+                <label for="outputPrompt" class="block text-sm label-text text-slate-700 mb-1.5">Prompt généré :</label>
+                <textarea id="outputPrompt" rows="20" class="w-full p-4 rounded-md shadow-sm bg-slate-50 text-sm input-field" readonly placeholder="Le prompt détaillé pour la génération du module apparaîtra ici..."></textarea>
+                <button id="copyButton" class="mt-4 btn btn-secondary">
+                    Copier le Prompt Principal
+                </button>
+                <p id="copyMessage" class="text-sm text-green-700 font-medium mt-2 h-5"></p>
+            </div>
+
+            <div class="mt-10 pt-8 border-t border-slate-300">
+              <h2 class="text-xl font-semibold text-slate-700 mb-6 text-center">Outils Pédagogiques Annexes</h2>
+              <div class="flex flex-col sm:flex-row gap-4 mb-6 justify-center">
+                <button id="logbookButton" class="btn btn-info flex-1">Phrase pour Cahier de Texte</button>
+                <button id="summaryButton" class="btn btn-accent flex-1">Résumé Connaissances & Compétences</button>
+              </div>
+              <div>
+                <label for="pedagogicalOutput" id="pedagogicalOutputLabel" class="block text-sm label-text text-slate-700 mb-1.5">Sortie des outils annexes :</label>
+                <textarea id="pedagogicalOutput" rows="10" class="w-full p-4 rounded-md shadow-sm bg-slate-50 text-sm input-field" readonly placeholder="Le contenu généré par les outils annexes apparaîtra ici..."></textarea>
+                <button id="copyPedagogicalOutputButton" class="mt-3 btn btn-copy-alt">Copier ce Texte Annexe</button>
+                <p id="copyPedagogicalOutputMessage" class="text-sm text-green-700 font-medium mt-1 h-5"></p>
+              </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-300 text-center text-sm text-slate-500">
+            <p>Technologie Collège - Module</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data for all modules
+        const modulesData = {
+            "5e": {
+                1: { title: "Introduction aux objets techniques", hook: "Comment les objets techniques répondent-ils à nos besoins quotidiens ?", skills: "Identifier un besoin et énoncer un problème technique", knowledge: "Besoin, contraintes, normalisation" },
+                2: { title: "Analyse fonctionnelle", hook: "Pourquoi et comment décomposer un objet en fonctions ?", skills: "S'approprier un cahier des charges", knowledge: "Fonctions techniques, solutions techniques" },
+                3: { title: "Matériaux et leurs propriétés", hook: "De quoi sont faits les objets qui nous entourent ?", skills: "Identifier le(s) matériau(x)", knowledge: "Familles de matériaux, propriétés, impacts environnementaux" },
+                4: { title: "Évolution des objets techniques", hook: "Comment les objets ont-ils évolué au fil du temps ?", skills: "Comparer et commenter les évolutions des objets", knowledge: "Évolution des objets, impacts sociétaux" },
+                5: { title: "Les flux d'énergie", hook: "Comment l'énergie circule-t-elle dans un objet technique ?", skills: "Identifier les flux d'énergie", knowledge: "Sources d'énergie, chaîne d'énergie, conversion" },
+                6: { title: "Représentation graphique", hook: "Comment représenter un objet pour le comprendre ?", skills: "Exprimer sa pensée à l'aide d'outils de description adaptés", knowledge: "Croquis, schémas, symboles normalisés" },
+                7: { title: "Introduction à la programmation", hook: "Comment donner des ordres à une machine ?", skills: "Appliquer les principes élémentaires de l'algorithmique", knowledge: "Algorithme, programme, séquence d'instructions" },
+                8: { title: "Les objets connectés", hook: "Comment les objets peuvent-ils communiquer entre eux ?", skills: "Comprendre le fonctionnement d'un réseau informatique", knowledge: "Objets connectés, réseaux, interfaces" },
+                9: { title: "Mesure et instrumentation", hook: "Comment mesurer les performances d'un objet technique ?", skills: "Mesurer des grandeurs de manière directe ou indirecte", knowledge: "Instruments de mesure, grandeurs physiques" },
+                10: { title: "Éco-conception", hook: "Comment créer des objets respectueux de l'environnement ?", skills: "Identifier l'impact environnemental des objets", knowledge: "Cycle de vie, recyclage, impact environnemental" },
+                11: { title: "Structures mécaniques", hook: "Comment les objets techniques résistent-ils aux forces ?", skills: "Analyser le fonctionnement d'un objet technique", knowledge: "Structures, résistance, équilibre" },
+                12: { title: "Conception numérique", hook: "Comment utiliser l'ordinateur pour concevoir des objets ?", skills: "Traduire des choix de solutions sous forme numérique", knowledge: "Outils numériques de conception, modelage 3D" },
+                13: { title: "Les chaînes d'information", hook: "Comment l'information circule-t-elle dans un système ?", skills: "Identifier les flux d'information", knowledge: "Chaîne d'information, capteurs, actionneurs" },
+                14: { title: "Fabrication et prototypage", hook: "Comment fabriquer concrètement un objet technique ?", skills: "Réaliser, de manière collaborative, le prototype d'un objet", knowledge: "Procédés de fabrication, outils, sécurité" },
+                15: { title: "Introduction aux automates", hook: "Comment automatiser des tâches simples ?", skills: "Écrire un programme simple", knowledge: "Automates, capteurs, actionneurs" },
+                16: { title: "Initiation au design", hook: "Comment allier esthétique et fonction ?", skills: "Imaginer des solutions en réponse au besoin", knowledge: "Design, ergonomie, esthétique" },
+                17: { title: "Habitat et confort", hook: "Comment la technologie améliore-t-elle notre habitat ?", skills: "Associer des solutions techniques à des fonctions", knowledge: "Confort, domotique, énergies" },
+                18: { title: "Projet collaboratif", hook: "Comment travailler ensemble pour créer un objet ?", skills: "Participer à l'organisation et au déroulement de projets", knowledge: "Gestion de projet, planification, collaboration" }
+            },
+            "4e": {
+                1: { title: "Cahier des charges avancé", hook: "Comment définir précisément les contraintes d'un projet ?", skills: "S'approprier un cahier des charges complexe", knowledge: "Contraintes dimensionnelles, fonctionnelles, esthétiques" },
+                2: { title: "Chaînes d'énergie complexes", hook: "Comment l'énergie est-elle transformée dans un système ?", skills: "Associer des solutions techniques à des fonctions", knowledge: "Chaîne d'énergie, rendement, pertes" },
+                3: { title: "Modélisation 3D", hook: "Comment représenter virtuellement un objet en trois dimensions ?", skills: "Traduire à l'aide d'outils numériques des choix de solutions", knowledge: "Modélisation 3D, cotation, assemblage" },
+                4: { title: "Programmation et algorithmes", hook: "Comment résoudre des problèmes par la programmation ?", skills: "Écrire, mettre au point et exécuter un programme", knowledge: "Algorithmes, variables, structures de contrôle" },
+                5: { title: "Systèmes automatisés", hook: "Comment un système peut-il fonctionner de façon autonome ?", skills: "Analyser le fonctionnement d'un objet technique", knowledge: "Automatisme, boucle, capteurs, actionneurs" },
+                6: { title: "Transport et mobilité", hook: "Comment la technologie révolutionne-t-elle nos déplacements ?", skills: "Analyser l'impact environnemental d'un objet", knowledge: "Moyens de transport, énergie, pollution" },
+                7: { title: "Choix des matériaux", hook: "Pourquoi choisir un matériau plutôt qu'un autre ?", skills: "Justifier le choix d'un matériau", knowledge: "Propriétés mécaniques, coût, disponibilité" },
+                8: { title: "Réseaux informatiques", hook: "Comment les données circulent-elles entre les machines ?", skills: "Comprendre le fonctionnement d'un réseau", knowledge: "Protocoles, routage, sécurité" },
+                9: { title: "Design et innovation", hook: "Comment l'innovation transforme-t-elle notre quotidien ?", skills: "Imaginer des solutions innovantes", knowledge: "Veille technologique, innovation, brevets" },
+                10: { title: "Systèmes mécaniques", hook: "Comment transmettre et transformer le mouvement ?", skills: "Analyser le fonctionnement et la structure d'un objet", knowledge: "Transmission, transformation, guidage" },
+                11: { title: "Développement durable et technologie", hook: "Comment concilier progrès technique et protection de l'environnement ?", skills: "Analyser l'impact environnemental d'un objet", knowledge: "Développement durable, éco-conception, normes" },
+                12: { title: "Interface Homme-Machine", hook: "Comment interagir efficacement avec les systèmes techniques ?", skills: "Analyser les échanges d'informations", knowledge: "Ergonomie, interfaces, accessibilité" },
+                13: { title: "Capteurs et actionneurs", hook: "Comment un système perçoit-il et agit-il sur son environnement ?", skills: "Analyser le fonctionnement d'un objet technique", knowledge: "Types de capteurs, traitement du signal, actionneurs" },
+                14: { title: "Gestion de projet technique", hook: "Comment organiser efficacement un projet technique ?", skills: "Participer à l'organisation de projets", knowledge: "Planification, répartition des tâches, revue de projet" },
+                15: { title: "Systèmes embarqués", hook: "Comment intégrer l'intelligence dans les objets ?", skills: "Comprendre le fonctionnement et la structure des objets", knowledge: "Microcontrôleurs, programmation embarquée" },
+                16: { title: "Simulation numérique", hook: "Comment prédire le comportement d'un système ?", skills: "Utiliser une modélisation pour comprendre ou prévoir", knowledge: "Logiciels de simulation, paramètres, interprétation" },
+                17: { title: "Communication technique", hook: "Comment communiquer efficacement sur un projet technique ?", skills: "Présenter à l'oral des solutions techniques", knowledge: "Documentation technique, schémas normalisés" },
+                18: { title: "Projet pluritechnologique", hook: "Comment combiner différentes technologies dans un même projet ?", skills: "Concevoir un projet qui mobilise plusieurs domaines", knowledge: "Intégration de solutions, optimisation, tests" }
+            },
+            "3e": {
+                1: { title: "Innovation et ruptures technologiques", hook: "Comment les grandes innovations transforment-elles la société ?", skills: "Analyser l'impact des objets et systèmes techniques sur la société", knowledge: "Innovations de rupture, impacts sociétaux, prospective" },
+                2: { title: "Démarche d'ingénierie", hook: "Comment les ingénieurs conçoivent-ils des solutions complexes ?", skills: "Rechercher des solutions techniques à un problème", knowledge: "Méthode d'ingénierie, analyse systémique, optimisation" },
+                3: { title: "Programmation avancée", hook: "Comment programmer des comportements complexes ?", skills: "Développer des programmes pour répondre à des problèmes", knowledge: "Programmation orientée objet, événements, interfaces" },
+                4: { title: "Conception collaborative", hook: "Comment travailler en équipe sur des projets techniques ?", skills: "Organiser, structurer et stocker des ressources numériques", knowledge: "Travail collaboratif, partage de données, versions" },
+                5: { title: "Robots et systèmes autonomes", hook: "Comment créer des machines qui agissent de façon autonome ?", skills: "Concevoir, créer, programmer un système autonome", knowledge: "Robotique, intelligence artificielle, capteurs avancés" },
+                6: { title: "Transition écologique et technologie", hook: "Quel rôle joue la technologie face aux défis environnementaux ?", skills: "Analyser le cycle de vie d'un objet", knowledge: "Empreinte carbone, économie circulaire, sobriété" },
+                7: { title: "Systèmes communicants", hook: "Comment les systèmes échangent-ils des informations ?", skills: "Analyser le comportement attendu d'un système réel", knowledge: "Protocoles, IoT, cybersécurité" },
+                8: { title: "Optimisation et performances", hook: "Comment améliorer les performances d'un système technique ?", skills: "Définir les critères d'efficacité d'un système", knowledge: "Rendement, fiabilité, maintenabilité" },
+                9: { title: "Modélisation et simulation avancées", hook: "Comment anticiper le comportement d'un système complexe ?", skills: "Utiliser une modélisation pour comprendre, formaliser, partager", knowledge: "Simulations multiphysiques, interprétation des résultats" },
+                10: { title: "Énergie et développement durable", hook: "Comment concevoir des systèmes énergétiquement efficaces ?", skills: "Analyser le fonctionnement et la structure d'un objet", knowledge: "Efficacité énergétique, énergies renouvelables, stockage" },
+                11: { title: "Technologies émergentes", hook: "Quelles sont les technologies qui façonneront notre futur ?", skills: "Imaginer des solutions en réponse au besoin", knowledge: "Technologies émergentes, prospective, impact" },
+                12: { title: "Management de projet", hook: "Comment gérer un projet technique de A à Z ?", skills: "Organiser, structurer et planifier un projet", knowledge: "Gestion de projet, planification, évaluation, livrables" },
+                13: { title: "Systèmes complexes", hook: "Comment analyser et comprendre un système technique complexe ?", skills: "Identifier les interactions entre les éléments d'un système", knowledge: "Système complexe, interactions, régulation" },
+                14: { title: "Sécurité des systèmes", hook: "Comment garantir la sécurité des systèmes techniques ?", skills: "Anticiper des usages et des modifications de systèmes", knowledge: "Sécurité, fiabilité, redondance" },
+                15: { title: "Prototypage et fabrication avancés", hook: "Comment passer du concept au produit industriel ?", skills: "Réaliser, de manière collaborative, le prototype d'un objet", knowledge: "Fabrication additive, usinage, contrôle qualité" },
+                16: { title: "Orientation professionnelle", hook: "Comment les métiers de la technologie évoluent-ils ?", skills: "Contextualiser les compétences techniques", knowledge: "Métiers, formations, évolution professionnelle" },
+                17: { title: "Médiation technologique", hook: "Comment expliquer la technologie à différents publics ?", skills: "Communiquer à l'oral et à l'écrit en utilisant un langage rigoureux", knowledge: "Vulgarisation, communication, médiation" },
+                18: { title: "Projet de synthèse", hook: "Comment mobiliser l'ensemble des connaissances acquises ?", skills: "Mobiliser des outils numériques et des compétences techniques", knowledge: "Projet intégrateur, démarche complète" }
+            }
+        };
+
+        // DOM Elements
+        const gradeSelect = document.getElementById('gradeSelect');
+        const moduleSelect = document.getElementById('moduleSelect');
+        const studentThemesInput = document.getElementById('studentThemesInput');
+        const outputFormatGroup = document.getElementById('outputFormatGroup');
+        const generateButton = document.getElementById('generateButton');
+        const outputPrompt = document.getElementById('outputPrompt');
+        const copyButton = document.getElementById('copyButton');
+        const copyMessage = document.getElementById('copyMessage');
+
+        // New DOM Elements for pedagogical tools
+        const logbookButton = document.getElementById('logbookButton');
+        const summaryButton = document.getElementById('summaryButton');
+        const pedagogicalOutput = document.getElementById('pedagogicalOutput');
+        const pedagogicalOutputLabel = document.getElementById('pedagogicalOutputLabel');
+        const copyPedagogicalOutputButton = document.getElementById('copyPedagogicalOutputButton');
+        const copyPedagogicalOutputMessage = document.getElementById('copyPedagogicalOutputMessage');
+
+
+        // Function to update radio button label style
+        function updateRadioLabelStyle() {
+            document.querySelectorAll('.radio-label').forEach(label => {
+                const input = label.querySelector('input[type="radio"]');
+                if (input.checked) {
+                    label.classList.add('selected');
+                } else {
+                    label.classList.remove('selected');
+                }
+            });
+        }
+        
+        document.querySelectorAll('input[name="outputFormat"]').forEach(radio => {
+            radio.addEventListener('change', updateRadioLabelStyle);
+        });
+        updateRadioLabelStyle();
+
+
+        // Event Listener for grade selection
+        gradeSelect.addEventListener('change', function() {
+            const selectedGrade = this.value;
+            moduleSelect.innerHTML = '<option value="">-- Choisir un module --</option>';
+            outputPrompt.value = '';
+            copyMessage.textContent = '';
+            pedagogicalOutput.value = ''; 
+            pedagogicalOutputLabel.textContent = 'Sortie des outils annexes :';
+            copyPedagogicalOutputMessage.textContent = '';
+
+
+            if (selectedGrade && modulesData[selectedGrade]) {
+                moduleSelect.disabled = false;
+                for (let i = 1; i <= 18; i++) {
+                    const moduleInfo = modulesData[selectedGrade][i];
+                    if (moduleInfo) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = `Module ${i}: ${moduleInfo.title}`;
+                        moduleSelect.appendChild(option);
+                    }
+                }
+            } else {
+                moduleSelect.disabled = true;
+            }
+        });
+        
+        moduleSelect.addEventListener('change', function() {
+            outputPrompt.value = '';
+            copyMessage.textContent = '';
+            pedagogicalOutput.value = ''; 
+            pedagogicalOutputLabel.textContent = 'Sortie des outils annexes :';
+            copyPedagogicalOutputMessage.textContent = '';
+        });
+
+        // Event Listener for main prompt generate button
+        generateButton.addEventListener('click', function() {
+            const selectedGrade = gradeSelect.value;
+            const selectedModuleNumber = moduleSelect.value;
+            const studentThemes = studentThemesInput.value.trim();
+            const selectedFormat = document.querySelector('input[name="outputFormat"]:checked').value;
+
+            if (!selectedGrade) { alert("Veuillez sélectionner un niveau."); return; }
+            if (!selectedModuleNumber) { alert("Veuillez sélectionner un module."); return; }
+            if (!studentThemes) { alert("Veuillez renseigner les thèmes chers aux élèves."); return; }
+
+            const moduleDetails = modulesData[selectedGrade][selectedModuleNumber];
+            if (!moduleDetails) { alert("Détails du module non trouvés."); return; }
+
+            let formatSpecificInstructions = "";
+            let targetAudienceFocus = "";
+
+            if (selectedFormat === "docx") {
+                targetAudienceFocus = `Le document final est destiné à être un support de cours de référence pour les élèves et une base pour l'enseignant. Il doit être facilement convertible au format DOCX.`;
+                formatSpecificInstructions = `
+**Consignes spécifiques pour la sortie DOCX :**
+* **Mise en page :** Structurer le contenu avec des titres clairs (Niveau 1 pour le titre du module, Niveau 2 pour les grandes parties comme Introduction, Développement, etc., Niveau 3 pour les chapitres du développement). Utiliser des listes à puces ou numérotées pour les énumérations. Prévoir des espaces pour d'éventuelles images ou schémas qui seraient ajoutés manuellement dans le DOCX.
+* **Qualité :** Viser un document de qualité professionnelle, avec une typographie lisible et une présentation aérée et harmonieuse. Le langage doit rester académique tout en étant accessible.
+* **Contenu :** Assurer la complétude et la rigueur des informations techniques. Les schémas textuels doivent être suffisamment descriptifs pour guider la création graphique ultérieure.
+`;
+            } else if (selectedFormat === "html") {
+                targetAudienceFocus = `La page web est destinée à être une ressource interactive et captivante pour des élèves de collège (12-15 ans). Elle doit être consultable sur différents appareils (responsive design).`;
+                formatSpecificInstructions = `
+**Consignes spécifiques pour la sortie Page Web (HTML unique) :**
+* **Fichier Unique :** Tout le code (HTML, CSS, JavaScript) doit être contenu dans un seul fichier HTML.
+* **Design Moderne et Engageant :**
+    * Utiliser un design visuellement attrayant, moderne et adapté à un public adolescent. L'enseignant pourra fournir ultérieurement des indications sur la palette de couleurs et le style général.
+    * Intégrer des **pictogrammes** (SVG de préférence, ou emojis pertinents) pour illustrer les concepts clés et aérer le texte.
+    * Utiliser des **effets visuels et animations** subtils (ex: transitions douces, effets au survol) pour rendre la navigation et la lecture plus dynamiques, sans surcharger.
+    * Prévoir des **interactions** simples (ex: éléments cliquables pour révéler plus d'informations, infobulles pour les termes du glossaire).
+* **Structure HTML Sémantique :** Utiliser des balises HTML5 sémantiques (<header>, <nav>, <main>, <article>, <section>, <aside>, <footer>).
+* **CSS Intégré :** Placer tout le CSS dans des balises <style> dans le <head> du document. Utiliser des classes pour styliser les éléments.
+* **JavaScript Intégré :** Placer tout le JavaScript dans des balises <script> à la fin du <body> (ou dans le <head> avec l'attribut 'defer'). Le JS sera nécessaire pour les interactions et les exercices auto-corrigés.
+* **Accessibilité :** Tenir compte des bases de l'accessibilité web (contrastes suffisants, alternatives textuelles pour les images si des placeholders sont utilisés, navigation clavier possible pour les éléments interactifs).
+* **Pied de page du cours HTML :** Le pied de page de la page web générée doit contenir le texte "Technologie Collège".
+
+**Section "Exercices d'entraînement" (Obligatoire pour la page web) :**
+À la fin du module, intégrer une section d'exercices hautement interactifs et auto-corrigés pour permettre aux élèves de tester leur compréhension. Au total, la section doit proposer **au moins 10 exercices interactifs variés**.
+    1.  **QCM (Questions à Choix Multiples) :** Plusieurs QCM (au moins 3-4) avec 3 ou 4 options de réponse. L'élève sélectionne une réponse, et un feedback immédiat (visuel et textuel : correct/incorrect, avec explication si incorrect) est fourni.
+    2.  **Exercices de Correspondance :** Plusieurs exercices de correspondance (au moins 2-3) où l'élève doit faire correspondre des éléments de deux listes (par exemple, termes et définitions, objets et fonctions, causes et effets). L'interaction peut se faire par glisser-déposer, en traçant des lignes (si graphiquement simple à décrire pour une IA), ou par sélection dans des menus déroulants pour chaque item d'une liste. Feedback immédiat et visuel.
+    3.  **Questions à Réponse Simple/Courte :** Plusieurs questions (au moins 2-3) où l'élève doit taper une réponse courte. Prévoir une vérification de la réponse (tolérance aux petites variations si possible). **Chaque question de ce type DOIT inclure un bouton "Afficher l'aide/indice"** qui révèle une information contextuelle. Feedback immédiat.
+    4.  **Autres types d'exercices interactifs (pour atteindre le total de 10 et varier) :** Inclure par exemple :
+        * Un exercice de type "remettre des étapes dans l'ordre" (glisser-déposer).
+        * Un exercice de "texte à trous" où l'élève choisit des mots dans une liste pour compléter des phrases.
+        * Un petit "vrai ou faux" interactif.
+    * **Interactivité et Feedback :** L'interactivité est primordiale. Utiliser des animations discrètes pour valider/invalider les réponses (ex: changement de couleur, petite icône). Permettre à l'élève de réessayer les questions. Un score global pour la section d'exercices est souhaitable.
+    * **Interface Claire et Ludique :** Les exercices doivent être présentés de manière claire, intuitive et si possible, avec une touche ludique pour maintenir l'engagement.
+`;
+            }
+
+            const promptTemplate = `Agissez en tant qu'expert en ingénierie pédagogique spécialisé en technologie collège ET en conception de supports ${selectedFormat === 'docx' ? 'documentaires (DOCX)' : 'web interactifs (HTML/CSS/JS)'}.
+Je suis enseignant de technologie au niveau ${selectedGrade} et je souhaite que vous construisiez le module ${selectedModuleNumber} intitulé "${moduleDetails.title}".
+${targetAudienceFocus}
+
+**Format de Sortie Demandé : ${selectedFormat === 'docx' ? 'Document (préparé pour DOCX)' : 'Page Web (HTML unique avec CSS/JS intégrés)'}**
+
+**Structure Générale du Module :**
+
+1.  **Introduction percutante (environ 150 mots) :**
+    * Commencer par la phrase d'accroche : "${moduleDetails.hook}"
+    * Présenter les objectifs d'apprentissage liés aux compétences : "${moduleDetails.skills}"
+    * Annoncer clairement les connaissances visées : "${moduleDetails.knowledge}"
+
+2.  **Développement structuré en 3 chapitres minimum (subdivisions du module) (### niveau de titre Markdown pour la structure de base) :**
+    * Chaque chapitre (subdivision du module) doit traiter d'un aspect technique fondamental du module.
+    * Intégrer pour chaque concept clé abordé dans un chapitre :
+        * Explications approfondies et claires, utilisant des analogies avec des situations ou objets du quotidien des élèves pour faciliter la compréhension.
+        * Description textuelle détaillée d'un schéma ou d'une illustration à créer ultérieurement (pour DOCX) ou suggestion d'icône/schéma simple (pour HTML).
+        * Au moins 2 exemples concrets d'application ou d'objets techniques en lien avec les thèmes suivants : ${studentThemes}.
+
+3.  **Encarts "Le saviez-vous ?" (Au moins un encart par chapitre (subdivision), répartis dans le développement) :**
+    * Chaque encart doit présenter un fait historique/technologique surprenant, une application industrielle actuelle, ou une perspective écologique/sociétale.
+    * (Pour HTML : ces encarts pourraient être stylisés de manière distincte, ex: boîtes colorées, icônes spécifiques).
+
+4.  **Section "Perspectives et Avenir" (### niveau de titre Markdown) :**
+    * Innovations en R&D sur le sujet.
+    * Métiers émergents liés au domaine.
+    * Enjeux éthiques/pratiques à horizon 2030-2040.
+
+5.  **Conclusion synthétique (environ 100 mots) :**
+    * Résumé visuel sous forme de carte mentale décrite textuellement (pour DOCX) ou une liste à puces récapitulative (pour HTML, potentiellement interactive).
+    * Question ouverte pour débat en classe.
+    * Lien avec le module suivant (si pertinent).
+
+6.  **Glossaire (10 termes techniques minimum) :**
+    * Définitions adaptées au niveau ${selectedGrade}. Étymologie si possible.
+    * (Pour HTML : chaque terme du glossaire dans le texte principal pourrait être cliquable pour afficher sa définition dans une infobulle ou un modal).
+
+**Consignes Rédactionnelles Générales :**
+* **Langage :** Niveau ${selectedGrade} collège (12-15 ans), jargon technique expliqué.
+* **Exemples :** 70% issus de l'environnement quotidien des élèves (${studentThemes}).
+* **Compliance :** Alignement avec les attendus du programme officiel de technologie.
+
+${formatSpecificInstructions}
+
+---
+Fin du prompt pour le module "${moduleDetails.title}" (${selectedGrade}), format ${selectedFormat}.
+---`;
+
+            outputPrompt.value = promptTemplate;
+            outputPrompt.scrollTop = 0; 
+            copyMessage.textContent = '';
+        });
+
+        // Event Listener for main prompt copy button
+        copyButton.addEventListener('click', function() {
+            if (outputPrompt.value) {
+                outputPrompt.select();
+                try {
+                    document.execCommand('copy');
+                    copyMessage.textContent = 'Prompt principal copié !';
+                } catch (err) {
+                    navigator.clipboard.writeText(outputPrompt.value)
+                        .then(() => { copyMessage.textContent = 'Prompt principal copié !'; })
+                        .catch(e => { copyMessage.textContent = 'Erreur de copie.'; console.error('Erreur copie: ', e); });
+                } finally {
+                    setTimeout(() => { copyMessage.textContent = ''; }, 3000);
+                    window.getSelection().removeAllRanges(); 
+                }
+            } else {
+                copyMessage.textContent = 'Rien à copier.';
+                 setTimeout(() => { copyMessage.textContent = ''; }, 3000);
+            }
+        });
+
+        // --- Logic for Pedagogical Tools ---
+
+        logbookButton.addEventListener('click', function() {
+            const selectedGrade = gradeSelect.value;
+            const selectedModuleNumber = moduleSelect.value;
+
+            if (!selectedGrade || !selectedModuleNumber) {
+                alert("Veuillez d'abord sélectionner un niveau et un module.");
+                pedagogicalOutput.value = "Sélectionnez un niveau et un module pour générer le texte.";
+                pedagogicalOutputLabel.textContent = 'Sortie : Erreur de sélection';
+                return;
+            }
+            const moduleDetails = modulesData[selectedGrade][selectedModuleNumber];
+            if (!moduleDetails) {
+                pedagogicalOutput.value = "Détails du module non trouvés.";
+                pedagogicalOutputLabel.textContent = 'Sortie : Erreur données module';
+                return;
+            }
+            
+            const logbookEntry = `Module ${selectedModuleNumber} : ${moduleDetails.title}
+Contenu de la séance : ${moduleDetails.hook}
+Compétences clés visées : ${moduleDetails.skills}.
+Notions essentielles abordées : ${moduleDetails.knowledge}.
+Travail à faire / Observations : `; 
+            
+            pedagogicalOutput.value = logbookEntry;
+            pedagogicalOutputLabel.textContent = 'Sortie : Proposition pour Cahier de Texte';
+            copyPedagogicalOutputMessage.textContent = '';
+        });
+
+        summaryButton.addEventListener('click', function() {
+            const selectedGrade = gradeSelect.value;
+            const selectedModuleNumber = moduleSelect.value;
+
+            if (!selectedGrade || !selectedModuleNumber) {
+                alert("Veuillez d'abord sélectionner un niveau et un module.");
+                pedagogicalOutput.value = "Sélectionnez un niveau et un module pour générer le résumé.";
+                pedagogicalOutputLabel.textContent = 'Sortie : Erreur de sélection';
+                return;
+            }
+            const moduleDetails = modulesData[selectedGrade][selectedModuleNumber];
+            if (!moduleDetails) {
+                pedagogicalOutput.value = "Détails du module non trouvés.";
+                pedagogicalOutputLabel.textContent = 'Sortie : Erreur données module';
+                return;
+            }
+            
+            let mainObjective = moduleDetails.hook.replace(/^Comment\s+|^Pourquoi\s+|^De quoi\s+sont\s+faits\s+les\s+objets\s+qui\s+nous\s+entourent\s*\?\s*|^De quoi\s+|^Quelles\s+sont\s+les\s+|^Quel\s+rôle\s+|^Comment\s+les\s+/, '');
+            mainObjective = mainObjective.charAt(0).toLowerCase() + mainObjective.slice(1);
+            if (mainObjective.endsWith('?')) { 
+                mainObjective = mainObjective.slice(0, -1).trim();
+            }
+            
+            const knowledgeTerms = moduleDetails.knowledge.split(',').map(term => term.trim().toLowerCase());
+            let keyTermsString = "";
+            if (knowledgeTerms.length > 0) {
+                keyTermsString = `Vous allez découvrir des notions importantes comme "${knowledgeTerms[0]}"`;
+                if (knowledgeTerms.length > 1) {
+                    keyTermsString += `, "${knowledgeTerms[1]}"`;
+                }
+                 if (knowledgeTerms.length > 2) {
+                    keyTermsString += ` et aussi "${knowledgeTerms[2]}"`;
+                }
+                keyTermsString += ".";
+            }
+
+            const firstSkill = moduleDetails.skills.toLowerCase().split(',')[0].trim();
+
+            const summary = `Bienvenue dans le module "${moduleDetails.title}" ! 
+Au cours des prochaines séances, nous allons ensemble explorer ${mainObjective}. 
+Vous apprendrez à ${firstSkill}. ${keyTermsString}
+Ce module vous aidera à mieux comprendre comment fonctionnent les objets techniques qui vous entourent 
+et à développer votre regard critique sur la technologie. 
+Nous utiliserons des exemples de votre quotidien pour rendre l'apprentissage plus concret.
+Préparez-vous à analyser, à concevoir et à mieux comprendre le monde technologique !`;
+            
+            pedagogicalOutput.value = summary;
+            pedagogicalOutputLabel.textContent = 'Sortie : Résumé du Module (pour les élèves)';
+            copyPedagogicalOutputMessage.textContent = '';
+        });
+
+        copyPedagogicalOutputButton.addEventListener('click', function() {
+            if (pedagogicalOutput.value && pedagogicalOutput.value !== "Sélectionnez un niveau et un module pour générer le texte." && pedagogicalOutput.value !== "Détails du module non trouvés." && pedagogicalOutput.value !== "Sélectionnez un niveau et un module pour générer le résumé.") {
+                pedagogicalOutput.select();
+                try {
+                    document.execCommand('copy');
+                    copyPedagogicalOutputMessage.textContent = 'Texte annexe copié !';
+                } catch (err) {
+                     navigator.clipboard.writeText(pedagogicalOutput.value)
+                        .then(() => { copyPedagogicalOutputMessage.textContent = 'Texte annexe copié !'; })
+                        .catch(e => { copyPedagogicalOutputMessage.textContent = 'Erreur de copie.'; console.error('Erreur copie annexe: ', e); });
+                } finally {
+                    setTimeout(() => { copyPedagogicalOutputMessage.textContent = ''; }, 3000);
+                    window.getSelection().removeAllRanges();
+                }
+            } else {
+                copyPedagogicalOutputMessage.textContent = 'Rien à copier ou erreur de sélection.';
+                 setTimeout(() => { copyPedagogicalOutputMessage.textContent = ''; }, 3000);
+            }
+        });
+
+
+        // Initialize module select if a grade is pre-selected
+        if (gradeSelect.value) {
+            gradeSelect.dispatchEvent(new Event('change'));
+        }
+        // Ensure initial styling of radio buttons is correct
+        updateRadioLabelStyle();
+    </script>
+</body>
+</html>
