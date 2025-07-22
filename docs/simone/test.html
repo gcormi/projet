@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1 : Introduction aux objets techniques</title>
+    <style>
+        /* CSS Intégré */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto+Slab:wght@700&display=swap');
+
+        :root {
+            --primary-color: #2E86C1; /* Bleu principal */
+            --secondary-color: #1ABC9C; /* Vert secondaire/accent */
+            --background-color: #f4f7f9; /* Fond clair */
+            --text-color: #34495E; /* Texte principal */
+            --card-bg-color: #ffffff; /* Fond des cartes/sections */
+            --heading-font: 'Roboto Slab', serif;
+            --body-font: 'Poppins', sans-serif;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: var(--body-font);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px; /* Largeur max pour le contenu */
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            margin-bottom: 30px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        header h1 {
+            font-family: var(--heading-font);
+            font-size: 2.8em;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        main {
+            width: 100%;
+        }
+
+        .section-card {
+            background-color: var(--card-bg-color);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-card h2, .section-card h3 {
+            font-family: var(--heading-font);
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        .section-card h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+        .section-card h3 {
+            font-size: 1.5em;
+            color: var(--secondary-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .introduction p, .conclusion p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        .introduction .accroche {
+            font-weight: 500;
+            font-size: 1.15em;
+            color: #2C3E50; /* Un peu plus foncé pour l'accroche */
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #e9f3f8;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: var(--border-radius);
+        }
+
+        .objectives-list, .knowledge-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .objectives-list li, .knowledge-list li {
+            background-color: #e8f6f3;
+            border-left: 4px solid var(--secondary-color);
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+        .objectives-list strong, .knowledge-list strong {
+            color: var(--primary-color);
+        }
+
+        .example {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: var(--border-radius);
+        }
+        .example strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .example img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .focus-point, .did-you-know {
+            background-color: #fff9e6; /* Fond jaune pâle */
+            border-left: 5px solid #FFC300; /* Bordure jaune */
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+            font-size: 0.95em;
+        }
+        .focus-point strong, .did-you-know strong {
+            color: #C70039; /* Rouge foncé pour le titre du focus */
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .glossary dl dt {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 10px;
+        }
+        .glossary dl dd {
+            margin-left: 20px;
+            margin-bottom: 5px;
+        }
+
+        .interactive-reveal button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--body-font);
+            font-size: 0.9em;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .interactive-reveal button:hover {
+            background-color: #16A085; /* Version plus foncée du vert */
+        }
+        .interactive-reveal .info {
+            display: none;
+            background-color: #eef;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px dashed var(--primary-color);
+        }
+
+        .quiz-container {
+            margin-top: 20px;
+        }
+        .quiz-question {
+            margin-bottom: 15px;
+        }
+        .quiz-question p {
+            font-weight: 500; /* Question en un peu plus gras */
+        }
+        .quiz-options label {
+            display: block;
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .quiz-options label:hover {
+            background-color: #e0e0e0;
+        }
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+        }
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .quiz-feedback.correct {
+            background-color: #d4edda; /* Vert clair */
+            color: #155724; /* Vert foncé */
+            border: 1px solid #c3e6cb;
+        }
+        .quiz-feedback.incorrect {
+            background-color: #f8d7da; /* Rouge clair */
+            color: #721c24; /* Rouge foncé */
+            border: 1px solid #f5c6cb;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #7f8c8d; /* Gris clair */
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+            .section-card h2 {
+                font-size: 1.7em;
+            }
+            .section-card h3 {
+                font-size: 1.3em;
+            }
+            .introduction p, .conclusion p {
+                font-size: 1em;
+            }
+        }
+         @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            .container {
+                padding: 10px;
+            }
+            .section-card {
+                padding: 15px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Module 1 : Introduction aux objets techniques</h1>
+    </header>
+
+    <div class="container">
+        <main>
+            <section class="section-card introduction">
+                <h2>👋 Bienvenue !</h2>
+                <p class="accroche">Savais-tu que chaque objet que tu utilises, de ton smartphone à ta console de jeux, en passant par le robot qui aspire le sol, est le résultat d'une longue réflexion ? Comment les objets techniques qui nous entourent au quotidien répondent-ils à nos besoins spécifiques et quelles sont les contraintes qu'ils doivent respecter pour fonctionner correctement et être utilisés en toute sécurité ? Découvrons ensemble les secrets de leur conception et comment, à partir d'une simple idée, on arrive à créer des objets qui changent notre vie !</p>
+                <h3>🎯 Ce que tu vas apprendre :</h3>
+                <p>À la fin de ce module, tu seras capable de :</p>
+                <ul class="objectives-list">
+                    <li><strong>Identifier</strong> un besoin et <strong>énoncer</strong> un problème technique.</li>
+                    <li><strong>Décrire</strong> le fonctionnement d'objets techniques, leurs fonctions et leurs constitutions.</li>
+                </ul>
+                <p>Tu vas découvrir :</p>
+                <ul class="knowledge-list">
+                    <li>Les notions de <strong>besoin</strong>, <strong>fonction d'usage</strong>, et <strong>fonction d'estime</strong>.</li>
+                    <li>Les différentes <strong>contraintes</strong> (fonctionnement, sécurité, esthétique, économiques, environnementales).</li>
+                    <li>L'importance de la <strong>normalisation</strong>.</li>
+                    <li>Le <strong>cycle de vie</strong> d'un objet technique.</li>
+                </ul>
+            </section>
+
+            <section class="section-card">
+                <h2>🤔 Chapitre 1 : À quoi ça sert ? Le Besoin et la Fonction d'Usage</h2>
+                <p>Chaque objet technique est créé pour répondre à un <strong>besoin</strong>. Un besoin, c'est un manque, quelque chose que l'on ressent comme nécessaire. Par exemple, tu as besoin de communiquer avec tes amis à distance, ou de te divertir.</p>
+                <p>Pour répondre à ce besoin, l'objet technique va remplir une <strong>fonction d'usage</strong>. C'est sa mission principale, ce à quoi il sert globalement. Par exemple, la fonction d'usage d'un téléphone est de "permettre de communiquer à distance".</p>
+
+                <div class="example">
+                    <strong>Exemple 1 : Le Smartphone 📱</strong>
+                    <p><strong>Besoin :</strong> Communiquer avec ses amis, s'informer, se divertir, s'organiser.</p>
+                    <p><strong>Fonction d'usage principale :</strong> Permettre la communication vocale et textuelle sans fil, et accéder à des applications et à Internet.</p>
+                    <p>Pense à toutes les applications sur ton smartphone : jeux, réseaux sociaux, appareil photo... Chacune répond à un sous-besoin spécifique !</p>
+                    <div class="interactive-reveal">
+                        <button onclick="toggleInfo('smartphone-info')">Plus d'infos sur les fonctions</button>
+                        <div class="info" id="smartphone-info">
+                            Un smartphone a de multiples fonctions : téléphoner (fonction principale historique), envoyer des messages, naviguer sur internet, prendre des photos, jouer à des jeux vidéo, etc.
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="example">
+                    <strong>Exemple 2 : La Manette de Jeu Vidéo 🎮</strong>
+                    <p><strong>Besoin :</strong> Interagir avec un jeu vidéo, contrôler un personnage ou des actions dans un univers virtuel.</p>
+                    <p><strong>Fonction d'usage principale :</strong> Permettre de transmettre des commandes à une console de jeu ou un ordinateur.</p>
+                    </div>
+
+                <div class="did-you-know">
+                    <strong>💡 Le Savais-tu ?</strong>
+                    <p>Les premiers "téléphones portables" étaient énormes et ne servaient qu'à téléphoner ! La fonction d'usage était très limitée par rapport à nos smartphones actuels. On les appelait des "briques" à cause de leur taille et de leur poids.</p>
+                </div>
+            </section>
+
+            <section class="section-card">
+                <h2>💅 Chapitre 2 : Plus qu'utile, l'Objet doit Plaire ! La Fonction d'Estime</h2>
+                <p>Un objet technique ne fait pas que servir à quelque chose, il doit aussi nous plaire ! C'est ce qu'on appelle la <strong>fonction d'estime</strong>. Elle est liée à l'apparence de l'objet (sa forme, sa couleur, les matériaux utilisés) et à l'image qu'il renvoie. Deux objets peuvent avoir la même fonction d'usage, mais on en préférera un à l'autre à cause de sa fonction d'estime.</p>
+
+                <div class="example">
+                    <strong>Exemple 1 : Les Coques de Smartphone 🤳</strong>
+                    <p><strong>Fonction d'usage de la coque :</strong> Protéger le smartphone des chocs.</p>
+                    <p><strong>Fonction d'estime :</strong> Personnaliser son téléphone, le rendre unique, afficher ses goûts (couleurs, motifs, personnages de jeux vidéo, etc.). Certaines coques sont même des objets de mode !</p>
+                    </div>
+
+                <div class="example">
+                    <strong>Exemple 2 : Les Skins dans les Jeux Vidéo 👾</strong>
+                    <p>Dans beaucoup de jeux vidéo, notamment les jeux en ligne, tu peux personnaliser l'apparence de ton personnage ou de tes équipements avec des "skins".</p>
+                    <p><strong>Fonction d'usage du personnage/équipement :</strong> Jouer, atteindre des objectifs dans le jeu.</p>
+                    <p><strong>Fonction d'estime du skin :</strong> Rendre son personnage unique, montrer son style, indiquer son niveau ou ses exploits, ou simplement parce que le design plaît. Cela ne change souvent rien aux capacités du personnage !</p>
+                    <div class="interactive-reveal">
+                        <button onclick="toggleInfo('skin-info')">Pourquoi les skins sont importants ?</button>
+                        <div class="info" id="skin-info">
+                            Les skins permettent aux joueurs d'exprimer leur individualité et de se sentir plus connectés à leur expérience de jeu. Pour les éditeurs de jeux, c'est aussi une source de revenus importante !
+                        </div>
+                    </div>
+                </div>
+                 <div class="focus-point">
+                    <strong>✨ Point Focus : Design et Émotions</strong>
+                    <p>Le design d'un objet (sa fonction d'estime) peut influencer nos émotions et notre perception de sa qualité. Un bel objet bien conçu nous paraîtra souvent plus performant, même si sa fonction d'usage est identique à un objet moins esthétique.</p>
+                </div>
+            </section>
+
+            <section class="section-card">
+                <h2>⚙️ Chapitre 3 : Pour que ça Marche et que ce soit Sûr ! Contraintes et Normalisation</h2>
+                <p>Pour qu'un objet technique fonctionne bien et puisse être utilisé par tout le monde, il doit respecter des règles et des limites : ce sont les <strong>contraintes</strong>. Il existe plusieurs types de contraintes :</p>
+                <ul>
+                    <li><strong>De fonctionnement :</strong> L'objet doit pouvoir réaliser sa fonction d'usage correctement (ex: un smartphone doit capter le réseau).</li>
+                    <li><strong>De sécurité :</strong> L'objet ne doit pas être dangereux pour l'utilisateur (ex: pas de risque de choc électrique).</li>
+                    <li><strong>Esthétiques :</strong> Liées à la fonction d'estime, l'objet doit avoir un aspect plaisant.</li>
+                    <li><strong>Économiques :</strong> L'objet doit pouvoir être fabriqué et vendu à un prix acceptable.</li>
+                    <li><strong>Environnementales :</strong> L'objet doit être fabriqué avec des matériaux respectueux de l'environnement, être recyclable, ou consommer peu d'énergie.</li>
+                </ul>
+                <p>La <strong>normalisation</strong>, c'est l'ensemble des règles et des standards techniques (les "normes") qu'un objet doit respecter. Par exemple, la prise USB de ton chargeur de smartphone est une norme : elle permet de brancher ton téléphone sur plein d'appareils différents ! Les normes garantissent la compatibilité, la qualité et la sécurité.</p>
+
+                <div class="example">
+                    <strong>Exemple 1 : Le Chargeur de Smartphone 🔌</strong>
+                    <p><strong>Contraintes :</strong></p>
+                    <ul>
+                        <li>Doit fournir la bonne tension électrique pour ne pas abîmer le téléphone (fonctionnement).</li>
+                        <li>Ne doit pas surchauffer ou provoquer de court-circuit (sécurité - Norme CE par exemple).</li>
+                        <li>Doit être compact et léger (esthétique, facilité d'usage).</li>
+                        <li>Son coût de fabrication doit être bas (économique).</li>
+                        <li>De plus en plus, on demande qu'il soit éco-conçu (environnementale).</li>
+                    </ul>
+                    </div>
+                <div class="example">
+                    <strong>Exemple 2 : Un Robot Aspirateur 🤖</strong>
+                    <p><strong>Contraintes :</strong></p>
+                    <ul>
+                        <li>Doit pouvoir naviguer dans une pièce et aspirer la poussière efficacement (fonctionnement).</li>
+                        <li>Ne doit pas tomber dans les escaliers, ne pas heurter violemment les meubles, ne pas blesser un animal domestique (sécurité).</li>
+                        <li>Son design doit s'intégrer dans un intérieur (esthétique).</li>
+                        <li>Ne pas être trop bruyant (confort d'usage, lié au fonctionnement).</li>
+                        <li>Sa batterie doit avoir une autonomie suffisante (fonctionnement) et être rechargeable de manière sécurisée.</li>
+                    </ul>
+                </div>
+                <div class="did-you-know">
+                    <strong>💡 Le Savais-tu ? La Normalisation des Emojis !</strong>
+                    <p>Même les emojis que tu utilises sur les réseaux sociaux sont normalisés ! C'est le Consortium Unicode qui s'en occupe. Grâce à cette normalisation, un emoji envoyé depuis un iPhone s'affiche correctement (ou de manière très similaire) sur un téléphone Android ou un ordinateur Windows. Sans normes, ce serait un joyeux bazar !</p>
+                </div>
+            </section>
+
+            <section class="section-card">
+                <h2>♻️ Chapitre 4 : De la Naissance à la Mort... Le Cycle de Vie d'un Objet Technique</h2>
+                <p>Un objet technique ne sort pas de nulle part et ne disparaît pas comme par magie ! Il suit un <strong>cycle de vie</strong>, un peu comme un être vivant. Ce cycle comprend plusieurs étapes :</p>
+                <ol>
+                    <li><strong>Conception :</strong> On imagine l'objet, on définit ses fonctions, on fait des plans.</li>
+                    <li><strong>Fabrication :</strong> On choisit les matériaux et on assemble l'objet en usine.</li>
+                    <li><strong>Distribution :</strong> L'objet est transporté et vendu dans les magasins ou en ligne.</li>
+                    <li><strong>Utilisation :</strong> C'est la période où tu te sers de l'objet.</li>
+                    <li><strong>Fin de vie :</strong> L'objet ne fonctionne plus, est cassé ou démodé. Idéalement, il est collecté pour être recyclé ou revalorisé.</li>
+                </ol>
+                <p>Penser au cycle de vie dès la conception est très important, notamment pour l'environnement. On essaie de plus en plus de créer des objets faciles à réparer ou à recycler.</p>
+
+                <div class="example">
+                    <strong>Exemple 1 : Une Console de Jeux Vidéo 🕹️</strong>
+                    <p><strong>Cycle de vie :</strong></p>
+                    <ul>
+                        <li><strong>Conception :</strong> Des ingénieurs et designers travaillent pendant des années sur ses composants, son design, ses capacités (ex: la PlayStation 6 est sûrement déjà en préparation !).</li>
+                        <li><strong>Fabrication :</strong> Assemblage des puces électroniques, du plastique de la coque, etc., dans des usines souvent en Asie.</li>
+                        <li><strong>Distribution :</strong> Transport par bateau/avion, puis camions vers les magasins du monde entier.</li>
+                        <li><strong>Utilisation :</strong> Tu joues à tes jeux préférés pendant plusieurs années.</li>
+                        <li><strong>Fin de vie :</strong> La console devient obsolète ou tombe en panne. Elle devrait être apportée en déchetterie pour un recyclage spécialisé des composants électroniques (DEEE - Déchets d'Équipements Électriques et Électroniques).</li>
+                    </ul>
+                     </div>
+                 <div class="example">
+                    <strong>Exemple 2 : Ton Compte sur un Réseau Social (ex: TikTok, Instagram) 🤳</strong>
+                    <p>Même si ce n'est pas un objet physique, un service numérique comme un compte de réseau social a aussi un cycle de vie !</p>
+                    <ul>
+                        <li><strong>Conception :</strong> Les développeurs créent la plateforme, ses fonctionnalités (filtres, messagerie...).</li>
+                        <li><strong>"Fabrication/Distribution" :</strong> Le service est mis en ligne sur des serveurs, l'application est disponible en téléchargement.</li>
+                        <li><strong>Utilisation :</strong> Tu crées ton profil, postes des contenus, interagis avec d'autres.</li>
+                        <li><strong>Fin de vie :</strong> Tu décides de supprimer ton compte, ou la plateforme ferme. Tes données devraient être effacées.</li>
+                    </ul>
+                    <div class="interactive-reveal">
+                        <button onclick="toggleInfo('social-cycle-info')">Et mes données ?</button>
+                        <div class="info" id="social-cycle-info">
+                            La gestion des données personnelles en fin de vie d'un compte est un enjeu majeur. Les entreprises doivent normalement permettre leur suppression. C'est important pour ta vie privée numérique !
+                        </div>
+                    </div>
+                </div>
+
+                <div class="focus-point">
+                    <strong>✨ Point Focus : L'Obsolescence Programmée</strong>
+                    <p>Certains fabricants sont accusés de faire de l'"obsolescence programmée" : c'est-à-dire de concevoir leurs objets pour qu'ils tombent en panne ou deviennent "démodés" rapidement, pour nous pousser à en racheter. C'est un vrai problème économique et écologique ! Heureusement, des lois essaient de lutter contre ça, et des indices de "réparabilité" apparaissent sur certains produits.</p>
+                </div>
+            </section>
+
+            <section class="section-card quiz-container">
+                <h2> quizz : Teste tes connaissances !</h2>
+                <div class="quiz-question" id="quiz1">
+                    <p>1. À quoi correspond la fonction d'usage d'un objet technique ?</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q1" value="a"> À son apparence et à sa couleur.</label>
+                        <label><input type="radio" name="q1" value="b"> À ce à quoi il sert principalement.</label>
+                        <label><input type="radio" name="q1" value="c"> À son prix de vente.</label>
+                    </div>
+                    <button onclick="checkQuizAnswer('q1', 'b', 'feedback1')">Valider</button>
+                    <div class="quiz-feedback" id="feedback1"></div>
+                </div>
+
+                <div class="quiz-question" id="quiz2">
+                    <p>2. Laquelle de ces affirmations concerne la fonction d'estime d'un smartphone ?</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q2" value="a"> Il permet d'appeler ses amis.</label>
+                        <label><input type="radio" name="q2" value="b"> Il a une coque très colorée avec un motif de jeu vidéo.</label>
+                        <label><input type="radio" name="q2" value="c"> Il doit être chargé régulièrement.</label>
+                    </div>
+                    <button onclick="checkQuizAnswer('q2', 'b', 'feedback2')">Valider</button>
+                    <div class="quiz-feedback" id="feedback2"></div>
+                </div>
+                 <div class="quiz-question" id="quiz3">
+                    <p>3. La prise USB standardisée est un exemple de :</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q3" value="a"> Cycle de vie.</label>
+                        <label><input type="radio" name="q3" value="b"> Fonction d'estime.</label>
+                        <label><input type="radio" name="q3" value="c"> Normalisation.</label>
+                    </div>
+                    <button onclick="checkQuizAnswer('q3', 'c', 'feedback3')">Valider</button>
+                    <div class="quiz-feedback" id="feedback3"></div>
+                </div>
+            </section>
+
+            <section class="section-card conclusion">
+                <h2>🎉 Conclusion du Module</h2>
+                <p>Bravo, te voilà au bout de ce premier module ! Tu as découvert que derrière chaque objet technique, même le plus simple en apparence comme une manette de jeu ou le plus complexe comme un robot, se cache une réflexion poussée. Tu sais maintenant qu'un objet est conçu pour répondre à un <strong>besoin</strong> précis grâce à sa <strong>fonction d'usage</strong>, mais que son style et son apparence, sa <strong>fonction d'estime</strong>, jouent aussi un rôle crucial pour nous donner envie de l'utiliser. </p>
+                <p>N'oublie pas les <strong>contraintes</strong> (sécurité, coût, environnement...) et la <strong>normalisation</strong> qui encadrent sa création, ainsi que son <strong>cycle de vie</strong>, de l'idée à son recyclage. Ces connaissances te permettront de mieux comprendre le monde technologique qui t'entoure, que ce soit en jouant à tes jeux vidéo préférés, en utilisant ton smartphone ou en voyant les progrès de la robotique.</p>
+                <p>Dans le prochain module, nous explorerons plus en détail les matériaux utilisés pour fabriquer ces objets et comment leurs propriétés influencent leur utilisation. D'ici là, essaie de repérer les fonctions d'usage et d'estime des objets que tu utilises tous les jours !</p>
+                <p><strong>🤔 Petite question pour la route :</strong> Penses-tu qu'un jour, la fonction d'estime d'un robot domestique pourrait devenir plus importante que sa simple fonction d'usage ? Pourquoi ?</p>
+            </section>
+
+            <section class="section-card glossary">
+                <h2>📚 Glossaire</h2>
+                <dl>
+                    <dt>Besoin :</dt>
+                    <dd>Exigence née d'un manque, d'un sentiment de privation (ex: besoin de se déplacer, de communiquer).</dd>
+                    <dt>Fonction d'Usage :</dt>
+                    <dd>Réponse de l'objet technique au besoin pour lequel il a été créé. C'est l'action principale réalisée par l'objet (ex: un vélo sert à "se déplacer").</dd>
+                    <dt>Fonction d'Estime :</dt>
+                    <dd>Fonction liée à l'aspect esthétique de l'objet et à l'image qu'il renvoie. Elle influence le choix de l'utilisateur (ex: la couleur d'un smartphone).</dd>
+                    <dt>Contrainte :</dt>
+                    <dd>Obligation ou limite à respecter lors de la conception et de la réalisation d'un objet technique (ex: contrainte de sécurité, de coût).</dd>
+                    <dt>Normalisation :</dt>
+                    <dd>Ensemble de règles (normes) qui définissent les caractéristiques d'un produit ou d'un service pour assurer sa compatibilité, sa sécurité et sa qualité (ex: format des prises USB).</dd>
+                    <dt>Cycle de Vie :</dt>
+                    <dd>Ensemble des étapes par lesquelles passe un objet technique, de sa conception à sa fin de vie (recyclage, élimination).</dd>
+                    <dt>Objet Technique :</dt>
+                    <dd>Objet fabriqué ou modifié par l'Homme pour répondre à un besoin.</dd>
+                    <dt>Cahier des Charges Fonctionnel (CdCF) :</dt>
+                    <dd>Document qui décrit précisément les fonctions que doit remplir un objet technique et les contraintes qu'il doit respecter.</dd>
+                    <dt>Design :</dt>
+                    <dd>Conception de l'aspect esthétique et fonctionnel d'un objet.</dd>
+                    <dt>Ergonomie :</dt>
+                    <dd>Adaptation d'un objet technique aux capacités et aux besoins de l'utilisateur pour un confort et une efficacité maximale.</dd>
+                    <dt>Prototype :</dt>
+                    <dd>Premier exemplaire d'un objet technique, réalisé pour tester sa conception avant la fabrication en série.</dd>
+                    <dt>Matériau :</dt>
+                    <dd>Matière utilisée pour fabriquer un objet (ex: plastique, métal, bois).</dd>
+                    <dt>Éco-conception :</dt>
+                    <dd>Concevoir un produit en essayant de minimiser son impact sur l'environnement tout au long de son cycle de vie.</dd>
+                </dl>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2025 - Module de Technologie 5ème - Collège Montesoro (fictif)</p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript Intégré
+        function toggleInfo(elementId) {
+            const infoElement = document.getElementById(elementId);
+            if (infoElement) {
+                if (infoElement.style.display === 'none' || infoElement.style.display === '') {
+                    infoElement.style.display = 'block';
+                } else {
+                    infoElement.style.display = 'none';
+                }
+            }
+        }
+
+        function checkQuizAnswer(questionName, correctAnswer, feedbackId) {
+            const feedbackElement = document.getElementById(feedbackId);
+            const options = document.getElementsByName(questionName);
+            let userAnswer = '';
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].checked) {
+                    userAnswer = options[i].value;
+                    break;
+                }
+            }
+
+            if (!userAnswer) {
+                feedbackElement.textContent = "Choisis une réponse d'abord !";
+                feedbackElement.className = 'quiz-feedback incorrect'; // Style pour non répondu
+                return;
+            }
+
+            if (userAnswer === correctAnswer) {
+                feedbackElement.textContent = "👍 Bonne réponse ! Excellent !";
+                feedbackElement.className = 'quiz-feedback correct';
+            } else {
+                feedbackElement.textContent = "🤔 Dommage, ce n'est pas la bonne réponse. Réfléchis encore un peu ou relis le cours !";
+                feedbackElement.className = 'quiz-feedback incorrect';
+            }
+        }
+    </script>
+</body>
+</html>
