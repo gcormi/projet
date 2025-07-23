@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours : Optimisation et fabrication par impression 3D (FDM)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #8E44AD;
+            --color-secondary: #95A5A6;
+            --color-success: #2ECC71;
+            --color-danger: #E74C3C;
+            --color-warning: #F1C40F;
+            --color-info: #3498DB;
+            --color-light: #ECF0F1;
+            --color-dark: #2C3E50;
+            --font-main: 'Poppins', sans-serif;
+            --font-code: 'Roboto Mono', monospace;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.7;
+            color: var(--color-dark);
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-top: 1.5em;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            text-align: center;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-info));
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h2 {
+            font-size: 2em;
+            border-bottom: 3px solid var(--color-info);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            font-size: 1.5em;
+            color: var(--color-dark);
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: var(--color-secondary);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        
+        .hook, .mission, .problematique, .conclusion-box {
+            background-color: #f4eef7;
+            border-left: 5px solid var(--color-primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .hook p:first-child {
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .mission ul {
+            list-style-type: '✔️ ';
+            padding-left: 20px;
+        }
+
+        .concept-box {
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .concept-box h3 {
+            background-color: var(--color-dark);
+            color: white;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .concept-content {
+            padding: 20px;
+        }
+
+        .concept-content h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-top: 20px;
+        }
+
+        .icon {
+            font-size: 1.5em;
+        }
+        
+        .info-box {
+            background-color: #fef9e7;
+            border: 1px solid var(--color-warning);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+        }
+        .info-box h4 { color: var(--color-warning); }
+
+        .expert-box {
+            background-color: #eafaf1;
+            border: 1px solid var(--color-success);
+            padding: 15px;
+            border-radius: var(--border-radius);
+        }
+        .expert-box h4 { color: var(--color-success); }
+
+        .quiz-container {
+            background: var(--color-light);
+            padding: 20px;
+            border-radius: var(--border-radius);
+        }
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+        .quiz-options button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border: 2px solid var(--color-secondary);
+            background-color: white;
+            color: var(--color-dark);
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .quiz-options button:hover {
+            background-color: #f4eef7;
+            border-color: var(--color-primary);
+        }
+        .quiz-options button.correct {
+            background-color: var(--color-success);
+            color: white;
+            border-color: var(--color-success);
+        }
+        .quiz-options button.incorrect {
+            background-color: var(--color-danger);
+            color: white;
+            border-color: var(--color-danger);
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .feedback.correct { background-color: #d1f2eb; color: #0e6251; }
+        .feedback.incorrect { background-color: #fadbd8; color: #943126; }
+
+        .mind-map {
+            list-style: none;
+            padding: 0;
+            position: relative;
+        }
+        .mind-map ul {
+            padding-left: 30px;
+            position: relative;
+        }
+        .mind-map li {
+            position: relative;
+            padding: 5px 0 5px 25px;
+            border-left: 2px solid #ccc;
+        }
+        .mind-map li::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 15px;
+            width: 18px;
+            height: 2px;
+            background-color: #ccc;
+        }
+        .mind-map li > span {
+            background: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid #ddd;
+        }
+        .mind-map > li { border-left: none; padding-left: 0; }
+        .mind-map > li > span { background: var(--color-primary); color: white; font-weight: 600; }
+
+        .glossary dt {
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+        .glossary dd {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 3px solid var(--color-light);
+        }
+
+        .further-reading {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .further-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .further-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .further-card h4 {
+            margin-top: 0;
+        }
+
+        /* Styles pour les images */
+        .img-gauche, .img-droite {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            background-color: #eee; /* Placeholder background */
+        }
+
+        .img-gauche {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .img-droite {
+            float: right;
+            margin-left: 20px;
+        }
+
+        .img-moyenne {
+            max-width: 450px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        .img-petite {
+            max-width: 280px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        /* Correction pour le "float" */
+        .concept-content::after, .further-card::after, .section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- 1. TITRE DE LA SÉQUENCE -->
+        <header>
+            <h1><span class="icon">⚙️</span> Optimisation et fabrication par impression 3D (FDM)</h1>
+        </header>
+
+        <main>
+            <!-- 2. SITUATION DÉCLENCHANTE -->
+            <section class="section hook">
+                <h2>Situation Déclenchante</h2>
+                <p>Ça y est, tu as passé des heures sur ton logiciel de CAO (Conception Assistée par Ordinateur) et tu as enfin terminé le modèle 3D de ta pièce de jeu d'échecs personnalisée. Elle est magnifique à l'écran ! Mais maintenant, le vrai défi commence : la transformer en un objet réel.</p>
+                <p>Tu lances l'impression 3D, confiant. Mais quelques heures plus tard, c'est la catastrophe : la pièce s'est décollée du plateau, elle ressemble à un plat de spaghettis en plastique, et les détails fins de la couronne du roi sont complètement ratés. Que s'est-il passé ?</p>
+                <p>Ton modèle était peut-être parfait virtuellement, mais était-il optimisé pour être imprimé ? Comment le positionner, le "trancher" et le paramétrer pour qu'il soit solide, précis et imprimé rapidement ? C'est ce que nous allons découvrir ensemble : le passage crucial du modèle virtuel à l'objet réel.</p>
+            </section>
+
+            <!-- 3. OBJECTIFS PÉDAGOGIQUES -->
+            <section class="section mission">
+                <h2><span class="icon">🎯</span> Ta mission, si tu l'acceptes...</h2>
+                <p>À la fin de cette séquence, tu seras un expert de la préparation à l'impression 3D. Tu sauras :</p>
+                <h4>Compétences à maîtriser :</h4>
+                <ul>
+                    <li>Adapter un modèle 3D pour qu'il soit "imprimable" par la technologie FDM.</li>
+                    <li>Paramétrer un logiciel de tranchage ('slicer') comme un pro : épaisseur de couche, remplissage, supports...</li>
+                    <li>Lancer et superviser une impression 3D, en sachant diagnostiquer les problèmes courants.</li>
+                </ul>
+                <h4>Savoirs et connaissances à acquérir :</h4>
+                <ul>
+                    <li>Fabrication additive (impression 3D FDM).</li>
+                    <li>Logiciel 'Slicer'.</li>
+                    <li>Paramètres d'impression (température, vitesse, remplissage).</li>
+                    <li>Matériaux pour FDM (PLA, PETG, ABS...).</li>
+                    <li>Supports et adhérence.</li>
+                </ul>
+            </section>
+
+            <!-- 4. INTRODUCTION ET PROBLÉMATIQUE -->
+            <section class="section">
+                <h2>Introduction et Problématique</h2>
+                <p>L'impression 3D, aussi appelée fabrication additive, est une révolution. Elle permet de créer des objets complexes, personnalisés, rapidement et avec peu de perte de matière. Du prototypage rapide dans l'industrie à la fabrication de prothèses sur-mesure dans le médical, en passant par la création de décors pour le cinéma, ses applications sont infinies.</p>
+                <p>Cependant, ce n'est pas une technologie "magique". Obtenir une pièce de qualité ne dépend pas seulement de l'imprimante, mais surtout de la préparation en amont. C'est un peu comme être le chef d'orchestre d'un robot : il faut lui donner des instructions extrêmement précises. Cette étape de préparation, réalisée dans un logiciel appelé "slicer" (trancheur), est fondamentale.</p>
+                <div class="problematique">
+                    <p><strong>Problématique :</strong> Comment transformer un modèle numérique 3D en un ensemble d'instructions compréhensibles par une imprimante 3D (FDM) pour garantir la réussite de la fabrication d'un objet physique optimisé ?</p>
+                </div>
+                <p>Nous allons explorer ce processus étape par étape. D'abord, nous comprendrons le principe de la fabrication additive FDM. Puis, nous plongerons au cœur du "slicer" pour apprendre à le paramétrer. Nous étudierons les différents matériaux, et enfin, nous verrons comment gérer les défis comme les supports et l'adhérence au plateau.</p>
+            </section>
+
+            <!-- 5. DÉVELOPPEMENT DU COURS -->
+            <section class="section">
+                <h2><span class="icon">🔬</span> Exploration en profondeur</h2>
+                
+                <!-- Notion 1: Fabrication additive (impression 3D FDM) -->
+                <article class="concept-box">
+                    <h3><span class="icon">🧱</span> Fabrication additive (impression 3D FDM)</h3>
+                    <div class="concept-content">
+                        <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                        <p>La fabrication additive est un procédé de mise en forme d'une pièce par ajout de matière, couche par couche, à partir d'un modèle numérique 3D. La technologie FDM (Fused Deposition Modeling), ou Dépôt de Fil Fondu, est la plus répandue. Elle consiste à faire fondre un filament de thermoplastique à travers une buse chauffée qui se déplace pour déposer la matière sur un plateau, créant ainsi l'objet strate par strate. L'enjeu est de permettre une production rapide, locale et personnalisée d'objets.</p>
+                        
+                        <img src="image_1.png" class="img-droite img-moyenne" alt="Image d'une imprimante 3D FDM en cours d'impression d'une pièce bleue.">
+                        
+                        <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                        <p>Imagine que tu dessines avec un pistolet à colle chaude. Tu ne dessines pas tout d'un coup, tu déposes un fin cordon de colle. Maintenant, imagine que tu déposes un deuxième cordon exactement par-dessus le premier, puis un troisième, et ainsi de suite. Ta ligne de colle va prendre du volume et devenir un "mur". Une imprimante 3D FDM fait exactement la même chose, mais avec une précision robotique et en suivant un plan très détaillé pour construire un objet entier, couche par couche.</p>
+
+                        <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                        <p>Pour créer une <strong>pièce de jeu d'échecs</strong>, l'imprimante va d'abord dessiner le contour de la base circulaire. Puis elle va remplir cette base. Ensuite, elle va monter d'une fraction de millimètre et dessiner la couche suivante, légèrement différente, et ainsi de suite jusqu'à atteindre le sommet de la pièce. Pour une <strong>maquette de maison</strong>, elle construira les murs extérieurs et intérieurs simultanément, couche par couche. Pour réparer une <strong>trottinette électrique</strong>, on pourrait modéliser et imprimer un support de garde-boue cassé, une pièce sur-mesure impossible à trouver dans le commerce.</p>
+
+                        <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                        <p>Le processus global de l'idée à l'objet :
+                        <ol>
+                            <li><strong>Modélisation (CAO) :</strong> On dessine la pièce en 3D sur un logiciel comme Tinkercad, Fusion 360 ou Onshape. On exporte le fichier au format <strong>.STL</strong> ou .3MF.</li>
+                            <li><strong>Tranchage (Slicing) :</strong> On importe le fichier .STL dans un "slicer" (ex: Cura, PrusaSlicer). C'est ici qu'on définit tous les paramètres (vitesse, température, etc.).</li>
+                            <li><strong>Génération du G-code :</strong> Le slicer "traduit" le modèle 3D et les paramètres en un fichier de commandes : le <strong>G-code</strong>. C'est un long fichier texte avec des coordonnées (G0 X10 Y20 Z0.2) que l'imprimante peut lire.</li>
+                            <li><strong>Impression :</strong> On envoie le G-code à l'imprimante (via carte SD ou USB) qui exécute les instructions pour construire l'objet.</li>
+                        </ol>
+                        </p>
+
+                        <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                        <p><strong>Erreur 1 :</strong> Penser que l'impression 3D est toujours la meilleure solution. Pour produire 10 000 <strong>canettes en aluminium</strong>, des techniques industrielles comme l'emboutissage sont des millions de fois plus rapides et moins chères. L'impression 3D est idéale pour les pièces uniques ou les petites séries.
+                        <br><strong>Erreur 2 :</strong> Négliger l'orientation de la pièce. Une pièce imprimée est comme du bois : elle est beaucoup plus solide dans le sens des couches que perpendiculairement à elles. Une pièce mal orientée peut casser facilement.</p>
+
+                        <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                        <div class="info-box">
+                            <p>Le premier brevet pour la technologie FDM a été déposé en 1989 par Scott Crump, co-fondateur de la société Stratasys. L'idée lui serait venue en essayant de fabriquer une grenouille pour sa fille avec un pistolet à colle chaude !</p>
+                        </div>
+
+                        <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                        <p><strong>Mathématiques/Géométrie :</strong> Le G-code est une application directe de la géométrie dans l'espace, avec des coordonnées cartésiennes (X, Y, Z) pour chaque point.
+                        <br><strong>Physique-Chimie :</strong> Étude des thermoplastiques, de leurs températures de fusion et de leurs propriétés mécaniques.</p>
+
+                        <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                        <div class="expert-box">
+                            <p>Il existe de nombreuses autres technologies de fabrication additive ! La <strong>SLA</strong> (Stéréolithographie) utilise un laser pour durcir une résine liquide couche par couche, offrant une précision incroyable. Le <strong>SLS</strong> (Frittage Sélectif par Laser) utilise un laser pour fusionner des poudres (plastique, métal...), permettant de créer des pièces très solides sans supports.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Notion 2: Logiciel Slicer & Supports -->
+                <article class="concept-box">
+                    <h3><span class="icon">🔪</span> Logiciel 'Slicer' et Gestion des Supports</h3>
+                    <div class="concept-content">
+                        <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                        <p>Un logiciel de tranchage ('slicer') est un programme intermédiaire qui convertit un modèle 3D (ex: .STL) en un fichier d'instructions machine (G-code) spécifique à une imprimante 3D. Il "tranche" virtuellement le modèle en centaines ou milliers de couches horizontales et calcule le chemin que la tête d'impression devra suivre pour chaque couche. Il gère aussi des éléments cruciaux comme les <strong>supports</strong>, des structures temporaires permettant d'imprimer les parties en surplomb ("overhangs") ou les "ponts" ("bridges"). L'enjeu est de traduire l'intention du concepteur en une fabrication réalisable et de qualité.</p>
+
+                        <img src="image_2.png" class="img-gauche img-moyenne" alt="Interface d'un logiciel slicer montrant une pièce de jeu d'échecs en cours de tranchage.">
+
+                        <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                        <p>Imagine un jambon entier. Le "slicer", c'est la machine du boucher qui coupe le jambon en tranches très fines. Chaque tranche de jambon est une couche de ton impression. Le logiciel regarde chaque tranche et dit à l'imprimante : "Pour cette tranche-là, tu dessines ce contour, puis tu remplis l'intérieur comme ça". Pour les supports, imagine que tu construis un pont avec des LEGO. Tu ne peux pas poser une brique dans le vide ! Tu dois d'abord construire un pilier en dessous. Les supports, c'est exactement ça : des piliers temporaires que l'imprimante construit pour soutenir les parties "dans le vide", et qu'on enlèvera à la fin.</p>
+
+                        <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                        <p>Pour imprimer une <strong>pièce de jeu d'échecs</strong> comme un cavalier, avec son museau qui avance dans le vide, les supports sont indispensables sous sa tête. Pour une <strong>maquette de maison</strong> avec un balcon, il faudra des supports sous le balcon. Pour une pièce de <strong>trottinette électrique</strong> comme un levier de frein, qui a un trou pour un axe, le slicer va générer des supports à l'intérieur du trou pour que le "toit" du trou ne s'effondre pas pendant l'impression.</p>
+
+                        <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                        <p>Étapes clés dans le slicer (ex: Cura) pour préparer le cavalier d'échecs :
+                        <ol>
+                            <li><strong>Importer et Orienter :</strong> On importe le fichier .STL. On le place à plat sur sa base pour maximiser l'adhérence et minimiser les supports.</li>
+                            <li><strong>Paramètres de base :</strong> On choisit la qualité (hauteur de couche), le remplissage (on verra ça après).</li>
+                            <li><strong>Activation des Supports :</strong> On coche la case "Générer les supports". On peut choisir leur type ("normal" ou "en arbre") et leur densité. Le slicer colore en rouge les zones qui ont besoin de supports.</li>
+                            <li><strong>Adhérence au plateau :</strong> On choisit une "Bordure" (brim) ou un "Radeau" (raft) pour éviter que la base de la pièce ne se décolle. La bordure est une seule couche large autour de la pièce, le radeau est une véritable semelle de plusieurs couches sous la pièce.</li>
+                            <li><strong>Trancher :</strong> On clique sur "Trancher". Le logiciel calcule tout et donne une estimation du temps d'impression et de la quantité de plastique utilisée.</li>
+                        </ol>
+                        </p>
+                        
+                        <img src="image_3.png" class="img-droite img-petite" alt="Pièce 3D avec des supports en arbre générés par le slicer.">
+
+                        <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                        <p><strong>Erreur 1 :</strong> Oublier d'activer les supports. C'est l'erreur classique du débutant, qui mène à l'effet "spaghetti" pour toutes les parties en porte-à-faux.
+                        <br><strong>Erreur 2 :</strong> Mettre trop de supports. Des supports trop denses ou mal placés peuvent être très difficiles à enlever et peuvent abîmer la surface de la pièce. Il faut trouver le juste milieu.
+                        <br><strong>Erreur 3 :</strong> Ignorer l'adhérence. Une pièce, même petite comme un pion, qui se décolle à mi-impression est une impression ratée. Pour les pièces hautes et fines, une bordure est presque toujours nécessaire.</p>
+
+                        <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                        <div class="info-box">
+                            <p>Les slicers modernes sont de plus en plus intelligents ! Certains proposent des remplissages "gyröides", des structures 3D complexes inspirées par la nature, qui offrent une excellente solidité dans toutes les directions avec un minimum de matière. C'est beaucoup plus efficace qu'un simple quadrillage !</p>
+                        </div>
+
+                        <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                        <p><strong>Arts Plastiques :</strong> Le choix de l'orientation et des supports a un impact direct sur l'état de surface final de la pièce. C'est un choix à la fois technique et esthétique.
+                        <br><strong>SVT :</strong> La structure des supports en "arbre" est directement inspirée des formes naturelles qui optimisent la résistance avec un minimum de matière.</p>
+
+                        <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                        <div class="expert-box">
+                            <p>On peut utiliser des "bloqueurs de support" (support blockers) dans le slicer. Ce sont des cubes virtuels qu'on place sur le modèle pour dire au logiciel : "Ici, même si tu penses que c'est nécessaire, je ne veux PAS de support". C'est très utile pour préserver des détails fins ou pour des "ponts" courts que l'imprimante peut gérer sans aide.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Notion 3: Matériaux pour FDM -->
+                <article class="concept-box">
+                    <h3><span class="icon">🌈</span> Matériaux pour FDM (PLA, PETG, ABS...)</h3>
+                    <div class="concept-content">
+                        <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                        <p>Les matériaux utilisés en FDM sont des polymères thermoplastiques fournis sous forme de filaments enroulés sur des bobines. Le choix du matériau est crucial car il détermine les propriétés de la pièce finale (rigidité, résistance à la chaleur, flexibilité, aspect) et conditionne les paramètres d'impression. Les plus courants sont le PLA, le PETG et l'ABS. L'enjeu est de sélectionner le bon matériau pour la bonne application.</p>
+
+                        <img src="image_4.png" class="img-gauche img-moyenne" alt="Plusieurs bobines de filament 3D de différentes couleurs (rouge, bleu, jaune, noir).">
+
+                        <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                        <p>Choisir son filament, c'est comme choisir ses ingrédients en cuisine. Tu ne vas pas utiliser de la chantilly pour construire les murs d'une maison en pain d'épices !
+                        <ul>
+                            <li>Le <strong>PLA</strong>, c'est le sucre : facile à travailler, idéal pour débuter, parfait pour la décoration, mais ça n'aime pas la chaleur (ça fond au soleil).</li>
+                            <li>Le <strong>PETG</strong>, c'est le chocolat de couverture : un peu plus délicat à maîtriser, mais plus solide et résistant à l'eau.</li>
+                            <li>L'<strong>ABS</strong>, c'est la brique LEGO : très solide, résistant aux chocs et à la chaleur, mais plus difficile à imprimer (il a tendance à se déformer en refroidissant).</li>
+                        </ul>
+                        </p>
+
+                        <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                        <p>Pour une <strong>pièce de jeu d'échecs</strong> ou une <strong>maquette de maison</strong> qui resteront en intérieur, le <strong>PLA</strong> est parfait. Il est facile à imprimer, disponible dans de nombreuses couleurs et donne de beaux détails. Pour une pièce de <strong>trottinette électrique</strong> comme un support de téléphone qui sera en extérieur et subira des vibrations, le <strong>PETG</strong> est un bien meilleur choix car il est plus résistant aux chocs et aux UV. L'<strong>ABS</strong> pourrait être utilisé pour des pièces proches du moteur qui doivent résister à la chaleur.</p>
+
+                        <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                        <p>Tableau comparatif simplifié :</p>
+                        <table style="width:100%; border-collapse: collapse;">
+                            <tr style="background-color: var(--color-dark); color: white;">
+                                <th style="padding: 8px; border: 1px solid #ddd;">Matériau</th>
+                                <th style="padding: 8px; border: 1px solid #ddd;">Temp. Buse</th>
+                                <th style="padding: 8px; border: 1px solid #ddd;">Temp. Plateau</th>
+                                <th style="padding: 8px; border: 1px solid #ddd;">Avantages</th>
+                                <th style="padding: 8px; border: 1px solid #ddd;">Inconvénients</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><strong>PLA</strong></td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">190-220°C</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">20-60°C</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Facile, précis, biosourcé (amidon de maïs)</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Cassant, faible résistance à la chaleur (~60°C)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><strong>PETG</strong></td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">220-250°C</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">70-90°C</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Solide, un peu flexible, résistant (chimie, UV)</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Fait des fils ("stringing"), adhère mal à lui-même</td>
+                            </tr>
+                             <tr>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><strong>ABS</strong></td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">230-260°C</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">90-110°C</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Très solide, résistant à la chaleur (~100°C)</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Difficile (déformation), odeurs, nécessite un caisson fermé</td>
+                            </tr>
+                        </table>
+
+                        <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                        <p><strong>Erreur 1 :</strong> Utiliser les mêmes paramètres pour tous les matériaux. Chaque filament a sa propre "recette" de température et de vitesse. Un PLA imprimé à la température de l'ABS va brûler dans la buse et la boucher.
+                        <br><strong>Erreur 2 :</strong> Mal stocker ses bobines. Le PLA et surtout le PETG sont "hygroscopiques", c'est-à-dire qu'ils absorbent l'humidité de l'air. Un filament humide va "crépiter" en fondant et donner des impressions de très mauvaise qualité. Il faut les garder dans un sac hermétique avec des sachets de gel de silice.</p>
+
+                        <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                        <div class="info-box">
+                            <p>Il existe des filaments composites incroyables ! On peut trouver du PLA chargé en fibres de bois (qui sent le bois coupé !), en fibres de carbone (pour la rigidité), en poudre de métal (pour un aspect lourd et métallique après polissage) et même du filament flexible (TPU) pour imprimer des coques de téléphone ou des pneus de modèles réduits.</p>
+                        </div>
+
+                        <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                        <p><strong>SVT :</strong> Le PLA est un bioplastique issu de ressources renouvelables (maïs, canne à sucre). On peut étudier son cycle de vie et sa biodégradabilité (qui n'est possible que dans des conditions industrielles).
+                        <br><strong>Chimie :</strong> Étude de la polymérisation et des différentes familles de plastiques.</p>
+
+                        <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                        <div class="expert-box">
+                            <p>Pour des pièces mécaniques très exigeantes, on utilise des polymères haute performance comme le PEEK. Il fond à plus de 340°C et résiste à des contraintes incroyables, mais il ne peut être imprimé que sur des machines industrielles très coûteuses qui peuvent atteindre des températures de buse de 450°C et dont le caisson est chauffé à plus de 120°C !</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Notion 4: Paramètres d'impression -->
+                <article class="concept-box">
+                    <h3><span class="icon">🎛️</span> Paramètres d'impression (Vitesse, Remplissage...)</h3>
+                    <div class="concept-content">
+                        <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                        <p>Les paramètres d'impression sont l'ensemble des réglages définis dans le slicer qui dictent le comportement de l'imprimante. Les plus importants sont la hauteur de couche, la vitesse d'impression et le taux et motif de remplissage ('infill'). Ces paramètres sont interdépendants et représentent un compromis constant entre la vitesse de fabrication, la solidité de la pièce et la qualité de surface. L'enjeu est d'optimiser ce compromis en fonction de l'objectif de la pièce.</p>
+                        
+                        <img src="image_5.png" class="img-droite img-moyenne" alt="Vue en coupe d'une pièce 3D montrant le motif de remplissage interne en nid d'abeille.">
+                        
+                        <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                        <p>C'est comme faire un coloriage.
+                        <ul>
+                            <li>La <strong>hauteur de couche</strong>, c'est la taille de la pointe de ton feutre. Une pointe fine (0.1 mm) te donnera un dessin très précis mais prendra une éternité. Une grosse pointe (0.3 mm) ira très vite, mais on verra les traits.</li>
+                            <li>La <strong>vitesse</strong>, c'est la vitesse à laquelle tu bouges ta main. Trop vite, ton coloriage va déborder. Trop lentement, tu vas t'endormir dessus.</li>
+                            <li>Le <strong>remplissage</strong>, c'est comment tu colories l'intérieur. Tu peux juste faire les contours (0% de remplissage), faire un quadrillage léger (20%), ou tout remplir consciencieusement (100%). La pièce sera plus ou moins solide et plus ou moins longue à faire.</li>
+                        </ul>
+                        </p>
+
+                        <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                        <p>Pour une <strong>pièce de jeu d'échecs</strong> décorative, on choisira une faible hauteur de couche (ex: 0.12 mm) pour un rendu lisse et détaillé, et un faible remplissage (15% en quadrillage) car elle n'a pas besoin d'être très solide. Pour une pièce de <strong>trottinette électrique</strong> qui doit résister à des efforts, on prendra une hauteur de couche standard (0.2 mm) mais un remplissage élevé (40-50% en "gyröide" ou "cubique") et on imprimera plus lentement pour assurer une bonne fusion entre les couches.</p>
+
+                        <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                        <p>Le trio du compromis :
+                        <ol>
+                            <li><strong>Hauteur de couche (Layer Height) :</strong>
+                                <ul>
+                                    <li><strong>Faible (0.1 mm) :</strong> Très haute qualité, couches presque invisibles. Très lent. Idéal pour figurines, objets d'art.</li>
+                                    <li><strong>Moyenne (0.2 mm) :</strong> Bon équilibre qualité/vitesse. Le standard pour la plupart des pièces.</li>
+                                    <li><strong>Élevée (0.3 mm) :</strong> Très rapide, couches très visibles. Idéal pour des prototypes rapides où l'aspect n'importe pas.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Remplissage (Infill) :</strong>
+                                <ul>
+                                    <li><strong>0-15% :</strong> Pour les objets purement visuels, creux ou presque.</li>
+                                    <li><strong>15-40% :</strong> Pour les pièces fonctionnelles standards. C'est la plage la plus utilisée.</li>
+                                    <li><strong>50-100% :</strong> Pour les pièces mécaniques qui subissent de gros efforts. 100% rend la pièce massive.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Vitesse (Print Speed) :</strong>
+                                <ul>
+                                    <li>Une vitesse standard pour le PLA est de 50-60 mm/s. On imprime toujours la première couche très lentement (20 mm/s) pour assurer une bonne adhérence.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        </p>
+                        
+                        <img src="image_6.png" class="img-gauche img-petite" alt="Comparaison de trois pièces imprimées avec différentes hauteurs de couche, montrant la différence de qualité.">
+
+                        <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                        <p><strong>Erreur 1 :</strong> Vouloir toujours la meilleure qualité. Imprimer une grosse pièce à 0.1 mm de hauteur de couche peut prendre plusieurs jours au lieu de quelques heures, pour un gain visuel parfois minime. Il faut adapter la qualité au besoin.
+                        <br><strong>Erreur 2 :</strong> Penser que 100% de remplissage est toujours le plus solide. C'est souvent faux ! Une pièce avec 4 ou 5 parois (murs extérieurs) et un remplissage de 50% sera souvent plus résistante et plus rapide à imprimer qu'une pièce avec 2 parois et 100% de remplissage.</p>
+
+                        <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                        <div class="info-box">
+                            <p>Le temps d'impression n'est pas linéaire ! Le slicer estime que doubler la hauteur de couche (de 0.1 à 0.2 mm) divise le temps d'impression par deux. Mais passer le remplissage de 20% à 40% ne double pas le temps, car le temps passé à dessiner les contours (les parois) reste le même.</p>
+                        </div>
+
+                        <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                        <p><strong>Mathématiques :</strong> Calculer le volume de matière nécessaire en fonction du taux de remplissage. Estimer le temps d'impression en fonction de la vitesse et de la longueur totale de filament à extruder.
+                        <br><strong>Technologie (Résistance des matériaux) :</strong> Comprendre comment différents motifs de remplissage (quadrillage, triangulaire, cubique) affectent la résistance de la pièce à la compression ou à la torsion.</p>
+
+                        <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                        <div class="expert-box">
+                            <p>On peut utiliser des "modificateurs" (modifiers) dans le slicer. Ce sont des formes virtuelles (cubes, cylindres) qu'on place sur notre modèle pour appliquer des paramètres différents uniquement dans cette zone. Par exemple, pour une <strong>maquette de maison</strong>, on peut décider d'avoir un remplissage de 15% pour les murs, mais de placer un modificateur avec un remplissage de 80% juste autour des trous de vis pour les renforcer, sans alourdir le reste de la pièce. C'est le summum de l'optimisation !</p>
+                        </div>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- 6. AVENIR ET PERSPECTIVES -->
+            <section class="section">
+                <h2><span class="icon">🔭</span> Avenir et Perspectives</h2>
+                <p>L'impression 3D est en pleine effervescence. Demain, les imprimantes seront multi-matériaux, capables de mélanger des plastiques rigides et souples dans une même pièce. L'intelligence artificielle aidera les slicers à optimiser automatiquement les paramètres pour obtenir la pièce parfaite du premier coup. L'impression 3D métal deviendra plus accessible, permettant de fabriquer des pièces de rechange pour des voitures ou des avions directement dans un garage.</p>
+                <p>À plus grande échelle, on imagine des maisons imprimées en 3D en 24h avec du béton, ou des organes humains bio-imprimés avec des cellules vivantes. Cela va créer de nouveaux métiers : le "bio-imprimeur" en médecine, l'opérateur de ferme d'imprimantes 3D, le spécialiste en matériaux d'impression recyclés... Les défis sont encore nombreux (vitesse, coût, certification des pièces), mais cette technologie nous pousse à repenser la façon dont nous concevons, fabriquons et consommons les objets.</p>
+            </section>
+
+            <!-- 7. CONCLUSION -->
+            <section class="section conclusion-box">
+                <h2><span class="icon">🏁</span> Conclusion</h2>
+                <p>Nous sommes partis d'un modèle 3D "parfait" mais qui donnait une impression ratée. Nous avons maintenant toutes les clés pour comprendre pourquoi. La réussite d'une impression 3D ne réside pas dans le modèle virtuel seul, mais dans sa traduction en instructions concrètes pour la machine.</p>
+                <p><strong>Pour transformer un modèle numérique en un objet physique optimisé, il est impératif de maîtriser le logiciel "slicer". C'est lui qui, tel un traducteur expert, va convertir la géométrie 3D en un G-code exécutable. En choisissant le bon matériau pour l'usage visé, en orientant la pièce intelligemment, en générant des supports uniquement là où c'est nécessaire et en réglant finement le compromis entre qualité (hauteur de couche), solidité (remplissage) et rapidité (vitesse), on pilote la fabrication pour passer du concept à la réalité avec succès.</strong></p>
+                <p>L'impression 3D n'est donc pas un simple bouton "Imprimer". C'est un véritable processus d'ingénierie où chaque choix de paramètre a une conséquence directe sur l'objet final.</p>
+            </section>
+
+            <!-- 8. EXERCICES D'AUTO-ÉVALUATION -->
+            <section class="section">
+                <h2><span class="icon">✍️</span> Exercices d'Auto-évaluation</h2>
+                <div class="quiz-container">
+                    <div class="quiz-question">
+                        <h4>Question 1 : Pour imprimer une figurine très détaillée avec des couches presque invisibles, quel paramètre dois-tu choisir ?</h4>
+                        <div class="quiz-options" id="q1-options">
+                            <button onclick="checkAnswer('q1', false, this)">Une hauteur de couche élevée (ex: 0.3 mm)</button>
+                            <button onclick="checkAnswer('q1', true, this)">Une hauteur de couche faible (ex: 0.1 mm)</button>
+                            <button onclick="checkAnswer('q1', false, this)">Un taux de remplissage de 100%</button>
+                            <button onclick="checkAnswer('q1', false, this)">Une vitesse d'impression très rapide</button>
+                        </div>
+                        <div class="feedback" id="q1-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <h4>Question 2 : Tu dois imprimer un crochet pour suspendre ta trottinette électrique au mur. Quel matériau et quel remplissage te semblent les plus adaptés ?</h4>
+                        <div class="quiz-options" id="q2-options">
+                            <button onclick="checkAnswer('q2', false, this)">PLA avec 10% de remplissage</button>
+                            <button onclick="checkAnswer('q2', false, this)">ABS avec 15% de remplissage</button>
+                            <button onclick="checkAnswer('q2', true, this)">PETG avec 40% de remplissage</button>
+                            <button onclick="checkAnswer('q2', false, this)">PLA flexible avec 80% de remplissage</button>
+                        </div>
+                        <div class="feedback" id="q2-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <h4>Question 3 : À quoi sert un "radeau" (raft) ?</h4>
+                        <div class="quiz-options" id="q3-options">
+                            <button onclick="checkAnswer('q3', false, this)">À rendre la pièce plus solide</button>
+                            <button onclick="checkAnswer('q3', true, this)">À améliorer l'adhérence de la pièce au plateau d'impression</button>
+                            <button onclick="checkAnswer('q3', false, this)">À soutenir les parties en porte-à-faux</button>
+                            <button onclick="checkAnswer('q3', false, this)">À accélérer le temps d'impression</button>
+                        </div>
+                        <div class="feedback" id="q3-feedback"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. SYNTHÈSE VISUELLE (FORMAT CARTE MENTALE) -->
+            <section class="section">
+                <h2><span class="icon">🧠</span> Synthèse Visuelle (Carte Mentale)</h2>
+                <ul class="mind-map">
+                    <li><span>OPTIMISATION & IMPRESSION 3D</span>
+                        <ul>
+                            <li><span>Principe FDM</span>
+                                <ul>
+                                    <li><span>Définition : Dépôt de fil fondu couche par couche</span></li>
+                                    <li><span>Processus : CAO (.STL) -> Slicer -> G-code -> Imprimante</span></li>
+                                </ul>
+                            </li>
+                            <li><span>Le Slicer (Trancheur)</span>
+                                <ul>
+                                    <li><span>Rôle : Convertir le .STL en G-code</span></li>
+                                    <li><span>Fonctions clés : Orienter, Trancher, Paramétrer</span></li>
+                                    <li><span>Adhérence : Bordure (Brim) ou Radeau (Raft)</span></li>
+                                    <li><span>Supports : Pour les porte-à-faux (>45°)</span></li>
+                                </ul>
+                            </li>
+                            <li><span>Matériaux</span>
+                                <ul>
+                                    <li><span>PLA : Facile, décoratif, peu résistant à la chaleur</span></li>
+                                    <li><span>PETG : Solide, résistant, pour pièces fonctionnelles</span></li>
+                                    <li><span>ABS : Très solide, résistant à la chaleur, difficile à imprimer</span></li>
+                                </ul>
+                            </li>
+                            <li><span>Paramètres Clés (Le compromis)</span>
+                                <ul>
+                                    <li><span>Qualité vs Vitesse : Hauteur de couche</span></li>
+                                    <li><span>Solidité vs Temps/Matière : Taux de remplissage (%) et motif</span></li>
+                                    <li><span>Fiabilité vs Vitesse : Vitesse d'impression (mm/s)</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 10. LEXIQUE / GLOSSAIRE DES TERMES CLÉS -->
+            <section class="section">
+                <h2><span class="icon">📖</span> Lexique / Glossaire</h2>
+                <dl class="glossary">
+                    <dt>ABS (Acrylonitrile Butadiène Styrène)</dt>
+                    <dd>Plastique très résistant (celui des LEGO), mais difficile à imprimer.</dd>
+                    <dt>FDM (Fused Deposition Modeling)</dt>
+                    <dd>Technologie d'impression 3D par dépôt de fil fondu.</dd>
+                    <dt>G-code</dt>
+                    <dd>Fichier texte contenant les instructions (coordonnées, températures...) que l'imprimante exécute.</dd>
+                    <dt>Infill (Remplissage)</dt>
+                    <dd>Structure interne (souvent en quadrillage ou nid d'abeille) qui remplit la pièce pour la solidifier. Son taux est exprimé en %.</dd>
+                    <dt>PLA (Acide Polylactique)</dt>
+                    <dd>Plastique le plus courant, facile à imprimer, biosourcé, idéal pour débuter et pour les pièces décoratives.</dd>
+                    <dt>PETG (Polyéthylène Téréphtalate Glycol)</dt>
+                    <dd>Plastique solide et résistant, bon compromis entre le PLA et l'ABS. C'est le même type de plastique que les bouteilles d'eau.</dd>
+                    <dt>Slicer (Trancheur)</dt>
+                    <dd>Logiciel qui transforme un fichier 3D (.STL) en instructions pour l'imprimante (G-code).</dd>
+                    <dt>STL (Standard Triangle Language)</dt>
+                    <dd>Format de fichier standard pour les modèles 3D, qui décrit la géométrie de surface d'un objet à l'aide de triangles.</dd>
+                    <dt>Supports</dt>
+                    <dd>Structures temporaires imprimées pour soutenir les parties de l'objet qui seraient sinon dans le vide.</dd>
+                </dl>
+            </section>
+
+            <!-- 11. POUR ALLER PLUS LOIN -->
+            <section class="section">
+                <h2><span class="icon">🚀</span> Pour aller plus loin</h2>
+                <div class="further-reading">
+                    <div class="further-card">
+                        <h4><span class="icon">🛠️</span> Mini-projet : Optimise une pièce !</h4>
+                        <p>Télécharge un modèle 3D de ton choix sur un site comme Thingiverse ou Printables. Importe-le dans le slicer (Cura est gratuit). Ton défi : trouver les meilleurs paramètres (orientation, supports, remplissage) pour l'imprimer en un minimum de temps tout en garantissant sa solidité.</p>
+                    </div>
+                    <div class="further-card">
+                        <h4><span class="icon">🎬</span> Vidéo à regarder : La chaîne de "Heliox"</h4>
+                        <p>Sur YouTube, la chaîne "Heliox" (en français) est une mine d'or pour tout comprendre sur l'impression 3D. Ses vidéos sont très pédagogiques et montrent des tests de matériaux, des astuces de réglages et des projets incroyables.</p>
+                    </div>
+                    <div class="further-card">
+                        <h4><span class="icon">👷</span> Métier à découvrir : Technicien / Ingénieur en fabrication additive</h4>
+                        <p>Ce spécialiste ne fait pas que cliquer sur "Imprimer". Il conseille les concepteurs pour adapter leurs pièces à la technologie, optimise les paramètres d'impression, gère la maintenance d'un parc de machines et explore de nouveaux matériaux. C'est un métier au cœur de l'innovation dans l'industrie, l'aéronautique ou le médical.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script>
+        function checkAnswer(questionId, isCorrect, element) {
+            const feedbackEl = document.getElementById(questionId + '-feedback');
+            const options = document.getElementById(questionId + '-options').getElementsByTagName('button');
+
+            for (let btn of options) {
+                btn.disabled = true;
+            }
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedbackEl.textContent = 'Bravo, c\'est la bonne réponse !';
+                feedbackEl.className = 'feedback correct';
+            } else {
+                element.classList.add('incorrect');
+                feedbackEl.textContent = 'Dommage, ce n\'est pas tout à fait ça. Relis bien la section correspondante !';
+                feedbackEl.className = 'feedback incorrect';
+                for (let btn of options) {
+                    if (btn.onclick.toString().includes('true')) {
+                         btn.classList.add('correct');
+                    }
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
