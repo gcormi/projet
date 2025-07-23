@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours : Analyse de systèmes complexes et mécatroniques</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Instruction 2: Import de la police OpenDyslexic -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Import de la police OpenDyslexic via une source externe */
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('https://cdn.jsdelivr.net/gh/antijingoist/opendyslexic@master/packages/fonts/regular/OpenDyslexic-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('https://cdn.jsdelivr.net/gh/antijingoist/opendyslexic@master/packages/fonts/bold/OpenDyslexic-Bold.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        /* Instruction 1: Nouvelle palette de couleurs */
+        :root {
+            --color-primary: #7728d7;
+            --color-secondary: #de7f3b;
+            --color-accent: #dcea1a;
+            --color-success: #27AE60;
+            --color-danger: #C0392B;
+            --color-info: #8E44AD;
+            --color-light: #ECF0F1;
+            --color-dark: #2C3E50;
+            /* Instruction 2: Application de la police */
+            --font-main: 'OpenDyslexic', sans-serif;
+            --font-code: 'Roboto Mono', monospace;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.7;
+            color: var(--color-dark);
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-top: 1.5em;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            text-align: center;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-info));
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h2 {
+            font-size: 2em;
+            border-bottom: 3px solid var(--color-secondary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            font-size: 1.5em;
+            color: var(--color-dark);
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: var(--color-secondary);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        
+        .hook, .mission, .problematique, .conclusion-box {
+            background-color: #f2eafc;
+            border-left: 5px solid var(--color-primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .hook p:first-child {
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .mission ul {
+            list-style-type: '✔️ ';
+            padding-left: 20px;
+        }
+
+        .icon {
+            font-size: 1.5em;
+        }
+        
+        .info-box {
+            background-color: #fffbeb;
+            border: 1px solid var(--color-warning);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+        }
+        .info-box h4 { color: var(--color-warning); }
+
+        .expert-box {
+            background-color: #eafaf1;
+            border: 1px solid var(--color-success);
+            padding: 15px;
+            border-radius: var(--border-radius);
+        }
+        .expert-box h4 { color: var(--color-success); }
+        
+        /* Instruction 9: Micro-interactions */
+        button, .further-card, .accordion-header, .flip-card {
+            transition: all 0.3s ease;
+        }
+        
+        .further-card:hover, .accordion-header:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Styles pour les images */
+        .img-gauche, .img-droite {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            background-color: #eee;
+        }
+
+        .img-gauche { float: left; margin-right: 20px; }
+        .img-droite { float: right; margin-left: 20px; }
+        .img-moyenne { max-width: 450px; width: 100%; }
+        .img-petite { max-width: 280px; width: 100%; }
+
+        .concept-content::after, .further-card::after, .section::after, .hotspot-container::after {
+            content: ""; display: table; clear: both;
+        }
+
+        /* Instruction 5: Styles pour l'accordéon */
+        .accordion-header {
+            background-color: var(--color-dark);
+            color: white;
+            padding: 15px;
+            margin: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion-header::after {
+            content: '▼';
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+        .accordion-header.active::after {
+            transform: rotate(180deg);
+        }
+        .accordion-panel {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+        
+        /* Instruction 4: Styles pour les cartes à retourner */
+        .flip-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 150px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+        }
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        .flip-card-front {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        .flip-card-back {
+            background-color: var(--color-secondary);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Instruction 6: Styles pour les hotspots */
+        .hotspot-container {
+            position: relative;
+            display: inline-block;
+        }
+        .hotspot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--color-accent);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            animation: pulse 2s infinite;
+        }
+        .hotspot-tooltip {
+            position: absolute;
+            background-color: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        .hotspot:hover .hotspot-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Instruction 7: Styles pour la chronologie */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--color-light);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container.left { left: 0; }
+        .timeline-container.right { left: 50%; }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: white;
+            border: 4px solid var(--color-primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-container.right::after { left: -16px; }
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Instruction 3: Styles pour les exercices interactifs */
+        .interactive-exercises { background-color: #f9f9f9; padding: 25px; border-radius: var(--border-radius); }
+        .exercise { margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+        .exercise-options button { display: block; width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; background-color: #fff; cursor: pointer; text-align: left; border-radius: 5px; }
+        .exercise-options button.selected { background-color: var(--color-info); color: white; }
+        .exercise-input { padding: 8px; border: 1px solid #ccc; border-radius: 5px; width: 150px; margin: 0 5px; }
+        .exercise textarea { width: 100%; min-height: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+        .verify-btn { background-color: var(--color-primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .verify-btn:hover { background-color: var(--color-dark); }
+        .feedback-text { margin-top: 10px; font-weight: bold; }
+        .correct { color: var(--color-success); }
+        .incorrect { color: var(--color-danger); }
+        .input-correct { border-color: var(--color-success); background-color: #eafaf1; }
+        .input-incorrect { border-color: var(--color-danger); background-color: #fdedec; }
+        .hidden-feedback { display: none; margin-top: 10px; padding: 10px; background-color: var(--color-light); border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1><span class="icon">🛰️</span> Analyse de systèmes complexes et mécatroniques</h1>
+        </header>
+
+        <main>
+            <section class="section hook">
+                <h2>Situation Déclenchante</h2>
+                <p>Imagine un drone de livraison dernier cri. Il décolle, puis une rafale de vent le frappe. Pourtant, il ne tombe pas, il reste parfaitement stable. Il s'approche d'un arbre, mais au lieu de foncer dedans, il s'arrête et le contourne. Tout cela en suivant un parcours GPS précis pour livrer son colis au bon endroit, à la bonne personne.</p>
+                <p>Comment est-ce possible ? Ce n'est pas de la magie. C'est le résultat d'une collaboration parfaite, d'une symphonie technologique où des dizaines de composants doivent travailler ensemble. Comment ses hélices (la mécanique), ses capteurs (l'électronique) et son programme de vol (l'informatique) communiquent et collaborent-ils en temps réel ?</p>
+                <p>Pour le comprendre, nous allons devoir ouvrir le capot et plonger au cœur de ce système mécatronique.</p>
+            </section>
+
+            <section class="section mission">
+                <h2><span class="icon">🎯</span> Ta mission, si tu l'acceptes...</h2>
+                <p>À la fin de cette séquence, tu seras capable de "lire" à l'intérieur des objets technologiques modernes. Tu pourras :</p>
+                <h4>Compétences à maîtriser :</h4>
+                <ul>
+                    <li>Analyser l'architecture d'un système complexe comme un drone ou un robot.</li>
+                    <li>Identifier et schématiser les flux de matière, d'énergie et d'information entre les différents composants.</li>
+                    <li>Comprendre pourquoi la fiabilité est cruciale et comment la redondance permet de l'améliorer.</li>
+                </ul>
+                <h4>Savoirs et connaissances à acquérir :</h4>
+                <ul>
+                    <li>Système complexe.</li>
+                    <li>Mécatronique (la synergie Mécanique-Électronique-Informatique).</li>
+                    <li>Systèmes embarqués.</li>
+                    <li>Fiabilité.</li>
+                    <li>Redondance.</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Introduction et Problématique</h2>
+                <p>Les objets qui nous entourent sont de plus en plus "intelligents". Un simple grille-pain est devenu un objet connecté. Une voiture est devenue un ordinateur sur roues. Cette intelligence vient du fait qu'ils ne sont plus purement mécaniques ou purement électroniques, mais un mélange intime des deux, gouverné par un programme informatique. C'est la définition même de la mécatronique.</p>
+                <p>Comprendre ces systèmes, ce n'est pas seulement savoir à quoi ils servent, mais comment ils fonctionnent de l'intérieur. C'est essentiel pour pouvoir les réparer, les améliorer, ou même en concevoir de nouveaux. L'enjeu est de passer du statut d'utilisateur passif à celui d'analyste éclairé.</p>
+                <img src="image_1.png" class="img-droite img-moyenne" alt="Image d'un drone de loisir moderne en vol stationnaire devant un paysage urbain flouté.">
+                <div class="problematique">
+                    <p><strong>Problématique :</strong> Comment les différentes technologies (mécanique, électronique, informatique) sont-elles intégrées au sein d'un système complexe pour lui permettre de réaliser des fonctions avancées de manière autonome et fiable ?</p>
+                </div>
+                <p>Pour répondre à cette question, nous allons d'abord définir ce qu'est un système complexe et la mécatronique. Puis, nous explorerons le "cerveau" de ces objets : les systèmes embarqués. Enfin, nous nous pencherons sur deux notions vitales pour que tout fonctionne sans panne : la fiabilité et la redondance.</p>
+            </section>
+
+            <!-- Instruction 5: Accordéon pour les notions -->
+            <section class="section">
+                <h2><span class="icon">🔬</span> Exploration en profondeur</h2>
+                
+                <article class="concept-accordion">
+                    <h3 class="accordion-header"><span class="icon">🕸️</span> Système complexe</h3>
+                    <div class="accordion-panel">
+                        <div class="concept-content">
+                            <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                            <p>Un système est dit complexe lorsqu'il est composé d'un grand nombre d'éléments en interaction, dont le comportement global ne peut pas être simplement déduit de l'étude de ses parties isolées. De ces interactions naissent des propriétés nouvelles, dites "émergentes". L'enjeu de l'analyse d'un système complexe est de comprendre ces interactions et de prédire ou contrôler son comportement global.</p>
+                            
+                            <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                            <p>Imagine une équipe de football. Tu peux étudier chaque joueur individuellement : sa vitesse, sa technique, sa force. Mais cela ne te dira jamais comment l'équipe va jouer ensemble. La victoire ou la défaite est une propriété "émergente" qui naît des passes, des déplacements, de la communication entre les joueurs. Un système complexe, c'est pareil : sa magie vient de la collaboration entre ses composants.</p>
+
+                            <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                            <p>Un <strong>smartphone</strong> est un système complexe. Il contient un processeur, de la mémoire, un écran, des capteurs (GPS, accéléromètre), des modules de communication (Wi-Fi, 5G), une batterie... Aucun de ces éléments ne peut, seul, passer un appel ou afficher une vidéo. C'est leur interaction, orchestrée par le système d'exploitation (iOS ou Android), qui fait émerger la fonction "smartphone". Un <strong>drone de loisir</strong> est un autre excellent exemple : la stabilité en vol n'est la propriété d'aucun composant seul, mais le résultat de l'interaction ultra-rapide entre les capteurs, le contrôleur de vol et les moteurs.</p>
+
+                            <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                            <p>Analysons les flux dans un <strong>drone</strong> :
+                            <ol>
+                                <li><strong>Flux d'énergie :</strong> La batterie (source) fournit de l'énergie électrique aux contrôleurs de vitesse (ESC) et au contrôleur de vol. Les ESC transforment cette énergie pour alimenter les moteurs.</li>
+                                <li><strong>Flux de matière :</strong> Les hélices, en tournant, déplacent de l'air vers le bas (action), ce qui génère une force de portance vers le haut (réaction) et fait voler le drone.</li>
+                                <li><strong>Flux d'information :</strong>
+                                    <ul>
+                                        <li>L'accéléromètre envoie des données sur l'inclinaison au contrôleur de vol.</li>
+                                        <li>Le contrôleur de vol calcule les corrections et envoie des ordres de vitesse aux ESC.</li>
+                                        <li>Le récepteur radio reçoit les ordres du pilote (via la <strong>manette</strong>) et les transmet au contrôleur de vol.</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                            </p>
+
+                            <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                            <p><strong>Erreur 1 :</strong> Confondre "complexe" et "compliqué". Une montre suisse de luxe est très compliquée, avec des centaines de pièces, mais son comportement est prévisible. Un banc de poissons est complexe : quelques règles simples pour chaque poisson créent un comportement de groupe imprévisible et fascinant.
+                            <br><strong>Erreur 2 :</strong> Analyser un composant sans penser à ses liens. Changer le processeur d'un <strong>smartphone</strong> pour un plus puissant ne sert à rien si la batterie ne peut pas fournir assez d'énergie ou si le système de refroidissement ne peut pas évacuer la chaleur.</p>
+
+                            <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                            <div class="info-box">
+                                <p>En 2004, le robot Mars Rover "Spirit" a cessé de communiquer. Les ingénieurs de la NASA ont compris qu'un problème dans la gestion de la mémoire du système complexe du robot le faisait redémarrer en boucle. En analysant les interactions logicielles à des millions de kilomètres de distance, ils ont réussi à lui envoyer une série de commandes pour le "réparer" et lui permettre de continuer sa mission pendant <span class="counter" data-target="6">0</span> ans !</p>
+                            </div>
+
+                            <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                            <p><strong>SVT :</strong> Un écosystème (forêt, récif corallien) est un système complexe par excellence, où les interactions entre espèces créent un équilibre global.
+                            <br><strong>Histoire-Géographie :</strong> Une grande ville peut être analysée comme un système complexe, avec ses flux de transport, d'énergie, d'information et de population.</p>
+
+                            <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                            <div class="expert-box">
+                                <p>L'étude des systèmes complexes est une science à part entière. Elle utilise des outils mathématiques comme la théorie des graphes pour modéliser les réseaux d'interactions et la simulation multi-agents pour observer les comportements émergents. Les ingénieurs qui conçoivent des objets comme des avions ou des fusées sont des "architectes système".</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="concept-accordion">
+                    <h3 class="accordion-header"><span class="icon">🤖</span> Mécatronique</h3>
+                    <div class="accordion-panel">
+                        <div class="concept-content">
+                            <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                            <p>La mécatronique est une démarche d'ingénierie qui vise l'intégration en synergie de la mécanique, de l'électronique, de l'automatique et de l'informatique dans la conception et la fabrication de produits pour augmenter et/ou optimiser leur fonctionnalité. L'enjeu n'est pas de juxtaposer ces domaines, mais de les fusionner pour créer des systèmes plus performants, plus compacts et plus intelligents.</p>
+
+                            <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                            <p>La mécatronique, c'est comme le corps humain.
+                            <ul>
+                                <li>La <strong>mécanique</strong>, c'est ton squelette et tes muscles, qui permettent le mouvement.</li>
+                                <li>L'<strong>électronique</strong>, c'est ton système nerveux, qui transmet les ordres et les sensations via des signaux électriques.</li>
+                                <li>L'<strong>informatique</strong>, c'est ton cerveau, qui analyse les informations, prend des décisions et envoie les commandes.</li>
+                            </ul>
+                            Tu ne peux pas séparer les trois, ils fonctionnent en parfaite synergie. C'est ça, la mécatronique !</p>
+                            
+                            <img src="image_3.png" class="img-droite img-moyenne" alt="Vue éclatée d'une manette de jeu vidéo, montrant les coques en plastique, les boutons, les joysticks et la carte électronique principale.">
+
+                            <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                            <p>Une <strong>manette de jeu vidéo</strong> est un pur produit mécatronique. Le joystick est une pièce mécanique, mais il contient un capteur électronique (potentiomètre) qui traduit le mouvement en signal électrique. Ce signal est lu par un microcontrôleur (informatique) qui l'envoie via Bluetooth. En retour, le jeu envoie un ordre qui active des moteurs de vibration (électronique) qui font tourner des masses excentrées (mécanique) pour créer un retour de force. Le <strong>drone</strong> et le <strong>smartphone</strong> sont aussi des systèmes mécatroniques par excellence.</p>
+
+                            <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                            <p>Analyse mécatronique d'un vibreur de <strong>manette de jeu</strong> :
+                            <ol>
+                                <li><strong>Entrée (Informatique) :</strong> Le jeu vidéo envoie une commande "Vibrer fort" via le signal sans-fil.</li>
+                                <li><strong>Traitement (Électronique) :</strong> Le microcontrôleur de la manette reçoit la commande. Il l'interprète et envoie un courant électrique d'une certaine intensité à un petit moteur électrique.</li>
+                                <li><strong>Action (Mécanique) :</strong> Le moteur électrique se met à tourner. Au bout de son axe est fixée une petite masse déséquilibrée. En tournant très vite, cette masse crée une vibration qui se propage dans toute la coque de la manette.</li>
+                            </ol>
+                            La boucle est bouclée : une information logicielle a produit un effet mécanique tangible.</p>
+
+                            <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                            <p><strong>Erreur 1 :</strong> Penser qu'un objet avec une pile et un moteur est mécatronique. Une simple voiture télécommandée des années 80 n'est pas vraiment mécatronique. La mécatronique implique une "intelligence", un traitement de l'information pour adapter le comportement du système.
+                            <br><strong>Erreur 2 :</strong> Croire que les domaines sont séparés. Dans un projet mécatronique, l'ingénieur mécanicien doit comprendre les contraintes de l'électronicien (où placer la carte ?), qui doit lui-même comprendre les besoins de l'informaticien (quels signaux envoyer ?).</p>
+
+                            <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                            <div class="info-box">
+                                <p>Le terme "mécatronique" (mechatronics) a été inventé au Japon en 1969 par un ingénieur de l'entreprise Yaskawa Electric Corporation, qui fabriquait des robots industriels. Le mot est la contraction de "mechanics" et "electronics".</p>
+                            </div>
+
+                            <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                            <p><strong>Physique :</strong> Étude de l'électromagnétisme (moteurs), des capteurs (ultrasons, infrarouge) et de la mécanique du vol (pour le drone).
+                            <br><strong>Mathématiques :</strong> Les algorithmes de contrôle et de stabilisation des drones reposent sur des calculs matriciels et des équations différentielles complexes (boucles PID).</p>
+
+                            <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                            <div class="expert-box">
+                                <p>Le métier d'"Ingénieur Mécatronicien" est l'un des plus recherchés dans l'industrie. C'est un profil polyvalent qui est capable de dialoguer avec toutes les équipes techniques et de superviser l'intégration de tous les sous-systèmes. Il travaille dans l'automobile, l'aéronautique, la robotique, le médical...</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="concept-accordion">
+                    <h3 class="accordion-header"><span class="icon">🧠</span> Systèmes embarqués</h3>
+                    <div class="accordion-panel">
+                        <div class="concept-content">
+                            <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                            <p>Un système embarqué est un système électronique et informatique autonome, souvent temps réel, spécialisé dans une tâche précise et intégré au sein d'un équipement ou d'un système plus vaste. Contrairement à un ordinateur personnel, il n'est pas polyvalent et ses ressources (puissance de calcul, mémoire, énergie) sont généralement contraintes. L'enjeu est de fournir une "intelligence" dédiée et économe en énergie à un objet.</p>
+                            
+                            <img src="image_4.png" class="img-gauche img-moyenne" alt="Gros plan sur une carte de circuit imprimé verte (PCB) avec un microcontrôleur au centre, entouré de puces plus petites et de composants électroniques.">
+
+                            <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                            <p>Imagine le petit ordinateur de bord de ton lave-vaisselle. Il n'a qu'une seule mission dans la vie : exécuter les programmes de lavage. Il ne peut pas aller sur Internet, ni faire de traitement de texte. Il est "embarqué" dans le lave-vaisselle pour le piloter. Tous les objets "intelligents" autour de nous contiennent des systèmes embarqués : ta voiture, ta télé, ton micro-ondes...</p>
+
+                            <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                            <p>Une <strong>enceinte Bluetooth</strong> est un excellent exemple. Son système embarqué gère : la connexion sans fil avec ton <strong>smartphone</strong>, le décodage du flux audio numérique, la conversion du son en signal électrique (via un DAC), l'amplification de ce signal et la gestion des boutons (volume, play/pause). Le contrôleur de vol d'un <strong>drone</strong> est un système embarqué ultra-performant, entièrement dédié à la stabilisation et au pilotage.</p>
+
+                            <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                            <p>Architecture simplifiée du système embarqué d'une <strong>enceinte Bluetooth</strong> :
+                            <ol>
+                                <li><strong>Périphérique d'entrée :</strong> Puce Bluetooth qui reçoit les données audio numériques du smartphone.</li>
+                                <li><strong>Unité de traitement :</strong> Un microcontrôleur ou un processeur audio dédié (DSP) qui décompresse le signal (ex: format SBC ou AAC).</li>
+                                <li><strong>Conversion :</strong> Un Convertisseur Numérique-Analogique (CNA ou DAC) transforme les 0 et les 1 du fichier audio en un signal électrique variable (analogique).</li>
+                                <li><strong>Périphérique de sortie :</strong> Un amplificateur augmente la puissance de ce signal pour le rendre assez fort pour faire vibrer la membrane du haut-parleur.</li>
+                                <li><strong>Alimentation :</strong> Un circuit de gestion de la batterie régule l'énergie.</li>
+                            </ol>
+                            </p>
+
+                            <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                            <p><strong>Erreur 1 :</strong> Confondre système embarqué et ordinateur. Un <strong>smartphone</strong> est un cas limite : il est si puissant et polyvalent qu'il ressemble à un ordinateur, mais son architecture (optimisation de la batterie, puces spécialisées) relève bien des systèmes embarqués.
+                            <br><strong>Erreur 2 :</strong> Sous-estimer le logiciel. Le programme qui tourne sur le système embarqué s'appelle le "firmware" ou "micrologiciel". C'est lui qui contient toute l'intelligence. Une mise à jour du firmware peut corriger des bugs ou même ajouter de nouvelles fonctions à un objet existant.</p>
+
+                            <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                            <div class="info-box">
+                                <p>L'ordinateur qui a guidé les missions Apollo jusqu'à la Lune (l'Apollo Guidance Computer) avait une mémoire vive de <span class="counter" data-target="2048">0</span> mots (environ 4 Ko) et une fréquence d'horloge de 2 MHz. Le moindre <strong>smartphone</strong> d'aujourd'hui est des millions de fois plus puissant ! Cela montre la performance incroyable de ces premiers systèmes embarqués.</p>
+                            </div>
+
+                            <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                            <p><strong>Musique :</strong> Comment le son est-il numérisé (échantillonnage, quantification) pour être traité par un système embarqué ?
+                            <br><strong>Anglais :</strong> La plupart des termes techniques (firmware, System-on-Chip/SoC, microcontroller) viennent de l'anglais.</p>
+
+                            <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                            <div class="expert-box">
+                                <p>La plupart des systèmes embarqués modernes sont des "SoC" (System-on-a-Chip). Les ingénieurs réussissent à graver sur une seule puce de silicium le processeur, la mémoire, les modules de communication et tous les périphériques. Le processeur d'un <strong>smartphone</strong> est un SoC extrêmement complexe.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="concept-accordion">
+                    <h3 class="accordion-header"><span class="icon">🛡️</span> Fiabilité</h3>
+                    <div class="accordion-panel">
+                        <div class="concept-content">
+                            <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                            <p>La fiabilité est l'aptitude d'un système ou d'un composant à réaliser une fonction requise dans des conditions données, pendant une durée donnée. Elle est souvent mesurée par le MTBF (Mean Time Between Failures, ou Temps Moyen Entre Pannes). L'enjeu, notamment pour les systèmes critiques, est de maximiser cette fiabilité pour garantir la sécurité et la satisfaction de l'utilisateur.</p>
+                            
+                            <img src="image_5.png" class="img-droite img-moyenne" alt="Photo d'un laboratoire de test de fiabilité, avec un bras robotique qui appuie de manière répétée sur le bouton d'une manette de jeu.">
+
+                            <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                            <p>La fiabilité, c'est la confiance que tu as dans ton réveil. S'il sonne tous les matins à la bonne heure, il est fiable. S'il oublie de sonner une fois par semaine, il n'est pas fiable, même s'il est très beau et donne la météo. La fiabilité, ce n'est pas d'être parfait, c'est d'être prévisible et constant dans son bon fonctionnement.</p>
+
+                            <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                            <p>La fiabilité est vitale pour un <strong>drone</strong>. Une panne de moteur, une perte de signal ou un bug logiciel en plein vol peut entraîner sa chute, causant des dégâts ou des blessures. Les constructeurs choisissent donc des composants de haute qualité et testent leurs logiciels intensivement. Pour une <strong>manette de jeu</strong>, la fiabilité se mesure à l'usure des joysticks (le fameux "drift") ou à la solidité des boutons après des millions de pressions. Pour une <strong>enceinte Bluetooth</strong>, c'est la stabilité de la connexion et l'absence de coupures.</p>
+
+                            <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                            <p>Comment les ingénieurs améliorent-ils la fiabilité d'un <strong>smartphone</strong> ?
+                            <ol>
+                                <li><strong>Choix des composants :</strong> Ils sélectionnent des puces mémoires testées pour des millions de cycles de lecture/écriture, et un verre d'écran traité pour résister aux rayures et aux chocs.</li>
+                                <li><strong>Conception robuste :</strong> Le design interne est pensé pour résister aux torsions et aux chutes. Des tests de chute (drop tests) sont réalisés des milliers de fois.</li>
+                                <li><strong>Tests logiciels :</strong> Des milliers de testeurs et des programmes automatiques "stressent" le système d'exploitation pour trouver et corriger les bugs avant la sortie du produit.</li>
+                                <li><strong>Gestion thermique :</strong> Des dissipateurs de chaleur et des algorithmes intelligents empêchent le processeur de surchauffer, ce qui pourrait endommager les composants sur le long terme.</li>
+                            </ol>
+                            </p>
+
+                            <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                            <p><strong>Erreur 1 :</strong> Confondre fiabilité et durabilité. Un tank est durable (il résiste aux chocs), mais peut être peu fiable (il tombe souvent en panne). Un verre de cristal est très peu durable, mais parfaitement fiable (il remplit sa fonction de verre jusqu'à ce qu'il casse).
+                            <br><strong>Erreur 2 :</strong> Penser que la fiabilité est gratuite. Utiliser des composants de meilleure qualité, passer plus de temps à tester... tout cela a un coût qui se répercute sur le prix final de l'objet.</p>
+
+                            <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                            <div class="info-box">
+                                <p>La norme de fiabilité dite des "cinq neufs" (<span class="counter" data-target="99.999">0</span>%) est un standard dans les télécommunications. Elle signifie que le système ne doit pas être en panne plus de <span class="counter" data-target="5.26">0</span> minutes par an ! C'est ce niveau de fiabilité qui garantit que le réseau téléphonique fonctionne quasiment tout le temps.</p>
+                            </div>
+
+                            <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                            <p><strong>Mathématiques :</strong> La fiabilité est un domaine des statistiques et des probabilités. On utilise des lois statistiques (loi de Weibull, loi exponentielle) pour modéliser la durée de vie des composants.
+                            <br><strong>Économie :</strong> Calcul du coût d'une panne (rappel de produits, perte d'image) par rapport au coût d'amélioration de la fiabilité.</p>
+
+                            <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                            <div class="expert-box">
+                                <p>Une méthode très utilisée par les ingénieurs est l'AMDEC (Analyse des Modes de Défaillance, de leurs Effets et de leur Criticité). C'est un tableau où l'on liste toutes les pannes possibles d'un système, on évalue leur probabilité d'occurrence, leur gravité et leur détectabilité, puis on met en place des actions préventives pour éliminer les risques les plus critiques.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="concept-accordion">
+                    <h3 class="accordion-header"><span class="icon">➕</span> Redondance</h3>
+                    <div class="accordion-panel">
+                        <div class="concept-content">
+                            <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
+                            <p>La redondance est une stratégie d'ingénierie consistant à dupliquer les composants ou les fonctions critiques d'un système dans le but d'augmenter sa fiabilité. En cas de défaillance de l'élément principal, l'élément redondant (le "backup") prend le relais pour assurer la continuité du service. L'enjeu est de se prémunir contre les pannes uniques qui pourraient être catastrophiques.</p>
+                            
+                            <img src="image_6.png" class="img-gauche img-moyenne" alt="Schéma simple montrant deux chemins parallèles entre un point A et un point B. Une croix rouge est sur un chemin, indiquant une panne, mais le deuxième chemin est toujours valide.">
+
+                            <h4><span class="icon">🧠</span> b) Analogie et Simplification Pédagogique</h4>
+                            <p>La redondance, c'est le principe de la roue de secours dans une voiture. Tu as quatre roues fonctionnelles, mais tu en transportes une cinquième "au cas où". Elle est inutile 99,9% du temps, mais le jour où tu as une crevaison, elle te sauve la mise. C'est un composant dupliqué qui prend le relais en cas de panne.</p>
+
+                            <h4><span class="icon">📱</span> c) Étude de Cas Concrète</h4>
+                            <p>La redondance est partout dans les systèmes critiques. Les <strong>drones</strong> professionnels ont souvent 6 ou 8 moteurs au lieu de 4. Si un moteur tombe en panne, le contrôleur de vol le détecte, augmente la puissance des autres et permet de se poser en sécurité. Ils ont aussi souvent deux modules GPS et deux boussoles. Si les données de l'un deviennent incohérentes, le système utilise le second. Un <strong>smartphone</strong> a moins de redondance matérielle, mais on peut y voir une forme de redondance logicielle (ex: si l'identification faciale échoue, on peut utiliser le code, qui est une méthode de secours).</p>
+
+                            <h4><span class="icon">🛠️</span> d) Décortiquage Technique - "Sous le Capot"</h4>
+                            <p>Analyse de la redondance sur un <strong>drone</strong> haut de gamme :
+                            <ol>
+                                <li><strong>Redondance de propulsion :</strong> 8 moteurs et 8 hélices. Le drone peut voler même avec 2 moteurs en panne.</li>
+                                <li><strong>Redondance d'alimentation :</strong> Deux batteries. Si la première se déconnecte ou tombe en panne, la seconde prend le relais instantanément.</li>
+                                <li><strong>Redondance des capteurs :</strong> Double ou triple IMU (centrale inertielle avec accéléromètre et gyroscope). Le contrôleur de vol compare en permanence les données des trois IMU. Si l'une d'elles se met à dériver, elle est ignorée par le système de "vote" majoritaire.</li>
+                                <li><strong>Redondance de communication :</strong> Certains drones utilisent deux fréquences radio différentes pour communiquer avec la télécommande, réduisant le risque de perte de signal.</li>
+                            </ol>
+                            </p>
+
+                            <h4><span class="icon">🤔</span> e) Points de Vigilance et Erreurs à Éviter</h4>
+                            <p><strong>Erreur 1 :</strong> Penser que la redondance est la solution à tout. Elle augmente le coût, le poids, la consommation d'énergie et la complexité du système. Il faut la réserver aux fonctions vraiment critiques.
+                            <br><strong>Erreur 2 :</strong> Oublier la "panne de mode commun". Si un bug logiciel affecte le contrôleur de vol principal, il y a de fortes chances qu'il affecte aussi le contrôleur de secours s'ils sont identiques. C'est pour cela que les systèmes les plus critiques (comme dans l'aviation) utilisent parfois des composants de marques différentes ou des logiciels développés par des équipes séparées.</p>
+
+                            <h4><span class="icon">💡</span> f) Le Saviez-Vous ? / Anecdote Technologique</h4>
+                            <div class="info-box">
+                                <p>La navette spatiale américaine utilisait cinq ordinateurs redondants. Quatre tournaient avec un logiciel identique, développé par IBM, et "votaient" en permanence pour prendre une décision. Le cinquième ordinateur, utilisé seulement pour la montée et la descente, tournait avec un logiciel complètement différent, développé par une autre entreprise. C'était l'ultime sécurité contre un bug qui aurait pu affecter les quatre autres en même temps !</p>
+                            </div>
+
+                            <h4><span class="icon">🤝</span> g) Ponts Interdisciplinaires</h4>
+                            <p><strong>SVT :</strong> Le corps humain possède une forme de redondance. Nous avons deux poumons, deux reins... La perte d'un seul n'est pas forcément fatale.
+                            <br><strong>Histoire :</strong> Les châteaux forts avaient plusieurs lignes de défense (douves, remparts, donjon). Si la première ligne tombait, la seconde pouvait encore résister. C'est un principe de redondance défensive.</p>
+
+                            <h4><span class="icon">🚀</span> h) Pour les Experts (Approfondissement)</h4>
+                            <div class="expert-box">
+                                <p>Il existe plusieurs types de redondance. La redondance "active" (où tous les composants fonctionnent en même temps, comme les moteurs d'un drone) et la redondance "passive" ou "standby" (où le composant de secours est inactif et ne s'allume qu'en cas de panne du premier, comme la roue de secours). Le choix dépend de la vitesse à laquelle le basculement doit se faire.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </section>
+            
+            <!-- Instruction 4: Section Cartes à retourner -->
+            <section class="section">
+                <h2><span class="icon">🔄</span> Concepts Clés en Duo</h2>
+                <p>Clique sur les cartes pour révéler la différence entre ces concepts importants.</p>
+                <div class="flip-card-container">
+                    <div class="flip-card" tabindex="0">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">Capteur</div>
+                            <div class="flip-card-back">Mesure une grandeur physique et la transforme en signal. C'est l'un des "sens" du système (ex: accéléromètre, GPS).</div>
+                        </div>
+                    </div>
+                    <div class="flip-card" tabindex="0">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">Actionneur</div>
+                            <div class="flip-card-back">Transforme un signal en action physique. C'est l'un des "muscles" du système (ex: moteur, vibreur, haut-parleur).</div>
+                        </div>
+                    </div>
+                    <div class="flip-card" tabindex="0">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">Fiabilité</div>
+                            <div class="flip-card-back">Capacité à fonctionner sans tomber en panne. C'est la constance du système.</div>
+                        </div>
+                    </div>
+                    <div class="flip-card" tabindex="0">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">Durabilité</div>
+                            <div class="flip-card-back">Capacité à résister à l'usure et aux chocs. C'est la robustesse physique du système.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Instruction 7: Chronologie Interactive -->
+            <section class="section">
+                <h2><span class="icon">⏳</span> Chronologie d'une Action Mécatronique</h2>
+                <p>Suivons le parcours de l'information, de l'intention à l'action, pour faire avancer un drone.</p>
+                <div class="timeline">
+                    <div class="timeline-container left">
+                        <div class="timeline-content">
+                            <h3>1. Intention du Pilote</h3>
+                            <p>Le pilote pousse le joystick de la manette de jeu vers l'avant.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container right">
+                        <div class="timeline-content">
+                            <h3>2. Encodage & Transmission</h3>
+                            <p>Le système embarqué de la manette convertit le mouvement en signal radio et l'envoie au drone.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container left">
+                        <div class="timeline-content">
+                            <h3>3. Réception & Traitement</h3>
+                            <p>Le contrôleur de vol du drone reçoit l'ordre "avancer" et consulte les capteurs pour connaître son état actuel (inclinaison, vitesse...).</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container right">
+                        <div class="timeline-content">
+                            <h3>4. Calcul & Commande</h3>
+                            <p>Le "cerveau" calcule qu'il doit augmenter la vitesse des moteurs arrière et diminuer celle des moteurs avant pour s'incliner et avancer.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container left">
+                        <div class="timeline-content">
+                            <h3>5. Action Mécanique</h3>
+                            <p>Les contrôleurs de vitesse (ESC) exécutent les ordres, les moteurs changent de régime, le drone s'incline et avance. Une nouvelle boucle de contrôle recommence des milliers de fois par seconde.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="icon">🔭</span> Avenir et Perspectives</h2>
+                <p>La mécatronique est le moteur de l'innovation future. L'Internet des Objets (IoT) va connecter des milliards de systèmes embarqués qui interagiront entre eux. Les voitures autonomes, les robots chirurgicaux, les exosquelettes ou les villes intelligentes (smart cities) sont des systèmes mécatroniques d'une complexité croissante. L'intelligence artificielle (IA) va s'intégrer de plus en plus au cœur de ces systèmes, leur permettant d'apprendre et de s'adapter à leur environnement de manière autonome.</p>
+                <p>Cela pose d'immenses défis en termes de fiabilité et de sécurité (comment s'assurer qu'une voiture autonome ne sera jamais piratée ?), mais ouvre la voie à des métiers passionnants : architecte de systèmes IoT, ingénieur en robotique collaborative, spécialiste en éthique de l'IA, etc. Comprendre la mécatronique aujourd'hui, c'est se préparer à inventer le monde de demain.</p>
+            </section>
+
+            <section class="section conclusion-box">
+                <h2><span class="icon">🏁</span> Conclusion</h2>
+                <p>Nous avons commencé notre exploration avec un drone se stabilisant dans le vent, et nous avons découvert la symphonie technologique cachée à l'intérieur. Nous pouvons maintenant répondre à notre problématique :</p>
+                <p><strong>Pour réaliser des fonctions avancées, les systèmes complexes modernes intègrent en synergie la mécanique, l'électronique et l'informatique : c'est la mécatronique. Cette fusion est pilotée par un "cerveau" dédié, le système embarqué, qui exécute un programme pour traiter les informations des capteurs et commander les actionneurs. Pour que cette collaboration complexe fonctionne sans faille, notamment dans des applications critiques comme un drone, les ingénieurs s'appuient sur deux piliers : la fiabilité, obtenue par des composants de qualité et des tests rigoureux, et la redondance, qui consiste à doubler les éléments vitaux pour qu'un "backup" puisse prendre le relais en cas de panne.</strong></p>
+                <p>Ainsi, la magie d'un objet "intelligent" n'est pas de la magie, mais le fruit d'une ingénierie système rigoureuse, où chaque flux d'énergie et d'information est maîtrisé pour créer un tout cohérent, performant et sûr.</p>
+            </section>
+
+            <!-- Instruction 3: Nouvelle section d'exercices interactifs -->
+            <section class="section interactive-exercises">
+                <h2><span class="icon">✍️</span> Exercices Interactifs</h2>
+                
+                <div class="exercise" id="ex1">
+                    <h4>Exercice 1 : QCM</h4>
+                    <p>Quelle est la meilleure définition de la mécatronique ?</p>
+                    <div class="exercise-options">
+                        <button>L'étude des robots uniquement.</button>
+                        <button data-correct="true">L'intégration en synergie de la mécanique, l'électronique et l'informatique.</button>
+                        <button>La programmation de systèmes informatiques très complexes.</button>
+                        <button>La fabrication de composants électroniques.</button>
+                    </div>
+                    <button class="verify-btn">Vérifier</button>
+                    <div class="feedback-text"></div>
+                </div>
+
+                <div class="exercise" id="ex2">
+                    <h4>Exercice 2 : Vrai / Faux</h4>
+                    <p>Un système redondant est toujours plus léger et moins cher qu'un système non redondant.</p>
+                    <div class="exercise-options">
+                        <button>Vrai</button>
+                        <button data-correct="true">Faux</button>
+                    </div>
+                    <button class="verify-btn">Vérifier</button>
+                    <div class="feedback-text"></div>
+                </div>
+
+                <div class="exercise" id="ex3">
+                    <h4>Exercice 3 : Texte à trous</h4>
+                    <p>Dans un drone, la batterie fournit le flux d'<input type="text" class="exercise-input" data-answer="énergie">, tandis que l'accéléromètre fournit un flux d'<input type="text" class="exercise-input" data-answer="information"> au contrôleur de vol.</p>
+                    <button class="verify-btn">Vérifier</button>
+                    <div class="feedback-text"></div>
+                </div>
+
+                <div class="exercise" id="ex4">
+                    <h4>Exercice 4 : Question ouverte</h4>
+                    <p>Expliquez avec vos propres mots pourquoi un smartphone peut être considéré comme un système complexe.</p>
+                    <textarea placeholder="Votre réponse..."></textarea>
+                    <button class="verify-btn hint-btn">Afficher un indice</button>
+                    <button class="verify-btn model-answer-btn">Comparer avec la réponse type</button>
+                    <div class="hidden-feedback hint">Pensez à tous les composants (écran, batterie, GPS, Wi-Fi...) et au fait qu'ils doivent interagir pour fonctionner. Que se passe-t-il si on en retire un ?</div>
+                    <div class="hidden-feedback model-answer">Un smartphone est un système complexe car il est composé de nombreux sous-systèmes (processeur, mémoire, capteurs, batterie, modules de communication) qui sont en interaction constante. Le comportement global (ex: naviguer sur internet) est une propriété émergente qui ne peut être accomplie par aucun composant seul. Tout est orchestré par le système d'exploitation.</div>
+                </div>
+
+                <div class="exercise" id="ex5">
+                    <h4>Exercice 5 : QCM</h4>
+                    <p>Le programme informatique qui est stocké de manière permanente dans un système embarqué s'appelle :</p>
+                    <div class="exercise-options">
+                        <button>Un logiciel</button>
+                        <button>Une application</button>
+                        <button data-correct="true">Un firmware (ou micrologiciel)</button>
+                        <button>Un système d'exploitation</button>
+                    </div>
+                    <button class="verify-btn">Vérifier</button>
+                    <div class="feedback-text"></div>
+                </div>
+
+                <div class="exercise" id="ex6">
+                    <h4>Exercice 6 : Vrai / Faux</h4>
+                    <p>La fiabilité et la durabilité sont deux termes qui signifient exactement la même chose.</p>
+                    <div class="exercise-options">
+                        <button>Vrai</button>
+                        <button data-correct="true">Faux</button>
+                    </div>
+                    <button class="verify-btn">Vérifier</button>
+                    <div class="feedback-text"></div>
+                </div>
+
+                <div class="exercise" id="ex7">
+                    <h4>Exercice 7 : Texte à trous</h4>
+                    <p>Dans une manette de jeu, le <input type="text" class="exercise-input" data-answer="moteur"> de vibration est un exemple d'actionneur, alors que le joystick est un <input type="text" class="exercise-input" data-answer="capteur">.</p>
+                    <button class="verify-btn">Vérifier</button>
+                    <div class="feedback-text"></div>
+                </div>
+
+                <div class="exercise" id="ex8">
+                    <h4>Exercice 8 : Question ouverte</h4>
+                    <p>Donnez un exemple de redondance dans un domaine autre que la technologie (ex: dans la vie de tous les jours, dans la nature, etc.) et expliquez en quoi cela augmente la fiabilité.</p>
+                    <textarea placeholder="Votre réponse..."></textarea>
+                    <button class="verify-btn hint-btn">Afficher un indice</button>
+                    <button class="verify-btn model-answer-btn">Comparer avec la réponse type</button>
+                    <div class="hidden-feedback hint">Pensez aux choses que vous avez en double "au cas où"...</div>
+                    <div class="hidden-feedback model-answer">Un exemple est d'avoir un double de ses clés de maison. La plupart du temps, la deuxième clé est inutile. Mais si on perd la clé principale, la clé de secours (redondante) permet de toujours pouvoir rentrer chez soi. Cela augmente considérablement la fiabilité de l'action "ouvrir sa porte". En biologie, avoir deux reins est un autre exemple de redondance.</div>
+                </div>
+
+                <script id="interactive-script">
+                    // Script pour les exercices interactifs
+                </script>
+            </section>
+
+            <section class="section">
+                <h2><span class="icon">🧠</span> Synthèse Visuelle (Carte Mentale)</h2>
+                <ul class="mind-map">
+                    <li><span>SYSTÈMES COMPLEXES & MÉCATRONIQUES</span>
+                        <ul>
+                            <li><span>Système Complexe</span>
+                                <ul>
+                                    <li><span>Définition : Plusieurs éléments en interaction</span></li>
+                                    <li><span>Propriété : Comportement émergent</span></li>
+                                    <li><span>Flux : Matière, Énergie, Information</span></li>
+                                </ul>
+                            </li>
+                            <li><span>Mécatronique</span>
+                                <ul>
+                                    <li><span>Définition : Synergie Mécanique + Électronique + Informatique</span></li>
+                                    <li><span>Analogie : Le corps humain (Muscles, Nerfs, Cerveau)</span></li>
+                                    <li><span>Exemple : Manette de jeu (Joystick, Vibreur)</span></li>
+                                </ul>
+                            </li>
+                            <li><span>Système Embarqué</span>
+                                <ul>
+                                    <li><span>Définition : "Cerveau" dédié à une tâche</span></li>
+                                    <li><span>Caractéristiques : Spécialisé, ressources contraintes</span></li>
+                                    <li><span>Exemple : Enceinte Bluetooth, contrôleur de vol</span></li>
+                                </ul>
+                            </li>
+                            <li><span>Sûreté de Fonctionnement</span>
+                                <ul>
+                                    <li><span>Fiabilité : Confiance dans le bon fonctionnement</span></li>
+                                    <li><span>Redondance : Duplication des éléments critiques pour augmenter la fiabilité</span></li>
+                                    <li><span>Exemple : Double GPS sur un drone</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2><span class="icon">📖</span> Lexique / Glossaire</h2>
+                <dl class="glossary">
+                    <dt>Actionneur</dt>
+                    <dd>Composant qui convertit un signal (souvent électrique) en une action physique (mouvement, lumière, son). Ex: un moteur, une LED, un haut-parleur.</dd>
+                    <dt>Capteur</dt>
+                    <dd>Composant qui mesure une grandeur physique (température, vitesse, lumière...) et la convertit en un signal (souvent électrique) compréhensible par le système.</dd>
+                    <dt>Fiabilité</dt>
+                    <dd>Aptitude d'un système à fonctionner sans panne pendant une durée donnée.</dd>
+                    <dt>Firmware (ou Micrologiciel)</dt>
+                    <dd>Programme informatique stocké de manière permanente dans un système embarqué pour le faire fonctionner.</dd>
+                    <dt>Mécatronique</dt>
+                    <dd>Intégration synergique de la mécanique, l'électronique et l'informatique dans la conception d'un produit.</dd>
+                    <dt>Redondance</dt>
+                    <dd>Duplication de composants ou fonctions critiques pour augmenter la fiabilité d'un système.</dd>
+                    <dt>Système complexe</dt>
+                    <dd>Système composé de nombreuses parties en interaction, dont le comportement global est plus que la somme de ses parties.</dd>
+                    <dt>Système embarqué</dt>
+                    <dd>Système informatique et électronique spécialisé dans une tâche précise, intégré dans un objet plus grand.</dd>
+                </dl>
+            </section>
+
+            <section class="section">
+                <h2><span class="icon">🚀</span> Pour aller plus loin</h2>
+                <div class="further-reading">
+                    <div class="further-card">
+                        <h4><span class="icon">🛠️</span> Mini-projet : Analyse ton smartphone</h4>
+                        <p>Prends ton smartphone et essaie de lister tous ses capteurs (GPS, accéléromètre, capteur de lumière, micro...) et ses actionneurs (écran, vibreur, haut-parleur, flash...). Dessine un schéma simple montrant comment les flux d'information et d'énergie circulent entre eux pour une fonction simple, comme "prendre une photo avec flash".</p>
+                    </div>
+                    <div class="further-card">
+                        <h4><span class="icon">🎬</span> Vidéo à regarder : Les robots de Boston Dynamics</h4>
+                        <p>Cherche sur YouTube des vidéos des robots "Atlas" ou "Spot". Ce sont des exemples spectaculaires de systèmes mécatroniques complexes, combinant une mécanique de pointe, des capteurs multiples et une intelligence artificielle pour se déplacer de manière incroyablement agile et fiable.</p>
+                    </div>
+                    <div class="further-card">
+                        <h4><span class="icon">👷</span> Métier à découvrir : Ingénieur(e) en Systèmes Embarqués</h4>
+                        <p>Cet ingénieur est le "cerveau" derrière les objets intelligents. Il conçoit et programme les microcontrôleurs qui pilotent les drones, les voitures, les objets connectés de la maison... C'est un métier qui demande des compétences à la fois en électronique et en programmation informatique de bas niveau.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Instruction 5: Logique de l'accordéon
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('active');
+                const panel = header.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                    panel.style.padding = "0 20px";
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + 40 + "px";
+                    panel.style.padding = "20px";
+                }
+            });
+        });
+
+        // Instruction 4: Logique des cartes à retourner
+        const flipCards = document.querySelectorAll('.flip-card');
+        flipCards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('is-flipped');
+            });
+            card.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    card.classList.toggle('is-flipped');
+                }
+            });
+        });
+
+        // Instruction 8: Logique des compteurs animés
+        const counters = document.querySelectorAll('.counter');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    counter.innerText = '0';
+                    const updateCounter = () => {
+                        const c = +counter.innerText;
+                        const increment = target / 100;
+                        if (c < target) {
+                            counter.innerText = `${Math.ceil(c + increment)}`;
+                            setTimeout(updateCounter, 20);
+                        } else {
+                            counter.innerText = target.toLocaleString('fr-FR');
+                            if(counter.getAttribute('data-target').includes('.')) {
+                                counter.innerText = target.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                            }
+                            if(counter.getAttribute('data-target') === '99.999') {
+                                counter.innerText = '99,999';
+                            }
+                        }
+                    };
+                    updateCounter();
+                    observer.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(counter => observer.observe(counter));
+
+        // Instruction 3: Logique des exercices interactifs
+        const exerciseContainers = document.querySelectorAll('.exercise');
+        exerciseContainers.forEach(exercise => {
+            const verifyBtn = exercise.querySelector('.verify-btn');
+            const feedbackText = exercise.querySelector('.feedback-text');
+
+            // QCM et Vrai/Faux
+            if (exercise.querySelector('.exercise-options')) {
+                const options = exercise.querySelectorAll('.exercise-options button');
+                let selectedOption = null;
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        options.forEach(btn => btn.classList.remove('selected'));
+                        option.classList.add('selected');
+                        selectedOption = option;
+                    });
+                });
+
+                if (verifyBtn) {
+                    verifyBtn.addEventListener('click', () => {
+                        if (!selectedOption) {
+                            feedbackText.textContent = "Veuillez sélectionner une réponse.";
+                            feedbackText.className = "feedback-text";
+                            return;
+                        }
+                        if (selectedOption.hasAttribute('data-correct')) {
+                            feedbackText.textContent = "Correct !";
+                            feedbackText.className = "feedback-text correct";
+                        } else {
+                            feedbackText.textContent = "Incorrect. Essayez encore.";
+                            feedbackText.className = "feedback-text incorrect";
+                        }
+                    });
+                }
+            }
+
+            // Texte à trous
+            if (exercise.querySelector('.exercise-input')) {
+                const inputs = exercise.querySelectorAll('.exercise-input');
+                verifyBtn.addEventListener('click', () => {
+                    let allCorrect = true;
+                    inputs.forEach(input => {
+                        const answer = input.getAttribute('data-answer').toLowerCase().trim();
+                        if (input.value.toLowerCase().trim() === answer) {
+                            input.className = "exercise-input input-correct";
+                        } else {
+                            input.className = "exercise-input input-incorrect";
+                            allCorrect = false;
+                        }
+                    });
+                    if (allCorrect) {
+                        feedbackText.textContent = "Toutes les réponses sont correctes !";
+                        feedbackText.className = "feedback-text correct";
+                    } else {
+                        feedbackText.textContent = "Certaines réponses sont incorrectes.";
+                        feedbackText.className = "feedback-text incorrect";
+                    }
+                });
+            }
+
+            // Question ouverte
+            const hintBtn = exercise.querySelector('.hint-btn');
+            const modelAnswerBtn = exercise.querySelector('.model-answer-btn');
+            const hint = exercise.querySelector('.hint');
+            const modelAnswer = exercise.querySelector('.model-answer');
+
+            if (hintBtn && hint) {
+                hintBtn.addEventListener('click', () => {
+                    hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+            if (modelAnswerBtn && modelAnswer) {
+                modelAnswerBtn.addEventListener('click', () => {
+                    modelAnswer.style.display = modelAnswer.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>
