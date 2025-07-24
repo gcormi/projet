@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cours : Analyse de systèmes complexes et mécatroniques</title>
+    <title>Analyse de systèmes complexes et mécatroniques</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Instruction 2: Import de la police OpenDyslexic -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Import de la police OpenDyslexic via une source externe */
         @font-face {
             font-family: 'OpenDyslexic';
             src: url('https://cdn.jsdelivr.net/gh/antijingoist/opendyslexic@master/packages/fonts/regular/OpenDyslexic-Regular.otf') format('opentype');
@@ -23,169 +21,207 @@
             font-style: normal;
         }
 
-        /* Instruction 1: Nouvelle palette de couleurs */
         :root {
-            --color-primary: #7728d7;
-            --color-secondary: #de7f3b;
-            --color-accent: #dcea1a;
+            --color-primary: #8a2be2; /* Violet néon */
+            --color-secondary: #ff8c00; /* Orange néon */
+            --color-accent: #39ff14; /* Vert néon pour accents */
+            --color-bg: #121212;
+            --color-surface: rgba(255, 255, 255, 0.05);
+            --color-surface-hover: rgba(255, 255, 255, 0.1);
+            --color-text: #e0e0e0;
+            --color-text-muted: #a0a0a0;
             --color-success: #27AE60;
             --color-danger: #C0392B;
-            --color-info: #8E44AD;
-            --color-light: #ECF0F1;
-            --color-dark: #2C3E50;
-            /* Instruction 2: Application de la police */
-            --font-main: 'OpenDyslexic', sans-serif;
+
+            --font-main: 'OpenDyslexic', 'Open Sans', sans-serif;
+            --font-heading: 'OpenDyslexic', 'Open Sans', sans-serif;
             --font-code: 'Roboto Mono', monospace;
-            --shadow: 0 4px 15px rgba(0,0,0,0.1);
-            --border-radius: 12px;
+            
+            --border-radius: 16px;
+            --transition-speed: 0.4s;
+            --neon-shadow-primary: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary), 0 0 20px var(--color-primary);
+            --neon-shadow-secondary: 0 0 5px var(--color-secondary), 0 0 10px var(--color-secondary);
         }
 
-        body {
-            font-family: var(--font-main);
-            line-height: 1.7;
-            color: var(--color-dark);
-            background-color: #f0f2f5;
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.8;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            background-image: radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1), transparent 30%),
+                              radial-gradient(circle at 80% 90%, rgba(255, 140, 0, 0.1), transparent 30%);
+            margin: 0;
+        }
+
         .container {
-            max-width: 1000px;
-            margin: 20px auto;
+            max-width: 1100px;
+            margin: 0 auto;
             padding: 20px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
         }
 
         h1, h2, h3, h4 {
+            font-family: var(--font-heading);
             font-weight: 700;
-            color: var(--color-primary);
-            margin-top: 1.5em;
         }
 
         h1 {
-            font-size: 2.8em;
-            text-align: center;
-            background: linear-gradient(45deg, var(--color-primary), var(--color-info));
-            color: white;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin-bottom: 30px;
-            animation: fadeInDown 1s ease-out;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #fff;
+            text-shadow: var(--neon-shadow-primary);
+            animation: pulse-text 5s infinite alternate;
         }
 
         h2 {
-            font-size: 2em;
-            border-bottom: 3px solid var(--color-secondary);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            font-size: 2.8rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            text-shadow: var(--neon-shadow-secondary);
         }
         
+        h2::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            filter: blur(2px);
+        }
+
         h3 {
-            font-size: 1.5em;
-            color: var(--color-dark);
+            font-size: 1.6em;
+            color: #fff;
+            margin-bottom: 10px;
         }
 
         h4 {
-            font-size: 1.2em;
+            font-size: 1.3em;
             color: var(--color-secondary);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            color: var(--color-text-muted);
         }
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .icon {
+            margin-right: 12px;
+            font-size: 0.9em;
+            color: var(--color-secondary);
+            text-shadow: var(--neon-shadow-secondary);
+        }
+
+        .hero {
+            background-color: transparent;
+            padding: 80px 20px;
+            text-align: center;
         }
 
         .section {
-            background: white;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 60px 0;
+            margin-bottom: 30px;
         }
         
-        .hook, .mission, .problematique, .conclusion-box {
-            background-color: #f2eafc;
-            border-left: 5px solid var(--color-primary);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--color-surface);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: background var(--transition-speed) ease, transform var(--transition-speed) ease;
         }
-
-        .hook p:first-child {
-            font-weight: 600;
-            font-size: 1.2em;
+        
+        .glass-card:hover {
+            background: var(--color-surface-hover);
+            transform: translateY(-5px);
+        }
+        
+        .hook p, .problematique p {
+            color: var(--color-text);
         }
 
         .mission ul {
             list-style-type: '✔️ ';
-            padding-left: 20px;
-        }
-
-        .icon {
-            font-size: 1.5em;
+            padding-left: 30px;
+            color: var(--color-text-muted);
         }
         
-        .info-box {
-            background-color: #fffbeb;
-            border: 1px solid var(--color-warning);
-            padding: 15px;
-            border-radius: var(--border-radius);
+        .problematique {
+            border-left: 5px solid var(--color-primary);
+            padding: 25px;
             margin: 20px 0;
+            background: rgba(138, 43, 226, 0.1);
         }
-        .info-box h4 { color: var(--color-warning); }
-
-        .expert-box {
-            background-color: #eafaf1;
-            border: 1px solid var(--color-success);
+        
+        .info-box, .expert-box {
             padding: 15px;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid;
         }
-        .expert-box h4 { color: var(--color-success); }
-        
-        /* Instruction 9: Micro-interactions */
-        button, .further-card, .accordion-header, .flip-card {
-            transition: all 0.3s ease;
+        .info-box {
+             background-color: rgba(222, 127, 59, 0.1);
+             border-color: rgba(222, 127, 59, 0.5);
         }
-        
-        .further-card:hover, .accordion-header:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        .expert-box {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-color: rgba(39, 174, 96, 0.5);
         }
 
-        /* Styles pour les images */
         .img-gauche, .img-droite {
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             margin-bottom: 15px;
-            background-color: #eee;
+            max-width: 100%;
+            height: auto;
+            filter: brightness(0.9);
         }
 
         .img-gauche { float: left; margin-right: 20px; }
         .img-droite { float: right; margin-left: 20px; }
         .img-moyenne { max-width: 450px; width: 100%; }
         .img-petite { max-width: 280px; width: 100%; }
-
-        .concept-content::after, .further-card::after, .section::after, .hotspot-container::after {
+        
+        .clearfix::after {
             content: ""; display: table; clear: both;
         }
 
-        /* Instruction 5: Styles pour l'accordéon */
+        /* Accordion Style */
         .accordion-header {
-            background-color: var(--color-dark);
-            color: white;
+            background: transparent;
             padding: 15px;
             margin: 0;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+        .accordion-header h3 { margin: 0; }
         .accordion-header::after {
             content: '▼';
             font-size: 1.2em;
             transition: transform 0.3s ease;
+            color: var(--color-secondary);
         }
         .accordion-header.active::after {
             transform: rotate(180deg);
@@ -194,24 +230,21 @@
             padding: 0 20px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-            border: 1px solid #ddd;
-            border-top: none;
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
         }
-        
-        /* Instruction 4: Styles pour les cartes à retourner */
+
+        /* Flip Cards */
         .flip-card-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 25px;
             justify-content: center;
             margin: 30px 0;
         }
         .flip-card {
             background-color: transparent;
             width: 300px;
-            height: 150px;
+            height: 180px;
             perspective: 1000px;
             cursor: pointer;
         }
@@ -222,8 +255,6 @@
             text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
-            box-shadow: var(--shadow);
-            border-radius: var(--border-radius);
         }
         .flip-card.is-flipped .flip-card-inner {
             transform: rotateY(180deg);
@@ -238,59 +269,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 20px;
+            font-size: 1.1rem;
+            background: var(--color-surface);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .flip-card-front {
-            background-color: var(--color-light);
-            color: var(--color-dark);
-            font-size: 1.3em;
+            color: #fff;
+            font-size: 1.4em;
             font-weight: 600;
         }
         .flip-card-back {
-            background-color: var(--color-secondary);
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
             color: white;
             transform: rotateY(180deg);
         }
 
-        /* Instruction 6: Styles pour les hotspots */
-        .hotspot-container {
-            position: relative;
-            display: inline-block;
-        }
-        .hotspot {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: var(--color-accent);
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            animation: pulse 2s infinite;
-        }
-        .hotspot-tooltip {
-            position: absolute;
-            background-color: rgba(0,0,0,0.8);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            width: 200px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-            z-index: 10;
-        }
-        .hotspot:hover .hotspot-tooltip {
-            opacity: 1;
-            visibility: visible;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* Instruction 7: Styles pour la chronologie */
+        /* Timeline */
         .timeline {
             position: relative;
             max-width: 800px;
@@ -299,12 +295,13 @@
         .timeline::after {
             content: '';
             position: absolute;
-            width: 6px;
-            background-color: var(--color-light);
+            width: 4px;
+            background: var(--color-primary);
+            filter: blur(2px);
             top: 0;
             bottom: 0;
             left: 50%;
-            margin-left: -3px;
+            margin-left: -2px;
         }
         .timeline-container {
             padding: 10px 40px;
@@ -317,58 +314,93 @@
         .timeline-container::after {
             content: '';
             position: absolute;
-            width: 25px;
-            height: 25px;
-            right: -17px;
-            background-color: white;
-            border: 4px solid var(--color-primary);
-            top: 15px;
+            width: 20px;
+            height: 20px;
+            right: -14px;
+            background-color: var(--color-bg);
+            border: 4px solid var(--color-secondary);
+            top: 25px;
             border-radius: 50%;
             z-index: 1;
+            box-shadow: var(--neon-shadow-secondary);
+            transition: transform 0.3s ease;
         }
-        .timeline-container.right::after { left: -16px; }
+        .timeline-container:hover::after {
+             transform: scale(1.2);
+        }
+        .timeline-container.right::after { left: -14px; }
         .timeline-content {
             padding: 20px 30px;
-            background-color: white;
             position: relative;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
         }
+        .timeline-content h3 { font-size: 1.2rem; color: var(--color-secondary); margin-top: 0; }
         
-        /* Instruction 3: Styles pour les exercices interactifs */
-        .interactive-exercises { background-color: #f9f9f9; padding: 25px; border-radius: var(--border-radius); }
-        .exercise { margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
-        .exercise-options button { display: block; width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; background-color: #fff; cursor: pointer; text-align: left; border-radius: 5px; }
-        .exercise-options button.selected { background-color: var(--color-info); color: white; }
-        .exercise-input { padding: 8px; border: 1px solid #ccc; border-radius: 5px; width: 150px; margin: 0 5px; }
-        .exercise textarea { width: 100%; min-height: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
-        .verify-btn { background-color: var(--color-primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
-        .verify-btn:hover { background-color: var(--color-dark); }
-        .feedback-text { margin-top: 10px; font-weight: bold; }
-        .correct { color: var(--color-success); }
-        .incorrect { color: var(--color-danger); }
-        .input-correct { border-color: var(--color-success); background-color: #eafaf1; }
-        .input-incorrect { border-color: var(--color-danger); background-color: #fdedec; }
-        .hidden-feedback { display: none; margin-top: 10px; padding: 10px; background-color: var(--color-light); border-radius: 5px; }
+        /* Interactive Exercises */
+        .interactive-exercises { background-color: transparent; }
+        .exercise { margin-bottom: 30px; }
+        .exercise-options button { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid rgba(255,255,255,0.2); background-color: transparent; color: var(--color-text); cursor: pointer; text-align: left; border-radius: 8px; transition: all 0.2s ease; }
+        .exercise-options button:hover { border-color: var(--color-secondary); background: rgba(222, 127, 59, 0.1);}
+        .exercise-options button.selected { background-color: var(--color-primary); color: white; border-color: var(--color-primary); }
+        .exercise-input, .exercise textarea { background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); color: var(--color-text); border-radius: 8px; padding: 10px; transition: border-color 0.2s ease; }
+        .exercise-input { width: 150px; margin: 0 5px; }
+        .exercise textarea { width: 100%; min-height: 80px; }
+        .exercise-input:focus, .exercise textarea:focus { outline: none; border-color: var(--color-primary); }
+        .verify-btn { background-color: var(--color-primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background-color 0.3s ease; }
+        .verify-btn:hover { background-color: var(--color-secondary); }
+        .feedback-text { margin-top: 15px; font-weight: bold; padding: 10px; border-radius: 8px; }
+        .correct { color: var(--color-success); background-color: rgba(39, 174, 96, 0.15); }
+        .incorrect { color: var(--color-danger); background-color: rgba(192, 57, 43, 0.15); }
+        .input-correct { border-color: var(--color-success) !important; }
+        .input-incorrect { border-color: var(--color-danger) !important; }
+        .hidden-feedback { display: none; margin-top: 10px; padding: 10px; background-color: rgba(255,255,255,0.1); border-radius: 8px; }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes pulse-text {
+            0% { text-shadow: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary); }
+            100% { text-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary), 0 0 30px var(--color-primary); }
+        }
+
+        @media (max-width: 768px) {
+            .img-gauche, .img-droite {
+                float: none;
+                display: block;
+                margin: 15px auto;
+            }
+            .timeline::after { left: 20px; }
+            .timeline-container { width: 100%; padding-left: 70px; padding-right: 15px; }
+            .timeline-container.left, .timeline-container.right { left: 0; }
+            .timeline-container::after { left: 6px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-
-        <header>
+    <header class="hero">
+        <div class="container">
             <h1><span class="icon">🛰️</span> Analyse de systèmes complexes et mécatroniques</h1>
-        </header>
+        </div>
+    </header>
 
-        <main>
-            <section class="section hook">
+    <main class="container">
+        <section class="section">
+            <div class="glass-card hook reveal">
                 <h2>Situation Déclenchante</h2>
                 <p>Imagine un drone de livraison dernier cri. Il décolle, puis une rafale de vent le frappe. Pourtant, il ne tombe pas, il reste parfaitement stable. Il s'approche d'un arbre, mais au lieu de foncer dedans, il s'arrête et le contourne. Tout cela en suivant un parcours GPS précis pour livrer son colis au bon endroit, à la bonne personne.</p>
                 <p>Comment est-ce possible ? Ce n'est pas de la magie. C'est le résultat d'une collaboration parfaite, d'une symphonie technologique où des dizaines de composants doivent travailler ensemble. Comment ses hélices (la mécanique), ses capteurs (l'électronique) et son programme de vol (l'informatique) communiquent et collaborent-ils en temps réel ?</p>
                 <p>Pour le comprendre, nous allons devoir ouvrir le capot et plonger au cœur de ce système mécatronique.</p>
-            </section>
-
-            <section class="section mission">
+            </div>
+            
+            <div class="glass-card mission reveal">
                 <h2><span class="icon">🎯</span> Ta mission, si tu l'acceptes...</h2>
                 <p>À la fin de cette séquence, tu seras capable de "lire" à l'intérieur des objets technologiques modernes. Tu pourras :</p>
                 <h4>Compétences à maîtriser :</h4>
@@ -385,9 +417,11 @@
                     <li>Fiabilité.</li>
                     <li>Redondance.</li>
                 </ul>
-            </section>
+            </div>
+        </section>
 
-            <section class="section">
+        <section class="section reveal">
+            <div class="glass-card clearfix">
                 <h2>Introduction et Problématique</h2>
                 <p>Les objets qui nous entourent sont de plus en plus "intelligents". Un simple grille-pain est devenu un objet connecté. Une voiture est devenue un ordinateur sur roues. Cette intelligence vient du fait qu'ils ne sont plus purement mécaniques ou purement électroniques, mais un mélange intime des deux, gouverné par un programme informatique. C'est la définition même de la mécatronique.</p>
                 <p>Comprendre ces systèmes, ce n'est pas seulement savoir à quoi ils servent, mais comment ils fonctionnent de l'intérieur. C'est essentiel pour pouvoir les réparer, les améliorer, ou même en concevoir de nouveaux. L'enjeu est de passer du statut d'utilisateur passif à celui d'analyste éclairé.</p>
@@ -396,16 +430,17 @@
                     <p><strong>Problématique :</strong> Comment les différentes technologies (mécanique, électronique, informatique) sont-elles intégrées au sein d'un système complexe pour lui permettre de réaliser des fonctions avancées de manière autonome et fiable ?</p>
                 </div>
                 <p>Pour répondre à cette question, nous allons d'abord définir ce qu'est un système complexe et la mécatronique. Puis, nous explorerons le "cerveau" de ces objets : les systèmes embarqués. Enfin, nous nous pencherons sur deux notions vitales pour que tout fonctionne sans panne : la fiabilité et la redondance.</p>
-            </section>
-
-            <!-- Instruction 5: Accordéon pour les notions -->
-            <section class="section">
-                <h2><span class="icon">🔬</span> Exploration en profondeur</h2>
+            </div>
+        </section>
+        
+        <section class="section reveal">
+            <h2><span class="icon">🔬</span> Exploration en profondeur</h2>
+            <div class="glass-card">
                 
                 <article class="concept-accordion">
                     <h3 class="accordion-header"><span class="icon">🕸️</span> Système complexe</h3>
                     <div class="accordion-panel">
-                        <div class="concept-content">
+                        <div class="concept-content clearfix">
                             <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
                             <p>Un système est dit complexe lorsqu'il est composé d'un grand nombre d'éléments en interaction, dont le comportement global ne peut pas être simplement déduit de l'étude de ses parties isolées. De ces interactions naissent des propriétés nouvelles, dites "émergentes". L'enjeu de l'analyse d'un système complexe est de comprendre ces interactions et de prédire ou contrôler son comportement global.</p>
                             
@@ -454,7 +489,7 @@
                 <article class="concept-accordion">
                     <h3 class="accordion-header"><span class="icon">🤖</span> Mécatronique</h3>
                     <div class="accordion-panel">
-                        <div class="concept-content">
+                        <div class="concept-content clearfix">
                             <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
                             <p>La mécatronique est une démarche d'ingénierie qui vise l'intégration en synergie de la mécanique, de l'électronique, de l'automatique et de l'informatique dans la conception et la fabrication de produits pour augmenter et/ou optimiser leur fonctionnalité. L'enjeu n'est pas de juxtaposer ces domaines, mais de les fusionner pour créer des systèmes plus performants, plus compacts et plus intelligents.</p>
 
@@ -505,7 +540,7 @@
                 <article class="concept-accordion">
                     <h3 class="accordion-header"><span class="icon">🧠</span> Systèmes embarqués</h3>
                     <div class="accordion-panel">
-                        <div class="concept-content">
+                        <div class="concept-content clearfix">
                             <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
                             <p>Un système embarqué est un système électronique et informatique autonome, souvent temps réel, spécialisé dans une tâche précise et intégré au sein d'un équipement ou d'un système plus vaste. Contrairement à un ordinateur personnel, il n'est pas polyvalent et ses ressources (puissance de calcul, mémoire, énergie) sont généralement contraintes. L'enjeu est de fournir une "intelligence" dédiée et économe en énergie à un objet.</p>
                             
@@ -552,7 +587,7 @@
                 <article class="concept-accordion">
                     <h3 class="accordion-header"><span class="icon">🛡️</span> Fiabilité</h3>
                     <div class="accordion-panel">
-                        <div class="concept-content">
+                        <div class="concept-content clearfix">
                             <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
                             <p>La fiabilité est l'aptitude d'un système ou d'un composant à réaliser une fonction requise dans des conditions données, pendant une durée donnée. Elle est souvent mesurée par le MTBF (Mean Time Between Failures, ou Temps Moyen Entre Pannes). L'enjeu, notamment pour les systèmes critiques, est de maximiser cette fiabilité pour garantir la sécurité et la satisfaction de l'utilisateur.</p>
                             
@@ -598,7 +633,7 @@
                 <article class="concept-accordion">
                     <h3 class="accordion-header"><span class="icon">➕</span> Redondance</h3>
                     <div class="accordion-panel">
-                        <div class="concept-content">
+                        <div class="concept-content clearfix">
                             <h4><span class="icon">🎓</span> a) Définition Académique et Enjeux</h4>
                             <p>La redondance est une stratégie d'ingénierie consistant à dupliquer les composants ou les fonctions critiques d'un système dans le but d'augmenter sa fiabilité. En cas de défaillance de l'élément principal, l'élément redondant (le "backup") prend le relais pour assurer la continuité du service. L'enjeu est de se prémunir contre les pannes uniques qui pourraient être catastrophiques.</p>
                             
@@ -640,332 +675,269 @@
                         </div>
                     </div>
                 </article>
-
-            </section>
+            </div>
+        </section>
             
-            <!-- Instruction 4: Section Cartes à retourner -->
-            <section class="section">
-                <h2><span class="icon">🔄</span> Concepts Clés en Duo</h2>
-                <p>Clique sur les cartes pour révéler la différence entre ces concepts importants.</p>
-                <div class="flip-card-container">
-                    <div class="flip-card" tabindex="0">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">Capteur</div>
-                            <div class="flip-card-back">Mesure une grandeur physique et la transforme en signal. C'est l'un des "sens" du système (ex: accéléromètre, GPS).</div>
-                        </div>
-                    </div>
-                    <div class="flip-card" tabindex="0">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">Actionneur</div>
-                            <div class="flip-card-back">Transforme un signal en action physique. C'est l'un des "muscles" du système (ex: moteur, vibreur, haut-parleur).</div>
-                        </div>
-                    </div>
-                    <div class="flip-card" tabindex="0">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">Fiabilité</div>
-                            <div class="flip-card-back">Capacité à fonctionner sans tomber en panne. C'est la constance du système.</div>
-                        </div>
-                    </div>
-                    <div class="flip-card" tabindex="0">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">Durabilité</div>
-                            <div class="flip-card-back">Capacité à résister à l'usure et aux chocs. C'est la robustesse physique du système.</div>
-                        </div>
+        <section class="section reveal">
+            <h2><span class="icon">🔄</span> Concepts Clés en Duo</h2>
+            <p style="text-align: center;">Cliquez sur les cartes pour révéler la différence entre ces concepts importants.</p>
+            <div class="flip-card-container">
+                <div class="flip-card" tabindex="0">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">Capteur</div>
+                        <div class="flip-card-back">Mesure une grandeur physique et la transforme en signal. C'est l'un des "sens" du système (ex: accéléromètre, GPS).</div>
                     </div>
                 </div>
-            </section>
-            
-            <!-- Instruction 7: Chronologie Interactive -->
-            <section class="section">
-                <h2><span class="icon">⏳</span> Chronologie d'une Action Mécatronique</h2>
-                <p>Suivons le parcours de l'information, de l'intention à l'action, pour faire avancer un drone.</p>
-                <div class="timeline">
-                    <div class="timeline-container left">
-                        <div class="timeline-content">
-                            <h3>1. Intention du Pilote</h3>
-                            <p>Le pilote pousse le joystick de la manette de jeu vers l'avant.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-container right">
-                        <div class="timeline-content">
-                            <h3>2. Encodage & Transmission</h3>
-                            <p>Le système embarqué de la manette convertit le mouvement en signal radio et l'envoie au drone.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-container left">
-                        <div class="timeline-content">
-                            <h3>3. Réception & Traitement</h3>
-                            <p>Le contrôleur de vol du drone reçoit l'ordre "avancer" et consulte les capteurs pour connaître son état actuel (inclinaison, vitesse...).</p>
-                        </div>
-                    </div>
-                    <div class="timeline-container right">
-                        <div class="timeline-content">
-                            <h3>4. Calcul & Commande</h3>
-                            <p>Le "cerveau" calcule qu'il doit augmenter la vitesse des moteurs arrière et diminuer celle des moteurs avant pour s'incliner et avancer.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-container left">
-                        <div class="timeline-content">
-                            <h3>5. Action Mécanique</h3>
-                            <p>Les contrôleurs de vitesse (ESC) exécutent les ordres, les moteurs changent de régime, le drone s'incline et avance. Une nouvelle boucle de contrôle recommence des milliers de fois par seconde.</p>
-                        </div>
+                <div class="flip-card" tabindex="0">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">Actionneur</div>
+                        <div class="flip-card-back">Transforme un signal en action physique. C'est l'un des "muscles" du système (ex: moteur, vibreur, haut-parleur).</div>
                     </div>
                 </div>
-            </section>
+                <div class="flip-card" tabindex="0">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">Fiabilité</div>
+                        <div class="flip-card-back">Capacité à fonctionner sans tomber en panne. C'est la constance du système.</div>
+                    </div>
+                </div>
+                <div class="flip-card" tabindex="0">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">Durabilité</div>
+                        <div class="flip-card-back">Capacité à résister à l'usure et aux chocs. C'est la robustesse physique du système.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+            
+        <section class="section reveal">
+            <h2><span class="icon">⏳</span> Chronologie d'une Action Mécatronique</h2>
+            <p style="text-align: center;">Suivons le parcours de l'information, de l'intention à l'action, pour faire avancer un drone.</p>
+            <div class="timeline">
+                <div class="timeline-container left reveal">
+                    <div class="timeline-content glass-card">
+                        <h3>1. Intention du Pilote</h3>
+                        <p>Le pilote pousse le joystick de la manette de jeu vers l'avant.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right reveal">
+                    <div class="timeline-content glass-card">
+                        <h3>2. Encodage & Transmission</h3>
+                        <p>Le système embarqué de la manette convertit le mouvement en signal radio et l'envoie au drone.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left reveal">
+                    <div class="timeline-content glass-card">
+                        <h3>3. Réception & Traitement</h3>
+                        <p>Le contrôleur de vol du drone reçoit l'ordre "avancer" et consulte les capteurs pour connaître son état actuel (inclinaison, vitesse...).</p>
+                    </div>
+                </div>
+                <div class="timeline-container right reveal">
+                    <div class="timeline-content glass-card">
+                        <h3>4. Calcul & Commande</h3>
+                        <p>Le "cerveau" calcule qu'il doit augmenter la vitesse des moteurs arrière et diminuer celle des moteurs avant pour s'incliner et avancer.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left reveal">
+                    <div class="timeline-content glass-card">
+                        <h3>5. Action Mécanique</h3>
+                        <p>Les contrôleurs de vitesse (ESC) exécutent les ordres, les moteurs changent de régime, le drone s'incline et avance. Une nouvelle boucle de contrôle recommence des milliers de fois par seconde.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <section class="section">
+        <section class="section reveal">
+            <div class="glass-card">
                 <h2><span class="icon">🔭</span> Avenir et Perspectives</h2>
                 <p>La mécatronique est le moteur de l'innovation future. L'Internet des Objets (IoT) va connecter des milliards de systèmes embarqués qui interagiront entre eux. Les voitures autonomes, les robots chirurgicaux, les exosquelettes ou les villes intelligentes (smart cities) sont des systèmes mécatroniques d'une complexité croissante. L'intelligence artificielle (IA) va s'intégrer de plus en plus au cœur de ces systèmes, leur permettant d'apprendre et de s'adapter à leur environnement de manière autonome.</p>
                 <p>Cela pose d'immenses défis en termes de fiabilité et de sécurité (comment s'assurer qu'une voiture autonome ne sera jamais piratée ?), mais ouvre la voie à des métiers passionnants : architecte de systèmes IoT, ingénieur en robotique collaborative, spécialiste en éthique de l'IA, etc. Comprendre la mécatronique aujourd'hui, c'est se préparer à inventer le monde de demain.</p>
-            </section>
+            </div>
+        </section>
 
-            <section class="section conclusion-box">
+        <section class="section reveal">
+            <div class="glass-card">
                 <h2><span class="icon">🏁</span> Conclusion</h2>
                 <p>Nous avons commencé notre exploration avec un drone se stabilisant dans le vent, et nous avons découvert la symphonie technologique cachée à l'intérieur. Nous pouvons maintenant répondre à notre problématique :</p>
                 <p><strong>Pour réaliser des fonctions avancées, les systèmes complexes modernes intègrent en synergie la mécanique, l'électronique et l'informatique : c'est la mécatronique. Cette fusion est pilotée par un "cerveau" dédié, le système embarqué, qui exécute un programme pour traiter les informations des capteurs et commander les actionneurs. Pour que cette collaboration complexe fonctionne sans faille, notamment dans des applications critiques comme un drone, les ingénieurs s'appuient sur deux piliers : la fiabilité, obtenue par des composants de qualité et des tests rigoureux, et la redondance, qui consiste à doubler les éléments vitaux pour qu'un "backup" puisse prendre le relais en cas de panne.</strong></p>
                 <p>Ainsi, la magie d'un objet "intelligent" n'est pas de la magie, mais le fruit d'une ingénierie système rigoureuse, où chaque flux d'énergie et d'information est maîtrisé pour créer un tout cohérent, performant et sûr.</p>
-            </section>
-
-            <!-- Instruction 3: Nouvelle section d'exercices interactifs -->
-            <section class="section interactive-exercises">
-                <h2><span class="icon">✍️</span> Exercices Interactifs</h2>
-                
-                <div class="exercise" id="ex1">
-                    <h4>Exercice 1 : QCM</h4>
-                    <p>Quelle est la meilleure définition de la mécatronique ?</p>
-                    <div class="exercise-options">
-                        <button>L'étude des robots uniquement.</button>
-                        <button data-correct="true">L'intégration en synergie de la mécanique, l'électronique et l'informatique.</button>
-                        <button>La programmation de systèmes informatiques très complexes.</button>
-                        <button>La fabrication de composants électroniques.</button>
-                    </div>
-                    <button class="verify-btn">Vérifier</button>
-                    <div class="feedback-text"></div>
+            </div>
+        </section>
+        
+        <section class="section interactive-exercises reveal">
+            <h2><span class="icon">✍️</span> Testez vos connaissances !</h2>
+            
+            <div class="exercise glass-card" id="ex1">
+                <h4>Exercice 1 : QCM</h4>
+                <p>Quelle est la meilleure définition de la mécatronique ?</p>
+                <div class="exercise-options">
+                    <button>L'étude des robots uniquement.</button>
+                    <button data-correct="true">L'intégration en synergie de la mécanique, l'électronique et l'informatique.</button>
+                    <button>La programmation de systèmes informatiques très complexes.</button>
+                    <button>La fabrication de composants électroniques.</button>
                 </div>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback-text"></div>
+            </div>
 
-                <div class="exercise" id="ex2">
-                    <h4>Exercice 2 : Vrai / Faux</h4>
-                    <p>Un système redondant est toujours plus léger et moins cher qu'un système non redondant.</p>
-                    <div class="exercise-options">
-                        <button>Vrai</button>
-                        <button data-correct="true">Faux</button>
-                    </div>
-                    <button class="verify-btn">Vérifier</button>
-                    <div class="feedback-text"></div>
+            <div class="exercise glass-card" id="ex2">
+                <h4>Exercice 2 : Vrai / Faux</h4>
+                <p>Un système redondant est toujours plus léger et moins cher qu'un système non redondant.</p>
+                <div class="exercise-options">
+                    <button>Vrai</button>
+                    <button data-correct="true">Faux</button>
                 </div>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback-text"></div>
+            </div>
 
-                <div class="exercise" id="ex3">
-                    <h4>Exercice 3 : Texte à trous</h4>
-                    <p>Dans un drone, la batterie fournit le flux d'<input type="text" class="exercise-input" data-answer="énergie">, tandis que l'accéléromètre fournit un flux d'<input type="text" class="exercise-input" data-answer="information"> au contrôleur de vol.</p>
-                    <button class="verify-btn">Vérifier</button>
-                    <div class="feedback-text"></div>
+            <div class="exercise glass-card" id="ex3">
+                <h4>Exercice 3 : Texte à trous</h4>
+                <p>Dans un drone, la batterie fournit le flux d'<input type="text" class="exercise-input" data-answer="énergie">, tandis que l'accéléromètre fournit un flux d'<input type="text" class="exercise-input" data-answer="information"> au contrôleur de vol.</p>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback-text"></div>
+            </div>
+
+            <div class="exercise glass-card" id="ex4">
+                <h4>Exercice 4 : Question ouverte</h4>
+                <p>Expliquez avec vos propres mots pourquoi un smartphone peut être considéré comme un système complexe.</p>
+                <textarea placeholder="Votre réponse..."></textarea>
+                <button class="verify-btn hint-btn">Afficher un indice</button>
+                <button class="verify-btn model-answer-btn">Comparer avec la réponse type</button>
+                <div class="hidden-feedback hint">Pensez à tous les composants (écran, batterie, GPS, Wi-Fi...) et au fait qu'ils doivent interagir pour fonctionner. Que se passe-t-il si on en retire un ?</div>
+                <div class="hidden-feedback model-answer">Un smartphone est un système complexe car il est composé de nombreux sous-systèmes (processeur, mémoire, capteurs, batterie, modules de communication) qui sont en interaction constante. Le comportement global (ex: naviguer sur internet) est une propriété émergente qui ne peut être accomplie par aucun composant seul. Tout est orchestré par le système d'exploitation.</div>
+            </div>
+
+            <div class="exercise glass-card" id="ex5">
+                <h4>Exercice 5 : QCM</h4>
+                <p>Le programme informatique qui est stocké de manière permanente dans un système embarqué s'appelle :</p>
+                <div class="exercise-options">
+                    <button>Un logiciel</button>
+                    <button>Une application</button>
+                    <button data-correct="true">Un firmware (ou micrologiciel)</button>
+                    <button>Un système d'exploitation</button>
                 </div>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback-text"></div>
+            </div>
 
-                <div class="exercise" id="ex4">
-                    <h4>Exercice 4 : Question ouverte</h4>
-                    <p>Expliquez avec vos propres mots pourquoi un smartphone peut être considéré comme un système complexe.</p>
-                    <textarea placeholder="Votre réponse..."></textarea>
-                    <button class="verify-btn hint-btn">Afficher un indice</button>
-                    <button class="verify-btn model-answer-btn">Comparer avec la réponse type</button>
-                    <div class="hidden-feedback hint">Pensez à tous les composants (écran, batterie, GPS, Wi-Fi...) et au fait qu'ils doivent interagir pour fonctionner. Que se passe-t-il si on en retire un ?</div>
-                    <div class="hidden-feedback model-answer">Un smartphone est un système complexe car il est composé de nombreux sous-systèmes (processeur, mémoire, capteurs, batterie, modules de communication) qui sont en interaction constante. Le comportement global (ex: naviguer sur internet) est une propriété émergente qui ne peut être accomplie par aucun composant seul. Tout est orchestré par le système d'exploitation.</div>
+            <div class="exercise glass-card" id="ex6">
+                <h4>Exercice 6 : Vrai / Faux</h4>
+                <p>La fiabilité et la durabilité sont deux termes qui signifient exactement la même chose.</p>
+                <div class="exercise-options">
+                    <button>Vrai</button>
+                    <button data-correct="true">Faux</button>
                 </div>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback-text"></div>
+            </div>
 
-                <div class="exercise" id="ex5">
-                    <h4>Exercice 5 : QCM</h4>
-                    <p>Le programme informatique qui est stocké de manière permanente dans un système embarqué s'appelle :</p>
-                    <div class="exercise-options">
-                        <button>Un logiciel</button>
-                        <button>Une application</button>
-                        <button data-correct="true">Un firmware (ou micrologiciel)</button>
-                        <button>Un système d'exploitation</button>
-                    </div>
-                    <button class="verify-btn">Vérifier</button>
-                    <div class="feedback-text"></div>
-                </div>
+            <div class="exercise glass-card" id="ex7">
+                <h4>Exercice 7 : Texte à trous</h4>
+                <p>Dans une manette de jeu, le <input type="text" class="exercise-input" data-answer="moteur"> de vibration est un exemple d'actionneur, alors que le joystick est un <input type="text" class="exercise-input" data-answer="capteur">.</p>
+                <button class="verify-btn">Vérifier</button>
+                <div class="feedback-text"></div>
+            </div>
 
-                <div class="exercise" id="ex6">
-                    <h4>Exercice 6 : Vrai / Faux</h4>
-                    <p>La fiabilité et la durabilité sont deux termes qui signifient exactement la même chose.</p>
-                    <div class="exercise-options">
-                        <button>Vrai</button>
-                        <button data-correct="true">Faux</button>
-                    </div>
-                    <button class="verify-btn">Vérifier</button>
-                    <div class="feedback-text"></div>
-                </div>
+            <div class="exercise glass-card" id="ex8">
+                <h4>Exercice 8 : Question ouverte</h4>
+                <p>Donnez un exemple de redondance dans un domaine autre que la technologie (ex: dans la vie de tous les jours, dans la nature, etc.) et expliquez en quoi cela augmente la fiabilité.</p>
+                <textarea placeholder="Votre réponse..."></textarea>
+                <button class="verify-btn hint-btn">Afficher un indice</button>
+                <button class="verify-btn model-answer-btn">Comparer avec la réponse type</button>
+                <div class="hidden-feedback hint">Pensez aux choses que vous avez en double "au cas où"...</div>
+                <div class="hidden-feedback model-answer">Un exemple est d'avoir un double de ses clés de maison. La plupart du temps, la deuxième clé est inutile. Mais si on perd la clé principale, la clé de secours (redondante) permet de toujours pouvoir rentrer chez soi. Cela augmente considérablement la fiabilité de l'action "ouvrir sa porte". En biologie, avoir deux reins est un autre exemple de redondance.</div>
+            </div>
+        </section>
 
-                <div class="exercise" id="ex7">
-                    <h4>Exercice 7 : Texte à trous</h4>
-                    <p>Dans une manette de jeu, le <input type="text" class="exercise-input" data-answer="moteur"> de vibration est un exemple d'actionneur, alors que le joystick est un <input type="text" class="exercise-input" data-answer="capteur">.</p>
-                    <button class="verify-btn">Vérifier</button>
-                    <div class="feedback-text"></div>
-                </div>
-
-                <div class="exercise" id="ex8">
-                    <h4>Exercice 8 : Question ouverte</h4>
-                    <p>Donnez un exemple de redondance dans un domaine autre que la technologie (ex: dans la vie de tous les jours, dans la nature, etc.) et expliquez en quoi cela augmente la fiabilité.</p>
-                    <textarea placeholder="Votre réponse..."></textarea>
-                    <button class="verify-btn hint-btn">Afficher un indice</button>
-                    <button class="verify-btn model-answer-btn">Comparer avec la réponse type</button>
-                    <div class="hidden-feedback hint">Pensez aux choses que vous avez en double "au cas où"...</div>
-                    <div class="hidden-feedback model-answer">Un exemple est d'avoir un double de ses clés de maison. La plupart du temps, la deuxième clé est inutile. Mais si on perd la clé principale, la clé de secours (redondante) permet de toujours pouvoir rentrer chez soi. Cela augmente considérablement la fiabilité de l'action "ouvrir sa porte". En biologie, avoir deux reins est un autre exemple de redondance.</div>
-                </div>
-
-                <script id="interactive-script">
-                    // Script pour les exercices interactifs
-                </script>
-            </section>
-
-            <section class="section">
-                <h2><span class="icon">🧠</span> Synthèse Visuelle (Carte Mentale)</h2>
-                <ul class="mind-map">
-                    <li><span>SYSTÈMES COMPLEXES & MÉCATRONIQUES</span>
-                        <ul>
-                            <li><span>Système Complexe</span>
-                                <ul>
-                                    <li><span>Définition : Plusieurs éléments en interaction</span></li>
-                                    <li><span>Propriété : Comportement émergent</span></li>
-                                    <li><span>Flux : Matière, Énergie, Information</span></li>
-                                </ul>
-                            </li>
-                            <li><span>Mécatronique</span>
-                                <ul>
-                                    <li><span>Définition : Synergie Mécanique + Électronique + Informatique</span></li>
-                                    <li><span>Analogie : Le corps humain (Muscles, Nerfs, Cerveau)</span></li>
-                                    <li><span>Exemple : Manette de jeu (Joystick, Vibreur)</span></li>
-                                </ul>
-                            </li>
-                            <li><span>Système Embarqué</span>
-                                <ul>
-                                    <li><span>Définition : "Cerveau" dédié à une tâche</span></li>
-                                    <li><span>Caractéristiques : Spécialisé, ressources contraintes</span></li>
-                                    <li><span>Exemple : Enceinte Bluetooth, contrôleur de vol</span></li>
-                                </ul>
-                            </li>
-                            <li><span>Sûreté de Fonctionnement</span>
-                                <ul>
-                                    <li><span>Fiabilité : Confiance dans le bon fonctionnement</span></li>
-                                    <li><span>Redondance : Duplication des éléments critiques pour augmenter la fiabilité</span></li>
-                                    <li><span>Exemple : Double GPS sur un drone</span></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </section>
-
-            <section class="section">
-                <h2><span class="icon">📖</span> Lexique / Glossaire</h2>
-                <dl class="glossary">
-                    <dt>Actionneur</dt>
-                    <dd>Composant qui convertit un signal (souvent électrique) en une action physique (mouvement, lumière, son). Ex: un moteur, une LED, un haut-parleur.</dd>
-                    <dt>Capteur</dt>
-                    <dd>Composant qui mesure une grandeur physique (température, vitesse, lumière...) et la convertit en un signal (souvent électrique) compréhensible par le système.</dd>
-                    <dt>Fiabilité</dt>
-                    <dd>Aptitude d'un système à fonctionner sans panne pendant une durée donnée.</dd>
-                    <dt>Firmware (ou Micrologiciel)</dt>
-                    <dd>Programme informatique stocké de manière permanente dans un système embarqué pour le faire fonctionner.</dd>
-                    <dt>Mécatronique</dt>
-                    <dd>Intégration synergique de la mécanique, l'électronique et l'informatique dans la conception d'un produit.</dd>
-                    <dt>Redondance</dt>
-                    <dd>Duplication de composants ou fonctions critiques pour augmenter la fiabilité d'un système.</dd>
-                    <dt>Système complexe</dt>
-                    <dd>Système composé de nombreuses parties en interaction, dont le comportement global est plus que la somme de ses parties.</dd>
-                    <dt>Système embarqué</dt>
-                    <dd>Système informatique et électronique spécialisé dans une tâche précise, intégré dans un objet plus grand.</dd>
-                </dl>
-            </section>
-
-            <section class="section">
-                <h2><span class="icon">🚀</span> Pour aller plus loin</h2>
-                <div class="further-reading">
-                    <div class="further-card">
-                        <h4><span class="icon">🛠️</span> Mini-projet : Analyse ton smartphone</h4>
-                        <p>Prends ton smartphone et essaie de lister tous ses capteurs (GPS, accéléromètre, capteur de lumière, micro...) et ses actionneurs (écran, vibreur, haut-parleur, flash...). Dessine un schéma simple montrant comment les flux d'information et d'énergie circulent entre eux pour une fonction simple, comme "prendre une photo avec flash".</p>
-                    </div>
-                    <div class="further-card">
-                        <h4><span class="icon">🎬</span> Vidéo à regarder : Les robots de Boston Dynamics</h4>
-                        <p>Cherche sur YouTube des vidéos des robots "Atlas" ou "Spot". Ce sont des exemples spectaculaires de systèmes mécatroniques complexes, combinant une mécanique de pointe, des capteurs multiples et une intelligence artificielle pour se déplacer de manière incroyablement agile et fiable.</p>
-                    </div>
-                    <div class="further-card">
-                        <h4><span class="icon">👷</span> Métier à découvrir : Ingénieur(e) en Systèmes Embarqués</h4>
-                        <p>Cet ingénieur est le "cerveau" derrière les objets intelligents. Il conçoit et programme les microcontrôleurs qui pilotent les drones, les voitures, les objets connectés de la maison... C'est un métier qui demande des compétences à la fois en électronique et en programmation informatique de bas niveau.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
+    </main>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Instruction 5: Logique de l'accordéon
+        // --- ANIMATION ON SCROLL ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+        revealElements.forEach(elem => revealObserver.observe(elem));
+
+        // --- ACCORDION ---
         const accordionHeaders = document.querySelectorAll('.accordion-header');
         accordionHeaders.forEach(header => {
             header.addEventListener('click', () => {
+                const currentlyActiveHeader = document.querySelector('.accordion-header.active');
+                if(currentlyActiveHeader && currentlyActiveHeader !== header) {
+                    currentlyActiveHeader.classList.remove('active');
+                    const activePanel = currentlyActiveHeader.nextElementSibling;
+                    activePanel.style.maxHeight = null;
+                    activePanel.style.padding = "0 20px";
+                }
+
                 header.classList.toggle('active');
                 const panel = header.nextElementSibling;
                 if (panel.style.maxHeight) {
                     panel.style.maxHeight = null;
                     panel.style.padding = "0 20px";
                 } else {
-                    panel.style.maxHeight = panel.scrollHeight + 40 + "px";
-                    panel.style.padding = "20px";
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                    panel.style.padding = "25px 20px";
                 }
             });
         });
-
-        // Instruction 4: Logique des cartes à retourner
+        
+        // --- FLIP CARDS ---
         const flipCards = document.querySelectorAll('.flip-card');
         flipCards.forEach(card => {
-            card.addEventListener('click', () => {
-                card.classList.toggle('is-flipped');
-            });
+            const flipAction = () => card.classList.toggle('is-flipped');
+            card.addEventListener('click', flipAction);
             card.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
-                    card.classList.toggle('is-flipped');
+                    e.preventDefault();
+                    flipAction();
                 }
             });
         });
 
-        // Instruction 8: Logique des compteurs animés
+        // --- ANIMATED COUNTERS ---
         const counters = document.querySelectorAll('.counter');
-        const observer = new IntersectionObserver(entries => {
+        const counterObserver = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const counter = entry.target;
                     const target = +counter.getAttribute('data-target');
                     counter.innerText = '0';
                     const updateCounter = () => {
-                        const c = +counter.innerText;
+                        const c = +counter.innerText.replace(/,/g, '').replace(/\s/g, '');
                         const increment = target / 100;
                         if (c < target) {
-                            counter.innerText = `${Math.ceil(c + increment)}`;
+                             const newValue = Math.ceil(c + increment);
+                             counter.innerText = newValue > target ? target.toLocaleString('fr-FR') : newValue.toLocaleString('fr-FR');
                             setTimeout(updateCounter, 20);
                         } else {
-                            counter.innerText = target.toLocaleString('fr-FR');
                             if(counter.getAttribute('data-target').includes('.')) {
                                 counter.innerText = target.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                             }
-                            if(counter.getAttribute('data-target') === '99.999') {
+                             if(counter.getAttribute('data-target') === '99.999') {
                                 counter.innerText = '99,999';
                             }
                         }
                     };
                     updateCounter();
-                    observer.unobserve(counter);
+                    counterObserver.unobserve(counter);
                 }
             });
-        }, { threshold: 0.5 });
-        counters.forEach(counter => observer.observe(counter));
+        }, { threshold: 0.8 });
+        counters.forEach(counter => counterObserver.observe(counter));
 
-        // Instruction 3: Logique des exercices interactifs
+        // --- INTERACTIVE EXERCISES ---
         const exerciseContainers = document.querySelectorAll('.exercise');
         exerciseContainers.forEach(exercise => {
-            const verifyBtn = exercise.querySelector('.verify-btn');
+            const verifyBtn = exercise.querySelector('.verify-btn:not(.hint-btn):not(.model-answer-btn)');
             const feedbackText = exercise.querySelector('.feedback-text');
 
-            // QCM et Vrai/Faux
             if (exercise.querySelector('.exercise-options')) {
                 const options = exercise.querySelectorAll('.exercise-options button');
                 let selectedOption = null;
@@ -976,7 +948,7 @@
                         selectedOption = option;
                     });
                 });
-
+                
                 if (verifyBtn) {
                     verifyBtn.addEventListener('click', () => {
                         if (!selectedOption) {
@@ -995,7 +967,6 @@
                 }
             }
 
-            // Texte à trous
             if (exercise.querySelector('.exercise-input')) {
                 const inputs = exercise.querySelectorAll('.exercise-input');
                 verifyBtn.addEventListener('click', () => {
@@ -1019,7 +990,6 @@
                 });
             }
 
-            // Question ouverte
             const hintBtn = exercise.querySelector('.hint-btn');
             const modelAnswerBtn = exercise.querySelector('.model-answer-btn');
             const hint = exercise.querySelector('.hint');

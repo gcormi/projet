@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charte du Numérique et Bon Comportement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712; /* gray-950 */
+            color: #d1d5db; /* gray-300 */
+        }
+
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .text-gradient {
+            @apply bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent;
+        }
+
+        .btn-primary {
+            @apply inline-block font-poppins font-semibold text-white bg-pink-600 hover:bg-pink-700 rounded-full px-8 py-3 transition-transform duration-300 hover:scale-105;
+        }
+
+        .section-title {
+            @apply font-poppins text-4xl md:text-5xl font-bold text-white;
+        }
+
+        .nav-link {
+            @apply text-gray-400 hover:text-white transition-colors duration-200;
+        }
+        
+        .card {
+            @apply bg-gray-900 border border-gray-800 rounded-2xl backdrop-blur-sm transition-all duration-300;
+        }
+
+        .card:hover {
+            @apply border-purple-500/50 transform -translate-y-2 shadow-2xl shadow-purple-900/50;
+        }
+
+        .pillar-icon {
+            @apply w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-4 text-white;
+        }
+
+        .quiz-option {
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option.correct {
+            @apply bg-green-500/20 border-green-500 text-white transform scale-105;
+        }
+
+        .quiz-option.incorrect {
+            @apply bg-red-500/20 border-red-500 text-white;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-950">
+
+    <!-- Header -->
+    <header class="bg-gray-950/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-800">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="font-poppins text-2xl font-bold text-white">CHARTE.NU</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#mission" class="nav-link">Mission</a>
+                    <a href="#piliers" class="nav-link">Piliers</a>
+                    <a href="#procedure" class="nav-link">Procédure</a>
+                    <a href="#quiz" class="nav-link">Quiz</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                     <button class="hidden md:block bg-gray-700/50 hover:bg-gray-700 p-2 rounded-full text-gray-400 hover:text-white">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <button class="bg-pink-600/20 hover:bg-pink-600/40 p-2 rounded-full text-pink-500 hover:text-pink-400">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative py-24 md:py-32 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-pink-600 via-purple-700 to-indigo-800 opacity-20 animate-pulse"></div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <div class="inline-block bg-purple-600/50 text-purple-200 font-semibold px-4 py-1 rounded-full mb-4">Nouveau ! Version 2025</div>
+                <h1 class="font-poppins text-4xl sm:text-6xl md:text-7xl font-extrabold text-white leading-tight">
+                    Charte du Numérique<br>
+                    <span class="bg-gradient-to-r from-pink-500 to-purple-400 bg-clip-text text-transparent">& Bon Comportement</span>
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-400">
+                    Découvre comment devenir un citoyen numérique exemplaire ! 🚀
+                </p>
+                <div class="mt-10">
+                    <a href="#situation" class="btn-primary">Commencer la visite</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Bar -->
+        <div class="bg-gray-900/50 border-y border-gray-800">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="flex items-center justify-center space-x-4">
+                    <i class="fa-solid fa-shield-halved text-2xl text-purple-400"></i>
+                    <span class="font-semibold text-white">SÉCURITÉ</span>
+                </div>
+                <div class="flex items-center justify-center space-x-4">
+                    <i class="fa-solid fa-handshake-angle text-2xl text-pink-400"></i>
+                    <span class="font-semibold text-white">RESPECT</span>
+                </div>
+                <div class="flex items-center justify-center space-x-4">
+                    <i class="fa-solid fa-bolt text-2xl text-indigo-400"></i>
+                    <span class="font-semibold text-white">EFFICACITÉ</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Situation Déclenchante -->
+        <section id="situation" class="py-20 md:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="text-center max-w-3xl mx-auto fade-in">
+                    <h2 class="section-title">Situation Déclenchante</h2>
+                    <p class="mt-4 text-lg text-gray-400">Une scène trop familière en salle de technologie...</p>
+                </div>
+                <div class="fade-in card p-8 md:p-12">
+                     <p class="text-lg md:text-xl leading-relaxed text-gray-300 text-center">
+                        <strong>Lundi, 8h.</strong> C'est le premier cours de technologie de l'année. Léa s'installe devant le poste n°7. 
+                        <span class="font-bold text-pink-400"> Catastrophe ! 😱</span> Le fond d'écran a été remplacé par une photo de chaton, 
+                        le bureau est couvert de fichiers aux noms étranges comme "gfgfgf.docx" ou "SANS TITRE (12).pptx", 
+                        et pire encore, la session de l'élève précédent est toujours ouverte sur l'ENT Léia ! 
+                        Léa ne sait pas où enregistrer son propre travail et perd dix minutes à tout remettre en ordre avant de pouvoir commencer.
+                    </p>
+                    <img src="image_7.png" class="block mx-auto mt-8 rounded-lg shadow-2xl max-w-full md:max-w-2xl" alt="Comparaison d'un poste de travail informatique désordonné et un poste de travail ordonné.">
+                    <p class="mt-8 text-lg text-gray-400 leading-relaxed text-center max-w-4xl mx-auto">
+                        Cette situation, frustrante et contre-productive, arrive trop souvent quand on partage un espace de travail. 
+                        La salle informatique n'est pas ta chambre ou ton salon, c'est un <strong>atelier partagé</strong>, 
+                        au même titre qu'un laboratoire de sciences ou un terrain de sport. Pour que tout le monde puisse y travailler 
+                        efficacement et en toute sécurité, il est indispensable de se mettre d'accord sur des règles communes, 
+                        un véritable <strong>règlement intérieur</strong>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission -->
+        <section id="mission" class="py-20 md:py-28 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                 <div class="text-center max-w-3xl mx-auto fade-in">
+                    <h2 class="section-title">Ta Mission pour l'Année</h2>
+                     <p class="mt-4 text-lg text-gray-400">Devenir un maître de l'environnement numérique de travail.</p>
+                </div>
+                <div class="fade-in card p-8 md:p-12 text-center">
+                     <p class="text-lg md:text-xl leading-relaxed mb-8">
+                        Ce premier cours est le plus important. Il ne porte pas sur un objet technique, 
+                        mais sur l'outil que nous allons utiliser en permanence : le poste informatique et 
+                        l'Environnement Numérique de Travail (ENT) <strong>Léia</strong>. 
+                        Notre mission collective est de faire de cette salle un lieu exemplaire. 🎯
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 text-left">
+                        <div class="bg-gray-800/50 p-6 rounded-xl">
+                            <h3 class="text-xl font-bold mb-4 flex items-center text-white"><i class="fas fa-brain mr-3 text-2xl text-purple-400"></i>Compétences à maîtriser</h3>
+                            <p>Gérer ta session, organiser ton travail, protéger tes données et celles des autres, et maintenir ton poste de travail (physique et numérique) parfaitement propre.</p>
+                        </div>
+                        <div class="bg-gray-800/50 p-6 rounded-xl">
+                            <h3 class="text-xl font-bold mb-4 flex items-center text-white"><i class="fas fa-book mr-3 text-2xl text-pink-400"></i>Savoirs à acquérir</h3>
+                            <p>Comprendre le rôle de l'ENT <strong>Léia</strong>, d'un mot de passe robuste, de l'arborescence de fichiers, de la vie privée, et appliquer la procédure de fin de cours.</p>
+                        </div>
+                    </div>
+                     <img src="image_8.png" class="block mx-auto mt-8 rounded-lg shadow-2xl max-w-full md:max-w-2xl" alt="Illustration d'un étudiant accomplissant une mission numérique.">
+                </div>
+            </div>
+        </section>
+
+        <!-- Les 4 Piliers -->
+        <section id="piliers" class="py-20 md:py-28">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="text-center max-w-3xl mx-auto fade-in">
+                    <h2 class="section-title">Les 4 Piliers de notre Règlement</h2>
+                    <p class="mt-4 text-lg text-gray-400">Les fondements pour devenir un citoyen numérique exemplaire.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 fade-in">
+                    <!-- Pilier 1 -->
+                    <div class="card p-8 space-y-4 flex flex-col">
+                        <div class="pillar-icon bg-gradient-to-br from-purple-500 to-indigo-600"><i class="fas fa-user-shield"></i></div>
+                        <h3 class="font-poppins text-2xl font-bold text-white text-center">Ton Identité</h3>
+                        <p>Ton compte <strong>Léia</strong> est ta carte d'identité numérique. Il est strictement personnel et sécurisé par un mot de passe.</p>
+                        <blockquote class="border-l-4 border-purple-400 pl-4 italic text-gray-400"><strong>🔑 "La clé de ta maison numérique."</strong><br>Tu ne partages jamais ton mot de passe et tu te déconnectes toujours en partant.</blockquote>
+                        <div class="flex-grow flex items-center justify-center">
+                            <img src="image_9.png" class="mx-auto my-4 w-40 h-auto" alt="Illustration d'un cadenas numérique stylisé.">
+                        </div>
+                        <div class="bg-red-500/10 border border-red-500/30 p-4 rounded-lg text-red-300"><p><strong>⚠️ Danger :</strong> Ne jamais enregistrer ses mots de passe dans le navigateur sur un ordinateur partagé !</p></div>
+                    </div>
+
+                    <!-- Pilier 2 -->
+                    <div class="card p-8 space-y-4 flex flex-col">
+                        <div class="pillar-icon bg-gradient-to-br from-pink-500 to-purple-600"><i class="fas fa-folder-tree"></i></div>
+                        <h3 class="font-poppins text-2xl font-bold text-white text-center">Ton Espace dans Léia</h3>
+                        <p>Ton travail doit être organisé dans une arborescence de dossiers logique pour le retrouver facilement. Tout cela est dans l'ENT Léia.</p>
+                        <blockquote class="border-l-4 border-pink-400 pl-4 italic text-gray-400"><strong>📁 "Ton classeur numérique."</strong><br>Chaque matière a son dossier. Chaque projet a son sous-dossier.</blockquote>
+                        <div class="flex-grow flex items-center justify-center">
+                            <img src="image_10.png" class="mx-auto my-4 w-40 h-auto" alt="Représentation visuelle d'une arborescence de dossiers numériques.">
+                        </div>
+                        <div class="bg-red-500/10 border border-red-500/30 p-4 rounded-lg text-red-300"><p><strong>⚠️ Danger :</strong> Le Bureau et les dossiers "Documents" / "Téléchargements" locaux sont temporaires. Enregistre TOUJOURS sur le réseau <strong>Léia</strong>.</p></div>
+                    </div>
+
+                    <!-- Pilier 3 -->
+                    <div class="card p-8 space-y-4">
+                        <div class="pillar-icon bg-gradient-to-br from-sky-500 to-indigo-600"><i class="fas fa-list-check"></i></div>
+                        <h3 class="font-poppins text-2xl font-bold text-white text-center">Ta Procédure</h3>
+                        <p>La fin de chaque cours est marquée par un rituel de nettoyage et de rangement, physique et numérique.</p>
+                        <blockquote class="border-l-4 border-sky-400 pl-4 italic text-gray-400"><strong>🧹 "Laisser la table propre."</strong><br>Tu laisses ta place impeccable pour le camarade qui te succède.</blockquote>
+                        <div class="bg-red-500/10 border border-red-500/30 p-4 rounded-lg text-red-300"><p><strong>⚠️ Danger :</strong> Oublier de se déconnecter met en danger tes données et celles des autres.</p></div>
+                    </div>
+
+                    <!-- Pilier 4 -->
+                    <div class="card p-8 space-y-4">
+                        <div class="pillar-icon bg-gradient-to-br from-orange-500 to-pink-600"><i class="fas fa-hands-helping"></i></div>
+                        <h3 class="font-poppins text-2xl font-bold text-white text-center">Ta Responsabilité</h3>
+                        <p>Tu es responsable de ton poste de travail pendant l'heure de cours. Le respect du matériel est une priorité.</p>
+                        <blockquote class="border-l-4 border-orange-400 pl-4 italic text-gray-400"><strong>🤝 "L'esprit d'équipe."</strong><br>Le bon fonctionnement de la salle dépend de l'implication de chacun.</blockquote>
+                        <div class="bg-red-500/10 border border-red-500/30 p-4 rounded-lg text-red-300"><p><strong>⚠️ Danger :</strong> Modifier les paramètres de l'ordinateur perturbe le travail des autres.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Procédure de Fin de Cours -->
+        <section id="procedure" class="py-20 md:py-28 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="text-center max-w-3xl mx-auto fade-in">
+                    <h2 class="section-title">La Procédure de Fin de Cours</h2>
+                    <p class="mt-4 text-lg text-gray-400">Le rituel indispensable pour une salle de classe sereine.</p>
+                </div>
+                <div class="fade-in max-w-4xl mx-auto">
+                    <div class="bg-indigo-500/10 p-6 rounded-2xl mb-8 text-center text-lg">
+                        <p>À la fin de chaque cours, <strong>5 minutes avant la sonnerie</strong>, nous effectuerons tous ensemble la procédure de départ. C'est une routine obligatoire qui garantit la propreté et la sécurité du poste pour l'élève suivant. ⏰</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4 p-4 bg-gray-800/50 rounded-lg">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center font-bold text-white">1</div>
+                            <p><strong>Sauvegarder</strong> le travail en cours (Terminer plus tard, si le professeur le demande).</p>
+                        </div>
+                        <div class="flex items-start space-x-4 p-4 bg-gray-800/50 rounded-lg">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center font-bold text-white">2</div>
+                            <p><strong>Nettoyer le poste :</strong> Vider entièrement le dossier "Téléchargements" et le dossier "Documents" local. Vérifier que le Bureau est vide. Si des fichiers y ont été créés, les supprimer. 🧹</p>
+                        </div>
+                        <div class="flex items-start space-x-4 p-4 bg-gray-800/50 rounded-lg">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center font-bold text-white">3</div>
+                            <p><strong>Vider la corbeille</strong> pour supprimer définitivement les fichiers effacés. 🗑️</p>
+                        </div>
+                        <div class="flex items-start space-x-4 p-4 bg-gray-800/50 rounded-lg">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center font-bold text-white">4</div>
+                            <p><strong>Se déconnecter</strong> de tous les sites internet, puis fermer sa session <strong>Léia</strong>. L'ordinateur doit afficher l'écran d'accueil. 🚪</p>
+                        </div>
+                        <div class="flex items-start space-x-4 p-4 bg-gray-800/50 rounded-lg">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center font-bold text-white">5</div>
+                            <p><strong>Ranger son poste de travail physique :</strong> La chaise doit être rangée sous la table, le clavier et la souris correctement positionnés. Il ne doit rien rester d'autre sur le bureau.🪑</p>
+                        </div>
+                    </div>
+                    <img src="image_11.png" class="block mx-auto mt-8 rounded-lg shadow-2xl max-w-full md:max-w-xl" alt="Un poste de travail informatique propre et rangé après utilisation.">
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion" class="py-20 md:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="text-center max-w-3xl mx-auto fade-in">
+                    <h2 class="section-title">Conclusion : Notre Contrat de Confiance</h2>
+                    <p class="mt-4 text-lg text-gray-400">L'engagement qui nous unit tous.</p>
+                </div>
+                <div class="fade-in max-w-4xl mx-auto space-y-8 text-lg">
+                    <div class="bg-green-500/10 p-6 rounded-2xl text-center">
+                        <p>Pour répondre à notre problématique, <strong>"Comment transformer notre salle de technologie en un espace de travail partagé, efficace, sécurisé et respectueux pour tous ?"</strong>, la solution est simple : que chacun d'entre nous s'engage à respecter ce règlement intérieur. 🤝</p>
+                    </div>
+                    <div class="bg-orange-500/10 p-6 rounded-2xl text-center">
+                         <p>Ce ne sont pas seulement des règles, c'est un <strong>contrat de confiance</strong> entre toi, tes camarades et ton professeur. En appliquant ces principes, tu ne fais pas que bien te comporter : tu développes des compétences de rigueur, d'organisation et de respect qui te seront précieuses toute ta vie. <strong>Chaque élève est responsable du poste de travail qu'il utilise pendant l'heure de cours. Le professeur garde une trace informatique du passage de chaque élève sur chaque poste.</strong> 📊</p>
+                    </div>
+                     <div class="space-y-4">
+                        <div class="bg-gray-800/50 p-4 rounded-lg flex items-center space-x-4"><i class="fas fa-key text-xl text-green-400"></i><span>Je protège mon mot de passe et je me déconnecte toujours de Léia.</span></div>
+                        <div class="bg-gray-800/50 p-4 rounded-lg flex items-center space-x-4"><i class="fas fa-folder-tree text-xl text-blue-400"></i><span>J'organise mon travail exclusivement dans mon espace personnel réseau.</span></div>
+                        <div class="bg-gray-800/50 p-4 rounded-lg flex items-center space-x-4"><i class="fas fa-user-shield text-xl text-purple-400"></i><span>Je ne laisse aucune trace personnelle sur l'ordinateur.</span></div>
+                        <div class="bg-gray-800/50 p-4 rounded-lg flex items-center space-x-4"><i class="fas fa-broom text-xl text-orange-400"></i><span>J'applique la procédure de nettoyage à chaque fin de cours.</span></div>
+                        <div class="bg-gray-800/50 p-4 rounded-lg flex items-center space-x-4"><i class="fas fa-chair text-xl text-red-400"></i><span>Je laisse mon poste de travail physique impeccable pour le suivant.</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz" class="py-20 md:py-28 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="text-center max-w-3xl mx-auto fade-in">
+                    <h2 class="section-title">Vérification des Acquis 🎮</h2>
+                    <p class="mt-4 text-lg text-gray-400">Teste tes nouvelles connaissances !</p>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-10 fade-in">
+                    <!-- Question 1 -->
+                    <div class="card p-8" id="quiz1">
+                        <h3 class="font-poppins text-xl font-bold text-white mb-4">1. Quel est le seul endroit sûr pour enregistrer ton travail à long terme ?</h3>
+                        <div class="space-y-4">
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="false">Sur le Bureau de l'ordinateur.</div>
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="true">Dans mon dossier personnel sur le réseau Léia.</div>
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="false">Dans le dossier Téléchargements.</div>
+                        </div>
+                        <div class="quiz-feedback mt-4 p-3 rounded-lg font-bold text-center hidden"></div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="card p-8" id="quiz2">
+                        <h3 class="font-poppins text-xl font-bold text-white mb-4">2. La procédure de fin de cours inclut de vider la corbeille. Pourquoi est-ce important ?</h3>
+                        <div class="space-y-4">
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="false">Pour que l'ordinateur aille plus vite.</div>
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="true">Pour supprimer définitivement les fichiers et libérer de l'espace.</div>
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="false">Ce n'est pas vraiment important.</div>
+                        </div>
+                        <div class="quiz-feedback mt-4 p-3 rounded-lg font-bold text-center hidden"></div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="card p-8" id="quiz3">
+                        <h3 class="font-poppins text-xl font-bold text-white mb-4">3. Tu as fini ton travail 10 minutes en avance. Que fais-tu ?</h3>
+                        <div class="space-y-4">
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="false">Je me connecte à mes réseaux sociaux personnels.</div>
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="true">Je vérifie que mon travail est bien sauvegardé sur Léia et je commence à ranger mon poste en silence.</div>
+                            <div class="quiz-option p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer" data-correct="false">Je laisse ma session ouverte et j'attends la sonnerie.</div>
+                        </div>
+                        <div class="quiz-feedback mt-4 p-3 rounded-lg font-bold text-center hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <p class="text-center font-poppins text-2xl font-bold text-white">CHARTE.NU</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // Animations au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Quiz Logic
+        document.querySelectorAll('[id^="quiz"]').forEach(quiz => {
+            const options = quiz.querySelectorAll('.quiz-option');
+            const feedback = quiz.querySelector('.quiz-feedback');
+            
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    if (quiz.dataset.answered === 'true') return;
+                    quiz.dataset.answered = 'true';
+
+                    options.forEach(opt => opt.style.cursor = 'default');
+                    
+                    const isCorrect = option.dataset.correct === 'true';
+                    
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                        feedback.textContent = '🎉 Exactement ! C\'est la bonne pratique.';
+                        feedback.className = 'quiz-feedback mt-4 p-3 rounded-lg font-bold text-center bg-green-500 text-white';
+                    } else {
+                        option.classList.add('incorrect');
+                        feedback.textContent = '❌ Attention, ce n\'est pas le bon réflexe.';
+                        feedback.className = 'quiz-feedback mt-4 p-3 rounded-lg font-bold text-center bg-red-500 text-white';
+                        
+                        const correctOption = quiz.querySelector('[data-correct="true"]');
+                        if (correctOption) {
+                            setTimeout(() => {
+                                correctOption.classList.add('correct');
+                            }, 500);
+                        }
+                    }
+                    
+                    feedback.classList.remove('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

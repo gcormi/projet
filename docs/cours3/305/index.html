@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séquence : Éco-conception et modèle économique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1eae4e;
+            --secondary-color: #e19056;
+            --accent-color: #adec79;
+            --dark-color: #343A40;
+            --light-color: #fdfdfd;
+            --success-color: #28A745;
+            --danger-color: #DC3545;
+            --text-color: #212529;
+            --navy-blue: #001f3f;
+            --card-bg: #FFFFFF;
+            --border-radius: 12px;
+            --shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-top: 1.5em;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 0.5em;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: var(--primary-color);
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 15px;
+            margin-bottom: 1em;
+        }
+        
+        h3 {
+            font-size: 1.6em;
+            color: var(--dark-color);
+            margin-top: 2em;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background-color: #fefefe;
+            border: 1px solid #eee;
+        }
+
+        .hook {
+            background: linear-gradient(135deg, var(--primary-color), #157f3b);
+            color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            font-size: 1.1em;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .hook p {
+            margin: 0;
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .objectives-list li {
+            background-color: #e8f7ec;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .knowledge-block {
+            background-color: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .knowledge-block h4 {
+            margin-top: 15px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+        
+        .anecdote, .expert-corner {
+            background-color: #fdf3eb;
+            border-left: 5px solid var(--secondary-color);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        
+        .expert-corner {
+             background-color: #f5fbed;
+             border-left-color: var(--accent-color);
+        }
+
+        /* Image Styles */
+        .img-gauche, .img-droite {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .img-gauche {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .img-droite {
+            float: right;
+            margin-left: 20px;
+        }
+
+        .img-moyenne {
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .img-petite {
+            max-width: 280px;
+            width: 100%;
+        }
+        
+        .centered-img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .knowledge-block::after, .section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        /* Accordion */
+        .accordion-title {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-title:hover {
+            background-color: #e8f7ec;
+        }
+        .accordion-title::after {
+            content: '+';
+            font-size: 2em;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+        .accordion-title.active::after {
+            transform: rotate(45deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease;
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+            border: 1px solid #eee;
+            border-top: none;
+        }
+
+        /* Flip Card */
+        .flip-card-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 250px;
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .flip-card-front {
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+        }
+        .flip-card-back {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        .flip-card button {
+             margin-top: auto;
+        }
+
+        /* Hotspot */
+        .hotspot-container {
+            position: relative;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .hotspot-container img {
+            width: 100%;
+            display: block;
+        }
+        .hotspot {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--primary-color);
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        .hotspot .tooltip {
+            visibility: hidden;
+            width: 160px;
+            background-color: var(--dark-color);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .hotspot:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(30, 174, 78, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(30, 174, 78, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(30, 174, 78, 0); }
+        }
+
+        /* Exercises */
+        .exercise-section {
+            background-color: #f0f8f3;
+            padding: 25px;
+            border-radius: var(--border-radius);
+        }
+        .exercise {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .exercise button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .exercise button:hover {
+            background-color: #157f3b;
+            transform: translateY(-2px);
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .feedback.correct {
+            color: var(--success-color);
+            background-color: #e9f7ef;
+        }
+        .feedback.incorrect {
+            color: var(--danger-color);
+            background-color: #fbebed;
+        }
+        .qcm-option, .tf-option, .checkbox-option {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .qcm-option:hover, .tf-option:hover, .checkbox-option:hover {
+            background-color: #f5f5f5;
+        }
+        .qcm-option.selected, .tf-option.selected {
+            border-color: var(--primary-color);
+            background-color: #e8f7ec;
+        }
+        .qcm-option.correct-answer, .tf-option.correct-answer, .checkbox-option.correct-answer {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+        }
+        .qcm-option.wrong-answer, .tf-option.wrong-answer, .checkbox-option.wrong-answer {
+            background-color: #f8d7da !important;
+            border-color: var(--danger-color) !important;
+        }
+        .fill-in-blank {
+            border: none;
+            border-bottom: 2px solid #ccc;
+            padding: 5px;
+            font-size: 1em;
+            font-family: 'Lato', sans-serif;
+            transition: border-color 0.3s;
+        }
+        .fill-in-blank:focus {
+            outline: none;
+            border-bottom-color: var(--primary-color);
+        }
+        .fill-in-blank.correct {
+            border-bottom-color: var(--success-color);
+            background-color: #e9f7ef;
+        }
+        .fill-in-blank.incorrect {
+            border-bottom-color: var(--danger-color);
+            background-color: #fbebed;
+        }
+        
+        /* Mind Map */
+        .mind-map { list-style: none; padding: 0; }
+        .mind-map ul { padding-left: 30px; list-style: none; }
+        .mind-map li { padding: 8px 12px; margin: 5px 0; background-color: #e8f7ec; border-radius: 5px; border-left: 3px solid var(--primary-color); color: var(--text-color); }
+        .mind-map > li { background-color: var(--secondary-color); color: var(--navy-blue); font-weight: bold; }
+        
+        /* Glossary */
+        .glossary dt { font-weight: bold; color: var(--primary-color); }
+        .glossary dd { margin-left: 20px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Éco-conception et modèle économique : le vrai coût d'un produit</h1>
+        </header>
+
+        <main>
+            <section id="situation-declenchante" class="section">
+                <h2>Situation Déclenchante</h2>
+                <div class="hook">
+                    <p>Léa vient de recevoir pour son anniversaire le dernier smartphone à la mode. Son ami Tom, lui, s'est offert un drône avec ses économies. En discutant, ils réalisent que leurs objets high-tech, tout comme la trottinette électrique de leur voisine, sont partout. Mais une question les taraude : fabriquer un smartphone coûte cher, c'est sûr, mais combien coûte-t-il réellement à la planète ? Et comment le fabricant a-t-il décidé de son prix de vente ? Ils découvrent qu'un ingénieur aujourd'hui ne choisit pas les matériaux juste pour leur solidité. Il doit penser au coût, à la facilité de recyclage et même aux conditions de travail de ceux qui extraient les minerais. C'est comme une enquête complexe où chaque choix a des conséquences. Prêt à devenir un ingénieur-détective et à analyser le cycle de vie complet d'un produit, de l'idée au recyclage ?</p>
+                </div>
+                <img src="image_1.png" class="centered-img img-moyenne" alt="Image montrant un smartphone, un drône de loisir et une trottinette électrique.">
+            </section>
+
+            <section id="objectifs" class="section">
+                <h2>Ta mission, si tu l'acceptes...</h2>
+                <p>À la fin de cette séquence, tu seras capable de penser comme un véritable ingénieur du 21e siècle.</p>
+                <h3>Compétences à maîtriser :</h3>
+                <ul class="objectives-list">
+                    <li>Analyser le cycle de vie d'un produit (ACV) en identifiant les impacts à chaque étape.</li>
+                    <li>Intégrer des contraintes de coût et de développement durable dans le choix d'une solution technique.</li>
+                    <li>Proposer des pistes d'amélioration pour réduire l'empreinte environnementale d'un objet (réparabilité, choix des matériaux).</li>
+                </ul>
+                <h3>Savoirs et connaissances à acquérir :</h3>
+                <ul class="objectives-list">
+                    <li>Éco-conception, Analyse du Cycle de Vie (ACV), Empreinte carbone.</li>
+                    <li>Économie circulaire (Réduire, Réutiliser, Recycler).</li>
+                    <li>Obsolescence programmée vs perçue.</li>
+                    <li>Modèle économique (coûts de production, marge, prix de vente).</li>
+                    <li>Indice de réparabilité.</li>
+                </ul>
+            </section>
+
+            <section id="introduction" class="section">
+                <h2>Introduction et Problématique</h2>
+                <p>Comme Léa et Tom, nous sommes entourés d'objets technologiques de plus en plus performants. Mais cette course à l'innovation a un coût caché. L'extraction des matières premières épuise les ressources, la fabrication consomme de l'énergie et la fin de vie de nos appareils génère des montagnes de déchets électroniques. Face à ces défis planétaires, les ingénieurs ne peuvent plus se contenter de créer des produits qui fonctionnent bien ; ils doivent concevoir des produits qui fonctionnent bien ET qui respectent l'environnement et la société.</p>
+                <p><strong>Problématique :</strong> Comment un ingénieur peut-il concilier les exigences de performance technique, de rentabilité économique et de responsabilité environnementale lors de la conception d'un produit grand public comme un smartphone, un drône ou une trottinette électrique ?</p>
+                <p>Pour répondre à cette question, nous allons explorer les outils et les concepts de l'éco-conception, analyser le cycle de vie de nos objets fétiches et décrypter leur modèle économique.</p>
+            </section>
+
+            <section id="developpement" class="section">
+                <h2>Exploration en Profondeur</h2>
+
+                <div class="accordion-item">
+                    <h3 class="accordion-title">1. L'Éco-conception</h3>
+                    <div class="accordion-content">
+                        <div class="knowledge-block">
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>a) 🎓 Définition Académique et Enjeux</h4>
+                            <p>L'éco-conception est une démarche préventive et innovante qui vise à intégrer la protection de l'environnement dès la phase de conception d'un produit ou d'un service. Son objectif est de réduire les impacts environnementaux négatifs tout au long du cycle de vie du produit, tout en conservant sa qualité d'usage. L'enjeu est de passer d'une logique curative (traiter la pollution) à une logique préventive (éviter de polluer).</p>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 6.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM12 15a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>b) 🧠 Analogie et Simplification Pédagogique</h4>
+                            <p>C'est comme préparer un sac à dos pour une longue randonnée. Un randonneur classique prendrait tout ce qui lui semble utile, et se rendrait compte en chemin que son sac est trop lourd. Un "éco-randonneur" réfléchirait avant de partir : "De quoi ai-je VRAIMENT besoin ? Puis-je trouver un objet qui a plusieurs fonctions ? Comment puis-je minimiser mes déchets ?". L'éco-conception, c'est penser à la fin du voyage avant même d'avoir fait le premier pas.</p>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>c) 📱 Étude de Cas Concrète</h4>
+                            <p><strong>La trottinette électrique :</strong> Un fabricant pourrait choisir un cadre en aluminium recyclé plutôt qu'en aluminium "vierge". Il pourrait aussi concevoir la batterie pour qu'elle soit facilement amovible et remplaçable par l'utilisateur, au lieu de la coller dans le châssis, ce qui rend la réparation quasi impossible.</p>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>d) 🛠️ Décortiquage Technique - "Sous le Capot"</h4>
+                            <p>Pour éco-concevoir une partie d'un <strong>drône</strong> (par exemple, ses hélices) : <ol><li><strong>Analyse :</strong> Les hélices actuelles sont en plastique ABS, un dérivé du pétrole. Elles cassent souvent.</li><li><strong>Recherche d'alternatives :</strong> On pourrait utiliser un plastique biosourcé (à base d'amidon de maïs) ou un plastique recyclé. On pourrait aussi renforcer leur design pour qu'elles résistent mieux aux chocs.</li><li><strong>Évaluation :</strong> Le plastique biosourcé est-il aussi performant ? Est-il plus cher ? Le design renforcé n'alourdit-il pas trop le drône, réduisant l'autonomie de la batterie ?</li><li><strong>Choix et prototypage :</strong> On choisit la meilleure solution (compromis performance/impact) et on fabrique des prototypes pour les tester.</li></ol></p>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>e) 🤔 Points de Vigilance et Erreurs à Éviter</h4>
+                            <p>1. <strong>Le "Greenwashing" :</strong> C'est quand une entreprise communique beaucoup sur une petite action écologique pour se donner une bonne image, alors que le reste de sa production est très polluant. (Ex: "Notre smartphone a une boîte en carton recyclé", mais le téléphone lui-même est irréparable).<br>2. <strong>Oublier un aspect :</strong> Se concentrer uniquement sur le recyclage et oublier l'énergie consommée lors de la fabrication ou de l'utilisation.<br>3. <strong>Le transfert de pollution :</strong> Choisir un matériau qui pollue moins l'air, mais qui nécessite une énorme quantité d'eau pour être produit.</p>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v-4h2v4h-2zm0-6V7h2v2h-2z"/></svg>f) 💡 Le Saviez-Vous ? / Anecdote Technologique</h4>
+                            <div class="anecdote">Le premier produit certifié "Cradle to Cradle" (du berceau au berceau), une philosophie d'éco-conception très poussée, n'était pas un objet high-tech mais... un tissu pour chaises de bureau ! Il était conçu pour être 100% biodégradable et devenir un nutriment pour le sol en fin de vie.</div>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18v6.32L1 21l11-6 9-4.91V9L12 3zm0 2.31L17.69 9 12 11.69 6.31 9 12 5.31zM18 14.5v-3.63l2-1.09v5.81l-2 1.09V14.5zm-5 4.32l-3-1.64v-3.3l3 1.63v3.31zm-5-1.64L5 15.5v-3.3l3 1.63v1.67z"/></svg>g) 🤝 Ponts Interdisciplinaires</h4>
+                            <p><strong>SVT :</strong> Comprendre les écosystèmes pour mesurer l'impact de l'extraction des minerais. <strong>Physique-Chimie :</strong> Connaître les propriétés des matériaux (conductivité, résistance, masse volumique) pour choisir les bonnes alternatives. <strong>Géographie :</strong> Savoir d'où viennent les matières premières et les enjeux géopolitiques associés (ex: le cobalt pour les batteries de smartphones en RDC).</p>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>h) 🚀 Pour les Experts (Approfondissement)</h4>
+                            <div class="expert-corner">Les ingénieurs utilisent des logiciels d'<strong>Analyse du Cycle de Vie (ACV)</strong> complexes (comme SimaPro ou Gabi) qui contiennent d'immenses bases de données sur des milliers de matériaux et de processus industriels. Ils peuvent ainsi simuler l'impact d'un changement de design avant même de construire un prototype. Un métier d'avenir : Ingénieur Éco-conception.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h3 class="accordion-title">2. L'Analyse du Cycle de Vie (ACV)</h3>
+                    <div class="accordion-content">
+                        <div class="knowledge-block">
+                            <div class="hotspot-container">
+                                <img src="image_2.png" alt="Schéma illustrant les 5 étapes du cycle de vie d'un produit.">
+                                <div class="hotspot" style="top: 10%; left: 48%;"><span class="tooltip">Extraction des matières premières (minerais, pétrole...).</span></div>
+                                <div class="hotspot" style="top: 45%; left: 80%;"><span class="tooltip">Fabrication en usine, assemblage des composants.</span></div>
+                                <div class="hotspot" style="top: 85%; left: 65%;"><span class="tooltip">Transport et distribution vers les magasins.</span></div>
+                                <div class="hotspot" style="top: 85%; left: 25%;"><span class="tooltip">Utilisation par le consommateur (consommation d'énergie).</span></div>
+                                <div class="hotspot" style="top: 45%; left: 10%;"><span class="tooltip">Fin de vie : jeté, recyclé ou réutilisé.</span></div>
+                            </div>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>a) 🎓 Définition Académique et Enjeux</h4>
+                            <p>L'Analyse du Cycle de Vie (ACV) est un outil d'évaluation méthodique et normalisé (normes ISO 14040) qui permet de quantifier les impacts environnementaux d'un produit, d'un service ou d'un procédé. L'analyse couvre toutes les étapes de sa vie, de l'extraction des matières premières ("berceau") jusqu'à son traitement en fin de vie ("tombe").</p>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 6.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM12 15a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>b) 🧠 Analogie et Simplification Pédagogique</h4>
+                            <p>L'ACV, c'est la "biographie complète et non censurée" d'un objet. Ce n'est pas juste sa date de naissance (fabrication) et sa date de mort (poubelle). C'est aussi son enfance (extraction des matériaux), son adolescence (transport), sa vie d'adulte (utilisation et consommation d'énergie) et ce qu'il devient après (recyclage, décomposition...). L'ACV raconte toute l'histoire pour avoir une vue d'ensemble.</p>
+                            <h4><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>c) 📱 Étude de Cas Concrète</h4>
+                            <p><strong>Le smartphone :</strong> L'ACV d'un smartphone révèle que ce n'est pas sa fin de vie qui est la plus impactante, mais sa fabrication ! L'extraction des "terres rares" et des métaux précieux (or, tantale, cobalt) est extrêmement polluante et énergivore. La phase d'utilisation (recharge électrique) a un impact, mais il est souvent moindre comparé à la fabrication.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h3 class="accordion-title">3. Concepts Clés à la Loupe</h3>
+                    <div class="accordion-content">
+                        <div class="knowledge-block">
+                            <h4>Empreinte Carbone</h4>
+                            <p>L'empreinte carbone est un indicateur qui mesure la quantité de gaz à effet de serre (GES) émise par une activité, une personne ou un produit. Elle est généralement exprimée en "kilogrammes d'équivalent dioxyde de carbone" (kg CO2eq). C'est l'un des indicateurs les plus connus de l'ACV, car il est directement lié au réchauffement climatique. Un smartphone génère en moyenne <strong class="count-up" data-value="70">0</strong> kg CO2eq sur son cycle de vie.</p>
+                            
+                            <hr>
+
+                            <h4>Cartes Interactives : Concepts Opposés</h4>
+                            <div class="flip-card-container">
+                                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front">
+                                            <h4>Obsolescence Programmée</h4>
+                                            <p>Le produit est conçu pour tomber en panne.</p>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <p><strong>Définition:</strong> Techniques du fabricant pour réduire délibérément la durée de vie d'un produit (ex: pièce d'usure fragile et irremplaçable). C'est illégal en France.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front">
+                                            <h4>Obsolescence Perçue</h4>
+                                            <p>Le produit est perçu comme démodé.</p>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <p><strong>Définition:</strong> Le produit fonctionne encore mais le marketing et les nouvelles modes poussent à le remplacer (ex: changer de téléphone pour une nouvelle couleur).</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h3 class="accordion-title">4. Modèles Économiques</h3>
+                    <div class="accordion-content">
+                         <div class="knowledge-block">
+                            <img src="image_5.png" class="centered-img img-moyenne" alt="Graphique montrant la décomposition du prix d'un produit.">
+                            <h4>Le Modèle Économique</h4>
+                            <p>C'est la "recette" qui explique comment une entreprise gagne de l'argent. Elle décrit comment l'entreprise crée de la valeur (le produit), la livre (distribution) et en capture une partie (le prix de vente).<br><strong>Prix de Vente = Coûts de Production + Coûts de R&D/Marketing + Marge de l'entreprise.</strong></p>
+                            <h4>L'Économie Circulaire</h4>
+                            <img src="image_3.png" class="img-gauche img-moyenne" alt="Icônes pour Réduire, Réutiliser, Recycler.">
+                            <p>C'est un modèle économique visant à découpler la croissance de l'épuisement des ressources en passant d'un schéma linéaire "extraire-fabriquer-jeter" à un modèle en boucle où les produits sont réutilisés, réparés, et où les déchets deviennent des ressources.</p>
+                            <p><strong>Exemple - Trottinette électrique en libre-service :</strong> C'est un exemple d'économie de la fonctionnalité. On ne vend plus la trottinette (le produit) mais son usage (le service de déplacement). L'entreprise a tout intérêt à ce que ses trottinettes soient robustes, faciles à réparer et durent le plus longtemps possible pour être rentables.</p>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h3 class="accordion-title">5. L'Indice de Réparabilité</h3>
+                    <div class="accordion-content">
+                        <div class="knowledge-block">
+                             <img src="image_6.png" class="img-gauche img-petite" alt="Exemple de l'étiquette de l'indice de réparabilité français.">
+                             <p>Obligatoire en France sur certains produits électroniques (dont les smartphones), c'est une note sur 10 qui informe le consommateur sur la facilité de réparation d'un produit. Un bon score est par exemple <strong class="count-up" data-value="8.7" data-decimals="1">0.0</strong>/10.</p>
+                             <p>Elle est calculée sur 5 critères : la disponibilité de la documentation technique, la facilité de démontage, la disponibilité des pièces détachées, leur prix, et un critère spécifique à la catégorie du produit.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="avenir" class="section">
+                <h2>Avenir et Perspectives</h2>
+                <p>Demain, l'ingénieur ne sera plus seulement un technicien, mais un véritable "chef d'orchestre" du durable. Les innovations ne porteront plus seulement sur la puissance ou la vitesse, mais sur la modularité (pouvoir changer un seul composant, comme le projet "Fairphone"), l'utilisation de nouveaux matériaux biosourcés ou "auto-réparants", et l'intelligence artificielle pour optimiser la consommation d'énergie. Les métiers de "réparateur high-tech", de "designer en économie circulaire" ou d'"analyste ACV" vont devenir cruciaux. Le défi éthique sera de créer des technologies qui servent l'humain et la planète, et non une simple logique de consommation sans fin.</p>
+                <img src="image_7.png" class="centered-img img-moyenne" alt="Concept art d'une ville verte avec des technologies durables.">
+            </section>
+
+            <section id="conclusion" class="section">
+                <h2>Conclusion</h2>
+                <p>Nous avons vu que derrière le prix affiché d'un smartphone, d'un drône ou d'une trottinette se cache une réalité complexe. Pour concilier performance, rentabilité et responsabilité, l'ingénieur dispose aujourd'hui d'une boîte à outils puissante : l'<strong>éco-conception</strong> pour penser "durable" dès le départ, l'<strong>ACV</strong> pour mesurer l'impact réel de ses choix, et les principes de l'<strong>économie circulaire</strong> pour inventer de nouveaux modèles. L'indice de réparabilité et la lutte contre l'obsolescence montrent que le consommateur a aussi un rôle à jouer. Le "vrai coût" d'un produit n'est donc pas seulement financier, il est aussi environnemental et social. Le défi de l'ingénieur moderne est de maîtriser ces trois dimensions pour créer les objets de demain.</p>
+            </section>
+
+            <section id="exercices" class="exercise-section">
+                <h2>Testez vos connaissances !</h2>
+                
+                <div class="exercise" id="ex1">
+                    <h4>Exercice 1 : QCM</h4>
+                    <p>Quelle démarche vise à intégrer l'environnement dès la conception d'un produit ?</p>
+                    <div class="qcm-group">
+                        <label class="qcm-option">L'Analyse du Cycle de Vie</label>
+                        <label class="qcm-option" data-correct="true">L'Éco-conception</label>
+                        <label class="qcm-option">L'Économie circulaire</label>
+                    </div>
+                    <button onclick="checkQCM('ex1')">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="exercise" id="ex2">
+                    <h4>Exercice 2 : Vrai ou Faux</h4>
+                    <p>L'obsolescence programmée est encouragée en France pour stimuler l'économie.</p>
+                    <div class="tf-group">
+                        <label class="tf-option">Vrai</label>
+                        <label class="tf-option" data-correct="true">Faux</label>
+                    </div>
+                    <button onclick="checkTF('ex2')">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="exercise" id="ex3">
+                    <h4>Exercice 3 : Texte à trous</h4>
+                    <p>L'indice de <input type="text" class="fill-in-blank" data-answer="réparabilité"> est une note sur 10 qui informe sur la facilité de réparation d'un produit.</p>
+                    <button onclick="checkFill('ex3')">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="exercise" id="ex4">
+                    <h4>Exercice 4 : QCM</h4>
+                    <p>Quel est le principal objectif de l'économie circulaire ?</p>
+                    <div class="qcm-group">
+                        <label class="qcm-option">Vendre plus de produits</label>
+                        <label class="qcm-option" data-correct="true">Réduire le gaspillage des ressources</label>
+                        <label class="qcm-option">Rendre les produits moins chers</label>
+                    </div>
+                    <button onclick="checkQCM('ex4')">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="exercise" id="ex5">
+                    <h4>Exercice 5 : Vrai ou Faux</h4>
+                    <p>L'ACV analyse uniquement l'impact d'un produit lors de son recyclage.</p>
+                    <div class="tf-group">
+                        <label class="tf-option">Vrai</label>
+                        <label class="tf-option" data-correct="true">Faux</label>
+                    </div>
+                    <button onclick="checkTF('ex5')">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="exercise" id="ex6">
+                    <h4>Exercice 6 : Texte à trous multiple</h4>
+                    <p>Le <input type="text" class="fill-in-blank" data-answer="greenwashing"> est une pratique de communication trompeuse, alors que l' <input type="text" class="fill-in-blank" data-answer="éco-conception"> est une démarche vertueuse.</p>
+                    <button onclick="checkFill('ex6')">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="exercise" id="ex7">
+                    <h4>Exercice 7 : Choix multiples</h4>
+                    <p>Quels sont les piliers de l'économie circulaire (les "3R") ? (Plusieurs réponses possibles)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option"><input type="checkbox" data-correct="true"> Réduire</label>
+                        <label class="checkbox-option"><input type="checkbox"> Remplacer</label>
+                        <label class="checkbox-option"><input type="checkbox" data-correct="true"> Réutiliser</label>
+                        <label class="checkbox-option"><input type="checkbox" data-correct="true"> Recycler</label>
+                    </div>
+                    <button onclick="checkCheckbox('ex7')">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+
+            </section>
+
+            <section id="synthese" class="section">
+                <h2>Synthèse Visuelle (Carte Mentale)</h2>
+                <ul class="mind-map">
+                    <li>Éco-conception & Modèle Économique
+                        <ul>
+                            <li>Principes Clés
+                                <ul>
+                                    <li>Éco-conception : Penser environnement dès le début.</li>
+                                    <li>ACV : Analyser l'impact de A à Z (berceau -> tombe).</li>
+                                    <li>Économie Circulaire : Réduire, Réutiliser, Recycler.</li>
+                                </ul>
+                            </li>
+                            <li>Outils & Indicateurs
+                                <ul>
+                                    <li>Empreinte Carbone : Mesure des GES (kg CO2eq).</li>
+                                    <li>Indice de Réparabilité : Note sur 10 pour la facilité de réparation.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="glossaire" class="section">
+                <h2>Lexique / Glossaire</h2>
+                <dl class="glossary">
+                    <dt>ACV (Analyse du Cycle de Vie)</dt><dd>Outil pour évaluer les impacts environnementaux d'un produit sur toute sa durée de vie.</dd>
+                    <dt>BMS (Battery Management System)</dt><dd>Système électronique qui contrôle et protège une batterie rechargeable pour optimiser sa performance et sa durée de vie.</dd>
+                    <dt>Éco-conception</dt><dd>Démarche qui intègre des critères environnementaux dès la conception d'un produit.</dd>
+                    <dt>Économie circulaire</dt><dd>Modèle économique qui vise à limiter le gaspillage en créant une boucle où les déchets des uns sont les ressources des autres.</dd>
+                    <dt>Économie de la fonctionnalité</dt><dd>Modèle économique centré sur la vente de l'usage d'un produit plutôt que sur la vente du produit lui-même (ex: location de trottinettes).</dd>
+                    <dt>Empreinte carbone</dt><dd>Mesure de la quantité de gaz à effet de serre émise. Exprimée en kg CO2 équivalent.</dd>
+                    <dt>Greenwashing</dt><dd>Pratique marketing consistant à communiquer de manière trompeuse sur les qualités écologiques d'un produit ou d'une entreprise. Se traduit par "éco-blanchiment".</dd>
+                    <dt>Indice de réparabilité</dt><dd>Note sur 10 indiquant si un produit est facilement réparable.</dd>
+                    <dt>Obsolescence programmée</dt><dd>Techniques d'un fabricant pour limiter volontairement la durée de vie d'un produit.</dd>
+                    <dt>Terres rares</dt><dd>Groupe de métaux aux propriétés particulières, essentiels dans de nombreuses technologies (écrans, aimants) mais dont l'extraction est souvent polluante.</dd>
+                </dl>
+            </section>
+
+            <section id="pour-aller-plus-loin" class="section">
+                <h2>Pour Aller Plus Loin</h2>
+                <ul>
+                    <li><strong>Mini-projet à réaliser :</strong> Calcule ton "indice de réparabilité maison" pour un objet simple chez toi (ex: une souris d'ordinateur). Peux-tu l'ouvrir facilement ? Les pièces sont-elles standards ? Trouves-tu des pièces de rechange sur internet ? Donne-lui une note sur 10 et justifie.</li>
+                    <li><strong>Vidéo de référence à regarder :</strong> Recherche "L'histoire des choses" (The Story of Stuff) sur internet. C'est une vidéo d'animation qui explique très bien le modèle "extraire-fabriquer-jeter".</li>
+                    <li><strong>Métier à découvrir :</strong> Ingénieur en éco-conception. Ce spécialiste travaille avec les équipes de design et de marketing pour trouver des solutions techniques qui réduisent l'impact environnemental des produits, tout en restant économiquement viables.</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Accordion Logic ---
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const title = item.querySelector('.accordion-title');
+            const content = item.querySelector('.accordion-content');
+            title.addEventListener('click', () => {
+                const isActive = title.classList.contains('active');
+                accordionItems.forEach(i => {
+                    i.querySelector('.accordion-title').classList.remove('active');
+                    const c = i.querySelector('.accordion-content');
+                    c.style.maxHeight = null;
+                    c.style.padding = "0 20px";
+                });
+                if (!isActive) {
+                    title.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    content.style.padding = "20px";
+                }
+            });
+        });
+
+        // --- Number Animation Logic ---
+        const countUpObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const finalValue = parseFloat(el.getAttribute('data-value'));
+                    const decimals = parseInt(el.getAttribute('data-decimals')) || 0;
+                    let currentValue = 0;
+                    const duration = 1500;
+                    const frameDuration = 1000 / 60;
+                    const totalFrames = Math.round(duration / frameDuration);
+                    const increment = finalValue / totalFrames;
+
+                    const counter = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= finalValue) {
+                            el.textContent = finalValue.toFixed(decimals);
+                            clearInterval(counter);
+                        } else {
+                            el.textContent = currentValue.toFixed(decimals);
+                        }
+                    }, frameDuration);
+                    
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.count-up').forEach(el => {
+            countUpObserver.observe(el);
+        });
+
+        // --- Exercises Selection Logic ---
+        document.querySelectorAll('.qcm-group, .tf-group').forEach(group => {
+            group.addEventListener('click', (e) => {
+                if(e.target.tagName === 'LABEL') {
+                    group.querySelectorAll('.selected').forEach(sel => sel.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                }
+            });
+        });
+
+    });
+
+    // --- Exercises Check Logic ---
+    function showFeedback(element, isCorrect) {
+        const feedbackEl = element.querySelector('.feedback');
+        feedbackEl.textContent = isCorrect ? "Bonne réponse !" : "Incorrect. Réessayez !";
+        feedbackEl.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+        feedbackEl.style.display = 'block';
+    }
+
+    function checkQCM(exerciseId) {
+        const exerciseEl = document.getElementById(exerciseId);
+        const selected = exerciseEl.querySelector('.qcm-option.selected');
+        let isCorrect = false;
+        if (selected && selected.hasAttribute('data-correct')) {
+            isCorrect = true;
+        }
+        showFeedback(exerciseEl, isCorrect);
+        exerciseEl.querySelectorAll('.qcm-option').forEach(opt => {
+            if(opt.hasAttribute('data-correct')) {
+                opt.classList.add('correct-answer');
+            } else if (opt.classList.contains('selected')) {
+                opt.classList.add('wrong-answer');
+            }
+        });
+    }
+
+    function checkTF(exerciseId) {
+        const exerciseEl = document.getElementById(exerciseId);
+        const selected = exerciseEl.querySelector('.tf-option.selected');
+        let isCorrect = false;
+        if (selected && selected.hasAttribute('data-correct')) {
+            isCorrect = true;
+        }
+        showFeedback(exerciseEl, isCorrect);
+        exerciseEl.querySelectorAll('.tf-option').forEach(opt => {
+            if(opt.hasAttribute('data-correct')) {
+                opt.classList.add('correct-answer');
+            } else if (opt.classList.contains('selected')) {
+                opt.classList.add('wrong-answer');
+            }
+        });
+    }
+
+    function checkFill(exerciseId) {
+        const exerciseEl = document.getElementById(exerciseId);
+        const inputs = exerciseEl.querySelectorAll('.fill-in-blank');
+        let allCorrect = true;
+        inputs.forEach(input => {
+            const isCorrect = input.value.trim().toLowerCase() === input.dataset.answer.toLowerCase();
+            input.classList.remove('correct', 'incorrect');
+            input.classList.add(isCorrect ? 'correct' : 'incorrect');
+            if(!isCorrect) allCorrect = false;
+        });
+        showFeedback(exerciseEl, allCorrect);
+    }
+
+    function checkCheckbox(exerciseId) {
+        const exerciseEl = document.getElementById(exerciseId);
+        const checkboxes = exerciseEl.querySelectorAll('input[type="checkbox"]');
+        let allCorrect = true;
+        checkboxes.forEach(cb => {
+            const label = cb.parentElement;
+            const shouldBeChecked = cb.hasAttribute('data-correct');
+            if(cb.checked !== shouldBeChecked) {
+                allCorrect = false;
+            }
+            label.classList.remove('correct-answer', 'wrong-answer');
+            if(shouldBeChecked) {
+                label.classList.add('correct-answer');
+            }
+            if(cb.checked && !shouldBeChecked) {
+                 label.classList.add('wrong-answer');
+            }
+        });
+        showFeedback(exerciseEl, allCorrect);
+    }
+    </script>
+</body>
+</html>
