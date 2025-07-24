@@ -5,19 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Séquence : De l'analyse du besoin aux fonctions de l'objet</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Baloo+2:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap');
 
         :root {
-            --color-primary: #1e40af;
-            --color-secondary: #d3f915;
-            --color-accent: #9e73e8;
-            --color-text: #333;
-            --color-bg: #f8f9fa;
+            --color-primary: #1e40af; /* Deep Blue */
+            --color-secondary: #2563eb; /* Bright Blue */
+            --color-accent: #ec4899; /* Pink */
+            --color-highlight: #facc15; /* Yellow */
+            --color-text: #334155; /* Slate 700 */
+            --color-text-light: #64748b; /* Slate 500 */
+            --color-bg: #f8fafc; /* Slate 50 */
             --color-white: #ffffff;
-            --color-success: #28a745;
-            --color-danger: #dc3545;
-            --font-title: 'Baloo 2', cursive;
+            --color-success: #10b981; /* Emerald 500 */
+            --color-danger: #ef4444; /* Red 500 */
+            --color-border: #e2e8f0; /* Slate 200 */
+            
+            --font-title: 'Plus Jakarta Sans', sans-serif;
             --font-body: 'Poppins', sans-serif;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        [data-animate] {
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        [data-animate].in-view {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         body {
@@ -27,158 +54,237 @@
             background-color: var(--color-bg);
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
-
+        
         .container {
             max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: var(--color-white);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .hero {
+            padding: 80px 20px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before, .hero::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+        }
+
+        .hero::before {
+            background: var(--color-accent);
+            width: 300px;
+            height: 300px;
+            left: -100px;
+            top: -100px;
+            animation: spin 20s linear infinite alternate;
+        }
+        .hero::after {
+            background: var(--color-secondary);
+            width: 250px;
+            height: 250px;
+            right: -80px;
+            bottom: -120px;
+            animation: spin 25s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1.2); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
         }
 
         h1, h2, h3, h4 {
             font-family: var(--font-title);
             color: var(--color-primary);
-            margin-top: 1em;
-            margin-bottom: 0.5em;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+            font-weight: 800;
         }
         
-        h1 { font-size: 2.8em; text-align: center; color: var(--color-white); background: linear-gradient(135deg, var(--color-primary), #3b82f6); padding: 20px; border-radius: 8px 8px 0 0; margin: -20px -20px 20px -20px;}
-        h2 { font-size: 2.2em; border-bottom: 3px solid var(--color-accent); padding-bottom: 10px;}
-        h3 { font-size: 1.8em; color: #1e3a8a;}
+        h1 { 
+            font-size: clamp(2.5rem, 5vw, 3.5rem); 
+            color: var(--color-white); 
+            margin: 0;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        h2 { 
+            font-size: 2.2em;
+            padding-bottom: 10px;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
+            border-radius: 3px;
+        }
+        h3 { font-size: 1.8em; color: var(--color-secondary);}
         h4 { font-size: 1.4em; color: var(--color-accent);}
 
         hr {
             border: 0;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--color-accent), transparent);
-            margin: 40px 0;
+            height: 1px;
+            background: var(--color-border);
+            margin: 60px 0;
         }
         
         .hook-box {
-            background-color: #eef7ff;
-            border-left: 5px solid var(--color-primary);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-left: 5px solid var(--color-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 0 12px 12px 0;
             position: relative;
+            box-shadow: var(--shadow-md);
         }
         .hook-box::before {
             content: '💡';
-            font-size: 2em;
+            font-size: 1.5em;
             position: absolute;
             left: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--color-primary);
+            top: 25px;
+            background: var(--color-secondary);
             color: white;
             border-radius: 50%;
             width: 40px;
             height: 40px;
-            text-align: center;
-            line-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
         }
 
         .objectives {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
             margin-top: 20px;
         }
         .objectives > div {
-            flex: 1;
-            min-width: 280px;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-white);
+            box-shadow: var(--shadow-md);
         }
-        .objectives .skills {
-            background-color: #f0fff0;
-            border: 2px solid #a7f3d0;
-        }
-        .objectives .knowledge {
-            background-color: #fefce8;
-            border: 2px solid var(--color-secondary);
-        }
+        .objectives .skills { border-left: 4px solid var(--color-success); }
+        .objectives .knowledge { border-left: 4px solid var(--color-highlight); }
         .objectives h3 { margin-top: 0; font-size: 1.5em; }
-        ul { list-style: none; padding-left: 20px; }
-        .objectives ul li::before { content: '🎯'; color: var(--color-primary); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+        .objectives .skills h3 { color: var(--color-success); }
+        .objectives .knowledge h3 { color: var(--color-highlight); }
+        
+        ul { list-style: none; padding-left: 0; }
+        .objectives ul li { 
+            position: relative;
+            padding-left: 30px; 
+            margin-bottom: 10px;
+        }
+        .objectives ul li::before { 
+            content: '🎯'; 
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.2em;
+            color: var(--color-primary); 
+        }
 
         .knowledge-block {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            background: var(--color-white);
+            box-shadow: var(--shadow-lg);
         }
 
         .knowledge-block h4 {
-            margin-top: 15px;
+            margin-top: 20px;
             margin-bottom: 10px;
-            padding-left: 10px;
+            padding-left: 15px;
             border-left: 4px solid var(--color-accent);
+            font-size: 1.3em;
         }
         
         .card {
-            background: #f9f9f9;
-            padding: 15px;
+            background: var(--color-bg);
+            padding: 20px;
             border-radius: 8px;
-            margin-top: 10px;
-            border: 1px solid #eee;
+            margin-top: 15px;
+            border: 1px solid var(--color-border);
         }
 
-        .did-you-know {
-            background-color: #fefce8;
-            border: 1px solid var(--color-secondary);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
+        .did-you-know, .expert-box {
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
             position: relative;
+            border: 1px solid;
             overflow: hidden;
         }
-        .did-you-know::before {
-            content: "💡";
-            font-size: 3em;
-            position: absolute;
-            right: 10px;
-            bottom: -10px;
-            color: var(--color-secondary);
-            opacity: 0.2;
+        .did-you-know {
+            background-color: #fefce8;
+            border-color: var(--color-highlight);
         }
-
         .expert-box {
-            background-color: #eef2ff;
-            border: 1px solid var(--color-primary);
+            background-color: #eff6ff;
+            border-color: var(--color-secondary);
         }
-        .expert-box::before { content: "🚀"; opacity: 0.3; }
+        .did-you-know::before, .expert-box::before {
+            font-size: 4em;
+            position: absolute;
+            right: 15px;
+            bottom: -15px;
+            opacity: 0.1;
+        }
+        .did-you-know::before { content: "💡"; color: var(--color-highlight); }
+        .expert-box::before { content: "🚀"; color: var(--color-secondary); }
 
         .img-gauche, .img-droite {
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 20px;
+            max-width: 100%;
+            height: auto;
         }
-        .img-gauche { float: left; margin-right: 20px; }
-        .img-droite { float: right; margin-left: 20px; }
+        .img-gauche { float: left; margin-right: 25px; }
+        .img-droite { float: right; margin-left: 25px; }
         .img-moyenne { max-width: 450px; width: 100%; }
         .img-petite { max-width: 280px; width: 100%; }
         .knowledge-block::after, .card::after, .section::after { content: ""; display: table; clear: both; }
 
         /* --- Interactive Cards --- */
         .interactive-concepts {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
             perspective: 1000px;
         }
         .flip-card {
             background-color: transparent;
-            width: 250px;
-            height: 150px;
+            min-height: 160px;
             border: none;
             cursor: pointer;
         }
@@ -187,10 +293,10 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.6s;
+            transition: transform 0.8s;
             transform-style: preserve-3d;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 12px;
         }
         .flip-card.is-flipped .flip-card-inner {
             transform: rotateY(180deg);
@@ -201,19 +307,27 @@
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 10px;
-            font-size: 1.2em;
+            padding: 20px;
+            font-size: 1.1em;
+            font-weight: 500;
         }
         .flip-card-front {
-            background: linear-gradient(135deg, var(--color-primary), #3b82f6);
-            color: white;
+            background: var(--color-white);
+            color: var(--color-primary);
+            border: 1px solid var(--color-border);
+        }
+        .flip-card-front h3 {
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            margin: 0;
         }
         .flip-card-back {
-            background-color: var(--color-accent);
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
             color: white;
             transform: rotateY(180deg);
         }
@@ -221,91 +335,132 @@
         /* --- Interactive Exercises --- */
         .exercise-card {
             background: var(--color-white);
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .exercise-card:focus-within {
+            box-shadow: 0 0 0 3px var(--color-secondary);
         }
         .exercise-card h4 {
             margin-top: 0;
             color: var(--color-primary);
+            font-size: 1.5em;
         }
         .qcm-options .option, .true-false-options .option {
             display: block;
-            background: #f3f4f6;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            background: var(--color-bg);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 2px solid var(--color-border);
+            transition: all 0.2s ease-in-out;
+            position: relative;
+            padding-left: 50px;
+        }
+        .qcm-options .option::before, .true-false-options .option::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--color-text-light);
+            border-radius: 50%;
             transition: all 0.2s ease-in-out;
         }
         .qcm-options .option:hover, .true-false-options .option:hover {
             border-color: var(--color-accent);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
         }
-        .qcm-options .option.selected {
+        .qcm-options .option.selected, .true-false-options .option.selected {
             border-color: var(--color-primary);
-            background-color: #e0e7ff;
+            background-color: #eff6ff;
         }
+        .qcm-options .option.selected::before, .true-false-options .option.selected::before {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+            background-size: 16px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
         .qcm-options .option.correct, .true-false-options .option.correct {
-            background-color: #dcfce7; border-color: var(--color-success);
+            background-color: #ecfdf5; border-color: var(--color-success);
         }
         .qcm-options .option.incorrect, .true-false-options .option.incorrect {
-            background-color: #fee2e2; border-color: var(--color-danger);
+            background-color: #fff1f2; border-color: var(--color-danger);
         }
         
         .fill-in-the-blanks p {
             font-size: 1.1em;
-            line-height: 2;
+            line-height: 2.5;
         }
         .fill-in-the-blanks input {
-            width: 120px;
+            width: 130px;
             border: none;
             border-bottom: 2px solid #9ca3af;
             background: transparent;
             text-align: center;
             font-family: var(--font-body);
             font-size: 1em;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            border-radius: 4px 4px 0 0;
+            padding: 4px 8px;
         }
         .fill-in-the-blanks input:focus {
             outline: none;
             border-bottom-color: var(--color-primary);
+            background-color: #eff6ff;
         }
         .fill-in-the-blanks input.correct {
             border-bottom-color: var(--color-success);
-            background-color: #dcfce7;
+            background-color: #ecfdf5;
+            color: #065f46;
         }
         .fill-in-the-blanks input.incorrect {
             border-bottom-color: var(--color-danger);
-            background-color: #fee2e2;
+            background-color: #fff1f2;
+            color: #9f1239;
         }
 
         .open-question textarea {
             width: 100%;
-            min-height: 100px;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #d1d5db;
+            min-height: 120px;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
             font-family: var(--font-body);
             resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .open-question textarea:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
         .open-question .hidden-content {
             display: none;
-            margin-top: 10px;
+            margin-top: 15px;
             padding: 15px;
-            background-color: #f9fafb;
+            background-color: var(--color-bg);
             border-radius: 8px;
+            border: 1px dashed var(--color-border);
         }
         
         .exercise-feedback {
             display: none;
-            margin-top: 15px;
-            padding: 10px;
+            margin-top: 20px;
+            padding: 15px;
             border-radius: 8px;
-            font-weight: bold;
+            font-weight: 500;
         }
         .exercise-feedback.correct {
             display: block;
@@ -317,60 +472,167 @@
         }
         
         .btn-verify {
-            background-color: var(--color-primary);
+            background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
             color: var(--color-white);
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 25px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: var(--font-body);
-            font-weight: bold;
-            margin-top: 10px;
-            transition: all 0.2s ease-in-out;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
         }
         .btn-verify:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
         }
         .btn-secondary {
-            background-color: #6b7280;
+            background: #64748b;
         }
         .btn-secondary:hover {
-            background-color: #4b5563;
+            background: #475569;
+        }
+        .open-question .btn-verify {
+            margin-right: 10px;
         }
 
         /* Lexicon */
-        .lexicon dl dt { font-weight: bold; color: var(--color-primary); }
-        .lexicon dl dd { margin-left: 20px; margin-bottom: 10px; }
+        .lexicon dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 15px 25px;
+        }
+        .lexicon dl dt { 
+            font-weight: 600; 
+            color: var(--color-primary); 
+            font-family: var(--font-title);
+        }
+        .lexicon dl dd { 
+            margin-left: 0; 
+            margin-bottom: 0;
+            grid-column-start: 2;
+        }
 
         .go-further .card-link {
             display: block;
             text-decoration: none;
             color: var(--color-text);
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: var(--color-white);
+            position: relative;
+            overflow: hidden;
         }
         .go-further .card-link:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-secondary);
         }
-        .go-further h4 { margin-top: 0; }
+        .go-further h4 { margin-top: 0; color: var(--color-secondary); }
+        .go-further .card-link::before {
+            content: '🚀' | '🎬' | '🧑‍🎨';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            opacity: 0.05;
+            transition: opacity 0.3s, right 0.3s;
+        }
+        .go-further a:nth-of-type(1)::before { content: '🚀'; }
+        .go-further a:nth-of-type(2)::before { content: '🎬'; }
+        .go-further a:nth-of-type(3)::before { content: '🧑‍🎨'; }
+        .go-further .card-link:hover::before {
+            opacity: 0.1;
+            right: 10px;
+        }
+
+        /* Mind Map */
+        .mind-map, .mind-map ul, .mind-map li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        .mind-map { padding-left: 20px; }
+        .mind-map li {
+            margin: 20px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .mind-map li span {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+        }
+        .mind-map > li > span {
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-weight: bold;
+        }
+        .mind-map ul li span { background-color: #eff6ff; }
+        .mind-map ul ul li span { background-color: #fdf2f8; }
+        .mind-map ul ul ul li span { background-color: #fefce8; }
+        
+        .mind-map li::before, .mind-map li::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            background-color: var(--color-border);
+        }
+        /* Horizontal line */
+        .mind-map li::before {
+            top: 50%;
+            width: 30px;
+            height: 2px;
+            margin-top: -1px;
+        }
+        /* Vertical line */
+        .mind-map li:not(:last-child)::after {
+            top: 0;
+            bottom: 0;
+            width: 2px;
+        }
+        .mind-map li:last-child::after {
+            height: 50%;
+            top: 0;
+            width: 2px;
+        }
+        .mind-map > li::before, .mind-map > li::after { display: none; }
+
+        @media (max-width: 768px) {
+            .img-gauche, .img-droite {
+                float: none;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 80%;
+            }
+        }
 
     </style>
 </head>
 <body>
 
+<div class="hero">
+    <div class="hero-content">
+        <h1>1. De l'analyse du besoin aux fonctions de l'objet</h1>
+    </div>
+</div>
+
 <div class="container">
 
-    <!-- 1. TITRE DE LA SÉQUENCE -->
-    <h1>1. DE L'ANALYSE DU BESOIN AUX FONCTIONS DE L'OBJET</h1>
-
     <!-- 2. SITUATION DÉCLENCHANTE -->
-    <section class="section">
+    <section class="section" data-animate>
         <h2>2. Situation Déclenchante : Le défi du sac parfait !</h2>
         <div class="hook-box">
             Imagine : Léo, ton meilleur ami, en a marre. Son sac à dos vient encore de lâcher, la fermeture éclair a cassé et ses cahiers ont pris la pluie. "J'en ai assez," dit-il, "je voudrais un sac qui soit à la fois super pratique, solide, qui ait du style, et qui ne coûte pas un bras !". <br><br>
@@ -381,7 +643,7 @@
     <hr>
 
     <!-- 3. OBJECTIFS PÉDAGOGIQUES -->
-    <section class="section">
+    <section class="section" data-animate>
         <h2>3. Ta mission, si tu l'acceptes...</h2>
         <div class="objectives">
             <div class="skills">
@@ -393,12 +655,12 @@
                 </ul>
             </div>
             <div class="knowledge">
-                <h3>Savoirs et connaissances à acquérir</h3>
+                <h3>Savoirs et connaissances</h3>
                 <ul>
                     <li>Besoin utilisateur.</li>
                     <li>Fonction d'usage (à quoi sert l'objet ?).</li>
                     <li>Fonction d'estime (l'image que l'objet renvoie).</li>
-                    <li>Contraintes (fonctionnement, sécurité, esthétique, économie, environnement).</li>
+                    <li>Contraintes (fonctionnement, sécurité, etc.).</li>
                 </ul>
             </div>
         </div>
@@ -407,30 +669,24 @@
     <hr>
 
     <!-- 4. INTRODUCTION ET PROBLÉMATIQUE -->
-    <section class="section">
+    <section class="section" data-animate>
         <h2>4. Introduction et Problématique</h2>
         <p>
             Chaque jour, nous utilisons des dizaines d'objets sans y penser : un stylo pour écrire, un smartphone pour communiquer, une trottinette pour nous déplacer... Mais as-tu déjà réfléchi à leur création ? Aucun de ces objets n'est apparu par magie ! Ils sont tous le fruit d'une longue réflexion pour répondre à un problème ou une envie.
         </p>
         <p>
-            Le défi du sac à dos de Léo est un parfait exemple. Pour passer de son "ras-le-bol" à un produit fini, il faut suivre une méthode précise, celle des designers et des ingénieurs. Cette méthode commence toujours par la même question : à quel besoin doit-on répondre ?
-        </p>
-        <p>
             Notre problématique centrale sera donc : <strong>Comment les concepteurs transforment-ils une simple idée ou un besoin en un objet technique réussi, qui remplit ses fonctions tout en respectant un ensemble de contraintes ?</strong>
-        </p>
-        <p>
-            Pour y répondre, nous explorerons d'abord le besoin utilisateur, puis nous analyserons les fonctions que doit remplir l'objet (son utilité et son style), et enfin, nous découvrirons les règles du jeu incontournables : les contraintes.
         </p>
     </section>
     
     <hr>
 
     <!-- Concepts Clés Interactifs -->
-    <section>
+    <section data-animate>
         <h2>Concepts Clés Interactifs</h2>
         <p>Clique sur les cartes pour découvrir la définition des concepts que nous allons explorer.</p>
         <div class="interactive-concepts">
-            <div class="flip-card" id="flip-card-1">
+            <div class="flip-card" id="flip-card-1" tabindex="0" role="button" aria-label="Carte interactive: Fonction d'Usage. Cliquez pour retourner.">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         <h3>Fonction d'Usage</h3>
@@ -440,7 +696,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flip-card" id="flip-card-2">
+            <div class="flip-card" id="flip-card-2" tabindex="0" role="button" aria-label="Carte interactive: Fonction d'Estime. Cliquez pour retourner.">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         <h3>Fonction d'Estime</h3>
@@ -450,7 +706,7 @@
                     </div>
                 </div>
             </div>
-             <div class="flip-card" id="flip-card-3">
+             <div class="flip-card" id="flip-card-3" tabindex="0" role="button" aria-label="Carte interactive: Contraintes. Cliquez pour retourner.">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         <h3>Contraintes</h3>
@@ -466,11 +722,11 @@
     <hr>
 
     <!-- 5. DÉVELOPPEMENT DU COURS -->
-    <section class="section">
+    <section class="section" data-animate>
         <h2>5. Développement du cours - Exploration en profondeur</h2>
 
         <!-- Notion 1: Besoin Utilisateur -->
-        <div class="knowledge-block">
+        <div class="knowledge-block" data-animate>
             <h3>Besoin Utilisateur</h3>
             
             <img src="image_1.png" class="img-droite img-moyenne" alt="Infographie montrant une personne pensant à divers besoins (se déplacer, communiquer, transporter).">
@@ -490,39 +746,17 @@
                 </ul>
             </div>
 
-            <h4>d) 🛠️ Décortiquage Technique - "Sous le Capot"</h4>
-            <p>Comment trouver le besoin pour un nouveau drone de loisir ?</p>
-            <ol>
-                <li><strong>Observer :</strong> Regarde ce que font les gens. Ils veulent prendre des photos de vacances originales, filmer leurs exploits sportifs, ou simplement s'amuser à piloter.</li>
-                <li><strong>Interroger :</strong> Pose des questions ! "Qu'est-ce qui vous frustre avec les drones actuels ?", "Qu'aimeriez-vous faire que vous ne pouvez pas ?". On pourrait découvrir un besoin : "filmer facilement des vidéos stables et de haute qualité sans être un pilote expert".</li>
-                <li><strong>Synthétiser :</strong> Formule le besoin par une phrase claire commençant par un verbe à l'infinitif : "Permettre à un débutant de réaliser des vidéos aériennes de qualité professionnelle".</li>
-            </ol>
-
-            <h4>e) 🤔 Points de Vigilance et Erreurs à Éviter</h4>
-            <ul>
-                <li><strong>Confondre le besoin et la solution :</strong> L'erreur classique est de dire "le besoin, c'est d'avoir un smartphone". Non ! Le besoin, c'est de communiquer. Le smartphone est <em>une</em> solution. Au 19ème siècle, le télégraphe était une autre solution au même besoin.</li>
-                <li><strong>N'interroger qu'une seule personne :</strong> Le besoin de ton meilleur ami n'est pas forcément celui de toute la classe. Il faut chercher le besoin partagé par le plus grand nombre.</li>
-            </ul>
-
-            <h4>f) 💡 Le Saviez-Vous ? / Anecdote Technologique</h4>
             <div class="did-you-know">
                 Le Post-it® est né d'une "erreur" ! Un chercheur de la société 3M a créé une colle qui ne collait pas très bien. Au lieu de la jeter, un de ses collègues a eu l'idée de l'utiliser pour faire des marque-pages qui ne tombaient pas de son livre de chant. Le besoin de "marquer une page temporairement sans abîmer le livre" a trouvé sa solution !
             </div>
 
-            <h4>g) 🤝 Ponts Interdisciplinaires</h4>
-            <ul>
-                <li><strong>Histoire :</strong> L'étude des besoins permet de comprendre l'évolution des sociétés. Le besoin de conserver la nourriture a mené à l'invention du sel, des épices, puis du réfrigérateur !</li>
-                <li><strong>Français :</strong> Apprendre à formuler un besoin, c'est apprendre à exprimer une idée de manière claire et concise, en utilisant le bon vocabulaire (notamment les verbes à l'infinitif).</li>
-            </ul>
-
-            <h4>h) 🚀 Pour les Experts (Approfondissement)</h4>
-            <div class="card expert-box">
+            <div class="expert-box">
                 Il existe plusieurs types de besoins. Le psychologue Abraham Maslow les a classés dans une pyramide. Les besoins de base (manger, dormir) sont à la base, suivis par les besoins de sécurité, d'appartenance (avoir des amis), d'estime (être respecté) et enfin d'accomplissement de soi. Un smartphone peut répondre à plusieurs de ces niveaux : communiquer (appartenance), avoir le dernier modèle (estime)... Les métiers comme "UX Designer" (User eXperience Designer) sont spécialisés dans l'analyse ultra-fine des besoins et des émotions des utilisateurs.
             </div>
         </div>
 
         <!-- Notion 2: Fonction d'Usage -->
-        <div class="knowledge-block">
+        <div class="knowledge-block" data-animate>
             <h3>Fonction d'Usage</h3>
             <h4>a) 🎓 Définition Académique et Enjeux</h4>
             <p>La <strong>fonction d'usage</strong> (ou fonction principale) décrit l'action principale que l'objet doit réaliser pour répondre au besoin. Elle répond à la question : "À quoi sert l'objet ?". Elle est toujours formulée par un verbe à l'infinitif suivi d'un complément. Une bonne définition de la fonction d'usage est essentielle pour concevoir un objet qui... fonctionne !</p>
@@ -540,41 +774,10 @@
                     <li><strong>Sac à dos :</strong> Permettre de transporter des objets sur son dos.</li>
                 </ul>
             </div>
-
-            <h4>d) 🛠️ Décortiquage Technique - "Sous le Capot"</h4>
-            <p>Comment définir la fonction d'usage d'une trottinette électrique ?</p>
-            <ol>
-                <li><strong>Identifier le besoin :</strong> "Se déplacer rapidement en ville".</li>
-                <li><strong>Poser la question clé :</strong> "À quoi sert principalement la trottinette électrique ?".</li>
-                <li><strong>Formuler la réponse :</strong> On commence par un verbe d'action. "Transporter" ? Oui, mais c'est un peu vague. "Déplacer une personne" ? Mieux !</li>
-                <li><strong>Préciser :</strong> On ajoute des détails importants. "Déplacer une personne d'un point A à un point B en milieu urbain". Voilà une fonction d'usage claire qui guidera la conception !</li>
-            </ol>
-
-            <h4>e) 🤔 Points de Vigilance et Erreurs à Éviter</h4>
-            <ul>
-                <li><strong>Être trop vague :</strong> Dire que la fonction d'usage d'un smartphone est "d'être utile" ne veut rien dire. Il faut être précis : "Permettre de communiquer à distance", "Permettre d'accéder à Internet"...</li>
-                <li><strong>Confondre avec les fonctions techniques :</strong> La fonction d'usage du drone est "réaliser des prises de vue". Les fonctions techniques sont les solutions pour y arriver : "faire tourner les hélices", "alimenter le moteur", "transmettre le signal vidéo".</li>
-            </ul>
-
-            <h4>f) 💡 Le Saviez-Vous ? / Anecdote Technologique</h4>
-            <div class="did-you-know">
-                Le micro-ondes a été inventé par accident ! Percy Spencer, un ingénieur, travaillait sur un radar en 1945 quand il a remarqué qu'une barre de chocolat dans sa poche avait fondu. Il a compris que les micro-ondes pouvaient chauffer les aliments. La fonction d'usage "chauffer rapidement la nourriture" venait d'être découverte pour ces ondes !
-            </div>
-
-            <h4>g) 🤝 Ponts Interdisciplinaires</h4>
-            <ul>
-                <li><strong>Physique-Chimie :</strong> Comprendre la fonction d'usage d'un objet pousse à s'interroger sur les principes physiques qui la rendent possible (l'électricité pour la trottinette, l'aérodynamisme pour le drone...).</li>
-                <li><strong>SVT :</strong> On peut comparer la fonction d'usage d'un objet à la fonction d'un organe dans le corps humain. La fonction du cœur est de "pomper le sang", celle des poumons est d'"assurer les échanges gazeux".</li>
-            </ul>
-            
-            <h4>h) 🚀 Pour les Experts (Approfondissement)</h4>
-            <div class="card expert-box">
-                Un objet complexe a souvent une fonction d'usage principale et plusieurs <strong>fonctions de service secondaires</strong>. Pour le smartphone, la fonction principale est "communiquer". Les fonctions secondaires sont "prendre des photos", "écouter de la musique", "servir de réveil"... L'analyse fonctionnelle consiste à lister toutes ces fonctions pour s'assurer que l'objet répondra parfaitement aux attentes.
-            </div>
         </div>
         
         <!-- Notion 3: Fonction d'Estime -->
-        <div class="knowledge-block">
+        <div class="knowledge-block" data-animate>
             <h3>Fonction d'Estime</h3>
 
             <img src="image_3.png" class="img-droite img-moyenne" alt="Montage de plusieurs smartphones aux designs très différents, du plus sobre au plus coloré et original.">
@@ -585,48 +788,13 @@
             <h4>b) 🧠 Analogie et Simplification Pédagogique</h4>
             <p>La fonction d'estime, c'est le "look" de ton super-héros. Superman serait-il aussi populaire avec un costume marron et des chaussettes vertes ? Probablement pas ! Son costume bleu, rouge et jaune est iconique. La fonction d'estime, c'est ce qui fait qu'entre deux objets qui font la même chose (même fonction d'usage), tu en préfères un à l'autre parce que tu le trouves plus beau, plus cool, ou plus "toi".</p>
 
-            <h4>c) 📱 Étude de Cas Concrète</h4>
-            <div class="card">
-                <ul>
-                    <li><strong>Smartphone :</strong> La couleur (noir sobre, or rose, bleu électrique), la matière (verre, métal, plastique), la finesse de l'appareil, le logo de la marque... tout cela participe à sa fonction d'estime.</li>
-                    <li><strong>Sac à dos :</strong> Un sac à dos de randonnée n'a pas la même fonction d'estime qu'un sac de marque pour la ville. La forme, les couleurs, les motifs, la présence de logos influencent notre choix.</li>
-                    <li><strong>Trottinette électrique :</strong> Un design épuré et futuriste ou un look plus robuste et sportif. L'éclairage LED peut aussi jouer un rôle important dans son style.</li>
-                </ul>
-            </div>
-
-            <h4>d) 🛠️ Décortiquage Technique - "Sous le Capot"</h4>
-            <p>Comment analyser la fonction d'estime pour un stylo 4 couleurs ?</p>
-            <ol>
-                <li><strong>Observer les variations :</strong> Regarde les différents modèles de stylos 4 couleurs qui existent. Certains sont transparents, d'autres opaques, d'autres métallisés, certains ont un grip confortable, d'autres des motifs de super-héros...</li>
-                <li><strong>Identifier les éléments de style :</strong> Note les couleurs du corps du stylo, la forme du clip, la texture du plastique, la typographie du logo.</li>
-                <li><strong>Se mettre à la place de l'utilisateur :</strong> Demande-toi ce que chaque style évoque. Un stylo argenté peut sembler plus "sérieux" ou "adulte". Un stylo avec des couleurs vives et un motif peut paraître plus "amusant" et "créatif". C'est ça, la fonction d'estime !</li>
-            </ol>
-
-            <h4>e) 🤔 Points de Vigilance et Erreurs à Éviter</h4>
-            <ul>
-                <li><strong>Penser que l'esthétique est secondaire :</strong> Beaucoup de projets échouent car la fonction d'estime a été négligée. Un objet peut être techniquement parfait, si les gens le trouvent laid, ils ne l'achèteront pas.</li>
-                <li><strong>Croire que les goûts sont universels :</strong> Ce qui est beau pour une personne en Europe peut être perçu différemment en Asie ou en Afrique. Les designers doivent s'adapter aux cultures.</li>
-            </ul>
-
-            <h4>f) 💡 Le Saviez-Vous ? / Anecdote Technologique</h4>
             <div class="did-you-know">
                 Le premier iMac d'Apple, sorti en 1998, a révolutionné l'informatique en partie grâce à sa fonction d'estime. Alors que tous les PC étaient des boîtes beiges et ennuyeuses, l'iMac est arrivé avec une coque translucide et colorée (bleu "Bondi Blue"). Pour la première fois, un ordinateur n'était pas qu'un outil, c'était aussi un objet de décoration, un objet "cool".
-            </div>
-
-            <h4>g) 🤝 Ponts Interdisciplinaires</h4>
-            <ul>
-                <li><strong>Arts Plastiques :</strong> C'est le lien le plus évident ! L'étude des couleurs, des formes, des textures, de l'harmonie... tout ce que tu apprends en arts plastiques est au cœur de la fonction d'estime.</li>
-                <li><strong>Sociologie / EMC :</strong> Analyser la fonction d'estime, c'est comprendre comment les objets deviennent des marqueurs sociaux (signes de richesse, d'appartenance à un groupe...).</li>
-            </ul>
-            
-            <h4>h) 🚀 Pour les Experts (Approfondissement)</h4>
-            <div class="card expert-box">
-                Le métier de <strong>Designer Industriel</strong> est entièrement dédié à la fonction d'usage et à la fonction d'estime. Ces professionnels ne se contentent pas de "dessiner" des objets. Ils réfléchissent à l'ergonomie (comment l'objet est facile et agréable à utiliser), aux matériaux, et à l'émotion que l'objet va provoquer. Ils travaillent en étroite collaboration avec les ingénieurs pour que la beauté de l'objet n'empêche pas son bon fonctionnement.
             </div>
         </div>
 
         <!-- Notion 4: Contraintes -->
-        <div class="knowledge-block">
+        <div class="knowledge-block" data-animate>
             <h3>Les Contraintes</h3>
             <img src="image_4.png" class="img-droite img-petite" alt="Icônes symbolisant les différentes contraintes : un engrenage (fonctionnement), un bouclier (sécurité), une palette de couleur (esthétique), un symbole euro (économie) et une feuille (environnement).">
             
@@ -642,43 +810,8 @@
                 <ul>
                     <li><strong>De fonctionnement :</strong> Doit avoir une autonomie de vol d'au moins 20 minutes. Doit résister à un vent de 20 km/h.</li>
                     <li><strong>De sécurité :</strong> Les hélices doivent s'arrêter automatiquement en cas de choc. Le drone ne doit pas dépasser une certaine altitude (loi).</li>
-                    <li><strong>Esthétiques :</strong> Doit avoir un look moderne et technologique (lié à la fonction d'estime).</li>
                     <li><strong>Économiques :</strong> Le coût de fabrication ne doit pas dépasser 150€ pour pouvoir le vendre à 299€.</li>
-                    <li><strong>Environnementales :</strong> Doit être fabriqué avec des plastiques recyclables. L'emballage doit être en carton et non en plastique.</li>
                 </ul>
-            </div>
-
-            <h4>d) 🛠️ Décortiquage Technique - "Sous le Capot"</h4>
-            <p>Comment lister les contraintes pour notre fameux sac à dos ?</p>
-            <ol>
-                <li><strong>Fonctionnement :</strong> Le sac doit pouvoir contenir 3 grands cahiers, une trousse et un livre. Les bretelles doivent être réglables. Le tissu doit être imperméable.</li>
-                <li><strong>Sécurité :</strong> Les coutures doivent résister à un poids de 8 kg. Aucune petite pièce ne doit pouvoir se détacher (pour les plus jeunes). Des bandes réfléchissantes doivent être présentes pour être vu la nuit.</li>
-                <li><strong>Esthétique :</strong> Doit être disponible en 5 coloris tendance définis par le service marketing. Le logo doit être visible.</li>
-                <li><strong>Économique :</strong> Le prix de vente final ne doit pas excéder 40€.</li>
-                <li><strong>Environnementale :</strong> Le sac doit avoir une durée de vie d'au moins 2 ans. Les teintures utilisées ne doivent pas être toxiques.</li>
-            </ol>
-            <p>Cet ensemble de règles s'appelle le <strong>cahier des charges fonctionnel (CDCF)</strong>.</p>
-            
-            <h4>e) 🤔 Points de Vigilance et Erreurs à Éviter</h4>
-            <ul>
-                <li><strong>Oublier une contrainte :</strong> Oublier la contrainte de sécurité peut avoir des conséquences dramatiques. Oublier la contrainte de coût rend le projet irréalisable.</li>
-                <li><strong>Voir les contraintes comme des ennemis :</strong> Un bon designer ne voit pas les contraintes comme des freins, mais comme un défi stimulant qui guide sa créativité vers des solutions intelligentes.</li>
-            </ul>
-
-            <h4>f) 💡 Le Saviez-Vous ? / Anecdote Technologique</h4>
-            <div class="did-you-know">
-                Lors de la mission Apollo 13, une explosion a privé les astronautes d'oxygène et d'électricité. Pour survivre, ils ont dû fabriquer un filtre à CO₂ "artisanal" dans le module lunaire. Les ingénieurs au sol ont dû inventer une solution en n'utilisant QUE les objets présents à bord (ruban adhésif, chaussettes, bouts de carton...). C'est l'exemple le plus extrême de conception sous contraintes !
-            </div>
-
-            <h4>g) 🤝 Ponts Interdisciplinaires</h4>
-            <ul>
-                <li><strong>Mathématiques :</strong> Les contraintes sont souvent chiffrées : dimensions, poids, coût, performance... Les maths sont indispensables pour les vérifier.</li>
-                <li><strong>Réglementation (EMC) :</strong> De nombreuses contraintes (surtout de sécurité et d'environnement) sont imposées par la loi et les normes (NF, CE). C'est le lien entre la technique et la vie en société.</li>
-            </ul>
-            
-            <h4>h) 🚀 Pour les Experts (Approfondissement)</h4>
-            <div class="card expert-box">
-                Parfois, les contraintes sont contradictoires et le métier de l'ingénieur est de trouver le meilleur <strong>compromis</strong>. Par exemple, pour un smartphone, on veut une batterie qui dure très longtemps (contrainte d'autonomie) mais on veut aussi un téléphone très fin et léger (contrainte d'ergonomie et d'esthétique). Une plus grosse batterie est plus lourde et plus épaisse ! L'innovation consiste souvent à repousser ces limites et à trouver un nouvel équilibre entre les contraintes.
             </div>
         </div>
     </section>
@@ -686,7 +819,7 @@
     <hr>
     
     <!-- 6. AVENIR ET PERSPECTIVES -->
-    <section class="section">
+    <section class="section" data-animate>
         <h2>6. Avenir et Perspectives : Les objets de demain</h2>
         <p>
             La manière de concevoir les objets évolue à toute vitesse ! Demain, de nouvelles contraintes deviendront encore plus importantes. La <strong>contrainte environnementale</strong>, par exemple, pousse les designers à inventer des objets plus faciles à réparer, à recycler, et qui consomment moins d'énergie. C'est ce qu'on appelle l'<strong>éco-conception</strong>.
@@ -694,43 +827,40 @@
         <p>
             L'<strong>intelligence artificielle (IA)</strong> va aussi bouleverser le design. Des IA peuvent désormais générer des milliers de formes d'objets en respectant des contraintes très précises, aidant les ingénieurs à trouver des solutions ultra-optimisées, parfois même surprenantes.
         </p>
-        <p>
-            Les métiers liés à cette démarche évoluent : l'<strong>UX Designer</strong> (spécialiste de l'expérience utilisateur), l'<strong>Ingénieur en éco-conception</strong>, ou encore le <strong>Spécialiste en fabrication additive</strong> (impression 3D) sont des professions d'avenir qui se situent au carrefour de la technique, de la créativité et des besoins humains. Le défi sera de créer des objets toujours plus intelligents et utiles, tout en étant responsables pour la planète et justes pour la société.
-        </p>
     </section>
 
     <hr>
 
     <!-- 7. CONCLUSION -->
-    <section class="section">
+    <section class="section" data-animate>
         <h2>7. Conclusion</h2>
         <p>
             Nous avons commencé avec le sac à dos cassé de Léo et nous terminons avec une méthode complète de conception. Pour répondre à notre problématique, nous pouvons maintenant affirmer que les concepteurs ne se fient pas au hasard. Ils transforment un besoin en un objet réussi grâce à une démarche structurée :
         </p>
-        <ol>
+        <ol style="padding-left: 20px; list-style-type: decimal;">
             <li><strong>Analyser le besoin</strong> : Comprendre le "pourquoi" avant tout.</li>
             <li><strong>Définir les fonctions</strong> : Préciser ce que l'objet doit faire (<strong>fonction d'usage</strong>) et l'image qu'il doit renvoyer (<strong>fonction d'estime</strong>).</li>
             <li><strong>Respecter les contraintes</strong> : Composer avec un cahier des charges strict (sécurité, coût, environnement...) qui encadre la création.</li>
         </ol>
         <p>
-            C'est cet équilibre délicat entre le besoin, la fonction et les contraintes qui est la clé de toute innovation réussie, du simple stylo 4 couleurs au drone le plus sophistiqué. Et maintenant, tu as les bases pour relever le défi du sac à dos parfait !
+            C'est cet équilibre délicat entre le besoin, la fonction et les contraintes qui est la clé de toute innovation réussie.
         </p>
     </section>
 
     <hr>
     
     <!-- 8. EXERCICES INTERACTIFS -->
-    <section class="section">
-        <h2>8. Exercices Interactifs</h2>
+    <section class="section" data-animate>
+        <h2>8. Teste tes connaissances</h2>
         
         <!-- Exercice 1: QCM -->
         <div class="exercise-card" id="exo-1">
             <h4>Exercice 1 : QCM</h4>
             <p>Le fait qu'un smartphone doive avoir une coque résistante aux chocs est avant tout :</p>
             <div class="qcm-options">
-                <div class="option" data-correct="false">Une fonction d'estime</div>
-                <div class="option" data-correct="true">Une contrainte de sécurité</div>
-                <div class="option" data-correct="false">Une fonction d'usage</div>
+                <div class="option" data-correct="false" role="button" tabindex="0">Une fonction d'estime</div>
+                <div class="option" data-correct="true" role="button" tabindex="0">Une contrainte de sécurité</div>
+                <div class="option" data-correct="false" role="button" tabindex="0">Une fonction d'usage</div>
             </div>
             <button class="btn-verify">Vérifier</button>
             <div class="exercise-feedback"></div>
@@ -741,10 +871,10 @@
             <h4>Exercice 2 : Texte à trous</h4>
             <div class="fill-in-the-blanks">
                 <p>
-                    Pour créer un objet, on part d'un <input type="text" data-answer="besoin">.
-                    L'objet doit remplir une <input type="text" data-answer="fonction d'usage"> principale, qui répond à la question "À quoi ça sert ?".
-                    Son apparence, qui le rend désirable, est sa <input type="text" data-answer="fonction d'estime">.
-                    Enfin, le concepteur doit respecter des règles comme le prix ou la sécurité, qu'on appelle des <input type="text" data-answer="contraintes">.
+                    Pour créer un objet, on part d'un <input type="text" data-answer="besoin" aria-label="mot manquant 1">.
+                    L'objet doit remplir une <input type="text" data-answer="fonction d'usage" aria-label="mot manquant 2"> principale, qui répond à la question "À quoi ça sert ?".
+                    Son apparence, qui le rend désirable, est sa <input type="text" data-answer="fonction d'estime" aria-label="mot manquant 3">.
+                    Enfin, le concepteur doit respecter des règles comme le prix ou la sécurité, qu'on appelle des <input type="text" data-answer="contraintes" aria-label="mot manquant 4">.
                 </p>
             </div>
             <button class="btn-verify">Vérifier</button>
@@ -755,8 +885,8 @@
             <h4>Exercice 3 : Vrai ou Faux</h4>
             <p>"La fonction d'usage est la même chose que le besoin."</p>
             <div class="true-false-options">
-                <div class="option" data-correct="false">Vrai</div>
-                <div class="option" data-correct="true">Faux</div>
+                <div class="option" data-correct="false" role="button" tabindex="0">Vrai</div>
+                <div class="option" data-correct="true" role="button" tabindex="0">Faux</div>
             </div>
             <button class="btn-verify">Vérifier</button>
             <div class="exercise-feedback"></div>
@@ -769,7 +899,7 @@
             <div class="open-question">
                 <textarea placeholder="Ta réponse ici..."></textarea>
                 <button class="btn-verify btn-secondary" id="show-hint-btn">Afficher un indice</button>
-                <button class="btn-verify" id="show-answer-btn">Comparer avec la réponse type</button>
+                <button class="btn-verify" id="show-answer-btn">Comparer</button>
                 <div class="hidden-content" id="hint-4">
                     <strong>Indice :</strong> Pense à comment le stylo doit fonctionner et à la sécurité de l'utilisateur. Par exemple, que ne doit-il PAS faire ?
                 </div>
@@ -785,95 +915,93 @@
     <hr>
 
     <!-- 9. SYNTHÈSE VISUELLE (FORMAT CARTE MENTALE) -->
-    <section class="section">
-        <h2>9. Synthèse Visuelle (Carte Mentale)</h2>
-        <img src="image_5.png" class="img-moyenne" style="display:block; margin-left:auto; margin-right:auto;" alt="Schéma représentant une carte mentale des concepts du cours.">
-        <ul class="mind-map">
-            <li>
-                <span>Conception d'un objet technique</span>
-                <ul>
-                    <li>
-                        <span>1. Point de départ : Le Besoin</span>
-                        <ul>
-                            <li><span>Définition : Manque, nécessité</span></li>
-                            <li><span>Exemple : Se déplacer sans effort -> Trottinette</span></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <span>2. Les Fonctions de l'objet</span>
-                        <ul>
-                            <li>
-                                <span>Fonction d'Usage</span>
-                                <ul>
-                                    <li><span>Question : À quoi ça sert ?</span></li>
-                                    <li><span>Exemple : "Permettre d'écrire" (Stylo)</span></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span>Fonction d'Estime</span>
-                                <ul>
-                                    <li><span>Question : En quoi ça me plaît ?</span></li>
-                                    <li><span>Exemple : "Couleur et finesse" (Smartphone)</span></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <span>3. Les Contraintes (Règles du jeu)</span>
-                        <ul>
-                            <li><span>Fonctionnement (ex: autonomie)</span></li>
-                            <li><span>Sécurité (ex: normes CE)</span></li>
-                            <li><span>Esthétique (ex: couleurs imposées)</span></li>
-                            <li><span>Économique (ex: coût maximal)</span></li>
-                            <li><span>Environnementale (ex: matériaux recyclables)</span></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <section class="section" data-animate>
+        <h2>9. Synthèse Visuelle</h2>
+        <div style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: var(--shadow-lg);">
+          <img src="image_5.png" class="img-moyenne" style="display:block; margin: 0 auto;" alt="Schéma représentant une carte mentale des concepts du cours.">
+          <ul class="mind-map">
+              <li>
+                  <span>Conception d'un objet technique</span>
+                  <ul>
+                      <li>
+                          <span>1. Point de départ : Le Besoin</span>
+                          <ul>
+                              <li><span>Définition : Manque, nécessité</span></li>
+                              <li><span>Exemple : Se déplacer sans effort</span></li>
+                          </ul>
+                      </li>
+                      <li>
+                          <span>2. Les Fonctions de l'objet</span>
+                          <ul>
+                              <li>
+                                  <span>Fonction d'Usage</span>
+                                  <ul>
+                                      <li><span>Question : À quoi ça sert ?</span></li>
+                                      <li><span>Exemple : "Permettre d'écrire"</span></li>
+                                  </ul>
+                              </li>
+                              <li>
+                                  <span>Fonction d'Estime</span>
+                                  <ul>
+                                      <li><span>Question : En quoi ça me plaît ?</span></li>
+                                      <li><span>Exemple : "Couleur et finesse"</span></li>
+                                  </ul>
+                              </li>
+                          </ul>
+                      </li>
+                      <li>
+                          <span>3. Les Contraintes (Règles du jeu)</span>
+                          <ul>
+                              <li><span>Fonctionnement</span></li>
+                              <li><span>Sécurité</span></li>
+                              <li><span>Esthétique</span></li>
+                              <li><span>Économique</span></li>
+                              <li><span>Environnementale</span></li>
+                          </ul>
+                      </li>
+                  </ul>
+              </li>
+          </ul>
+        </div>
     </section>
 
     <hr>
     
     <!-- 10. LEXIQUE / GLOSSAIRE DES TERMES CLÉS -->
-    <section class="section lexicon">
+    <section class="section lexicon" data-animate>
         <h2>10. Lexique / Glossaire</h2>
         <dl>
             <dt>Besoin</dt>
             <dd>Exigence ou nécessité pour un utilisateur qui est à l'origine de la création d'un produit.</dd>
-            <dt>Cahier des Charges Fonctionnel (CDCF)</dt>
-            <dd>Document qui liste toutes les fonctions et contraintes que l'objet doit respecter.</dd>
+            <dt>CDCF</dt>
+            <dd>Cahier des Charges Fonctionnel. Document qui liste toutes les fonctions et contraintes que l'objet doit respecter.</dd>
             <dt>Contrainte</dt>
             <dd>Règle, limite ou obligation à respecter lors de la conception d'un objet.</dd>
-            <dt>Design</dt>
-            <dd>Discipline visant à créer des objets (ou services, etc.) à la fois fonctionnels, esthétiques et adaptés aux besoins des utilisateurs.</dd>
             <dt>Éco-conception</dt>
-            <dd>Démarche qui intègre les aspects environnementaux dès la phase de conception d'un produit, pour en réduire les impacts sur la planète tout au long de sa vie.</dd>
+            <dd>Démarche qui intègre les aspects environnementaux dès la phase de conception d'un produit.</dd>
             <dt>Fonction d'Estime</dt>
-            <dd>Fonction liée à l'esthétique de l'objet et à l'image qu'il renvoie. Elle répond au besoin de plaire à l'utilisateur.</dd>
+            <dd>Fonction liée à l'esthétique de l'objet et à l'image qu'il renvoie.</dd>
             <dt>Fonction d'Usage</dt>
             <dd>Action principale réalisée par l'objet pour répondre au besoin de l'utilisateur.</dd>
-            <dt>Innovation</dt>
-            <dd>Introduction d'une nouveauté (un nouveau produit, un nouveau procédé) qui apporte une amélioration et trouve son public.</dd>
         </dl>
     </section>
 
     <hr>
 
     <!-- 11. POUR ALLER PLUS LOIN -->
-    <section class="section go-further">
+    <section class="section go-further" data-animate>
         <h2>11. Pour aller plus loin</h2>
         <a href="#" class="card-link">
-            <h4>🚀 Mini-projet à réaliser</h4>
-            <p>Choisis un objet simple de ta trousse (gomme, règle, compas...). Rédige son "mini cahier des charges" en 3 points : sa fonction d'usage principale, 2 éléments de sa fonction d'estime, et 3 contraintes (sécurité, coût, dimensions) qu'il doit respecter. Tu peux même imaginer et dessiner une version améliorée !</p>
+            <h4>Mini-projet à réaliser</h4>
+            <p>Choisis un objet simple de ta trousse (gomme, règle, compas...). Rédige son "mini cahier des charges".</p>
         </a>
         <a href="#" class="card-link">
-            <h4>🎬 Vidéo à regarder</h4>
-            <p>Cherche sur YouTube "C'est pas sorcier - Le design". Fred et Jamy t'expliqueront avec plein d'exemples concrets comment les designers travaillent pour créer les objets qui nous entourent. C'est une excellente introduction visuelle !</p>
+            <h4>Vidéo à regarder</h4>
+            <p>Cherche sur YouTube "C'est pas sorcier - Le design" pour voir comment les designers travaillent.</p>
         </a>
         <a href="#" class="card-link">
-            <h4>🧑‍🎨 Métier à découvrir</h4>
-            <p>Le métier de <strong>Designer Produit</strong> (ou Designer Industriel). Ce créatif imagine et dessine les objets de demain, des voitures aux brosses à dents. Il doit allier un grand sens artistique, une bonne compréhension technique et une vraie curiosité pour les besoins des gens. Il travaille souvent sur des logiciels de dessin 3D.</p>
+            <h4>Métier à découvrir</h4>
+            <p>Le métier de <strong>Designer Produit</strong>. Ce créatif imagine et dessine les objets de demain.</p>
         </a>
     </section>
 
@@ -882,106 +1010,131 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     
+    // --- Animation on Scroll ---
+    const animatedElements = document.querySelectorAll('[data-animate]');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    animatedElements.forEach(el => {
+        observer.observe(el);
+    });
+
     // --- Flip Cards Interaction ---
     const flipCards = document.querySelectorAll('.flip-card');
     flipCards.forEach(card => {
-        card.addEventListener('click', () => {
-            card.classList.toggle('is-flipped');
+        const action = () => card.classList.toggle('is-flipped');
+        card.addEventListener('click', action);
+        card.addEventListener('keydown', (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                action();
+            }
         });
     });
 
     // --- Exercises Interaction ---
 
-    // Generic function to handle QCM and True/False selection
     function handleOptionSelection(container) {
         const options = container.querySelectorAll('.option');
         options.forEach(option => {
-            option.addEventListener('click', () => {
-                // Deselect other options in the same group
+            const action = () => {
                 options.forEach(opt => opt.classList.remove('selected'));
-                // Select the clicked one
                 option.classList.add('selected');
+            };
+            option.addEventListener('click', action);
+            option.addEventListener('keydown', (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    action();
+                }
             });
         });
     }
 
     // Exercise 1: QCM
     const exo1 = document.getElementById('exo-1');
-    handleOptionSelection(exo1.querySelector('.qcm-options'));
-    exo1.querySelector('.btn-verify').addEventListener('click', () => {
-        const selectedOption = exo1.querySelector('.option.selected');
-        const feedback = exo1.querySelector('.exercise-feedback');
-        if (!selectedOption) {
-            alert("Veuillez sélectionner une réponse.");
-            return;
-        }
-        
-        const isCorrect = selectedOption.dataset.correct === 'true';
-        feedback.textContent = isCorrect ? 'Correct ! La résistance aux chocs est une contrainte pour garantir la sécurité de l\'objet et sa durabilité.' : 'Incorrect. Réfléchis encore : est-ce une question de style, d\'utilité principale ou de règle à respecter ?';
-        feedback.className = isCorrect ? 'exercise-feedback correct' : 'exercise-feedback incorrect';
-        
-        // Show correct/incorrect styles on all options after check
-        exo1.querySelectorAll('.option').forEach(opt => {
-            opt.classList.remove('selected');
-            if(opt.dataset.correct === 'true') {
-                opt.classList.add('correct');
-            } else {
-                 opt.classList.add('incorrect');
+    if (exo1) {
+        handleOptionSelection(exo1.querySelector('.qcm-options'));
+        exo1.querySelector('.btn-verify').addEventListener('click', () => {
+            const selectedOption = exo1.querySelector('.option.selected');
+            const feedback = exo1.querySelector('.exercise-feedback');
+            if (!selectedOption) {
+                alert("Veuillez sélectionner une réponse.");
+                return;
             }
+            
+            const isCorrect = selectedOption.dataset.correct === 'true';
+            feedback.textContent = isCorrect ? 'Correct ! La résistance aux chocs est une contrainte pour garantir la sécurité de l\'objet et sa durabilité.' : 'Incorrect. Réfléchis encore : est-ce une question de style, d\'utilité principale ou de règle à respecter ?';
+            feedback.className = isCorrect ? 'exercise-feedback correct' : 'exercise-feedback incorrect';
+            
+            exo1.querySelectorAll('.option').forEach(opt => {
+                if(opt.dataset.correct === 'true') {
+                    opt.classList.add('correct');
+                } else if (opt.classList.contains('selected')) {
+                    opt.classList.add('incorrect');
+                }
+            });
         });
-    });
+    }
 
     // Exercise 2: Fill in the blanks
     const exo2 = document.getElementById('exo-2');
-    exo2.querySelector('.btn-verify').addEventListener('click', () => {
-        const inputs = exo2.querySelectorAll('input');
-        let allCorrect = true;
-        inputs.forEach(input => {
-            const userAnswer = input.value.trim().toLowerCase();
-            const correctAnswer = input.dataset.answer.toLowerCase();
-            if (userAnswer === correctAnswer) {
-                input.className = 'correct';
-            } else {
-                input.className = 'incorrect';
-                allCorrect = false;
-            }
+    if (exo2) {
+        exo2.querySelector('.btn-verify').addEventListener('click', () => {
+            const inputs = exo2.querySelectorAll('input');
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const correctAnswer = input.dataset.answer.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                if (userAnswer === correctAnswer) {
+                    input.className = 'correct';
+                } else {
+                    input.className = 'incorrect';
+                }
+            });
         });
-        // You could add a global feedback message for this exercise too
-    });
+    }
 
     // Exercise 3: True/False
     const exo3 = document.getElementById('exo-3');
-    handleOptionSelection(exo3.querySelector('.true-false-options'));
-    exo3.querySelector('.btn-verify').addEventListener('click', () => {
-        const selectedOption = exo3.querySelector('.option.selected');
-        const feedback = exo3.querySelector('.exercise-feedback');
-        if (!selectedOption) {
-            alert("Veuillez sélectionner Vrai ou Faux.");
-            return;
-        }
-        
-        const isCorrect = selectedOption.dataset.correct === 'true';
-        feedback.textContent = isCorrect ? 'Exact ! Le besoin est le problème (ex: "transporter mes affaires"), la fonction d\'usage est la solution apportée par l\'objet (ex: "permettre de transporter des objets sur son dos").' : 'Faux. Le besoin est le point de départ, la fonction d\'usage est ce que l\'objet FAIT pour répondre à ce besoin. Ce sont deux choses différentes.';
-        feedback.className = isCorrect ? 'exercise-feedback correct' : 'exercise-feedback incorrect';
-        
-        exo3.querySelectorAll('.option').forEach(opt => {
-            opt.classList.remove('selected');
-            if(opt.dataset.correct === 'true') {
-                opt.classList.add('correct');
-            } else {
-                 opt.classList.add('incorrect');
+    if (exo3) {
+        handleOptionSelection(exo3.querySelector('.true-false-options'));
+        exo3.querySelector('.btn-verify').addEventListener('click', () => {
+            const selectedOption = exo3.querySelector('.option.selected');
+            const feedback = exo3.querySelector('.exercise-feedback');
+            if (!selectedOption) {
+                alert("Veuillez sélectionner Vrai ou Faux.");
+                return;
             }
+            
+            const isCorrect = selectedOption.dataset.correct === 'true';
+            feedback.textContent = isCorrect ? 'Exact ! Le besoin est le problème (ex: "transporter mes affaires"), la fonction d\'usage est la solution apportée par l\'objet.' : 'Faux. Le besoin est le point de départ, la fonction d\'usage est ce que l\'objet FAIT pour répondre à ce besoin.';
+            feedback.className = isCorrect ? 'exercise-feedback correct' : 'exercise-feedback incorrect';
+            
+            exo3.querySelectorAll('.option').forEach(opt => {
+                if(opt.dataset.correct === 'true') {
+                    opt.classList.add('correct');
+                } else if (opt.classList.contains('selected')) {
+                    opt.classList.add('incorrect');
+                }
+            });
         });
-    });
+    }
 
     // Exercise 4: Open Question
     const exo4 = document.getElementById('exo-4');
-    exo4.querySelector('#show-hint-btn').addEventListener('click', () => {
-        exo4.querySelector('#hint-4').style.display = 'block';
-    });
-    exo4.querySelector('#show-answer-btn').addEventListener('click', () => {
-        exo4.querySelector('#answer-4').style.display = 'block';
-    });
+    if (exo4) {
+        exo4.querySelector('#show-hint-btn').addEventListener('click', () => {
+            exo4.querySelector('#hint-4').style.display = 'block';
+        });
+        exo4.querySelector('#show-answer-btn').addEventListener('click', () => {
+            exo4.querySelector('#answer-4').style.display = 'block';
+        });
+    }
 });
 </script>
 
