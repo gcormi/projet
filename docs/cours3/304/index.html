@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Du prototype à la série : Procédés de fabrication</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Instruction 2: Import de la police OpenDyslexic -->
+    <link rel="stylesheet" href="https://font.opendyslexic.org/opendyslexic.css" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Instruction 1: Nouvelle palette de couleurs */
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #a51d58;
+            --background-color: #f4f6f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --header-bg: #111827; /* Un bleu nuit plus profond pour le contraste */
+            --accent-color: #eaf830;
+        }
+
+        /* Instruction 2: Application de la police OpenDyslexic */
+        body {
+            font-family: 'OpenDyslexic', sans-serif;
+            line-height: 1.7; /* Légèrement augmenté pour la lisibilité */
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        header.main-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--header-bg));
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header.main-header h1 {
+            font-family: 'Inter', sans-serif; /* On garde Inter pour les titres pour un impact visuel */
+            font-weight: 900;
+            font-size: 2.8em;
+            margin: 0;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-color);
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            position: relative; /* Pour les éléments positionnés à l'intérieur */
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            color: var(--secondary-color);
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            font-family: 'Inter', sans-serif;
+            color: var(--header-bg);
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .hook-story {
+            background-color: #f0f5ff;
+            border: 2px dashed var(--primary-color);
+            padding: 20px;
+            border-radius: 8px;
+            font-style: italic;
+            position: relative;
+        }
+
+        .hook-story::before {
+            content: '💡';
+            font-size: 2em;
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            background: var(--card-bg);
+            padding: 5px;
+            border-radius: 50%;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%231e40af" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>') no-repeat left center;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .knowledge-block {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .info-box {
+            background-color: #fefce8;
+            border-left: 5px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-box.interdisciplinary {
+            background-color: #eef2ff;
+            border-left-color: #4338ca;
+        }
+        
+        .info-box.expert {
+            background-color: #fdf2f8;
+            border-left-color: var(--secondary-color);
+        }
+
+        /* Instruction 8: Micro-interactions */
+        button, .flip-card, .timeline-item, .hotspot {
+            transition: all 0.3s ease;
+        }
+
+        button:hover, .hotspot:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* CSS pour les images (RESTAURÉ) */
+        .img-gauche, .img-droite {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .img-gauche {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .img-droite {
+            float: right;
+            margin-left: 20px;
+        }
+
+        .img-moyenne {
+            max-width: 450px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        .img-petite {
+            max-width: 280px;
+            width: 100%; /* Pour la responsivité sur mobile */
+        }
+
+        /* Correction pour le "float" (RESTAURÉ) */
+        .knowledge-block::after, section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Instruction 5: CSS pour les Hotspots */
+        .hotspot-container {
+            position: relative;
+            /* max-width et margin sont maintenant gérés par les classes img-moyenne/petite */
+        }
+        .hotspot-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 8px; /* Assurer que l'image a aussi les coins arrondis */
+        }
+        .hotspot {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: rgba(234, 248, 48, 0.8); /* accent-color avec transparence */
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255,255,255,0.7);
+        }
+        .hotspot .tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--header-bg);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -100px; /* Centrer la tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .hotspot:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        #hotspot-1 { top: 45%; left: 25%; }
+        #hotspot-2 { top: 20%; left: 60%; }
+        #hotspot-3 { top: 70%; left: 75%; }
+
+        /* Instruction 4: CSS pour les Flip Cards */
+        .flip-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            perspective: 1000px;
+        }
+        .flip-card {
+            background-color: transparent;
+            width: 250px;
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
+        .flip-card-front {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .flip-card-back {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            font-size: 0.9em;
+        }
+        
+        /* Instruction 6: CSS pour la Chronologie */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        .timeline-item.left {
+            left: 0;
+        }
+        .timeline-item.right {
+            left: 50%;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -14px;
+            background-color: white;
+            border: 4px solid var(--secondary-color);
+            top: 25px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .right::after {
+            left: -14px;
+        }
+        .timeline-content {
+            padding: 20px;
+            background-color: #f0f5ff;
+            position: relative;
+            border-radius: 6px;
+            border: 1px solid var(--primary-color);
+        }
+
+        /* Instruction 3: CSS pour les Nouveaux Exercices */
+        .exercise-container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--secondary-color);
+        }
+        .exercise-options button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px;
+            background-color: white;
+            color: var(--text-color);
+            border: 1px solid #ddd;
+        }
+        .exercise-options button:hover {
+            background-color: #f0f5ff;
+        }
+        .exercise-options button.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .exercise-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none; /* Caché par défaut */
+        }
+        .exercise-feedback.correct {
+            background-color: #dcfce7; color: #166534;
+        }
+        .exercise-feedback.incorrect {
+            background-color: #fee2e2; color: #991b1b;
+        }
+        .exercise-container textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            font-family: 'OpenDyslexic', sans-serif;
+        }
+        .exercise-buttons {
+            margin-top: 10px;
+        }
+        .exercise-buttons button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .exercise-buttons button.secondary {
+            background-color: #6c757d;
+        }
+        .hidden-content {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #eef2ff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 1. TITRE DE LA SÉQUENCE -->
+        <header class="main-header">
+            <h1>DU PROTOTYPE À LA SÉRIE : PROCÉDÉS DE FABRICATION</h1>
+        </header>
+
+        <main>
+            <!-- 2. SITUATION DÉCLENCHANTE -->
+            <section>
+                <h2>Situation Déclenchante</h2>
+                <div class="hook-story">
+                    <p>Léa vient de recevoir une imprimante 3D pour son anniversaire. Passionnée de design, elle passe le week-end à modéliser et à imprimer une coque de téléphone unique pour son <strong>smartphone</strong>. Elle est fière du résultat : une pièce sur-mesure, exactement comme elle l'imaginait !</p>
+                    <p>En la montrant à ses amis, elle se pose une question : "C'est super de pouvoir fabriquer une seule coque comme ça. Mais comment font les grandes marques comme Apple ou Samsung pour produire des millions de coques, toutes parfaitement identiques, solides et lisses, en si peu de temps ? Mon imprimante 3D mettrait des siècles !"</p>
+                    <p>Cette question est le point de départ de notre enquête. Nous allons passer des coulisses de l'atelier de Léa aux gigantesques usines qui fabriquent nos objets du quotidien. Prépare-toi à découvrir les secrets de l'industrialisation !</p>
+                </div>
+            </section>
+
+            <!-- 3. OBJECTIFS PÉDAGOGIQUES -->
+            <section>
+                <h2>Ta mission, si tu l'acceptes...</h2>
+                <p>À la fin de cette séquence, tu seras un véritable expert des procédés de fabrication. Voici tes objectifs :</p>
+                
+                <h4>Compétences à maîtriser :</h4>
+                <ul>
+                    <li>Différencier le prototypage (faire une pièce unique) de la production en série (faire des milliers de pièces).</li>
+                    <li>Identifier les principaux procédés de fabrication (usinage, moulage, injection, impression 3D).</li>
+                    <li>Choisir le procédé le plus adapté en fonction du matériau, de la forme de la pièce et du nombre de pièces à produire.</li>
+                </ul>
+
+                <h4>Savoirs et connaissances à acquérir :</h4>
+                <ul>
+                    <li>Prototypage rapide</li>
+                    <li>Industrialisation</li>
+                    <li>Procédés de fabrication (par ajout de matière, par enlèvement de matière, par formage)</li>
+                    <li>Commande numérique (CNC)</li>
+                </ul>
+            </section>
+
+            <!-- 4. INTRODUCTION ET PROBLÉMATIQUE -->
+            <section>
+                <h2>Introduction et Problématique</h2>
+                <img src="image_1.png" class="img-droite img-moyenne" alt="Comparaison entre un prototype de coque de smartphone et une production en série.">
+                <p>De la première idée qui germe dans l'esprit d'un ingénieur à l'objet que tu tiens entre tes mains, il y a un monde. Un monde de tests, d'essais, d'améliorations et, surtout, de choix techniques cruciaux. L'aventure de Léa avec sa coque de téléphone illustre parfaitement la première étape : le <strong>prototype</strong>, un exemplaire unique pour valider une idée.</p>
+                <p>Mais pour qu'un produit comme une <strong>trottinette électrique</strong>, un <strong>drone de loisir</strong> ou une <strong>enceinte Bluetooth</strong> soit accessible à tous, il faut changer d'échelle. On ne peut pas les imprimer en 3D un par un. Il faut passer à l'<strong>industrialisation</strong>, c'est-à-dire organiser la production pour fabriquer des milliers, voire des millions d'exemplaires, de manière rapide, économique et avec une qualité constante.</p>
+                <p>Cela nous amène à notre problématique centrale :</p>
+                <div class="hook-story" style="border-color: var(--secondary-color); text-align: center; font-weight: bold;">
+                    Comment passer d'un exemplaire unique (prototype) à une production de masse (série) en choisissant les bons procédés de fabrication pour garantir la qualité, la rapidité et un coût maîtrisé ?
+                </div>
+                <p>Pour y répondre, nous explorerons d'abord ce qui différencie un prototype d'un produit de série. Ensuite, nous plongerons au cœur des usines pour découvrir les trois grandes familles de fabrication, et enfin, nous verrons comment les machines à commande numérique ont révolutionné l'industrie.</p>
+            </section>
+
+            <!-- 5. DÉVELOPPEMENT DU COURS -->
+            <section>
+                <h2>Exploration en Profondeur</h2>
+
+                <div class="knowledge-block">
+                    <h3>1. Prototypage Rapide</h3>
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> Le prototypage rapide est un ensemble de techniques permettant de fabriquer rapidement un modèle physique à partir de données de Conception Assistée par Ordinateur (CAO). L'enjeu est de pouvoir tester, valider et itérer sur un concept (forme, ergonomie, assemblage) à faible coût et dans des délais très courts, avant de lancer des investissements lourds pour la production en série.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Imagine que tu écris une rédaction. Le brouillon, c'est ton prototype. Tu peux le raturer, le corriger, changer des paragraphes facilement. Une fois que tu es satisfait, tu le recopies au propre pour le rendre au professeur. Le prototypage, c'est le "brouillon" d'un objet technique.</p>
+                    <p><strong>c) 📱 Étude de Cas Concrète :</strong> Avant de lancer un nouveau modèle de <strong>drone</strong>, les ingénieurs impriment en 3D des dizaines de versions du châssis. Ils testent la résistance, l'aérodynamisme, l'emplacement des moteurs et de la batterie. Chaque prototype imprimé en quelques heures permet de corriger un défaut, jusqu'à obtenir le design final parfait.</p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Pour créer le prototype de la coque de son <strong>smartphone</strong>, Léa a suivi ces étapes : 1. Modélisation 3D sur un logiciel de CAO (ex: Tinkercad, Fusion 360). 2. Exportation du fichier au format STL. 3. "Tranchage" du fichier STL dans un logiciel (slicer) qui le découpe en fines couches et génère le G-code (les instructions pour l'imprimante). 4. Envoi du G-code à l'imprimante 3D qui dépose le plastique fondu couche par couche pour construire l'objet.</p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> 1. Confondre prototype et produit fini : Un prototype n'a souvent pas la même solidité ni la même finition qu'un produit de série. Il sert à valider une forme, pas forcément à être utilisé intensivement. 2. Penser que l'impression 3D est la seule technique de prototypage : L'usinage ou la découpe laser sont aussi très utilisés pour prototyper.</p>
+                    <div class="info-box">
+                        <p><strong>f) 💡 Le Saviez-Vous ?</strong> La première technique de prototypage rapide, la stéréolithographie, a été inventée en <strong class="count-up" data-target="1984">1984</strong> par le Français Alain Le Méhauté (et deux autres confrères), juste avant l'Américain Chuck Hull qui est plus souvent crédité pour son invention car il a déposé le brevet quelques semaines avant.</p>
+                    </div>
+                    <div class="info-box interdisciplinary">
+                        <p><strong>g) 🤝 Ponts Interdisciplinaires :</strong> <strong>Arts Plastiques :</strong> Le prototypage rapide est une forme de sculpture numérique. <strong>Mathématiques :</strong> La modélisation 3D repose entièrement sur la géométrie dans l'espace (coordonnées x, y, z).</p>
+                    </div>
+                    <div class="info-box expert">
+                        <p><strong>h) 🚀 Pour les Experts :</strong> On parle de plus en plus de "prototypage fonctionnel". L'objectif n'est plus seulement de valider une forme, mais aussi une fonction. On utilise des matériaux plus résistants (comme le PETG ou l'ABS en impression 3D) pour créer des prototypes qui peuvent être réellement testés en conditions quasi-réelles (par exemple, un engrenage pour un mécanisme).</p>
+                    </div>
+                </div>
+
+                <div class="knowledge-block">
+                    <h3>2. Industrialisation</h3>
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> L'industrialisation est le processus qui consiste à passer d'un prototype validé à une production en grande série. Cela implique de concevoir les outils de production (moules, machines spécifiques), d'optimiser les procédés de fabrication, de définir les chaînes d'assemblage et de mettre en place le contrôle qualité. L'enjeu est de produire en grande quantité, au meilleur coût, dans les délais impartis et avec un niveau de qualité constant.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Reprenons la rédaction. L'industrialisation, c'est comme si, au lieu de recopier ton texte à la main, tu devais l'imprimer 1000 fois. Tu ne vas pas utiliser ton stylo ! Tu vas utiliser une photocopieuse ou une imprimante. Tu dois t'assurer que la machine a assez d'encre et de papier, qu'elle est bien réglée pour que chaque copie soit parfaite. L'industrialisation, c'est la "photocopieuse" de l'objet technique.</p>
+                    <p><strong>c) 📱 Étude de Cas Concrète :</strong> Pour la coque du <strong>smartphone</strong>, l'industrialisation consiste à créer un moule en acier extrêmement précis, qui coûtera des <strong class="count-up" data-target="50000" data-suffix=" €">dizaines de milliers d'euros</strong>. Ce moule sera monté sur une presse à injecter qui produira une coque toutes les <strong class="count-up" data-target="15" data-suffix=" secondes">10 à 20 secondes</strong>. On organisera aussi la logistique pour recevoir les granulés de plastique et expédier les millions de coques produites.</p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Les étapes de l'industrialisation pour le châssis en aluminium d'une <strong>trottinette électrique</strong> : 1. Conception du produit final en pensant à la fabrication (simplifier les formes pour le moulage). 2. Conception et fabrication des moules (outillage). 3. Mise en place de la ligne de production : machines de moulage par injection, robots pour extraire les pièces, postes d'ébavurage (enlever les surplus de matière), postes de contrôle qualité (vérification des dimensions, des défauts).</p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> 1. Penser qu'on peut industrialiser n'importe quel prototype : Parfois, la forme d'un prototype est trop complexe ou impossible à fabriquer en série. Il faut souvent redessiner l'objet pour qu'il soit "industrialisable". 2. Sous-estimer le coût de l'outillage : Le moule d'injection est souvent l'investissement le plus cher dans un projet.</p>
+                    <div class="info-box">
+                        <p><strong>f) 💡 Le Saviez-Vous ?</strong> Henry Ford n'a pas inventé l'automobile, mais il a inventé la ligne d'assemblage moderne (le "Fordisme") en <strong class="count-up" data-target="1913">1913</strong>. En divisant le montage de la Ford T en <strong class="count-up" data-target="84">84</strong> étapes simples, il a fait passer le temps d'assemblage d'un châssis de 12 heures à seulement <strong class="count-up" data-target="93" data-suffix=" minutes">93 minutes</strong>, rendant la voiture accessible au plus grand nombre.</p>
+                    </div>
+                    <div class="info-box interdisciplinary">
+                        <p><strong>g) 🤝 Ponts Interdisciplinaires :</strong> <strong>Histoire :</strong> La Révolution Industrielle au 19ème siècle est la première grande phase d'industrialisation. <strong>Sciences Économiques et Sociales :</strong> L'industrialisation a des impacts majeurs sur la société (urbanisation, création d'emplois, consommation de masse).</p>
+                    </div>
+                    <div class="info-box expert">
+                        <p><strong>h) 🚀 Pour les Experts :</strong> Un des grands défis de l'industrialisation aujourd'hui est la "mass customization" (personnalisation de masse). Comment concilier les économies d'échelle de la production de masse avec le désir des consommateurs d'avoir un produit unique ? Des techniques comme la fabrication additive ou des lignes de production flexibles sont des pistes explorées.</p>
+                    </div>
+                </div>
+
+                <div class="knowledge-block">
+                    <h3>3. Procédés de Fabrication</h3>
+                    <img src="image_2.png" class="img-droite img-moyenne" alt="Schéma des trois familles de procédés de fabrication : ajout, enlèvement et formage.">
+                    <p>Pour fabriquer un objet, on peut suivre trois grandes stratégies. C'est comme faire une sculpture : on peut partir de rien et ajouter de l'argile, prendre un bloc de bois et en enlever des copeaux, ou prendre une feuille de métal et la plier.</p>
+
+                    <h4>a) Fabrication par Ajout de Matière (Fabrication Additive)</h4>
+                    <p><strong>🎓 Définition :</strong> On construit la pièce en ajoutant de la matière couche par couche. C'est le principe de l'impression 3D.
+                    <br><strong>🧠 Analogie :</strong> C'est comme construire un château de LEGO, brique par brique.
+                    <br><strong>📱 Étude de Cas :</strong> Le prototypage de la coque de <strong>smartphone</strong> de Léa. C'est aussi utilisé pour créer des pièces très complexes et légères pour les <strong>drones</strong> de compétition.
+                    <br><strong>💡 Le Saviez-Vous ?</strong> On arrive aujourd'hui à imprimer en 3D du métal, du béton (pour des maisons !) et même des tissus biologiques (bio-impression).</p>
+                    <img src="image_4.png" class="img-gauche img-petite" alt="Schéma du moulage par injection plastique pour une coque d'objet électronique.">
+
+                    <h4>b) Fabrication par Enlèvement de Matière (Usinage)</h4>
+                    <p><strong>🎓 Définition :</strong> On part d'un bloc de matière brute (un "brut") et on enlève de la matière (des "copeaux") à l'aide d'un outil coupant pour obtenir la forme désirée.
+                    <br><strong>🧠 Analogie :</strong> C'est comme un sculpteur qui taille une statue dans un bloc de marbre.
+                    <br><strong>📱 Étude de Cas :</strong> La fabrication du cadre en aluminium de certains <strong>smartphones</strong> haut de gamme ou des pièces métalliques de précision pour le moteur d'une <strong>trottinette électrique</strong>. Le perçage, le fraisage, le tournage sont des techniques d'usinage.
+                    <br><strong>💡 Le Saviez-Vous ?</strong> Les copeaux de métal issus de l'usinage sont presque toujours recyclés, ce qui en fait un procédé avec peu de perte de matière nette.</p>
+
+                    <h4>c) Fabrication par Formage</h4>
+                    <p><strong>🎓 Définition :</strong> On déforme une matière (souvent chauffée pour la ramollir) pour lui donner la forme souhaitée, sans ajouter ni enlever de matière.
+                    <br><strong>🧠 Analogie :</strong> C'est comme un potier qui modèle une boule d'argile sur son tour, ou comme prendre une feuille de papier et la plier pour en faire un avion.
+                    <br><strong>📱 Étude de Cas :</strong> Le <strong>moulage par injection plastique</strong> est la technique de formage la plus courante. On l'utilise pour fabriquer les coques des <strong>enceintes Bluetooth</strong>, les hélices des <strong>drones</strong>, et la plupart des objets en plastique qui nous entourent. Le pliage de tôle (pour les cadres de trottinettes) est aussi un procédé de formage.</p>
+                </div>
+
+                <div class="knowledge-block">
+                    <h3>4. Commande Numérique (CNC)</h3>
+                    <img src="image_3.png" class="img-droite img-moyenne" alt="Fraiseuse à commande numérique (CNC) usinant une pièce métallique pour un drone.">
+                    <p><strong>a) 🎓 Définition Académique et Enjeux :</strong> La Commande Numérique par Calculateur (CNC, pour Computer Numerical Control) est une technologie qui permet de piloter des machines-outils par un ordinateur. À partir d'un fichier de CAO, l'ordinateur envoie des instructions (le G-code) pour commander les mouvements des outils avec une très grande précision. L'enjeu est d'automatiser la production, de garantir une répétabilité parfaite et de réaliser des formes très complexes impossibles à faire manuellement.</p>
+                    <p><strong>b) 🧠 Analogie et Simplification Pédagogique :</strong> Imagine un dessinateur ultra-précis qui peut suivre des instructions à la lettre. Tu lui donnes les coordonnées de points, et il trace les lignes parfaitement, sans jamais trembler, et peut recommencer le même dessin 1000 fois à l'identique. La CNC, c'est ce dessinateur robotisé pour les machines.</p>
+                    <p><strong>c) 📱 Étude de Cas Concrète :</strong> Les machines qui usinent les cadres en aluminium des <strong>smartphones</strong> sont des fraiseuses CNC. L'outil, tournant à très grande vitesse, se déplace sur 3, 4 ou même <strong class="count-up" data-target="5">5</strong> axes pour "sculpter" le bloc d'aluminium et créer les courbes complexes, les trous pour les boutons et les ouvertures pour les connecteurs, avec une précision de l'ordre du centième de millimètre.</p>
+                    <p><strong>d) 🛠️ Décortiquage Technique - "Sous le Capot" :</strong> Le processus CNC : 1. Conception de la pièce sur un logiciel de CAO. 2. Création du parcours d'outil dans un logiciel de FAO (Fabrication Assistée par Ordinateur). Ce logiciel simule l'usinage et génère le G-code. 3. Le G-code est un fichier texte avec des commandes comme `G01 X10 Y25 F200` qui signifie "va en ligne droite au point de coordonnées X=10mm, Y=25mm à une vitesse de 200 mm/minute". 4. L'opérateur installe le bloc de matière (le "brut") dans la machine, charge le G-code, et lance l'usinage. La machine exécute le programme de manière autonome.</p>
+                    <p><strong>e) 🤔 Points de Vigilance et Erreurs à Éviter :</strong> 1. Penser que CNC = Usinage : C'est faux ! La commande numérique pilote toutes sortes de machines : des fraiseuses (usinage), mais aussi des découpeuses laser, des presses plieuses, et même des imprimantes 3D ! C'est le "cerveau" de la machine. 2. Oublier le rôle de l'opérateur : Même si la machine est autonome, un technicien qualifié est indispensable pour la préparer, la surveiller et s'assurer que tout se passe bien.</p>
+                    <div class="info-box">
+                        <p><strong>f) 💡 Le Saviez-Vous ?</strong> Les premières machines à commande numérique datent des années <strong class="count-up" data-target="1950">1950</strong> et fonctionnaient avec des rubans perforés, comme les orgues de barbarie ! L'ordinateur a remplacé ce système, rendant la technologie beaucoup plus flexible.</p>
+                    </div>
+                    <div class="info-box interdisciplinary">
+                        <p><strong>g) 🤝 Ponts Interdisciplinaires :</strong> <strong>Mathématiques :</strong> Le G-code est une application directe de la géométrie analytique et des vecteurs pour décrire les mouvements dans l'espace. <strong>Physique/Chimie :</strong> Le choix des vitesses de coupe et des outils dépend des propriétés du matériau à usiner (dureté, point de fusion...).</p>
+                    </div>
+                    <div class="info-box expert">
+                        <p><strong>h) 🚀 Pour les Experts :</strong> Les machines CNC les plus avancées ont 5 axes. En plus des 3 axes linéaires (X, Y, Z), la pièce ou l'outil peut pivoter selon deux axes de rotation. Cela permet d'usiner des formes extrêmement complexes, comme des hélices de bateau ou des turbines de réacteur, en une seule opération, sans avoir à démonter et repositionner la pièce.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Instruction 6: Chronologie Interactive -->
+            <section>
+                <h2>De l'Idée au Produit : La Chronologie</h2>
+                <div class="timeline">
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <h3>Étape 1 : L'Idée & la CAO</h3>
+                            <p>Tout commence par une idée, qui est ensuite transformée en un modèle 3D détaillé à l'aide d'un logiciel de Conception Assistée par Ordinateur (CAO).</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <h3>Étape 2 : Le Prototypage</h3>
+                            <p>On fabrique un ou plusieurs exemplaires de test, souvent par impression 3D, pour valider la forme, l'ergonomie et l'assemblage. C'est une phase d'essais et d'erreurs rapides.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <h3>Étape 3 : L'Industrialisation</h3>
+                            <p>Une fois le prototype validé, on prépare la production en série : conception des moules, choix des machines, mise en place de la chaîne de production. C'est une étape coûteuse et complexe.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <h3>Étape 4 : La Production en Série</h3>
+                            <p>Les machines tournent à plein régime pour fabriquer des milliers ou millions de pièces identiques, en utilisant des procédés optimisés comme le moulage par injection.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Instruction 4: Cartes à retourner -->
+            <section>
+                <h2>Concepts en Duel : Cartes à Retourner</h2>
+                <p>Clique sur les cartes pour découvrir la différence entre ces concepts clés !</p>
+                <div class="flip-card-container">
+                    <div class="flip-card" tabindex="0">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">Prototypage</div>
+                            <div class="flip-card-back">Fabrication d'un exemplaire unique ou en très petite série pour tester et valider un concept. Priorité à la vitesse et la flexibilité.</div>
+                        </div>
+                    </div>
+                    <div class="flip-card" tabindex="0">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">Industrialisation</div>
+                            <div class="flip-card-back">Processus de mise en place des moyens pour produire en grande série. Priorité au coût, à la qualité et à la répétabilité.</div>
+                        </div>
+                    </div>
+                    <div class="flip-card" tabindex="0">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">Ajout de Matière</div>
+                            <div class="flip-card-back">On construit l'objet en superposant des couches de matière (ex: Impression 3D). Idéal pour les formes complexes et le prototypage.</div>
+                        </div>
+                    </div>
+                    <div class="flip-card" tabindex="0">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">Enlèvement de Matière</div>
+                            <div class="flip-card-back">On part d'un bloc de matière et on en enlève des copeaux pour obtenir la forme finale (ex: Usinage CNC). Idéal pour la haute précision.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. AVENIR ET PERSPECTIVES (avec Hotspots) -->
+            <section>
+                <h2>Avenir et Perspectives : L'Usine du Futur</h2>
+                <!-- Instruction 5: Hotspots sur l'image -->
+                <div class="hotspot-container img-droite img-moyenne">
+                    <img src="image_5.png" alt="Vision de l'usine du futur, l'Industrie 4.0, avec robots et interfaces holographiques.">
+                    <div id="hotspot-1" class="hotspot" tabindex="0">
+                        <span class="tooltip"><strong>Robot Collaboratif (Cobot) :</strong> Un robot conçu pour travailler en toute sécurité aux côtés des humains, les assistant dans les tâches répétitives ou difficiles.</span>
+                    </div>
+                    <div id="hotspot-2" class="hotspot" tabindex="0">
+                        <span class="tooltip"><strong>Interface Homme-Machine (IHM) :</strong> Des écrans tactiles, des commandes vocales ou des interfaces holographiques permettent aux opérateurs de piloter et superviser la production de manière intuitive.</span>
+                    </div>
+                    <div id="hotspot-3" class="hotspot" tabindex="0">
+                        <span class="tooltip"><strong>Fabrication Additive à Grande Échelle :</strong> Des imprimantes 3D industrielles capables de fabriquer des pièces finies, en métal ou en polymères haute performance, directement pour l'assemblage.</span>
+                    </div>
+                </div>
+                <p>La façon dont nous fabriquons les objets est en pleine révolution. L'usine de demain, souvent appelée "Industrie 4.0", sera intelligente, connectée et plus respectueuse de l'environnement.</p>
+                <ul>
+                    <li><strong>Fabrication Hybride :</strong> On combinera les procédés. Une machine pourra par exemple imprimer en 3D une pièce en métal (ajout) puis en usiner les surfaces de précision (enlèvement) dans la même opération.</li>
+                    <li><strong>Intelligence Artificielle (IA) :</strong> L'IA optimisera les lignes de production en temps réel, anticipera les pannes des machines (maintenance prédictive) et contrôlera la qualité des produits avec une efficacité redoutable.</li>
+                    <li><strong>Fabrication Locale :</strong> Grâce à des machines plus compactes et polyvalentes comme les imprimantes 3D, on pourra relocaliser une partie de la production au plus près des consommateurs, pour créer des produits sur-mesure et réduire l'impact des transports.</li>
+                    <li><strong>Défis Écologiques :</strong> Le plus grand défi sera de produire mieux avec moins. Cela passe par l'utilisation de matériaux recyclés ou biosourcés, la réduction de la consommation d'énergie des usines et la conception d'objets plus faciles à réparer et à recycler (écoconception).</li>
+                </ul>
+            </section>
+
+            <!-- 7. CONCLUSION -->
+            <section>
+                <h2>Conclusion</h2>
+                <p>Nous avons commencé avec la simple question de Léa : comment passe-t-on d'une coque de téléphone à des millions ? Nous avons maintenant la réponse. Ce passage du <strong>prototype</strong> à la <strong>série</strong> n'est pas magique, c'est le fruit d'une démarche rigoureuse : l'<strong>industrialisation</strong>.</p>
+                <p>Nous avons vu que le choix du procédé de fabrication est un compromis stratégique. L'<strong>impression 3D (ajout de matière)</strong> est reine pour le prototypage rapide et les petites séries complexes. Pour la très grande série, le <strong>moulage par injection (formage)</strong> est imbattable en coût et en vitesse, malgré un investissement initial élevé. Et pour les pièces de haute précision, l'<strong>usinage (enlèvement de matière)</strong>, souvent piloté par <strong>commande numérique (CNC)</strong>, reste indispensable.</p>
+                <p>En comprenant ces principes, tu ne regarderas plus jamais un smartphone, une trottinette ou un drone de la même façon. Tu y verras les traces de ces choix techniques qui façonnent notre monde matériel.</p>
+            </section>
+
+            <!-- Instruction 3: Section d'exercices interactifs -->
+            <section id="interactive-exercises">
+                <h2>Pour Tester tes Connaissances : Exercices Interactifs</h2>
+
+                <!-- Exercice 1: QCM -->
+                <div class="exercise-container">
+                    <h4>Question 1 (QCM)</h4>
+                    <p>Pour fabriquer 2 millions de coques en plastique pour une enceinte Bluetooth, quel procédé est le plus adapté et pourquoi ?</p>
+                    <div class="exercise-options" id="q1-options">
+                        <button data-correct="false">A) Usinage CNC, car c'est le plus précis.</button>
+                        <button data-correct="true">B) Moulage par injection, car c'est le plus rapide et économique pour les grandes séries.</button>
+                        <button data-correct="false">C) Impression 3D, car on peut faire des formes complexes.</button>
+                    </div>
+                    <div class="exercise-buttons">
+                        <button onclick="checkMCQ('q1')">Vérifier</button>
+                    </div>
+                    <div class="exercise-feedback" id="q1-feedback"></div>
+                </div>
+                
+                <!-- Exercice 2: Vrai/Faux -->
+                <div class="exercise-container">
+                    <h4>Question 2 (Vrai / Faux)</h4>
+                    <p>"L'impression 3D est toujours le meilleur procédé pour fabriquer 1 million de pièces identiques."</p>
+                    <div class="exercise-options" id="q2-options">
+                        <button data-correct="false">Vrai</button>
+                        <button data-correct="true">Faux</button>
+                    </div>
+                    <div class="exercise-buttons">
+                        <button onclick="checkMCQ('q2')">Vérifier</button>
+                    </div>
+                    <div class="exercise-feedback" id="q2-feedback"></div>
+                </div>
+
+                <!-- Exercice 3: Question Ouverte -->
+                <div class="exercise-container">
+                    <h4>Question 3 (Question Ouverte)</h4>
+                    <p>Expliquez avec vos propres mots pourquoi une entreprise ne fabrique pas les prototypes d'un drone avec la même technique que les modèles de série. Mentionnez au moins deux critères de choix.</p>
+                    <textarea placeholder="Votre réponse ici..."></textarea>
+                    <div class="exercise-buttons">
+                        <button class="secondary" onclick="toggleVisibility('q3-hint')">Afficher un indice</button>
+                        <button onclick="toggleVisibility('q3-answer')">Comparer avec la réponse type</button>
+                    </div>
+                    <div class="hidden-content" id="q3-hint">
+                        <p><strong>Indice :</strong> Pensez aux objectifs différents de chaque phase. L'un est lié au test et à la vitesse de modification, l'autre à la production en masse. Quels sont les impacts sur le coût et le temps ?</p>
+                    </div>
+                    <div class="hidden-content" id="q3-answer">
+                        <p><strong>Réponse type :</strong> Une entreprise utilise des techniques différentes car les objectifs ne sont pas les mêmes. Pour le prototypage, l'objectif est de tester rapidement des idées à faible coût. L'impression 3D est idéale car elle est flexible et ne nécessite pas d'outillage cher. Pour la production en série, l'objectif est de produire des milliers de pièces identiques au coût le plus bas possible. Le moulage par injection est alors plus adapté car, même si le moule est cher au départ, le coût par pièce devient très faible et la vitesse de production est très élevée. Les deux critères principaux sont donc le **coût** (investissement initial vs coût par pièce) et la **quantité/vitesse** de production.</p>
+                    </div>
+                </div>
+                
+                <!-- Exercice 4: QCM -->
+                <div class="exercise-container">
+                    <h4>Question 4 (QCM)</h4>
+                    <p>Qu'est-ce que la Commande Numérique (CNC) ?</p>
+                    <div class="exercise-options" id="q4-options">
+                        <button data-correct="false">A) Un type de plastique très résistant.</button>
+                        <button data-correct="false">B) Une technique d'assemblage par collage.</button>
+                        <button data-correct="true">C) Un système informatique qui pilote une machine-outil avec précision.</button>
+                    </div>
+                    <div class="exercise-buttons">
+                        <button onclick="checkMCQ('q4')">Vérifier</button>
+                    </div>
+                    <div class="exercise-feedback" id="q4-feedback"></div>
+                </div>
+
+                <!-- Exercice 5: Vrai/Faux -->
+                <div class="exercise-container">
+                    <h4>Question 5 (Vrai / Faux)</h4>
+                    <p>"Un prototype doit toujours être parfaitement fonctionnel et avoir la même finition que le produit final."</p>
+                    <div class="exercise-options" id="q5-options">
+                        <button data-correct="false">Vrai</button>
+                        <button data-correct="true">Faux</button>
+                    </div>
+                    <div class="exercise-buttons">
+                        <button onclick="checkMCQ('q5')">Vérifier</button>
+                    </div>
+                    <div class="exercise-feedback" id="q5-feedback"></div>
+                </div>
+
+                <!-- Exercice 6: Question Ouverte -->
+                <div class="exercise-container">
+                    <h4>Question 6 (Question Ouverte)</h4>
+                    <p>Décrivez les trois grandes familles de procédés de fabrication et donnez un exemple concret pour chacune, tiré du cours.</p>
+                    <textarea placeholder="Votre réponse ici..."></textarea>
+                    <div class="exercise-buttons">
+                        <button class="secondary" onclick="toggleVisibility('q6-hint')">Afficher un indice</button>
+                        <button onclick="toggleVisibility('q6-answer')">Comparer avec la réponse type</button>
+                    </div>
+                    <div class="hidden-content" id="q6-hint">
+                        <p><strong>Indice :</strong> Pensez à une sculpture : on peut ajouter de la matière, en enlever, ou la déformer.</p>
+                    </div>
+                    <div class="hidden-content" id="q6-answer">
+                        <p><strong>Réponse type :</strong><br>
+                        1. <strong>Ajout de matière :</strong> On construit la pièce couche par couche. Exemple : l'impression 3D de la coque de smartphone de Léa.<br>
+                        2. <strong>Enlèvement de matière :</strong> On part d'un bloc et on enlève des copeaux. Exemple : l'usinage du cadre en aluminium d'un smartphone.<br>
+                        3. <strong>Formage :</strong> On déforme la matière pour lui donner sa forme. Exemple : le moulage par injection des hélices d'un drone.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. SYNTHÈSE VISUELLE (FORMAT CARTE MENTALE) -->
+            <section>
+                <h2>Synthèse Visuelle</h2>
+                <img src="image_6.png" class="img-droite img-petite" alt="Icône de carte mentale pour la synthèse du cours.">
+                <div class="mental-map">
+                    <ul>
+                        <li class="level-1"><span>Du Prototype à la Série</span>
+                            <ul>
+                                <li class="level-2"><span>1. Le Prototype</span>
+                                    <ul>
+                                        <li class="level-3">Objectif : Tester, valider une idée</li>
+                                        <li class="level-3">Caractéristiques : Pièce unique, rapide à faire, faible coût</li>
+                                        <li class="level-3">Technique phare : Prototypage Rapide (ex: Impression 3D)</li>
+                                    </ul>
+                                </li>
+                                <li class="level-2"><span>2. La Série</span>
+                                    <ul>
+                                        <li class="level-3">Objectif : Produire en masse</li>
+                                        <li class="level-3">Démarche : Industrialisation</li>
+                                        <li class="level-3">Contraintes : Coût, qualité, délais</li>
+                                    </ul>
+                                </li>
+                                <li class="level-2"><span>3. Les Procédés de Fabrication</span>
+                                    <ul>
+                                        <li class="level-3"><strong>Ajout de matière :</strong> Impression 3D (prototypes, pièces complexes)</li>
+                                        <li class="level-3"><strong>Enlèvement de matière :</strong> Usinage (pièces précises, métal)</li>
+                                        <li class="level-3"><strong>Formage :</strong> Moulage, pliage (grande série, plastique, métal)</li>
+                                    </ul>
+                                </li>
+                                <li class="level-2"><span>4. Le Cerveau des Machines</span>
+                                    <ul>
+                                        <li class="level-3"><strong>Commande Numérique (CNC) :</strong> Automatisation, précision, répétabilité</li>
+                                        <li class="level-3">Langage : G-code</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 10. LEXIQUE / GLOSSAIRE DES TERMES CLÉS -->
+            <section>
+                <h2>Lexique</h2>
+                <dl>
+                    <dt>CAO (Conception Assistée par Ordinateur)</dt>
+                    <dd>Utilisation de logiciels pour créer et modifier des objets en 2D ou 3D. C'est le plan numérique de l'objet.</dd>
+                    <dt>CNC (Commande Numérique par Calculateur)</dt>
+                    <dd>Système informatique qui pilote les mouvements d'une machine-outil à partir d'un programme.</dd>
+                    <dt>G-code</dt>
+                    <dd>Le langage de programmation qui donne les instructions de mouvement à une machine à commande numérique.</dd>
+                    <dt>Industrialisation</dt>
+                    <dd>Ensemble des étapes permettant de passer d'un prototype à une production en grande série.</dd>
+                    <dt>Moulage par injection</dt>
+                    <dd>Procédé de formage où du plastique fondu est injecté sous haute pression dans un moule pour former une pièce.</dd>
+                    <dt>Prototypage rapide</dt>
+                    <dd>Ensemble de techniques (dont l'impression 3D) pour fabriquer très vite un modèle physique d'un objet conçu en CAO.</dd>
+                    <dt>Usinage</dt>
+                    <dd>Procédé de fabrication par enlèvement de matière (copeaux) à partir d'un bloc brut.</dd>
+                </dl>
+            </section>
+
+            <!-- 11. POUR ALLER PLUS LOIN -->
+            <section>
+                <h2>Pour Aller Plus Loin</h2>
+                <div class="project-card">
+                    <h4>Mini-Projet : Deviens Designer !</h4>
+                    <p>Utilise un logiciel de CAO simple et gratuit comme <strong>Tinkercad</strong> pour modéliser un objet simple lié à tes passions : un porte-clés, un support pour smartphone, un pion pour un jeu de société... Si tu as accès à une imprimante 3D au collège, fabrique ton prototype !</p>
+                </div>
+                <div class="project-card">
+                    <h4>Vidéo de Référence : "C'est Pas Sorcier - Les PLASTIQUES"</h4>
+                    <p>Même si elle a quelques années, cette vidéo reste une référence géniale pour comprendre d'où vient le plastique et comment on le transforme, notamment avec le moulage par injection. Tu la trouveras facilement sur YouTube.</p>
+                </div>
+                <div class="project-card">
+                    <h4>Métier à Découvrir : Technicien d'Usinage sur Machine à Commande Numérique</h4>
+                    <p>C'est la personne qui programme, règle et supervise les machines CNC. C'est un métier de haute précision qui mêle compétences informatiques et savoir-faire mécanique, très recherché dans l'aéronautique, l'automobile ou le médical.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        // Instruction 4: Logique pour les cartes à retourner
+        const flipCards = document.querySelectorAll('.flip-card');
+        flipCards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('is-flipped');
+            });
+            card.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    card.classList.toggle('is-flipped');
+                }
+            });
+        });
+
+        // Instruction 7: Logique pour l'animation des nombres
+        const countUpObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target, 10);
+                    const duration = 1500; // en ms
+                    const suffix = el.dataset.suffix || '';
+                    let current = 0;
+                    const increment = target / (duration / 16); // 60fps
+
+                    const updateCount = () => {
+                        current += increment;
+                        if (current < target) {
+                            el.textContent = Math.ceil(current).toLocaleString('fr-FR') + suffix;
+                            requestAnimationFrame(updateCount);
+                        } else {
+                            el.textContent = target.toLocaleString('fr-FR') + suffix;
+                        }
+                    };
+                    requestAnimationFrame(updateCount);
+                    observer.unobserve(el); // Animer une seule fois
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.count-up').forEach(el => {
+            countUpObserver.observe(el);
+        });
+
+        // Instruction 3: Logique pour les options des QCM et Vrai/Faux
+        const optionButtons = document.querySelectorAll('.exercise-options button');
+        optionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Désélectionner les autres boutons dans le même groupe
+                const parentOptions = button.parentElement;
+                parentOptions.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                // Sélectionner le bouton cliqué
+                button.classList.add('selected');
+            });
+        });
+    });
+
+    // Instruction 3: Fonctions pour les exercices (portée globale)
+    function checkMCQ(questionId) {
+        const optionsContainer = document.getElementById(questionId + '-options');
+        const feedbackEl = document.getElementById(questionId + '-feedback');
+        const selectedButton = optionsContainer.querySelector('button.selected');
+
+        if (!selectedButton) {
+            feedbackEl.textContent = 'Veuillez sélectionner une réponse.';
+            feedbackEl.className = 'exercise-feedback incorrect';
+            feedbackEl.style.display = 'block';
+            return;
+        }
+
+        const isCorrect = selectedButton.dataset.correct === 'true';
+        if (isCorrect) {
+            feedbackEl.innerHTML = '✅ Bravo, c\'est la bonne réponse !';
+            feedbackEl.className = 'exercise-feedback correct';
+        } else {
+            feedbackEl.innerHTML = '❌ Incorrect. La bonne réponse était une autre option.';
+            feedbackEl.className = 'exercise-feedback incorrect';
+        }
+        feedbackEl.style.display = 'block';
+    }
+
+    function toggleVisibility(elementId) {
+        const el = document.getElementById(elementId);
+        if (el) {
+            el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+        }
+    }
+    </script>
+
+</body>
+</html
