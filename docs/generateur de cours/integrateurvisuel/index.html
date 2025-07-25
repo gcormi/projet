@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Intégrateur Visuel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            color: #333;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .sidebar {
+            width: 380px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            padding: 24px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .file-input-button, .export-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 8px 0;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-input-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .export-button {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
+        }
+
+        .export-button:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .image-section {
+            padding: 24px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: "🖼️";
+            font-size: 20px;
+        }
+
+        .palette-dropzone {
+            border: 2px dashed #d1d5db;
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            transition: all 0.3s ease;
+        }
+
+        .palette-dropzone:hover {
+            border-color: #667eea;
+            background: #f0f8ff;
+            transform: translateY(-2px);
+        }
+
+        .palette-dropzone.dragover {
+            border-color: #667eea;
+            background: #f0f8ff;
+            color: #4f46e5;
+            transform: scale(1.02);
+        }
+
+        .palette-images {
+            margin-bottom: 30px;
+        }
+
+        .palette-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .palette-item:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .palette-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 16px;
+            border: 2px solid #f3f4f6;
+        }
+
+        .image-info {
+            flex: 1;
+            font-size: 13px;
+        }
+
+        .image-name {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1f2937;
+            font-size: 14px;
+        }
+
+        .insert-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .insert-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+        }
+
+        .insertion-options {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .insertion-options.visible {
+            display: block;
+        }
+
+        .insertion-options h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .position-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 4px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .position-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .cancel-btn:hover {
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        }
+
+        .preview-container {
+            flex: 1;
+            padding: 24px;
+            position: relative;
+            overflow: auto;
+            background: #f8fafc;
+        }
+
+        .preview-content {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 32px;
+            background: white;
+            overflow: auto;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-message {
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-radius: 12px;
+            display: none;
+            font-weight: 500;
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-message.success {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            border-left: 4px solid #10b981;
+        }
+
+        .status-message.error {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #ef4444;
+        }
+
+        .status-message.info {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .inserted-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 15px 0;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        .inserted-image:hover {
+            border-color: #007bff;
+        }
+
+        .inserted-image.selected {
+            border-color: #28a745;
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
+        }
+
+        .image-controls {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 1000;
+            width: 250px;
+            animation: fadeInScale 0.3s ease;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .image-controls.visible {
+            display: block;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            width: calc(50% - 8px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        }
+
+        .resize-controls {
+            margin-bottom: 12px;
+        }
+
+        .resize-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .resize-btn:hover {
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .position-controls {
+            margin-bottom: 10px;
+        }
+
+        .position-btn-ctrl {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            width: calc(33% - 4px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .position-btn-ctrl:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+        }
+
+        .controls-section {
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .controls-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .controls-section h5 {
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="header">
+                <h1>L'Intégrateur Visuel</h1>
+                <p>Ajoutez facilement des images à vos fichiers HTML existants</p>
+                
+                <input type="file" id="htmlFileInput" accept=".html" class="hidden">
+                <button class="file-input-button" onclick="document.getElementById('htmlFileInput').click()">
+                    📁 Charger Fichier HTML
+                </button>
+
+                <button class="export-button" id="exportHtmlButton" onclick="exportHtmlOnly()" disabled>
+                    📄 Télécharger HTML complet
+                </button>
+                <button class="export-button" id="exportFilesButton" onclick="exportIndividualFiles()" disabled style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">
+                    📁 Télécharger Fichiers Séparés
+                </button>
+                <div class="status-message" id="statusMessage"></div>
+            </div>
+            
+            <div class="insertion-tools" style="padding: 20px; border-bottom: 1px solid #f1f5f9; background: linear-gradient(135deg, #fafbff 0%, #f0f4ff 100%);">
+                <div class="insertion-options" id="insertionOptions">
+                    <h4 style="margin: 0 0 16px 0; font-size: 16px; color: #1f2937; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 18px;">⚡</span>
+                        Outils d'Insertion
+                    </h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                        <button class="position-btn" onclick="insertImage('beginning')">📍 Au début</button>
+                        <button class="position-btn" onclick="insertImage('end')">📍 À la fin</button>
+                    </div>
+                    <button class="position-btn" onclick="enableClickMode()" style="width: 100%; background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);">👆 Mode Clic Précis</button>
+                    <button class="position-btn cancel-btn" onclick="cancelInsertion()" style="width: 100%; margin-top: 8px;">❌ Annuler</button>
+                    
+                    <div id="clickInstructions" style="display: none; margin-top: 12px; padding: 12px; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 1px solid #93c5fd; border-radius: 8px; font-size: 12px;">
+                        <strong style="color: #1e40af;">✨ Mode clic activé</strong><br>
+                        <span style="color: #3730a3;">Cliquez sur un élément dans l'aperçu HTML pour y insérer l'image</span>
+                        <div style="margin-top: 8px;">
+                            <button onclick="cancelInsertion()" style="background: #6b7280; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;">
+                                Désactiver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-section">
+                <h3 class="section-title">Palette d'Images</h3>
+                <div class="palette-dropzone" id="paletteDropzone">
+                    Glissez vos images ici<br>
+                    <small>JPG, PNG, GIF, SVG, WebP</small>
+                </div>
+                <div class="palette-images" id="paletteImages"></div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="preview-container">
+                <div class="preview-content" id="previewContent">
+                    <p style="color: #666; text-align: center; margin-top: 50px;">
+                        Chargez un fichier HTML pour voir l'aperçu ici
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="image-controls" id="imageControls">
+            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Contrôles de l'image</h4>
+            
+            <div class="controls-section">
+                <h5>Taille</h5>
+                <div class="resize-controls">
+                    <button class="control-btn resize-btn" onclick="resizeImage(0.8)">Réduire</button>
+                    <button class="control-btn resize-btn" onclick="resizeImage(1.2)">Agrandir</button>
+                </div>
+            </div>
+            
+            <div class="controls-section">
+                <h5>Position</h5>
+                <div class="position-controls">
+                    <button class="position-btn-ctrl" onclick="alignImage('left')">Gauche</button>
+                    <button class="position-btn-ctrl" onclick="alignImage('center')">Centre</button>
+                    <button class="position-btn-ctrl" onclick="alignImage('right')">Droite</button>
+                </div>
+            </div>
+            
+            <div class="controls-section">
+                <button class="control-btn" onclick="deleteSelectedImage()">🗑️ Supprimer</button>
+                <button class="control-btn" style="background: #6c757d;" onclick="deselectImage()">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let originalHtmlContent = '';
+        let currentHtmlContent = '';
+        let paletteImages = [];
+        let selectedImageToInsert = null;
+        let selectedInsertedImage = null;
+        let imageCounter = 0;
+        let clickToInsertMode = false;
+        let insertionTarget = null;
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('htmlFileInput').addEventListener('change', handleFileLoad);
+            
+            const dropzone = document.getElementById('paletteDropzone');
+            dropzone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.currentTarget.classList.add('dragover');
+            });
+            
+            dropzone.addEventListener('dragleave', function(e) {
+                e.currentTarget.classList.remove('dragover');
+            });
+            
+            dropzone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.currentTarget.classList.remove('dragover');
+                
+                const files = Array.from(e.dataTransfer.files);
+                const imageFiles = files.filter(file => file.type.startsWith('image/'));
+                imageFiles.forEach(addImageToPalette);
+            });
+        });
+
+        function showStatus(message, type = 'success') {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 3000);
+        }
+
+        function handleFileLoad(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalHtmlContent = e.target.result;
+                currentHtmlContent = originalHtmlContent;
+                displayPreview();
+                document.getElementById('exportHtmlButton').disabled = false;
+                document.getElementById('exportFilesButton').disabled = false;
+                showStatus('Fichier HTML chargé avec succès');
+            };
+            reader.readAsText(file);
+        }
+
+        function displayPreview() {
+            const previewContent = document.getElementById('previewContent');
+            
+            // Parse and display HTML directly in the preview area
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(currentHtmlContent, 'text/html');
+            
+            // Clear previous content
+            previewContent.innerHTML = '';
+            
+            // Extract and inject styles from the loaded HTML
+            const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
+            styles.forEach(style => {
+                if (style.tagName === 'STYLE') {
+                    const newStyle = document.createElement('style');
+                    newStyle.textContent = style.textContent;
+                    document.head.appendChild(newStyle);
+                } else if (style.tagName === 'LINK') {
+                    const newLink = document.createElement('link');
+                    newLink.rel = 'stylesheet';
+                    newLink.href = style.href;
+                    document.head.appendChild(newLink);
+                }
+            });
+            
+            // Extract and inject scripts from the loaded HTML
+            const scripts = doc.querySelectorAll('script');
+            scripts.forEach(script => {
+                const newScript = document.createElement('script');
+                if (script.src) {
+                    newScript.src = script.src;
+                } else {
+                    newScript.textContent = script.textContent;
+                }
+                document.head.appendChild(newScript);
+            });
+            
+            // Insert the body content
+            if (doc.body) {
+                previewContent.innerHTML = doc.body.innerHTML;
+                
+                // Setup interactions for inserted images
+                setupPreviewInteractions();
+            } else {
+                previewContent.innerHTML = '<p style="color: red;">Erreur lors du chargement du HTML</p>';
+            }
+        }
+        
+        function setupPreviewInteractions() {
+            const previewContent = document.getElementById('previewContent');
+            
+            // Setup click handlers for inserted images
+            const insertedImages = previewContent.querySelectorAll('.inserted-image');
+            insertedImages.forEach(img => {
+                img.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!clickToInsertMode) {
+                        selectInsertedImage(img);
+                    }
+                });
+            });
+            
+            // Setup click-to-insert for all elements
+            setupClickToInsert(previewContent);
+        }
+        
+        function setupClickToInsert(container) {
+            // Add click listener to all elements
+            const allElements = container.querySelectorAll('*');
+            allElements.forEach(element => {
+                element.addEventListener('click', function(e) {
+                    if (!clickToInsertMode) return;
+                    
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Don't insert on existing inserted images
+                    if (e.target.classList && e.target.classList.contains('inserted-image')) {
+                        return;
+                    }
+                    
+                    insertionTarget = e.target;
+                    insertImageAtClickedElement();
+                });
+                
+                // Add visual feedback for hovering
+                element.addEventListener('mouseenter', function(e) {
+                    if (!clickToInsertMode) return;
+                    if (e.target.classList && e.target.classList.contains('inserted-image')) return;
+                    
+                    e.target.style.outline = '2px dashed #007bff';
+                    e.target.style.outlineOffset = '2px';
+                    e.target.style.cursor = 'pointer';
+                });
+                
+                element.addEventListener('mouseleave', function(e) {
+                    if (!clickToInsertMode) return;
+                    
+                    e.target.style.outline = '';
+                    e.target.style.outlineOffset = '';
+                    e.target.style.cursor = '';
+                });
+            });
+        }
+        
+        function enableClickMode() {
+            clickToInsertMode = true;
+            document.getElementById('clickInstructions').style.display = 'block';
+            showStatus('Mode clic activé - cliquez sur un élément dans l\'aperçu');
+            
+            // Change cursor for the entire preview area
+            const previewContent = document.getElementById('previewContent');
+            previewContent.style.cursor = 'crosshair';
+        }
+        
+        function insertImageAtClickedElement() {
+            if (!insertionTarget || !selectedImageToInsert) {
+                showStatus('Erreur lors de l\'insertion', 'error');
+                return;
+            }
+            
+            try {
+                imageCounter++;
+                const imageId = `inserted-image-${imageCounter}`;
+                
+                // Create image element
+                const img = document.createElement('img');
+                img.src = selectedImageToInsert.data;
+                img.alt = selectedImageToInsert.filename;
+                img.className = 'inserted-image';
+                img.id = imageId;
+                img.dataset.filename = selectedImageToInsert.filename;
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                img.style.display = 'block';
+                img.style.margin = '10px 0';
+                img.style.cursor = 'pointer';
+                img.style.border = '2px solid transparent';
+                img.style.transition = 'border 0.3s';
+                
+                // Add event listeners
+                img.addEventListener('mouseenter', function() {
+                    if (!img.classList.contains('selected')) {
+                        img.style.borderColor = '#007bff';
+                    }
+                });
+                
+                img.addEventListener('mouseleave', function() {
+                    if (!img.classList.contains('selected')) {
+                        img.style.borderColor = 'transparent';
+                    }
+                });
+                
+                img.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!clickToInsertMode) {
+                        selectInsertedImage(img);
+                    }
+                });
+                
+                // Insert image after the clicked element
+                if (insertionTarget.parentNode) {
+                    insertionTarget.parentNode.insertBefore(img, insertionTarget.nextSibling);
+                } else {
+                    document.getElementById('previewContent').appendChild(img);
+                }
+                
+                updateHtmlContent();
+                cancelInsertion();
+                showStatus('Image insérée avec succès !');
+                
+            } catch (error) {
+                console.error('Erreur lors de l\'insertion:', error);
+                showStatus('Erreur lors de l\'insertion de l\'image', 'error');
+            }
+        }
+
+        function addImageToPalette(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageData = {
+                    filename: file.name,
+                    data: e.target.result,
+                    file: file
+                };
+                
+                paletteImages.push(imageData);
+                
+                const item = document.createElement('div');
+                item.className = 'palette-item';
+                
+                item.innerHTML = `
+                    <img src="${e.target.result}" alt="${file.name}">
+                    <div class="image-info">
+                        <div class="image-name">${file.name}</div>
+                        <div>Taille: ${(file.size / 1024).toFixed(1)} KB</div>
+                    </div>
+                    <button class="insert-btn" onclick="selectImageForInsertion(${paletteImages.length - 1})">
+                        Insérer
+                    </button>
+                `;
+                
+                document.getElementById('paletteImages').appendChild(item);
+                showStatus('Image ajoutée à la palette');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function selectImageForInsertion(index) {
+            selectedImageToInsert = paletteImages[index];
+            document.getElementById('insertionOptions').classList.add('visible');
+            showStatus('Image sélectionnée - choisissez où l\'insérer');
+        }
+
+        function insertImage(position) {
+            if (!selectedImageToInsert) {
+                showStatus('Aucune image sélectionnée', 'error');
+                return;
+            }
+            
+            if (!currentHtmlContent) {
+                showStatus('Aucun fichier HTML chargé', 'error');
+                return;
+            }
+
+            // Get the iframe from preview
+            const previewContent = document.getElementById('previewContent');
+            const iframe = previewContent.querySelector('iframe');
+            
+            if (!iframe) {
+                showStatus('Erreur: aperçu non trouvé', 'error');
+                return;
+            }
+            
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                if (!iframeDoc || !iframeDoc.body) {
+                    showStatus('Erreur: impossible d\'accéder au document', 'error');
+                    return;
+                }
+                
+                imageCounter++;
+                const imageId = `inserted-image-${imageCounter}`;
+                
+                // Create image element in iframe
+                const img = iframeDoc.createElement('img');
+                img.src = selectedImageToInsert.data;
+                img.alt = selectedImageToInsert.filename;
+                img.className = 'inserted-image';
+                img.id = imageId;
+                img.dataset.filename = selectedImageToInsert.filename;
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                img.style.display = 'block';
+                img.style.margin = '15px 0';
+                img.style.cursor = 'pointer';
+                img.style.border = '2px solid transparent';
+                img.style.transition = 'border 0.3s';
+                
+                // Add hover and click styles
+                img.addEventListener('mouseenter', function() {
+                    if (!img.classList.contains('selected')) {
+                        img.style.borderColor = '#007bff';
+                    }
+                });
+                
+                img.addEventListener('mouseleave', function() {
+                    if (!img.classList.contains('selected')) {
+                        img.style.borderColor = 'transparent';
+                    }
+                });
+                
+                // Add click handler
+                img.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    selectInsertedImage(img);
+                });
+                
+                // Insert into iframe document based on position
+                switch (position) {
+                    case 'beginning':
+                        if (iframeDoc.body.firstChild) {
+                            iframeDoc.body.insertBefore(img, iframeDoc.body.firstChild);
+                        } else {
+                            iframeDoc.body.appendChild(img);
+                        }
+                        break;
+                    case 'end':
+                        iframeDoc.body.appendChild(img);
+                        break;
+                    case 'middle':
+                        const children = Array.from(iframeDoc.body.children);
+                        const middleIndex = Math.floor(children.length / 2);
+                        if (children[middleIndex]) {
+                            iframeDoc.body.insertBefore(img, children[middleIndex]);
+                        } else {
+                            iframeDoc.body.appendChild(img);
+                        }
+                        break;
+                    case 'custom':
+                        iframeDoc.body.appendChild(img);
+                        break;
+                }
+                
+                updateHtmlContent();
+                cancelInsertion();
+                showStatus('Image insérée avec succès dans le document complet !');
+                
+            } catch (error) {
+                console.error('Erreur lors de l\'insertion:', error);
+                showStatus('Erreur lors de l\'insertion de l\'image', 'error');
+            }
+        }
+
+
+        
+
+        
+
+
+        function cancelInsertion() {
+            selectedImageToInsert = null; 
+            clickToInsertMode = false;
+            insertionTarget = null;
+            document.getElementById('insertionOptions').classList.remove('visible');
+            document.getElementById('clickInstructions').style.display = 'none';
+            
+            // Reset cursor and remove outlines
+            const previewContent = document.getElementById('previewContent');
+            previewContent.style.cursor = '';
+            
+            // Remove all outlines from elements
+            const allElements = previewContent.querySelectorAll('*');
+            allElements.forEach(el => {
+                el.style.outline = '';
+                el.style.outlineOffset = '';
+                el.style.cursor = '';
+            });
+        }
+
+        function selectInsertedImage(img) {
+            // Deselect previous in preview content
+            const previewContent = document.getElementById('previewContent');
+            const prevSelected = previewContent.querySelector('.inserted-image.selected');
+            if (prevSelected) {
+                prevSelected.classList.remove('selected');
+                prevSelected.style.borderColor = 'transparent';
+                prevSelected.style.boxShadow = '';
+            }
+            
+            // Select current
+            img.classList.add('selected');
+            img.style.borderColor = '#28a745';
+            img.style.boxShadow = '0 0 10px rgba(40, 167, 69, 0.3)';
+            selectedInsertedImage = img;
+            
+            // Show controls
+            document.getElementById('imageControls').classList.add('visible');
+            showStatus('Image sélectionnée - utilisez les contrôles pour modifier');
+        }
+
+        function deselectImage() {
+            if (selectedInsertedImage) {
+                selectedInsertedImage.classList.remove('selected');
+                selectedInsertedImage = null;
+            }
+            document.getElementById('imageControls').classList.remove('visible');
+        }
+
+        function resizeImage(factor) {
+            if (!selectedInsertedImage) return;
+            
+            const currentWidth = selectedInsertedImage.offsetWidth;
+            const newWidth = currentWidth * factor;
+            
+            selectedInsertedImage.style.width = newWidth + 'px';
+            updateHtmlContent();
+            showStatus('Image redimensionnée');
+        }
+        
+        function alignImage(alignment) {
+            if (!selectedInsertedImage) return;
+            
+            // Reset previous alignment styles
+            selectedInsertedImage.style.display = 'block';
+            selectedInsertedImage.style.marginLeft = '';
+            selectedInsertedImage.style.marginRight = '';
+            selectedInsertedImage.style.float = '';
+            selectedInsertedImage.style.textAlign = '';
+            
+            switch (alignment) {
+                case 'left':
+                    selectedInsertedImage.style.float = 'left';
+                    selectedInsertedImage.style.marginRight = '15px';
+                    selectedInsertedImage.style.marginBottom = '10px';
+                    break;
+                case 'center':
+                    selectedInsertedImage.style.display = 'block';
+                    selectedInsertedImage.style.marginLeft = 'auto';
+                    selectedInsertedImage.style.marginRight = 'auto';
+                    break;
+                case 'right':
+                    selectedInsertedImage.style.float = 'right';
+                    selectedInsertedImage.style.marginLeft = '15px';
+                    selectedInsertedImage.style.marginBottom = '10px';
+                    break;
+            }
+            
+            updateHtmlContent();
+            showStatus('Image positionnée à ' + (alignment === 'center' ? 'au centre' : 'à ' + alignment));
+        }
+
+        function deleteSelectedImage() {
+            if (!selectedInsertedImage) return;
+            
+            selectedInsertedImage.remove();
+            deselectImage();
+            updateHtmlContent();
+            showStatus('Image supprimée');
+        }
+
+        function updateHtmlContent() {
+            const previewContent = document.getElementById('previewContent');
+            
+            try {
+                // Update the current HTML content with the modified preview content
+                currentHtmlContent = originalHtmlContent.replace(
+                    /<body[^>]*>[\s\S]*<\/body>/i,
+                    '<body>' + previewContent.innerHTML + '</body>'
+                );
+                
+                console.log('HTML content updated with inserted images');
+                
+            } catch (error) {
+                console.error('Error updating HTML content:', error);
+            }
+        }
+
+        function exportProjectRemoved() {
+            if (!currentHtmlContent) {
+                showStatus('Aucun projet à exporter', 'error');
+                return;
+            }
+            
+            showStatus('Préparation de l\'archive...', 'info');
+            
+            // Create multiple download attempts with different strategies
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
+            
+            // Strategy 1: Create individual file downloads then suggest manual zipping
+            try {
+                const previewContent = document.getElementById('previewContent');
+                const insertedImages = previewContent.querySelectorAll('.inserted-image');
+                let htmlContent = currentHtmlContent;
+                const downloadedFiles = [];
+                
+                // Process images and create modified HTML
+                insertedImages.forEach((img, index) => {
+                    const filename = img.dataset.filename || `image_${index + 1}.jpg`;
+                    const cleanFilename = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
+                    
+                    const paletteImage = paletteImages.find(p => p.filename === filename);
+                    if (paletteImage) {
+                        downloadedFiles.push({
+                            name: cleanFilename,
+                            data: paletteImage.data
+                        });
+                        
+                        // Replace data URL with relative path in HTML
+                        const dataUrlPattern = new RegExp(img.src.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                        htmlContent = htmlContent.replace(dataUrlPattern, cleanFilename);
+                    }
+                });
+                
+                // Add HTML file to downloads
+                downloadedFiles.push({
+                    name: 'index.html',
+                    data: 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent)
+                });
+                
+                // Strategy 2: Try JSZip with blob and different approaches
+                const zip = new JSZip();
+                
+                insertedImages.forEach((img, index) => {
+                    const filename = img.dataset.filename || `image_${index + 1}.jpg`;
+                    const cleanFilename = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
+                    
+                    const paletteImage = paletteImages.find(p => p.filename === filename);
+                    if (paletteImage) {
+                        const base64Data = paletteImage.data.split(',')[1];
+                        zip.file(cleanFilename, base64Data, { base64: true });
+                    }
+                });
+                zip.file('index.html', htmlContent);
+                
+                // Method 1: Try Blob approach
+                zip.generateAsync({
+                    type: 'blob',
+                    compression: 'DEFLATE',
+                    compressionOptions: { level: 1 }
+                }).then(function(blob) {
+                    // Force download with proper filename
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `projet_integre_${timestamp}.zip`;
+                    link.style.display = 'none';
+                    
+                    // Add to DOM temporarily
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // Clean up after delay
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    
+                    showStatus('Archive ZIP téléchargée !');
+                }).catch(function(error1) {
+                    console.log('Blob method failed, trying ArrayBuffer:', error1);
+                    
+                    // Method 2: Try ArrayBuffer approach
+                    zip.generateAsync({
+                        type: 'arraybuffer',
+                        compression: 'STORE'
+                    }).then(function(arrayBuffer) {
+                        const blob = new Blob([arrayBuffer], { 
+                            type: 'application/x-zip-compressed' 
+                        });
+                        
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = `projet_integre_${timestamp}.zip`;
+                        link.click();
+                        
+                        setTimeout(() => URL.revokeObjectURL(url), 1000);
+                        showStatus('Archive téléchargée (méthode alternative)');
+                    }).catch(function(error2) {
+                        console.log('ArrayBuffer method failed, trying download page:', error2);
+                        
+                        // Method 3: Create download page
+                        zip.generateAsync({ type: 'base64' }).then(function(base64) {
+                            const dataUri = 'data:application/zip;base64,' + base64;
+                            
+                            const newWindow = window.open('', '_blank');
+                            newWindow.document.write(`
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                    <title>Télécharger votre projet</title>
+                                    <style>
+                                        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+                                        .download-btn { background: #007bff; color: white; padding: 15px 30px; 
+                                                       text-decoration: none; border-radius: 5px; font-size: 16px; }
+                                        .instructions { margin: 20px 0; padding: 15px; background: #f8f9fa; 
+                                                      border-radius: 5px; }
+                                    </style>
+                                </head>
+                                <body>
+                                    <h1>Téléchargement de votre projet</h1>
+                                    <div class="instructions">
+                                        <p>Votre projet est prêt ! Cliquez sur le bouton ci-dessous pour télécharger l'archive ZIP contenant :</p>
+                                        <ul style="text-align: left; display: inline-block;">
+                                            <li>Le fichier HTML modifié</li>
+                                            <li>Toutes les images insérées</li>
+                                        </ul>
+                                    </div>
+                                    <a href="${dataUri}" download="projet_integre_${timestamp}.zip" class="download-btn">
+                                        📦 Télécharger l'archive ZIP
+                                    </a>
+                                    <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                                        Si le téléchargement ne démarre pas, faites un clic droit sur le bouton et sélectionnez "Enregistrer le lien sous..."
+                                    </p>
+                                </body>
+                                </html>
+                            `);
+                            newWindow.document.close();
+                            
+                            showStatus('Page de téléchargement ouverte dans un nouvel onglet');
+                        }).catch(function(error3) {
+                            console.error('All download methods failed:', error3);
+                            showStatus('Impossible de créer l\'archive ZIP. Utilisez "Télécharger HTML seul" à la place.', 'error');
+                        });
+                    });
+                });
+                
+            } catch (error) {
+                console.error('Export error:', error);
+                showStatus('Erreur lors de l\'export. Essayez "Télécharger HTML seul".', 'error');
+            }
+        }
+        
+        function exportHtmlOnly() {
+            if (!currentHtmlContent) {
+                showStatus('Aucun projet à exporter', 'error');
+                return;
+            }
+            
+            try {
+                // Get all inserted images and embed them as base64
+                const previewContent = document.getElementById('previewContent');
+                const insertedImages = previewContent.querySelectorAll('.inserted-image');
+                let htmlContent = currentHtmlContent;
+                
+                // Replace all image src with their data URLs (keep base64 embedded)
+                insertedImages.forEach((img, index) => {
+                    if (img.src && img.src.startsWith('data:')) {
+                        // Image is already a data URL, keep it as is
+                        console.log('Keeping embedded image:', index);
+                    }
+                });
+                
+                // Create download
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
+                const filename = `L_Integrateur_Visuel_${timestamp}.html`;
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                
+                a.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+                showStatus('Fichier HTML exporté : ' + filename);
+                
+            } catch (error) {
+                console.error('Error in exportHtmlOnly:', error);
+                showStatus('Erreur lors de l\'export HTML', 'error');
+            }
+        }
+        
+        function exportIndividualFiles() {
+            if (!currentHtmlContent) {
+                showStatus('Aucun projet à exporter', 'error');
+                return;
+            }
+            
+            try {
+                const previewContent = document.getElementById('previewContent');
+                const insertedImages = previewContent.querySelectorAll('.inserted-image');
+                let htmlContent = currentHtmlContent;
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
+                
+                // First, download all images individually
+                let imageCount = 0;
+                insertedImages.forEach((img, index) => {
+                    const filename = img.dataset.filename || `image_${index + 1}.jpg`;
+                    const cleanFilename = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
+                    
+                    const paletteImage = paletteImages.find(p => p.filename === filename);
+                    if (paletteImage) {
+                        // Download image
+                        const link = document.createElement('a');
+                        link.href = paletteImage.data;
+                        link.download = cleanFilename;
+                        link.style.display = 'none';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        // Replace data URL with relative path in HTML
+                        const dataUrlPattern = new RegExp(img.src.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                        htmlContent = htmlContent.replace(dataUrlPattern, cleanFilename);
+                        imageCount++;
+                    }
+                });
+                
+                // Then download the HTML file
+                setTimeout(() => {
+                    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `index_${timestamp}.html`;
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    setTimeout(() => URL.revokeObjectURL(url), 100);
+                    
+                    showStatus(`${imageCount + 1} fichiers téléchargés séparément. Placez-les dans le même dossier pour que le HTML fonctionne.`);
+                }, 500);
+                
+            } catch (error) {
+                console.error('Error in exportIndividualFiles:', error);
+                showStatus('Erreur lors de l\'export des fichiers', 'error');
+            }
+        }
+
+        // Click outside to deselect
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.image-controls') && 
+                !e.target.classList.contains('inserted-image')) {
+                deselectImage();
+            }
+        });
+    </script>
+</body>
+</html>
