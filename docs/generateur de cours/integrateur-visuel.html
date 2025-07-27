@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Intégrateur Visuel - Palette Large</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'bounce-in': 'bounceIn 0.6s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        bounceIn: {
+                            '0%': { transform: 'scale(0.3)', opacity: '0' },
+                            '50%': { transform: 'scale(1.05)' },
+                            '70%': { transform: 'scale(0.9)' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.4);
+        }
+        
+        .dropzone {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s ease;
+        }
+        
+        .dropzone:hover {
+            border-color: #3b82f6;
+            background-color: #f0f9ff;
+        }
+        
+        .dropzone.dragover {
+            border-color: #1d4ed8;
+            background-color: #dbeafe;
+            transform: scale(1.02);
+        }
+        
+        .palette-item {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .palette-item:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Styles pour les images redimensionnables */
+        .resizable-image-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 15px 0;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        
+        .resizable-image-wrapper:hover {
+            border-color: #3b82f6;
+        }
+        
+        .resizable-image-wrapper.selected {
+            border-color: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .resizable-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        /* Poignées de redimensionnement - Plus visibles */
+        .resize-handle {
+            position: absolute;
+            background: #3b82f6;
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .resizable-image-wrapper:hover .resize-handle,
+        .resizable-image-wrapper.selected .resize-handle {
+            opacity: 1;
+        }
+        
+        .resize-handle:hover {
+            background: #1d4ed8;
+            transform: scale(1.3);
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.4);
+        }
+        
+        /* Positions des poignées - Ajustées pour la nouvelle taille */
+        .resize-handle.nw { top: -9px; left: -9px; cursor: nw-resize; }
+        .resize-handle.ne { top: -9px; right: -9px; cursor: ne-resize; }
+        .resize-handle.sw { bottom: -9px; left: -9px; cursor: sw-resize; }
+        .resize-handle.se { bottom: -9px; right: -9px; cursor: se-resize; }
+        .resize-handle.n { top: -9px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+        .resize-handle.s { bottom: -9px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+        .resize-handle.w { top: 50%; left: -9px; transform: translateY(-50%); cursor: w-resize; }
+        .resize-handle.e { top: 50%; right: -9px; transform: translateY(-50%); cursor: e-resize; }
+        
+        .status-message { animation: slideUp 0.3s ease-out; }
+        .controls-panel { animation: bounceIn 0.6s ease-out; }
+        .scroll-smooth { scroll-behavior: smooth; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .preview-area { min-height: 750px; width: 100%; font-size: 16px; line-height: 1.6; }
+        .main-container { width: 100vw; min-height: 100vh; padding: 6px; display: flex; gap: 6px; }
+        .large-palette-sidebar { width: 320px; flex-shrink: 0; }
+        .content-area { flex: 1; min-width: 0; }
+        
+        .preview-area h1, .preview-area h2, .preview-area h3, .preview-area h4, .preview-area h5, .preview-area h6 { font-size: 1.2em; font-weight: bold; margin: 1em 0 0.5em 0; }
+        .preview-area p { margin: 0.8em 0; font-size: 1em; }
+        .preview-area ul, .preview-area ol { margin: 0.8em 0; padding-left: 2em; }
+        .preview-area li { margin: 0.4em 0; }
+        
+        .palette-item-large { transition: all 0.3s ease; border: 1px solid #e2e8f0; padding: 8px; }
+        .palette-item-large:hover { border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); }
+        
+        .palette-image-preview {
+            width: 64px; /* Augmentée de 48px */
+            height: 64px; /* Augmentée de 48px */
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .dropzone-large { border: 2px dashed #cbd5e1; transition: all 0.3s ease; padding: 16px; }
+        .dropzone-large:hover { border-color: #3b82f6; background-color: #f0f9ff; }
+        .dropzone-large.dragover { border-color: #1d4ed8; background-color: #dbeafe; transform: scale(1.02); }
+    </style>
+</head>
+<body class="gradient-bg overflow-x-auto">
+    <div class="main-container">
+        <!-- Sidebar avec Palette Large -->
+        <div class="large-palette-sidebar glass-effect rounded-lg shadow-2xl flex flex-col overflow-hidden animate-fade-in">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 p-3 text-white">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                        <span class="text-xl">🎨</span>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold">L'Intégrateur Visuel</h1>
+                    </div>
+                </div>
+                
+                <!-- File Input -->
+                <input type="file" id="htmlFileInput" accept=".html" class="hidden">
+                <button class="btn-primary w-full py-2 px-3 rounded font-semibold text-white hover-lift flex items-center justify-center gap-2 text-sm" onclick="document.getElementById('htmlFileInput').click()">
+                    <span>📁</span>
+                    Charger HTML
+                </button>
+
+                <!-- Export Buttons -->
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <button class="btn-success py-2 px-3 rounded font-semibold text-white hover-lift flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-xs" id="exportHtmlButton" onclick="exportHtmlOnly()" disabled>
+                        <span>Télécharger HTML</span>
+                    </button>
+                    <button class="btn-warning py-2 px-3 rounded font-semibold text-white hover-lift flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-xs" id="exportFilesButton" onclick="exportIndividualFiles()" disabled>
+                        <span>Télécharger Fichiers</span>
+                    </button>
+                </div>
+                
+                <!-- Status Message -->
+                <div class="status-message mt-2 p-2 rounded text-sm hidden" id="statusMessage"></div>
+            </div>
+            
+            <!-- Insertion Tools (MODIFIED SECTION) -->
+            <div class="p-3 border-b border-secondary-200 bg-gradient-to-r from-secondary-50 to-secondary-100">
+                <div class="insertion-options hidden" id="insertionOptions">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-lg">⚡</span>
+                        <h4 class="text-base font-bold text-secondary-800">Où insérer l'image ?</h4>
+                    </div>
+                    
+                    <!-- Bouton Mode Clic amélioré -->
+                    <button class="w-full bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 py-2.5 px-4 rounded-lg text-base font-bold text-white hover-lift flex items-center justify-center gap-2 mb-2 shadow-lg" onclick="enableClickMode()">
+                        <span>👆</span>
+                        <span>Activer le Mode Clic</span>
+                    </button>
+                    
+                    <!-- Instructions pour le Mode Clic -->
+                    <div id="clickInstructions" class="hidden mt-3 p-3 bg-blue-100 border border-blue-300 rounded-lg text-sm transition-all duration-300 ease-in-out">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-blue-600 text-xl">💡</span>
+                            <strong class="text-blue-800 font-semibold">Mode Clic Activé</strong>
+                        </div>
+                        <p class="text-blue-700 mb-3">
+                            Cliquez simplement à l'endroit où vous souhaitez placer votre image dans la zone d'aperçu à droite.
+                        </p>
+                        <button onclick="cancelInsertion()" class="w-full bg-secondary-500 hover:bg-secondary-600 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors">
+                            Désactiver
+                        </button>
+                    </div>
+                    
+                    <!-- Bouton Annuler -->
+                    <button class="btn-danger w-full py-2 px-3 rounded-lg font-medium text-white hover-lift flex items-center justify-center gap-2 mt-3 text-sm" onclick="cancelInsertion()">
+                        <span>❌</span>
+                        <span>Annuler l'insertion</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Image Palette Large -->
+            <div class="flex-1 p-3 overflow-y-auto custom-scrollbar">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-lg">🖼️</span>
+                    <h3 class="text-sm font-bold text-secondary-800">Palette d'Images</h3>
+                </div>
+                
+                <div class="dropzone-large rounded-lg text-center text-secondary-500 mb-4" id="paletteDropzone">
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="text-2xl">📤</span>
+                        <p class="font-medium text-sm">Glissez vos images ici</p>
+                        <p class="text-xs text-secondary-400">JPG, PNG, GIF, SVG</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-2" id="paletteImages"></div>
+            </div>
+        </div>
+        
+        <!-- Zone Principale -->
+        <div class="content-area glass-effect rounded-lg shadow-2xl flex flex-col overflow-hidden animate-fade-in">
+            <div class="bg-gradient-to-r from-secondary-100 to-secondary-200 p-3 border-b border-secondary-300">
+                <div class="flex items-center gap-3">
+                    <span class="text-xl">📄</span>
+                    <h2 class="text-lg font-bold text-secondary-800">Zone d'Insertion HTML</h2>
+                    <div class="ml-auto text-sm text-secondary-600">
+                        Cliquez sur une image pour voir les poignées de redimensionnement
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 p-3 overflow-auto custom-scrollbar">
+                <div class="preview-area w-full min-h-full border border-secondary-200 rounded-lg p-4 bg-white overflow-auto shadow-inner" id="previewContent">
+                    <div class="flex flex-col items-center justify-center h-full text-center">
+                        <div class="w-20 h-20 bg-secondary-100 rounded-full flex items-center justify-center mb-4">
+                            <span class="text-3xl">📄</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-secondary-700 mb-3">Zone d'insertion HTML</h3>
+                        <p class="text-secondary-500 mb-3">Chargez un fichier HTML pour commencer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Image Controls Panel -->
+        <div class="controls-panel fixed top-4 right-4 glass-effect rounded-lg shadow-2xl p-3 w-56 hidden z-50" id="imageControls">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="text-sm">🎛️</span>
+                <h4 class="text-sm font-bold text-secondary-800">Contrôles</h4>
+            </div>
+            
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-secondary-700 mb-2">Texte alternatif</label>
+                <input type="text" id="altTextInput" class="w-full px-2 py-2 border border-secondary-300 rounded text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="Décrivez l'image...">
+            </div>
+            
+            <div class="mb-3">
+                <h5 class="text-sm font-medium text-secondary-700 mb-2">Position</h5>
+                <div class="grid grid-cols-3 gap-2">
+                    <button class="btn-success py-1.5 px-2 rounded text-xs font-medium hover-lift" onclick="alignImage('left')">G</button>
+                    <button class="btn-success py-1.5 px-2 rounded text-xs font-medium hover-lift" onclick="alignImage('center')">C</button>
+                    <button class="btn-success py-1.5 px-2 rounded text-xs font-medium hover-lift" onclick="alignImage('right')">D</button>
+                </div>
+            </div>
+            
+            <div class="mb-3 p-2 bg-blue-50 rounded text-sm">
+                <p class="text-blue-800 font-medium mb-1">💡 Redimensionnement</p>
+                <p class="text-blue-700 text-xs">Utilisez les poignées bleues autour de l'image</p>
+            </div>
+            
+            <div class="space-y-2">
+                <button class="btn-danger w-full py-2 px-3 rounded font-medium text-white hover-lift flex items-center justify-center gap-2 text-sm" onclick="deleteSelectedImage()">
+                    <span>🗑️</span>
+                    <span>Supprimer</span>
+                </button>
+                <button class="bg-secondary-500 hover:bg-secondary-600 w-full py-2 px-3 rounded font-medium text-white hover-lift text-sm" onclick="closeImageControls()">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let loadedImages = [];
+        let currentHtmlContent = '';
+        let selectedImageWrapper = null;
+        let insertionMode = false;
+        let currentImageToInsert = null;
+        let clickMode = false;
+        let isResizing = false;
+        let resizeData = {};
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('htmlFileInput').addEventListener('change', handleFileLoad);
+            
+            const dropzone = document.getElementById('paletteDropzone');
+            dropzone.addEventListener('dragover', handleDragOver);
+            dropzone.addEventListener('dragleave', handleDragLeave);
+            dropzone.addEventListener('drop', handleDrop);
+            dropzone.addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.multiple = true;
+                input.accept = 'image/*';
+                input.onchange = (e) => handleImageFiles(e.target.files);
+                input.click();
+            });
+            
+            document.getElementById('altTextInput').addEventListener('input', updateAltText);
+            
+            document.addEventListener('mousedown', handleMouseDown);
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+
+        function handleFileLoad(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'text/html') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentHtmlContent = e.target.result;
+                    displayPreview(currentHtmlContent);
+                    enableExportButtons();
+                    showStatus('Fichier HTML chargé avec succès!', 'success');
+                };
+                reader.readAsText(file);
+            } else {
+                showStatus('Veuillez sélectionner un fichier HTML valide.', 'error');
+            }
+        }
+
+        function displayPreview(htmlContent) {
+            const previewContent = document.getElementById('previewContent');
+            previewContent.innerHTML = htmlContent;
+            
+            const imageWrappers = previewContent.querySelectorAll('.resizable-image-wrapper');
+            imageWrappers.forEach(wrapper => {
+                wrapper.addEventListener('click', () => selectImageWrapper(wrapper));
+            });
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleImageFiles(files);
+        }
+
+        function handleImageFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageData = {
+                            name: file.name,
+                            data: e.target.result,
+                            size: file.size
+                        };
+                        loadedImages.push(imageData);
+                        addImageToPalette(imageData);
+                        showStatus(`Image "${file.name}" ajoutée!`, 'success');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function addImageToPalette(imageData) {
+            const paletteImages = document.getElementById('paletteImages');
+            const imageElement = document.createElement('div');
+            imageElement.className = 'palette-item-large bg-white rounded-lg hover-lift cursor-pointer';
+            
+            imageElement.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <img src="${imageData.data}" alt="${imageData.name}" class="palette-image-preview">
+                    <div class="flex-1 min-w-0">
+                        <p class="font-medium text-secondary-800 truncate text-sm">${imageData.name}</p>
+                        <p class="text-xs text-secondary-500 mt-1">${formatFileSize(imageData.size)}</p>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <button class="btn-success py-1 px-2 rounded text-xs font-medium hover-lift" onclick="startInsertion('${imageData.name}')">
+                            +
+                        </button>
+                        <button class="btn-danger py-1 px-2 rounded text-xs font-medium hover-lift" onclick="removeFromPalette('${imageData.name}')">
+                            ×
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            paletteImages.appendChild(imageElement);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function removeFromPalette(imageName) {
+            loadedImages = loadedImages.filter(img => img.name !== imageName);
+            const paletteImages = document.getElementById('paletteImages');
+            const imageElements = paletteImages.children;
+            
+            for (let i = 0; i < imageElements.length; i++) {
+                if (imageElements[i].innerHTML.includes(imageName)) {
+                    imageElements[i].remove();
+                    break;
+                }
+            }
+            
+            showStatus(`Image "${imageName}" supprimée!`, 'info');
+        }
+
+        function startInsertion(imageName) {
+            currentImageToInsert = loadedImages.find(img => img.name === imageName);
+            if (currentImageToInsert) {
+                document.getElementById('insertionOptions').classList.remove('hidden');
+                insertionMode = true;
+                showStatus('Choisissez où insérer l\'image...', 'info');
+            }
+        }
+
+        function createResizableImageWrapper(imageData) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'resizable-image-wrapper';
+            
+            const img = document.createElement('img');
+            img.src = imageData.data;
+            img.alt = imageData.name;
+            img.className = 'resizable-image';
+            img.style.width = '500px';
+            img.style.height = 'auto';
+            
+            const handles = ['nw', 'ne', 'sw', 'se', 'n', 's', 'w', 'e'];
+            handles.forEach(position => {
+                const handle = document.createElement('div');
+                handle.className = `resize-handle ${position}`;
+                handle.dataset.position = position;
+                wrapper.appendChild(handle);
+            });
+            
+            wrapper.appendChild(img);
+            wrapper.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectImageWrapper(wrapper);
+            });
+            
+            return wrapper;
+        }
+
+        // This function is no longer called by the UI but kept for potential future use
+        function insertImage(position) {
+            if (!currentImageToInsert || !currentHtmlContent) return;
+            
+            const previewContent = document.getElementById('previewContent');
+            const wrapper = createResizableImageWrapper(currentImageToInsert);
+            
+            if (position === 'beginning') {
+                previewContent.insertBefore(wrapper, previewContent.firstChild);
+            } else if (position === 'end') {
+                previewContent.appendChild(wrapper);
+            }
+            
+            cancelInsertion();
+            showStatus('Image insérée! Cliquez dessus pour voir les poignées.', 'success');
+        }
+
+        function enableClickMode() {
+            clickMode = true;
+            document.getElementById('clickInstructions').classList.remove('hidden');
+            showStatus('Mode clic activé - Cliquez sur un élément', 'info');
+            
+            const previewContent = document.getElementById('previewContent');
+            previewContent.addEventListener('click', handleClickInsertion, { once: true });
+        }
+
+        function handleClickInsertion(e) {
+            if (!clickMode || !currentImageToInsert) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const wrapper = createResizableImageWrapper(currentImageToInsert);
+            
+            if (e.target.id === 'previewContent' || e.target.parentElement.id === 'previewContent') {
+                 e.target.appendChild(wrapper);
+            } else if (e.target.nextSibling) {
+                e.target.parentNode.insertBefore(wrapper, e.target.nextSibling);
+            } else {
+                e.target.parentNode.appendChild(wrapper);
+            }
+            
+            cancelInsertion();
+            showStatus('Image insérée avec succès!', 'success');
+        }
+
+        function cancelInsertion() {
+            insertionMode = false;
+            clickMode = false;
+            currentImageToInsert = null;
+            document.getElementById('insertionOptions').classList.add('hidden');
+            document.getElementById('clickInstructions').classList.add('hidden');
+            
+            const previewContent = document.getElementById('previewContent');
+            previewContent.removeEventListener('click', handleClickInsertion);
+        }
+
+        function selectImageWrapper(wrapper) {
+            if (selectedImageWrapper) {
+                selectedImageWrapper.classList.remove('selected');
+            }
+            
+            selectedImageWrapper = wrapper;
+            wrapper.classList.add('selected');
+            
+            document.getElementById('imageControls').classList.remove('hidden');
+            
+            const img = wrapper.querySelector('.resizable-image');
+            document.getElementById('altTextInput').value = img.alt || '';
+            
+            showStatus('Image sélectionnée - Utilisez les poignées bleues', 'info');
+        }
+
+        function updateAltText() {
+            if (selectedImageWrapper) {
+                const img = selectedImageWrapper.querySelector('.resizable-image');
+                img.alt = document.getElementById('altTextInput').value;
+            }
+        }
+
+        function alignImage(alignment) {
+            if (!selectedImageWrapper) return;
+            
+            selectedImageWrapper.style.display = '';
+            selectedImageWrapper.style.marginLeft = '';
+            selectedImageWrapper.style.marginRight = '';
+            
+            let parentDiv = selectedImageWrapper.parentElement;
+            if (!parentDiv.classList.contains('image-alignment-container')) {
+                const container = document.createElement('div');
+                container.className = 'image-alignment-container';
+                selectedImageWrapper.parentNode.insertBefore(container, selectedImageWrapper);
+                container.appendChild(selectedImageWrapper);
+                parentDiv = container;
+            }
+            
+            parentDiv.style.textAlign = alignment;
+            selectedImageWrapper.style.display = 'inline-block';
+            
+            showStatus(`Image alignée à ${alignment}`, 'success');
+        }
+
+        function deleteSelectedImage() {
+            if (selectedImageWrapper) {
+                const parent = selectedImageWrapper.parentElement;
+                if (parent.classList.contains('image-alignment-container')) {
+                    parent.remove();
+                } else {
+                    selectedImageWrapper.remove();
+                }
+                selectedImageWrapper = null;
+                closeImageControls();
+                showStatus('Image supprimée!', 'success');
+            }
+        }
+
+        function closeImageControls() {
+            if (selectedImageWrapper) {
+                selectedImageWrapper.classList.remove('selected');
+                selectedImageWrapper = null;
+            }
+            document.getElementById('imageControls').classList.add('hidden');
+        }
+
+        function handleMouseDown(e) {
+            if (e.target.classList.contains('resize-handle')) {
+                e.preventDefault();
+                e.stopPropagation();
+                isResizing = true;
+                
+                const wrapper = e.target.parentElement;
+                const img = wrapper.querySelector('.resizable-image');
+                const rect = wrapper.getBoundingClientRect();
+                
+                resizeData = {
+                    wrapper: wrapper,
+                    img: img,
+                    position: e.target.dataset.position,
+                    startX: e.clientX,
+                    startY: e.clientY,
+                    startWidth: img.offsetWidth,
+                    startHeight: img.offsetHeight,
+                };
+                
+                document.body.style.cursor = e.target.style.cursor;
+                document.body.style.userSelect = 'none';
+                
+                showStatus('Redimensionnement en cours...', 'info');
+            }
+        }
+
+        function handleMouseMove(e) {
+            if (!isResizing || !resizeData.wrapper) return;
+            
+            e.preventDefault();
+            
+            const deltaX = e.clientX - resizeData.startX;
+            const deltaY = e.clientY - resizeData.startY;
+            const position = resizeData.position;
+            
+            let newWidth = resizeData.startWidth;
+            let newHeight = resizeData.startHeight;
+            
+            switch (position) {
+                case 'se': newWidth = resizeData.startWidth + deltaX; newHeight = resizeData.startHeight + deltaY; break;
+                case 'sw': newWidth = resizeData.startWidth - deltaX; newHeight = resizeData.startHeight + deltaY; break;
+                case 'ne': newWidth = resizeData.startWidth + deltaX; newHeight = resizeData.startHeight - deltaY; break;
+                case 'nw': newWidth = resizeData.startWidth - deltaX; newHeight = resizeData.startHeight - deltaY; break;
+                case 'e': newWidth = resizeData.startWidth + deltaX; break;
+                case 'w': newWidth = resizeData.startWidth - deltaX; break;
+                case 's': newHeight = resizeData.startHeight + deltaY; break;
+                case 'n': newHeight = resizeData.startHeight - deltaY; break;
+            }
+            
+            newWidth = Math.max(50, newWidth);
+            
+            if (['se', 'sw', 'ne', 'nw'].includes(position)) {
+                const ratio = resizeData.startWidth / resizeData.startHeight;
+                newHeight = newWidth / ratio;
+            }
+            
+            resizeData.img.style.width = newWidth + 'px';
+            resizeData.img.style.height = newHeight + 'px';
+        }
+
+        function handleMouseUp() {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+                
+                if (selectedImageWrapper) {
+                    const img = selectedImageWrapper.querySelector('.resizable-image');
+                    showStatus(`Image redimensionnée: ${Math.round(img.offsetWidth)}×${Math.round(img.offsetHeight)}px`, 'success');
+                }
+                
+                resizeData = {};
+            }
+        }
+
+        function enableExportButtons() {
+            document.getElementById('exportHtmlButton').disabled = false;
+            document.getElementById('exportFilesButton').disabled = false;
+        }
+
+        function exportHtmlOnly() {
+            const previewContent = document.getElementById('previewContent');
+            const htmlContent = previewContent.innerHTML;
+            
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'modified_page.html';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showStatus('HTML téléchargé!', 'success');
+        }
+
+        function exportIndividualFiles() {
+            const previewContent = document.getElementById('previewContent');
+            const images = previewContent.querySelectorAll('.resizable-image');
+            
+            exportHtmlOnly();
+            
+            images.forEach((img, index) => {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = `image_${index + 1}.png`;
+                link.click();
+            });
+            
+            showStatus('Fichiers téléchargés!', 'success');
+        }
+
+        function showStatus(message, type) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.className = `status-message p-2 rounded text-sm ${type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 
+                                                                      type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' : 
+                                                                      'bg-blue-100 text-blue-800 border border-blue-200'}`;
+            statusElement.classList.remove('hidden');
+            
+            setTimeout(() => {
+                statusElement.classList.add('hidden');
+            }, 3000);
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.resizable-image-wrapper') && 
+                !e.target.closest('#imageControls') && 
+                !e.target.classList.contains('resize-handle')) {
+                closeImageControls();
+            }
+        });
+    </script>
+</body>
+</html>
