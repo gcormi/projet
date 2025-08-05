@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Cours avec une API IA</title>
+    <!-- Chargement de Tailwind CSS pour un design moderne -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Utilisation de la police Inter pour une meilleure typographie -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS additionnel pour peaufiner le style */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Gris très clair de Tailwind */
+        }
+        /* Style pour le placeholder de la zone de texte */
+        textarea::placeholder {
+            color: #9ca3af;
+        }
+        /* Style pour l'iframe de prévisualisation */
+        #preview-frame {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            min-height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-4xl">
+
+        <!-- Section d'en-tête et de description -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">Générateur de Cours avec une API IA</h1>
+            <p class="text-md sm:text-lg text-gray-600">
+                Cette application utilise votre clé d'API personnelle (Google Gemini) pour transformer une description de cours en une page web complète. Vous pouvez visualiser le résultat directement sur cette page avant de le télécharger. Le cours généré est au format HTML, prêt à être utilisé dans n'importe quel navigateur web.
+            </p>
+        </header>
+
+        <!-- Conteneur principal pour les contrôles et la sortie -->
+        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg space-y-6">
+
+            <!-- Groupe de saisie pour la clé API -->
+            <div class="input-group">
+                <label for="api-key" class="block mb-2 font-semibold text-gray-700">1. Votre Clé d'API Gemini</label>
+                <input type="password" id="api-key" placeholder="Collez votre clé d'API ici"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+            </div>
+
+            <!-- Groupe de saisie pour le prompt du cours -->
+            <div class="input-group">
+                <label for="course-prompt" class="block mb-2 font-semibold text-gray-700">2. Description détaillée du cours</label>
+                <textarea id="course-prompt" rows="8"
+                          placeholder="Collez ici la description (le 'prompt') générée par l'outil principal de création de cours. Par exemple : Crée un cours d'introduction au HTML pour débutants. Inclus une section sur les balises de base (titres, paragraphes), une sur les listes ordonnées et non ordonnées, et un petit quiz simple à la fin pour tester les connaissances."
+                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+            </div>
+
+            <!-- Bouton de génération -->
+            <div class="flex justify-center">
+                <button id="generate-btn"
+                        class="w-full sm:w-auto bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                    Générer le cours
+                </button>
+            </div>
+
+            <!-- Conteneur pour les actions post-génération (comme l'export) -->
+            <div id="actions-container" class="flex justify-center mt-4"></div>
+        </div>
+
+        <!-- Section de prévisualisation -->
+        <div id="output-container" class="mt-8">
+             <h2 class="text-2xl font-bold text-center mb-4 text-gray-800">Prévisualisation</h2>
+             <div id="output-placeholder" class="bg-gray-100 p-8 rounded-lg text-center text-gray-500">
+                Le cours généré apparaîtra ici...
+             </div>
+             <iframe id="preview-frame" class="hidden"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // La logique JavaScript reste la même pour assurer le fonctionnement de l'application.
+
+        const apiKeyInput = document.getElementById('api-key');
+        const coursePromptInput = document.getElementById('course-prompt');
+        const generateBtn = document.getElementById('generate-btn');
+        const outputContainer = document.getElementById('output-container');
+        const outputPlaceholder = document.getElementById('output-placeholder');
+        const previewFrame = document.getElementById('preview-frame');
+        const actionsContainer = document.getElementById('actions-container');
+
+        let generatedHtmlContent = '';
+
+        generateBtn.addEventListener('click', async () => {
+            const apiKey = apiKeyInput.value.trim();
+            const userPrompt = coursePromptInput.value.trim();
+
+            if (!apiKey || !userPrompt) {
+                alert("Veuillez fournir votre clé d'API et une description pour le cours.");
+                return;
+            }
+
+            generateBtn.disabled = true;
+            generateBtn.textContent = 'Génération en cours...';
+            previewFrame.classList.add('hidden');
+            outputPlaceholder.textContent = 'Génération en cours, veuillez patienter...';
+            outputPlaceholder.style.display = 'block';
+            actionsContainer.innerHTML = '';
+
+            const fullPrompt = `
+                Génère un fichier HTML complet et autonome pour un cours basé sur la description suivante.
+                Le fichier DOIT inclure tout le CSS et le JavaScript nécessaires DANS le fichier HTML lui-même (pas de fichiers externes).
+                Utilise un design moderne et responsive. Le contenu doit être clair, bien structuré et pédagogique.
+                Voici la description du cours : "${userPrompt}"
+            `;
+
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: fullPrompt }] }]
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`Erreur de l'API: ${errorData.error?.message || response.statusText}`);
+                }
+
+                const data = await response.json();
+                let textContent = data.candidates[0].content.parts[0].text;
+
+                // Nettoyage pour extraire uniquement le code HTML
+                const htmlMatch = textContent.match(/```html\s*([\s\S]*?)\s*```/);
+                generatedHtmlContent = htmlMatch ? htmlMatch[1] : textContent;
+
+                outputPlaceholder.style.display = 'none';
+                previewFrame.srcdoc = generatedHtmlContent;
+                previewFrame.classList.remove('hidden');
+
+                displayExportButton();
+
+            } catch (error) {
+                console.error("Erreur lors de la génération :", error);
+                generatedHtmlContent = '';
+                previewFrame.classList.add('hidden');
+                outputPlaceholder.textContent = `Erreur : ${error.message}. Vérifiez la console pour plus de détails.`;
+                outputPlaceholder.style.display = 'block';
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.textContent = 'Générer le cours';
+            }
+        });
+
+        function displayExportButton() {
+            actionsContainer.innerHTML = '';
+
+            const exportBtn = document.createElement('button');
+            exportBtn.textContent = 'Exporter en Fichier HTML 💾';
+            // Ajout de classes Tailwind pour le style
+            exportBtn.className = 'bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 transition-transform transform hover:scale-105';
+
+            actionsContainer.appendChild(exportBtn);
+
+            exportBtn.addEventListener('click', () => {
+                let fileName = prompt("Entrez un nom pour le fichier HTML :", "mon-cours.html");
+
+                if (fileName) {
+                    if (!fileName.toLowerCase().endsWith('.html')) {
+                        fileName += '.html';
+                    }
+
+                    const blob = new Blob([generatedHtmlContent], { type: 'text/html;charset=utf-8' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
