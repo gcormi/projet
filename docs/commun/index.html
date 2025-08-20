@@ -3,423 +3,444 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Charte du Numérique – Refonte pédagogique</title>
-  <meta name="description" content="Charte du numérique : sécurité, respect, efficacité. Cours remanié pour collégiens avec encadrés ‘Le savais-tu ?’, quiz accessible, et apports sur le numérique et le futur." />
+  <title>Charte & Culture du Numérique – Cours Complet</title>
+  <meta name="description" content="Cours de technologie complet pour des élèves de 14 ans, avec une charte graphique claire et lisible. Intègre les règles de la salle, l'histoire de l'informatique à l'école, et les enjeux du numérique." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <style>
-    :root{
-      --clr-light-blue:#A8C5E5;--clr-dark-teal:#1c3741;--clr-mid-gray-blue:#738FA7;--clr-dark-gray-blue:#5C6F7B;--clr-black:#0f172a;--clr-light-bg:#F8FAFC;--clr-text-dark:#1f2937;--ring:0 0 0 4px rgba(168,197,229,.45)
+    /* Palette de couleurs "Claire & Académique" pour une lisibilité maximale */
+    :root {
+      --clr-bg: #F8F9FA; /* Fond blanc cassé */
+      --clr-card-bg: #FFFFFF; /* Fond des cartes blanc pur */
+      --clr-text: #212529; /* Texte noir/gris très foncé */
+      --clr-text-muted: #6C757D; /* Texte secondaire gris */
+      --clr-primary: #005A9C; /* Bleu institutionnel pour les accents */
+      --clr-accent: #FD7E14; /* Orange vif pour les avertissements */
+      --clr-border: #DEE2E6; /* Bordures grises claires */
+      --ring-focus: 0 0 0 3px rgba(0, 90, 156, 0.25);
     }
-    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;background:linear-gradient(120deg,#102028,#182f38 30%,#223b46);color:#e5f0f7}
-    .font-playfair{font-family:'Playfair Display',serif}
-    .glass{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(16,24,40,.45);border:1px solid rgba(255,255,255,.12)}
-    .card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;box-shadow:0 18px 60px rgba(2,6,23,.15);color:var(--clr-text-dark);transition:.3s ease}
-    .card:hover{transform:translateY(-6px)}
-    .badge{display:inline-flex;align-items:center;gap:.5rem;border-radius:9999px;padding:.375rem .75rem;font-weight:600}
-    .pulse{animation:pulse 2s infinite}
-    @keyframes pulse{0%{box-shadow:var(--ring)}50%{box-shadow:none}100%{box-shadow:var(--ring)}}
-    .fade{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
-    .fade.show{opacity:1;transform:none}
-    .step{background:#fff;border-left:5px solid var(--clr-dark-teal);border-radius:14px;padding:18px;color:var(--clr-text-dark);transition:.25s}
-    .step:hover{transform:translateX(6px);background:#f8fafc}
-    .tip{background:#0f172a;border:1px solid rgba(255,255,255,.16);color:#e2e8f0;border-radius:16px}
-    .tip h4{color:#93c5fd}
-    .dscl{background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d;border-radius:12px}
-    .kbd{border:1px solid #cbd5e1;border-bottom-width:3px;border-radius:8px;padding:.1rem .4rem;background:#fff;color:#0f172a;font-weight:700}
-    .progress{position:fixed;inset-inline:0;top:0;height:4px;background:linear-gradient(90deg,#93c5fd,#60a5fa,#38bdf8);transform-origin:0 0;scale:0 1;z-index:60}
-    .quiz-opt{background:#e2e8f0;border:2px solid #94a3b8;border-radius:14px;padding:14px;cursor:pointer;transition:.25s}
-    .quiz-opt:hover{background:#cfe4ff;border-color:#2563eb}
-    .quiz-opt[aria-checked="true"].ok{background:#dcfce7;border-color:#10b981;color:#065f46;font-weight:700}
-    .quiz-opt[aria-checked="true"].ko{background:#fee2e2;border-color:#ef4444;color:#991b1b}
-    @media (prefers-reduced-motion: reduce){.fade{transition:none}.card:hover{transform:none}.step:hover{transform:none}}
-    @media print{nav,footer,.no-print{display:none!important} body{background:white;color:#111827}}
+
+    /* Style de base */
+    body {
+      font-family: 'Inter', system-ui, Arial, Helvetica, sans-serif;
+      background-color: var(--clr-bg);
+      color: var(--clr-text);
+    }
+
+    .font-playfair {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    h1, h2, h3.font-playfair {
+      color: var(--clr-primary);
+    }
+    
+    h3:not(.font-playfair), h4 {
+        color: var(--clr-text);
+    }
+
+    /* En-tête */
+    header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--clr-border);
+    }
+    header .font-playfair {
+        color: var(--clr-text);
+    }
+    nav a {
+      color: var(--clr-primary);
+      font-weight: 600;
+      transition: color 0.2s ease-in-out;
+    }
+    nav a:hover {
+      color: var(--clr-accent);
+    }
+    
+    /* Cartes */
+    .card {
+      background: var(--clr-card-bg);
+      border: 1px solid var(--clr-border);
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      color: var(--clr-text-muted);
+    }
+
+    /* Encadré "Le savais-tu ?" */
+    .tip {
+      background: #E7F5FF;
+      border: 1px solid #B3D7F7;
+      border-left-width: 4px;
+      border-left-color: var(--clr-primary);
+      color: #004085;
+      border-radius: 8px;
+    }
+    .tip h4 {
+      color: var(--clr-primary);
+    }
+
+    /* Étapes de la procédure */
+    .step {
+      background: var(--clr-card-bg);
+      border: 1px solid var(--clr-border);
+      border-left: 4px solid var(--clr-primary);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    
+    /* Avertissements */
+    .dscl {
+      background: #FFF4E6;
+      border: 1px solid #FFD8A8;
+      color: #BF5B00;
+      border-radius: 8px;
+    }
+    .dscl strong {
+        color: #D9480F;
+    }
+
+    /* Barre de progression */
+    .progress {
+      position: fixed;
+      inset-inline: 0;
+      top: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+      transform-origin: 0 0;
+      scale: 0 1;
+      z-index: 60;
+    }
+
+    /* Quiz */
+    .quiz-opt {
+      background: #F1F3F5;
+      border: 2px solid var(--clr-border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: .2s;
+      color: var(--clr-text);
+      text-align: left;
+      width: 100%;
+    }
+    .quiz-opt:hover {
+      border-color: var(--clr-primary);
+      background: #E7F5FF;
+    }
+    .quiz-opt[aria-checked="true"].ok { background: #D3F9D8; border-color: #74B816; color: #2B7A0B; font-weight: 600; }
+    .quiz-opt[aria-checked="true"].ko { background: #FFE3E3; border-color: #FA5252; color: #C92A2A; }
+
+    /* Animations */
+    .fade { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease; }
+    .fade.show { opacity:1; transform:none; }
+    @media (prefers-reduced-motion: reduce) { .fade{transition:none} }
+    
+    /* Styles pour l'impression */
+    @media print { 
+      nav, footer, .no-print { display:none!important; } 
+      body { background:white; color:#111827; }
+      .card, .step, .tip, .dscl { background: #f8fafc; color: #1f2937; border-color: #e2e8f0; box-shadow: none; }
+      h1, h2, h3, h4 { color: #111827; }
+    }
   </style>
 </head>
 <body>
-  <!-- Barre de progression de lecture -->
   <div id="progress" class="progress" aria-hidden="true"></div>
+  <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-white text-slate-900 px-4 py-2 rounded-md z-50">Aller au contenu</a>
 
-  <!-- Lien d’évitement -->
-  <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-white text-slate-900 px-4 py-2 rounded-md">Aller au contenu</a>
-
-  <!-- En-tête -->
-  <header class="glass sticky top-0 z-50">
+  <header class="sticky top-0 z-50">
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a class="font-playfair text-2xl font-bold text-white tracking-wide" href="#">Charte Numérique</a>
+      <a class="font-playfair text-2xl font-bold tracking-wide" href="#">Culture Numérique</a>
       <div class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#mission" class="text-slate-200 hover:text-white">Mission</a>
-        <a href="#piliers" class="text-slate-200 hover:text-white">Piliers</a>
-        <a href="#procedure" class="text-slate-200 hover:text-white">Procédure</a>
-        <a href="#savoirs" class="text-slate-200 hover:text-white">Savoirs</a>
-        <a href="#futur" class="text-slate-200 hover:text-white">Futur</a>
-        <a href="#histoire" class="text-slate-200 hover:text-white"><!-- AJOUT -->Histoire & école</a>
-        <a href="#quiz" class="text-slate-200 hover:text-white">Quiz</a>
+        <a href="#regles-or">Règles d'Or</a>
+        <a href="#savoirs">Savoirs</a>
+        <a href="#sante">Santé</a>
+        <a href="#metiers">Métiers</a>
+        <a href="#futur">Futur & IA</a>
+        <a href="#quiz">Quiz</a>
       </div>
     </nav>
   </header>
 
   <main id="contenu">
-    <!-- Hero -->
-    <section class="relative pt-24 pb-16 md:pt-36 md:pb-24">
+    <section class="relative pt-24 pb-16 md:pt-36 md:pb-24 bg-white border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="font-playfair text-5xl sm:text-6xl md:text-7xl font-bold leading-tight text-white drop-shadow">
-          Charte du Numérique & Bon Comportement
+        <h1 class="font-playfair text-5xl sm:text-6xl md:text-7xl font-bold leading-tight">
+          Charte & Culture du Numérique
         </h1>
-        <p class="mt-4 text-lg md:text-xl text-slate-200">Un espace partagé exige rigueur, sécurité et respect.</p>
-        <img src="image_6.png" alt="Illustration des 4 piliers : sécurité, organisation, respect, responsabilité" class="w-full max-w-2xl mx-auto my-10 rounded-2xl shadow-2xl" />
+        <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">Plus qu'un outil, un monde à comprendre. Commençons par les règles de notre salle.</p>
         <div class="mt-6">
-          <a href="#situation" class="inline-flex items-center gap-2 badge bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20">
-            <i class="fa-solid fa-circle-play"></i> Commencer la visite
+          <a href="#situation" class="inline-flex items-center gap-2 text-white px-6 py-3 rounded-full font-semibold transition-colors" style="background-color: var(--clr-primary); hover:background-color: #004a80;">
+            <i class="fa-solid fa-circle-play"></i> Commencer le cours
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Bandeau valeurs -->
-    <div class="glass py-10 no-print">
+    <div class="py-10 no-print border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-        <div class="flex items-center justify-center gap-3"><i class="fa-solid fa-shield-halved text-2xl"></i><span class="font-semibold">SÉCURITÉ</span></div>
-        <div class="flex items-center justify-center gap-3"><i class="fa-solid fa-quote-left text-2xl"></i><span class="font-semibold">RESPECT</span></div>
-        <div class="flex items-center justify-center gap-3"><i class="fa-solid fa-bolt text-2xl"></i><span class="font-semibold">EFFICACITÉ</span></div>
+        <div class="flex items-center justify-center gap-3 text-lg font-semibold" style="color: var(--clr-text);"><i class="fa-solid fa-shield-halved text-2xl" style="color: var(--clr-accent);"></i><span>SÉCURITÉ</span></div>
+        <div class="flex items-center justify-center gap-3 text-lg font-semibold" style="color: var(--clr-text);"><i class="fa-solid fa-quote-left text-2xl" style="color: var(--clr-accent);"></i><span>RESPECT</span></div>
+        <div class="flex items-center justify-center gap-3 text-lg font-semibold" style="color: var(--clr-text);"><i class="fa-solid fa-bolt text-2xl" style="color: var(--clr-accent);"></i><span>EFFICACITÉ</span></div>
       </div>
     </div>
 
-    <!-- Situation déclenchante -->
-    <section id="situation" class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <div class="space-y-20 md:space-y-28 py-20 md:py-28">
+
+      <!-- Situation déclenchante -->
+      <section id="situation" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center max-w-3xl mx-auto fade">
-          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Situation déclenchante</h2>
-          <p class="text-slate-200">Une scène familière en salle de technologie…</p>
+          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Situation : notre salle de technologie</h2>
+          <p class="text-slate-600">Pour bien travailler ensemble, commençons par les règles du jeu.</p>
         </div>
         <article class="card p-8 md:p-10 fade">
-          <p class="text-lg md:text-xl leading-relaxed text-center mb-6">
-            <strong>Lundi, 8h.</strong> Premier cours de l’année. Léa s’installe au poste n°7. <span class="font-bold text-rose-600">Catastrophe !</span>
+          <img src="image_7.png" alt="Poste informatique dans une salle de classe" class="float-right ml-6 mb-4 w-1/2 md:w-1/3 rounded-lg shadow-md">
+          <p class="text-lg md:text-xl leading-relaxed text-slate-700">
+            <strong>Lundi, 8h.</strong> Premier cours de l’année. Léa s’installe au poste n°7. <strong style="color: var(--clr-accent);">Catastrophe !</strong>
             Le fond d’écran a changé, le Bureau déborde de fichiers, et la session ENT d’un autre élève est encore ouverte.
           </p>
-          <div class="p-6 rounded-xl bg-slate-50 text-slate-800">
+          <div class="p-6 rounded-xl bg-slate-100 text-slate-600 border border-slate-200 mt-6 clear-both">
             <p class="leading-relaxed text-center">
-              La salle informatique est un <strong>atelier partagé</strong>. Comme un labo de sciences, elle fonctionne si chacun applique des règles simples et constantes.
+              La salle informatique est un <strong>atelier partagé</strong>. Elle fonctionne si chacun applique des règles simples et constantes.
             </p>
           </div>
         </article>
-        <!-- Le savais-tu ? 1 -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ?">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Mots de passe</h4>
-          <p>Un mot de passe de 12 caractères mélangeant lettres, chiffres et symboles résiste des <em>milliers d’années</em> aux essais exhaustifs, alors qu’un mot de 6 caractères peut tomber en quelques secondes. Préfère une <strong>phrase secrète</strong> (ex. « Tarte!Pomme_4saisons »).</p>
-        </aside>
+      </section>
 
-        <!-- AJOUT : Le savais-tu contexte historique -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ? – Origines">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Origines de l’informatique</h4>
-          <p>Au XIX<sup>e</sup> siècle, <strong>Ada Lovelace</strong> imagine déjà l’idée d’un « programme » pour la machine analytique de Babbage. Un siècle plus tard, des machines comme <strong>ENIAC</strong> (1945) montrent la puissance du calcul automatique et ouvrent la voie aux ordinateurs modernes.</p>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Mission -->
-    <section id="mission" class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <!-- SECTION : Règles d'Or des Postes Partagés -->
+      <section id="regles-or" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center max-w-3xl mx-auto fade">
-          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Ta mission pour l’année</h2>
-          <p class="text-slate-200">Maîtriser l’environnement numérique de travail en citoyen responsable.</p>
+          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Règles d'Or des Postes Partagés</h2>
+          <p class="text-slate-600">Un poste pour plusieurs utilisateurs : la rigueur est obligatoire.</p>
         </div>
-        <div class="card p-8 md:p-10 text-center fade">
-          <p class="text-lg md:text-xl leading-relaxed mb-6">
-            Ce premier cours installe les bases : gestion de la session, organisation de fichiers, hygiène numérique, respect des autres et du matériel.
-          </p>
-          <img src="image_7.png" alt="Évolution des téléphones portables" class="w-full max-w-md mx-auto my-8 rounded-lg shadow" />
-          <div class="grid md:grid-cols-2 gap-6 text-left mt-4">
-            <div class="bg-slate-50 p-6 rounded-2xl">
-              <h3 class="text-xl font-bold mb-2 flex items-center gap-3 text-slate-900"><i class="fas fa-brain text-slate-700"></i> Compétences à maîtriser</h3>
-              <ul class="list-disc pl-6 text-slate-800 space-y-1">
-                <li>Gérer sa session et ses mots de passe.</li>
-                <li>Organiser ses dossiers dans l’ENT.</li>
-                <li>Appliquer la procédure de fin de cours.</li>
-                <li>Protéger ses données et celles d’autrui.</li>
-              </ul>
+        <article class="card p-8 md:p-10 fade">
+            <img src="image_6.png" alt="Illustration de jeunes collaborant autour d'un ordinateur avec les icônes de sécurité, organisation, respect et responsabilité." class="float-left mr-8 mb-4 w-full md:w-1/3 rounded-lg shadow-md">
+            <p class="text-lg leading-relaxed text-slate-700">
+                Les ordinateurs mis à votre disposition en salle de technologie sont des <strong>postes partagés</strong>. Tout travail doit être sauvegardé dans votre <strong>espace ENT</strong>. Cela signifie que tout document <em>enregistré</em> ou <em>téléchargé</em> sur l’ordinateur doit être <strong style="color: var(--clr-accent);">supprimé en fin d’heure</strong> : aucun fichier personnel ne doit y rester. Des outils de suivi permettent d’identifier qui a utilisé chaque poste : chacun est responsable de son usage.
+            </p>
+            <div class="mt-6 p-5 rounded-xl border-2 flex items-start gap-4 clear-left" style="border-color: #FFD3A1; background: #FFF9F0; color: #A65900;">
+                <div class="shrink-0 text-xl pt-1"><i class="fa-solid fa-star"></i></div>
+                <div>
+                    <h4 class="font-bold text-lg" style="color: #8C4A00;">Règle à retenir</h4>
+                    <p>Je travaille sur un poste partagé, je supprime mes fichiers locaux en fin d’heure, je n’éteins jamais l’ordinateur, je respecte le matériel.</p>
+                </div>
             </div>
-            <div class="bg-slate-50 p-6 rounded-2xl">
-              <h3 class="text-xl font-bold mb-2 flex items-center gap-3 text-slate-900"><i class="fas fa-book text-slate-700"></i> Savoirs à acquérir</h3>
-              <ul class="list-disc pl-6 text-slate-800 space-y-1">
-                <li>Fonctionnement et intérêt de l’ENT.</li>
-                <li>Arborescence et nommage de fichiers.</li>
-                <li>Principes de vie privée, RGPD scolaire.</li>
-                <li>Attitude responsable dans un espace partagé.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- Le savais-tu ? 2 -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ?">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Organisation</h4>
-          <p>Un bon nom de fichier contient la <strong>date</strong>, le <strong>sujet</strong> et une <strong>version</strong> : <code class="kbd">2025-09-15_projet-domotique_v2.docx</code>. Tu sais ce que c’est, quand c’est, et lequel ouvrir.</p>
-        </aside>
+            <ul class="mt-6 grid md:grid-cols-2 gap-4 text-slate-700">
+                <li class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border"><i class="fa-solid fa-cloud-arrow-up text-blue-600 mt-1"></i><span>Sauvegarder sur l’<strong>ENT</strong>, jamais en local (Bureau/Documents/Téléchargements).</span></li>
+                <li class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border"><i class="fa-solid fa-eraser text-blue-600 mt-1"></i><span><strong>Supprimer</strong> les fichiers téléchargés/enregistrés en fin d’heure (+ vider la corbeille).</span></li>
+                <li class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border"><i class="fa-solid fa-power-off text-red-600 mt-1"></i><span><strong>Ne pas éteindre</strong> l’ordinateur (sauf consigne du professeur).</span></li>
+                <li class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border"><i class="fa-solid fa-display text-red-600 mt-1"></i><span>Ne pas éteindre ni déplacer l’<strong>écran</strong>.</span></li>
+                <li class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border"><i class="fa-solid fa-user-check text-blue-600 mt-1"></i><span>Le premier élève du jour <strong>allume l’ordinateur</strong> (sans toucher l’écran).</span></li>
+                <li class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border"><i class="fa-solid fa-forward-step text-blue-600 mt-1"></i><span>En fin d’heure, <strong>laisser allumé</strong> pour la classe suivante.</span></li>
+            </ul>
+        </article>
+      </section>
 
-        <!-- AJOUT : Le savais-tu ENT & école -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ? – ENT">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – L’ENT, un « cartable numérique »</h4>
-          <p>Les <strong>Environnements Numériques de Travail</strong> se déploient en France au début des années 2000 pour rassembler messagerie, cahier de textes et ressources. Ils prolongent l’histoire de l’informatique à l’école commencée dès les années 1980 (voir la section « Histoire & école »).</p>
-        </aside>
-      </div>
-    </section>
-
-    <!-- 4 Piliers -->
-    <section id="piliers" class="py-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div class="text-center max-w-3xl mx-auto fade">
-          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Les 4 piliers du règlement</h2>
-          <p class="text-slate-200">Fondements d’un comportement numérique exemplaire.</p>
-        </div>
-        <div class="grid md:grid-cols-2 gap-10">
-          <!-- Pilier 1 -->
-          <article class="card p-8 text-center fade">
-            <div class="mx-auto w-20 h-20 rounded-full bg-slate-900/90 text-white grid place-items-center shadow"><i class="fas fa-user-shield text-2xl"></i></div>
-            <h3 class="font-playfair text-2xl font-bold mt-4 mb-2">Ton identité</h3>
-            <p class="mb-4">Ton compte ENT est ta carte d’identité numérique : personnel, intransmissible, protégé par un mot de passe robuste.</p>
-            <img src="image_8.png" alt="Cadenas et sécurité numérique" class="w-44 mx-auto my-4 rounded" />
-            <div class="bg-slate-50 p-4 rounded-xl border-l-4 border-sky-300 text-slate-800"><strong>🔑 La clé de ta maison numérique :</strong> ne partage jamais ton mot de passe ; déconnecte-toi en partant.</div>
-            <p class="dscl p-3 mt-4"><strong>⚠️ Danger :</strong> n’enregistre pas les mots de passe dans le navigateur d’un poste partagé.</p>
-          </article>
-          <!-- Pilier 2 -->
-          <article class="card p-8 text-center fade">
-            <div class="mx-auto w-20 h-20 rounded-full bg-slate-900/90 text-white grid place-items-center shadow"><i class="fas fa-folder-tree text-2xl"></i></div>
-            <h3 class="font-playfair text-2xl font-bold mt-4 mb-2">Ton espace dans l’ENT</h3>
-            <p class="mb-4">Classe tes travaux dans une arborescence logique (Matière → Chapitre → Projet). Sauvegarde sur le réseau ENT, pas en local.</p>
-            <img src="image_9.png" alt="Arborescence de dossiers" class="w-full max-w-sm mx-auto my-4 rounded shadow" />
-            <div class="bg-slate-50 p-4 rounded-xl border-l-4 border-indigo-300 text-slate-800"><strong>📁 Ton classeur numérique :</strong> un dossier par matière, des sous-dossiers par projet.</div>
-            <p class="dscl p-3 mt-4"><strong>⚠️ Danger :</strong> Bureau, « Documents » et « Téléchargements » locaux sont <em>temporaires</em>. Enregistre toujours sur l’ENT.</p>
-          </article>
-          <!-- Pilier 3 -->
-          <article class="card p-8 text-center fade">
-            <div class="mx-auto w-20 h-20 rounded-full bg-slate-900/90 text-white grid place-items-center shadow"><i class="fas fa-list-check text-2xl"></i></div>
-            <h3 class="font-playfair text-2xl font-bold mt-4 mb-2">Ta procédure</h3>
-            <p class="mb-4">Un rituel en fin de cours garde la salle propre et sûre pour tous.</p>
-            <div class="bg-slate-50 p-4 rounded-xl border-l-4 border-violet-300 text-slate-800"><strong>🧹 Laisser la table propre :</strong> tu penses à l’élève suivant.</div>
-            <p class="dscl p-3 mt-4"><strong>⚠️ Danger :</strong> oublier de se déconnecter met en péril tes données et celles des autres.</p>
-          </article>
-          <!-- Pilier 4 -->
-          <article class="card p-8 text-center fade">
-            <div class="mx-auto w-20 h-20 rounded-full bg-slate-900/90 text-white grid place-items-center shadow"><i class="fas fa-hands-holding text-2xl"></i></div>
-            <h3 class="font-playfair text-2xl font-bold mt-4 mb-2">Ta responsabilité</h3>
-            <p class="mb-4">Pendant l’heure, tu es responsable du poste. Respect du matériel et entraide sont la norme.</p>
-            <div class="bg-slate-50 p-4 rounded-xl border-l-4 border-emerald-300 text-slate-800"><strong>🤝 Esprit d’équipe :</strong> le bon fonctionnement dépend de chacun.</div>
-            <img src="image_11.png" alt="Accord et coopération" class="w-full max-w-xs mx-auto mt-4 rounded shadow" />
-          </article>
-        </div>
-        <!-- Le savais-tu ? 3 -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ?">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Traces numériques</h4>
-          <p>Chaque action en ligne laisse une <strong>métadonnée</strong> (date, appareil, localisation approximative). Publier, c’est souvent publier pour longtemps : réfléchis avant de cliquer.</p>
-        </aside>
-
-        <!-- AJOUT : Le savais-tu communications -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ? – Mail & réseau">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Le premier mail</h4>
-          <p>Le symbole <code class="kbd">@</code> s’impose dans les adresses e-mail avec l’envoi d’un des premiers messages inter-ordinateurs au début des années 1970. Depuis, l’e-mail reste l’outil académique n°1 pour communiquer de façon traçable et professionnelle.</p>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Procédure de fin de cours -->
-    <section id="procedure" class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <!-- Procédure de fin de cours -->
+      <section id="procedure" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center max-w-3xl mx-auto fade">
           <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Procédure de fin de cours</h2>
-          <p class="text-slate-200">Le rituel qui garantit sérénité et sécurité.</p>
+          <p class="text-slate-600">Le rituel qui garantit sérénité et sécurité. À appliquer 5 minutes avant la fin.</p>
         </div>
-        <div class="card p-6 text-center fade"><p class="text-lg">À <strong>5 minutes</strong> de la fin, toute la classe applique la procédure.</p></div>
-        <ol class="space-y-4">
-          <li class="step fade"><h4 class="font-semibold text-lg">1. Sauvegarder le travail</h4><p>Enregistre sur l’ENT (pas en local). Si besoin, note ce qu’il reste à faire.</p></li>
-          <li class="step fade"><h4 class="font-semibold text-lg">2. Nettoyer le poste 🧹</h4><p>Vider « Téléchargements » et « Documents » locaux, laisser le Bureau vide.</p></li>
-          <li class="step fade"><h4 class="font-semibold text-lg">3. Vider la corbeille 🗑️</h4><p>Supprimer définitivement les fichiers obsolètes.</p></li>
-          <li class="step fade"><h4 class="font-semibold text-lg">4. Se déconnecter 🚪</h4><p>Fermer les sites et <strong>se déconnecter de l’ENT</strong>. L’écran d’accueil doit s’afficher.</p></li>
-          <li class="step fade"><h4 class="font-semibold text-lg">5. Ranger physiquement 🪑</h4><p>Chaise sous la table, clavier/souris rangés. Rien d’autre sur le bureau.</p><img src="image_10.png" alt="Poste de travail propre et rangé" class="w-full max-w-md mt-3 rounded shadow" /></li>
-        </ol>
-        <!-- Le savais-tu ? 4 -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ?">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Raccourcis utiles</h4>
-          <p><span class="kbd">Ctrl</span>+<span class="kbd">S</span> : enregistrer • <span class="kbd">Win</span>+<span class="kbd">L</span> : verrouiller la session • <span class="kbd">Alt</span>+<span class="kbd">Tab</span> : changer d’application.</p>
-        </aside>
+        <div class="md:flex items-center gap-8">
+            <div class="flex-1">
+                <img src="image_9.png" alt="Schéma d'organisation de dossiers numériques" class="w-full md:w-2/3 mx-auto mb-8 rounded-lg shadow-md">
+            </div>
+            <ol class="space-y-4 flex-1">
+              <li class="step fade"><h4 class="font-semibold text-lg">1. Sauvegarder le travail</h4><p>Enregistre sur l’ENT (pas en local).</p></li>
+              <li class="step fade"><h4 class="font-semibold text-lg">2. Nettoyer le poste</h4><p>Vider « Téléchargements » et « Documents » locaux, laisser le Bureau vide.</p></li>
+              <li class="step fade"><h4 class="font-semibold text-lg">3. Vider la corbeille</h4><p>Supprimer définitivement les fichiers obsolètes.</p></li>
+              <li class="step fade"><h4 class="font-semibold text-lg">4. Se déconnecter</h4><p>Fermer les sites et <strong>se déconnecter de l’ENT</strong>.</p></li>
+              <li class="step fade"><h4 class="font-semibold text-lg">5. Ranger physiquement</h4><p>Chaise sous la table, clavier/souris rangés.</p></li>
+            </ol>
+        </div>
+      </section>
 
-        <!-- AJOUT : Le savais-tu sécurité scolaire -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ? – RGPD">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Données scolaires & loi</h4>
-          <p>À l’école, la protection des données personnelles est un sujet <strong>légal</strong> : seuls les usages pédagogiques nécessaires doivent collecter des informations, et chacun a des <strong>droits</strong> (accès, rectification). D’où l’intérêt d’outils institutionnels (ENT, évaluations numériques encadrées).</p>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Savoirs numériques (nouvelle section) -->
-    <section id="savoirs" class="py-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <!-- SECTION : Savoirs numériques essentiels -->
+      <section id="savoirs" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div class="text-center max-w-3xl mx-auto fade">
           <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Savoirs numériques essentiels</h2>
-          <p class="text-slate-200">Des repères pour comprendre et agir.</p>
+          <p class="text-slate-600">Des repères pour comprendre et agir.</p>
         </div>
         <div class="grid md:grid-cols-3 gap-8">
-          <article class="card p-6 fade">
-            <h3 class="font-semibold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-lock"></i> Cybersécurité</h3>
-            <ul class="list-disc pl-5 space-y-1 text-slate-800">
+          <article class="card p-6 fade text-center">
+            <img src="image_8.png" alt="Cadenas de sécurité numérique stylisé" class="w-24 h-24 mx-auto mb-4">
+            <h3 class="font-semibold text-lg mb-2 flex items-center justify-center gap-2"><i class="fa-solid fa-lock" style="color: var(--clr-primary);"></i> Cybersécurité</h3>
+            <ul class="list-disc pl-5 space-y-1 text-left">
               <li>Phrase secrète longue & gestionnaire de mots de passe.</li>
               <li>Double authentification quand c’est possible.</li>
-              <li>Reconnaître hameçonnage : adresse suspecte, pièce jointe inattendue.</li>
+              <li>Reconnaître l'hameçonnage (phishing).</li>
             </ul>
           </article>
           <article class="card p-6 fade">
-            <h3 class="font-semibold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-user-shield"></i> Données & vie privée</h3>
-            <ul class="list-disc pl-5 space-y-1 text-slate-800">
-              <li>Photos d’autrui : toujours demander l’accord (droit à l’image).</li>
+            <h3 class="font-semibold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-user-shield" style="color: var(--clr-primary);"></i> Données & vie privée</h3>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Photos d’autrui : toujours demander l’accord.</li>
               <li>Réglages de confidentialité sur les réseaux.</li>
               <li>Moins de traces : limiter les partages publics.</li>
             </ul>
           </article>
-          <article class="card p-6 fade">
-            <h3 class="font-semibold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-cloud"></i> Stockage & sauvegardes</h3>
-            <ul class="list-disc pl-5 space-y-1 text-slate-800">
+          <article class="card p-6 fade text-center">
+            <h3 class="font-semibold text-lg mb-2 flex items-center justify-center gap-2"><i class="fa-solid fa-cloud" style="color: var(--clr-primary);"></i> Stockage & sauvegardes</h3>
+            <ul class="list-disc pl-5 space-y-1 text-left">
               <li>Règle « 3-2-1 » : 3 copies, 2 supports, 1 hors site.</li>
               <li>ENT = stockage à long terme des travaux scolaires.</li>
               <li>Local = temporaire (à nettoyer en fin d’heure).</li>
             </ul>
           </article>
         </div>
-        <!-- Le savais-tu ? 5 -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ?">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Empreinte du numérique</h4>
-          <p>Éteindre l’écran, limiter les téléchargements répétés et ranger ses fichiers réduisent l’empreinte carbone. Un fichier bien nommé se retrouve plus vite : moins de temps en ligne, moins d’énergie.</p>
-        </aside>
+      </section>
 
-        <!-- AJOUT : Le savais-tu formats & science -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ? – Fichiers & science">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Fichiers & science ouverte</h4>
-          <p>Dans la recherche, on préfère des <strong>formats ouverts</strong> et des données bien documentées (métadonnées), pour pouvoir <em>reproduire</em> les expériences et partager les résultats. Tes projets d’élève gagnent à adopter ces bonnes pratiques.</p>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Futur & esprit critique (nouvelle section) -->
-    <section id="futur" class="py-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <!-- NOUVELLE SECTION : Le numérique, qu'est-ce que c'est ? -->
+      <section id="numerique-general" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center max-w-3xl mx-auto fade">
-          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Numérique & futur proche</h2>
-          <p class="text-slate-200">Tendances à connaître et posture responsable.</p>
+          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Le Numérique, c'est quoi au juste ?</h2>
+          <p class="text-slate-600">Des 0 et des 1 qui ont changé notre monde.</p>
         </div>
-        <div class="grid lg:grid-cols-3 gap-8">
+        <article class="card p-8 md:p-10 fade">
+            <h3 class="font-semibold text-xl mb-4">Plus que des écrans</h3>
+            <p class="text-slate-700 mb-4">Le numérique, ce n'est pas juste ton téléphone ou l'ordinateur. C'est un langage universel composé de deux chiffres : 0 et 1 (le code binaire). Toute l'information du monde – textes, images, sons, vidéos – peut être traduite dans ce langage pour être traitée, stockée et partagée à la vitesse de la lumière.</p>
+            <div class="grid md:grid-cols-2 gap-6 text-slate-700">
+                <div><strong>Internet, la toile mondiale :</strong> C'est un immense réseau qui connecte presque tous les appareils numériques de la planète. Il permet de communiquer, d'apprendre, de se divertir et de travailler comme jamais auparavant.</div>
+                <div><strong>Des objets connectés partout :</strong> Ta montre, la voiture de tes parents, et même le frigo peuvent être "intelligents". Ils utilisent le numérique pour échanger des informations et nous simplifier la vie.</div>
+            </div>
+        </article>
+      </section>
+      
+      <!-- NOUVELLE SECTION : Numérique & Santé -->
+      <section id="sante" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="text-center max-w-3xl mx-auto fade">
+          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Numérique & Santé : le bon équilibre</h2>
+          <p class="text-slate-600">Un outil puissant pour notre bien-être, à utiliser avec intelligence.</p>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-8">
+            <article class="card p-8 fade">
+                <h3 class="font-semibold text-xl mb-4 flex items-center gap-2"><i class="fa-solid fa-heart-pulse" style="color: #28a745;"></i> Les bienfaits</h3>
+                <ul class="list-disc pl-5 space-y-2 text-slate-700">
+                    <li><strong>Accès à l'information :</strong> Trouver des conseils fiables sur la santé (sur les sites officiels !).</li>
+                    <li><strong>Applications de bien-être :</strong> Suivre son sommeil, son activité physique ou faire de la méditation.</li>
+                    <li><strong>Téléconsultation :</strong> Parler à un médecin à distance, c'est parfois très pratique.</li>
+                    <li><strong>Progrès médicaux :</strong> L'IA aide les médecins à détecter des maladies plus tôt.</li>
+                </ul>
+            </article>
+            <article class="card p-8 fade">
+                <h3 class="font-semibold text-xl mb-4 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation" style="color: var(--clr-accent);"></i> Les points de vigilance</h3>
+                <ul class="list-disc pl-5 space-y-2 text-slate-700">
+                    <li><strong>Le temps d'écran :</strong> Trop d'écrans peut fatiguer les yeux, perturber le sommeil et réduire l'activité physique.</li>
+                    <li><strong>La santé mentale :</strong> La comparaison sur les réseaux sociaux et le cyberharcèlement peuvent être difficiles à vivre.</li>
+                    <li><strong>Les fausses informations :</strong> Tout ce qu'on lit sur internet n'est pas vrai. Il faut toujours vérifier la source.</li>
+                    <li><strong>L'addiction :</strong> Les "likes" et les notifications sont conçus pour nous faire revenir. Apprendre à se déconnecter est essentiel.</li>
+                </ul>
+            </article>
+        </div>
+      </section>
+
+      <!-- NOUVELLE SECTION : Les métiers du numérique -->
+      <section id="metiers" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center max-w-3xl mx-auto fade">
+          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Les Métiers du Numérique</h2>
+          <p class="text-slate-600">Il n'y a pas que "codeur" ! Découvre des métiers créatifs et techniques.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <article class="card p-6 fade">
-            <h3 class="font-semibold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-robot"></i> IA au quotidien</h3>
-            <p class="text-slate-800">Assistants, traduction, résumé de textes : l’IA accélère des tâches. Compétence clé : <strong>vérifier</strong> et <strong>citer ses sources</strong> ; l’IA peut se tromper.</p>
+            <img src="image_10.png" alt="Bureau de travail moderne et épuré" class="rounded-lg mb-4">
+            <h3 class="font-semibold text-lg mb-2">Développeur / Développeuse Web</h3>
+            <p>C'est l'architecte du web. Il ou elle construit les sites et les applications que tu utilises tous les jours, en écrivant du code.</p>
           </article>
           <article class="card p-6 fade">
-            <h3 class="font-semibold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-shield"></i> Deepfakes & esprit critique</h3>
-            <p class="text-slate-800">Images/vidéos truquées se perfectionnent. Indices : incohérences, sources non fiables, émotions trop fortes. Toujours recouper.</p>
+            <h3 class="font-semibold text-lg mb-2">Analyste en Cybersécurité</h3>
+            <p>C'est le gardien de la forteresse numérique. Il ou elle protège les données des entreprises et des utilisateurs contre les pirates informatiques.</p>
           </article>
           <article class="card p-6 fade">
-            <h3 class="font-semibold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-globe"></i> Compétences durables</h3>
-            <p class="text-slate-800">Organisation, collaboration, éthique et sécurité restent valables quels que soient les outils. Ce cours les ancre dans la pratique.</p>
+            <h3 class="font-semibold text-lg mb-2">UI / UX Designer</h3>
+            <p>C'est l'artiste et le psychologue de l'application. Il ou elle s'assure qu'un site est non seulement beau (UI - User Interface) mais aussi facile et agréable à utiliser (UX - User Experience).</p>
+          </article>
+          <article class="card p-6 fade">
+            <h3 class="font-semibold text-lg mb-2">Data Scientist</h3>
+            <p>C'est l'explorateur des données. Il ou elle analyse des montagnes d'informations pour y trouver des tendances, prédire le futur et aider à prendre les bonnes décisions.</p>
+          </article>
+          <article class="card p-6 fade">
+            <h3 class="font-semibold text-lg mb-2">Community Manager</h3>
+            <p>C'est l'ambassadeur d'une marque sur les réseaux sociaux. Il ou elle crée du contenu, anime la communauté et répond aux questions des internautes.</p>
+          </article>
+          <article class="card p-6 fade">
+            <h3 class="font-semibold text-lg mb-2">Chef / Cheffe de projet numérique</h3>
+            <p>C'est le capitaine du navire. Il ou elle coordonne les équipes (développeurs, designers...) pour qu'un projet, comme la création d'une app, soit terminé à temps et dans le budget.</p>
           </article>
         </div>
-        <!-- Le savais-tu ? 6 -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ?">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Formats pérennes</h4>
-          <p>Sur le long terme, des formats ouverts (ex. <code class="kbd">.pdf</code>, <code class="kbd">.txt</code>, <code class="kbd">.csv</code>) se lisent plus facilement que des formats propriétaires rares.</p>
-        </aside>
+      </section>
 
-        <!-- AJOUT : Le savais-tu IA & école -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ? – IA & école">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – IA & apprentissages</h4>
-          <p>Des outils d’IA peuvent aider à <strong>différencier</strong> les activités (soutien, enrichissement) et à <strong>réviser</strong> (quiz, résumés). Mais on garde un regard critique : l’enseignant reste le garant des objectifs et de l’éthique.</p>
-        </aside>
-      </div>
-    </section>
-
-    <!-- AJOUT : Section Histoire & école -->
-    <section id="histoire" class="py-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <!-- SECTION : Histoire & École -->
+      <section id="histoire" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center max-w-3xl mx-auto fade">
           <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Histoire & école : repères utiles</h2>
-          <p class="text-slate-200">Comprendre d’où l’on vient pour mieux apprendre aujourd’hui.</p>
+          <p class="text-slate-600">Comprendre d’où l’on vient pour mieux apprendre aujourd’hui.</p>
         </div>
-
-        <!-- Repères chronologiques -->
-        <article class="card p-6 fade">
-          <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-timeline"></i> Repères chronologiques (très synthétiques)</h3>
-          <ul class="list-disc pl-6 space-y-1 text-slate-800">
-            <li><strong>1843</strong> : Ada Lovelace décrit un algorithme pour la machine analytique.</li>
-            <li><strong>1940–1950</strong> : premiers ordinateurs électroniques et langages de programmation.</li>
-            <li><strong>1960–1970</strong> : réseaux pré-Internet ; courriel pionnier au début des années 1970.</li>
-            <li><strong>1967–1980</strong> : pédagogie <em>Logo</em> (S. Papert) : programmer pour <em>penser</em> avec l’ordinateur.</li>
-            <li><strong>Années 1980</strong> : premières générations d’ordinateurs à l’école en France ; initiation large des élèves.</li>
-            <li><strong>Années 2000</strong> : déploiement des ENT et ressources numériques.</li>
-            <li><strong>2010–2020</strong> : généralisation des services en ligne, évaluations numériques, compétence <em>CRCN</em> et certification <em>PIX</em>.</li>
-          </ul>
-        </article>
-
-        <!-- Pourquoi à l'école ? -->
-        <article class="card p-6 fade">
-          <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-school"></i> Pourquoi l’informatique à l’école ?</h3>
-          <p class="text-slate-800">L’école n’enseigne pas seulement des outils ; elle cultive des <strong>capacités transférables</strong> : raisonner, structurer, collaborer, respecter le droit. L’informatique sert de <strong>laboratoire</strong> pour développer ces compétences (décomposer un problème, tester, documenter, itérer).</p>
-          <div class="bg-slate-50 p-4 rounded-xl border-l-4 border-sky-300 text-slate-800 mt-4">
-            <strong>À relier à la charte :</strong> nommage, sauvegarde, respect des données, esprit d’équipe → ce sont déjà des <em>compétences numériques</em>.
-          </div>
-        </article>
-
-        <!-- Figures et idées -->
-        <article class="card p-6 fade">
-          <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-lightbulb"></i> Idées clés qui ont marqué l’enseignement</h3>
-          <ul class="list-disc pl-6 space-y-2 text-slate-800">
-            <li><strong>Construction des savoirs</strong> : on apprend en <em>faisant</em> (projets, essais-erreurs, debug).</li>
-            <li><strong>Programmation comme écriture</strong> : un code clair et commenté s’adresse à des humains autant qu’à des machines.</li>
-            <li><strong>Éthique et droit</strong> : droit d’auteur, licences, données personnelles ; l’école forme des <em>citoyens numériques</em>.</li>
-            <li><strong>Accessibilité</strong> : l’outil doit s’adapter à l’élève (clavier, lecteurs, contrastes), pas l’inverse.</li>
-          </ul>
-        </article>
-
-        <!-- Le savais-tu histoire scolaire -->
-        <aside class="tip p-6 md:p-7 fade" role="note" aria-label="Le savais-tu ? – Histoire scolaire">
-          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Des salles info aux espaces fablab</h4>
-          <p>Les salles info centrées sur le poste fixe laissent de plus en plus place à des <strong>espaces projets</strong> (robotique, design, fabrication numérique). Les règles d’organisation et de sécurité restent les mêmes… et deviennent encore plus essentielles.</p>
+        <div class="grid lg:grid-cols-3 gap-8">
+            <article class="card p-8 fade lg:col-span-2">
+                <h3 class="font-semibold text-xl mb-4">Repères chronologiques</h3>
+                <ul class="list-disc pl-5 space-y-2 text-slate-700">
+                    <li><strong>1843</strong> : Ada Lovelace décrit un algorithme pour la machine analytique.</li>
+                    <li><strong>1960–1970</strong> : Réseaux pré-Internet ; courriel pionnier au début des années 1970.</li>
+                    <li><strong>Années 1980</strong> : Premières générations d’ordinateurs à l’école en France.</li>
+                    <li><strong>Années 2000</strong> : Déploiement des ENT et ressources numériques.</li>
+                    <li><strong>2010–2020</strong> : Généralisation des services en ligne, compétence CRCN et certification PIX.</li>
+                </ul>
+            </article>
+            <article class="card p-8 fade">
+                <h3 class="font-semibold text-xl mb-4">Pourquoi l’informatique à l’école ?</h3>
+                <p class="text-slate-700">L’école n’enseigne pas seulement des outils ; elle cultive des capacités transférables : raisonner, structurer, collaborer, respecter le droit.</p>
+            </article>
+            <article class="card p-8 fade lg:col-span-3">
+                <h3 class="font-semibold text-xl mb-4">Idées clés qui ont marqué l’enseignement</h3>
+                <div class="grid md:grid-cols-2 gap-6 text-slate-700">
+                    <div><strong>Construction des savoirs :</strong> on apprend en faisant (projets, essais-erreurs, debug).</div>
+                    <div><strong>Programmation comme écriture :</strong> un code clair s’adresse à des humains autant qu’à des machines.</div>
+                    <div><strong>Éthique et droit :</strong> droit d’auteur, licences, données personnelles ; l’école forme des citoyens numériques.</div>
+                    <div><strong>Accessibilité :</strong> l’outil doit s’adapter à l’élève (clavier, lecteurs, contrastes), pas l’inverse.</div>
+                </div>
+            </article>
+        </div>
+        <aside class="tip p-6 md:p-7 fade" role="note">
+          <h4 class="font-semibold text-lg mb-2"><span class="mr-2">💡</span>Le savais-tu ? – Des salles info aux fablabs</h4>
+          <p>Les salles info centrées sur le poste fixe laissent de plus en plus place à des espaces projets (robotique, design, fabrication numérique). Les règles d’organisation et de sécurité restent les mêmes… et deviennent encore plus essentielles.</p>
         </aside>
+      </section>
 
-        <!-- Bibliographie courte / Références -->
-        <article class="card p-6 fade" aria-labelledby="refs-title">
-          <h3 id="refs-title" class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-book-open"></i> Bibliographie courte & pistes</h3>
-          <ul class="list-disc pl-6 space-y-1 text-slate-800">
-            <li>Repères historiques : travaux autour d’Ada Lovelace et de l’ENIAC pour les origines du calcul automatique.</li>
-            <li>Pédagogie & programmation : S. Papert, <em>Mindstorms</em> ; approche Logo et apprentissage par projets.</li>
-            <li>École & compétences numériques : cadres institutionnels récents (compétences numériques et certification dédiées).</li>
-            <li>Éthique & données : principes juridiques européens sur la protection des données et ressources éducatives institutionnelles.</li>
-          </ul>
-          <p class="text-sm text-slate-600 mt-3">Astuce pédagogique : demande aux élèves de placer 5 événements sur une frise (papier ou numérique) et de relier chaque événement à une règle de la charte.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Conclusion -->
-    <section id="conclusion" class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <!-- SECTION : Futur & IA -->
+      <section id="futur" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center max-w-3xl mx-auto fade">
-          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Conclusion : notre contrat de confiance</h2>
-          <p class="text-slate-200">Des règles simples, appliquées par tous, chaque heure.</p>
+          <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Le Monde Numérique de Demain : L'IA et Toi</h2>
+          <p class="text-slate-600">L'Intelligence Artificielle n'est plus de la science-fiction, elle est déjà partout.</p>
         </div>
-        <div class="card p-8 text-center fade">
-          <p class="text-lg text-slate-800">Respecter cette charte, c’est apprendre des compétences utiles pour la vie : rigueur, organisation, sécurité et coopération.</p>
+        <div class="grid lg:grid-cols-2 gap-8">
+          <article class="card p-8 fade lg:col-span-2">
+            <h3 class="font-semibold text-xl mb-2 flex items-center gap-2"><i class="fa-solid fa-robot" style="color: var(--clr-primary);"></i> C'est quoi, l'Intelligence Artificielle (IA) ?</h3>
+            <p>Imagine un logiciel capable d'apprendre à partir d'énormes quantités de données pour ensuite prendre des décisions ou créer du contenu. Ce n'est pas une conscience, mais un outil surpuissant.</p>
+          </article>
+          <article class="card p-8 fade">
+            <h3 class="font-semibold text-xl mb-2 flex items-center gap-2"><i class="fa-solid fa-user-astronaut" style="color: var(--clr-primary);"></i> L'IA et les métiers de demain</h3>
+            <p>L'IA ne va pas "remplacer" tout le monde, mais elle va transformer presque tous les métiers. Elle deviendra un co-pilote pour les médecins, les artistes, les ingénieurs et les scientifiques.</p>
+          </article>
+          <article class="card p-8 fade">
+            <h3 class="font-semibold text-xl mb-2 flex items-center gap-2"><i class="fa-solid fa-brain" style="color: var(--clr-primary);"></i> Ta meilleure compétence : ton cerveau</h3>
+            <p>Dans un monde avec l'IA, les compétences les plus importantes sont humaines : la <strong>créativité</strong>, l'<strong>esprit critique</strong> (vérifier ce que dit l'IA), et la <strong>collaboration</strong>.</p>
+          </article>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Quiz -->
-    <section id="quiz" class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <!-- Quiz -->
+      <section id="quiz" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center max-w-3xl mx-auto fade">
           <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3">Vérification des acquis</h2>
-          <p class="text-slate-200">Quiz accessible (clavier / lecteur d’écran).</p>
+          <p class="text-slate-600">Teste tes connaissances avec ce quiz rapide.</p>
         </div>
         <div class="grid md:grid-cols-2 gap-8">
-          <!-- Q1 -->
-          <div class="card p-6 quiz" data-answer="2" aria-labelledby="q1">
+          <div class="card p-6 quiz" data-answer="3" aria-labelledby="q1">
             <h3 id="q1" class="font-playfair text-xl font-bold mb-4">1. Où enregistrer durablement tes travaux ?</h3>
             <div class="space-y-3" role="radiogroup" aria-labelledby="q1">
               <button class="quiz-opt" role="radio" aria-checked="false">Sur le Bureau local</button>
@@ -428,118 +449,139 @@
             </div>
             <p class="mt-3 hidden text-sm" data-feedback></p>
           </div>
-          <!-- Q2 -->
-          <div class="card p-6 quiz" data-answer="2" aria-labelledby="q2">
-            <h3 id="q2" class="font-playfair text-xl font-bold mb-4">2. Vider la corbeille, c’est utile parce que…</h3>
-            <div class="space-y-3" role="radiogroup" aria-labelledby="q2">
-              <button class="quiz-opt" role="radio" aria-checked="false">Ça accélère l’ordinateur</button>
-              <button class="quiz-opt" role="radio" aria-checked="false">Ça supprime vraiment les fichiers effacés</button>
-              <button class="quiz-opt" role="radio" aria-checked="false">Ce n’est pas utile</button>
-            </div>
-            <p class="mt-3 hidden text-sm" data-feedback></p>
-          </div>
-          <!-- Q3 -->
           <div class="card p-6 quiz" data-answer="1" aria-labelledby="q3">
-            <h3 id="q3" class="font-playfair text-xl font-bold mb-4">3. Tu finis 10 minutes en avance : que faire ?</h3>
+            <h3 id="q3" class="font-playfair text-xl font-bold mb-4">2. La règle la plus importante sur un poste partagé est de...</h3>
             <div class="space-y-3" role="radiogroup" aria-labelledby="q3">
-              <button class="quiz-opt" role="radio" aria-checked="false">Vérifier la sauvegarde et commencer à ranger</button>
-              <button class="quiz-opt" role="radio" aria-checked="false">Ouvrir mes réseaux personnels</button>
-              <button class="quiz-opt" role="radio" aria-checked="false">Attendre la sonnerie, session ouverte</button>
-            </div>
-            <p class="mt-3 hidden text-sm" data-feedback></p>
-          </div>
-          <!-- Q4 (nouvelle) -->
-          <div class="card p-6 quiz" data-answer="3" aria-labelledby="q4">
-            <h3 id="q4" class="font-playfair text-xl font-bold mb-4">4. La meilleure phrase secrète est…</h3>
-            <div class="space-y-3" role="radiogroup" aria-labelledby="q4">
-              <button class="quiz-opt" role="radio" aria-checked="false">123456</button>
-              <button class="quiz-opt" role="radio" aria-checked="false">Léa</button>
-              <button class="quiz-opt" role="radio" aria-checked="false">Gr@nde-Pomme_hiver2025!</button>
+              <button class="quiz-opt" role="radio" aria-checked="false">Supprimer ses fichiers locaux en fin d'heure</button>
+              <button class="quiz-opt" role="radio" aria-checked="false">Éteindre l'ordinateur pour économiser l'énergie</button>
+              <button class="quiz-opt" role="radio" aria-checked="false">Changer le fond d'écran</button>
             </div>
             <p class="mt-3 hidden text-sm" data-feedback></p>
           </div>
         </div>
-        <div id="quiz-summary" class="card p-6 text-center hidden">
+        <div id="quiz-summary" class="card p-6 text-center hidden fade">
           <p class="text-lg">Score : <span id="score" class="font-bold">0</span>/<span id="total">0</span></p>
           <p id="score-msg" class="mt-2"></p>
-          <button id="reset" class="mt-4 inline-flex items-center gap-2 badge bg-slate-900 text-white">Recommencer</button>
+          <button id="reset" class="mt-4 inline-flex items-center gap-2 text-white px-5 py-2 rounded-full font-semibold" style="background-color: var(--clr-primary);">Recommencer</button>
         </div>
-      </div>
-    </section>
+      </section>
+      
+      <!-- SECTION : Conclusion -->
+      <section id="conclusion" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="card p-8 md:p-10 fade text-center relative">
+            <img src="image_11.png" alt="Poignée de main symbolisant un accord" class="absolute top-1/2 left-8 -translate-y-1/2 w-32 h-auto rounded-full shadow-lg hidden lg:block">
+            <h2 class="font-playfair text-4xl font-bold mb-4">Notre contrat de confiance</h2>
+            <p class="text-lg text-slate-700 max-w-2xl mx-auto">Des règles simples, appliquées par tous, chaque heure. Respecter cette charte, c’est apprendre des compétences utiles pour la vie : rigueur, organisation, sécurité et coopération.</p>
+        </div>
+      </section>
+
+    </div>
   </main>
 
-  <footer class="glass py-10 mt-12 border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="font-playfair text-2xl font-bold">Charte Numérique</p>
-      <p class="text-slate-300 mt-1 text-sm"> </p>
+  <footer class="py-10 mt-12 border-t border-slate-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-600">
+      <p class="font-playfair text-2xl font-bold text-slate-800">Culture Numérique</p>
+      <p class="mt-1 text-sm">Un engagement pour un environnement de travail sûr, efficace et éclairé.</p>
     </div>
   </footer>
 
   <script>
-    // Progress bar
+    // Barre de progression
     const progressBar = document.getElementById('progress');
-    document.addEventListener('scroll', () => {
-      const h = document.documentElement; const scrolled = (h.scrollTop)/(h.scrollHeight - h.clientHeight);
-      progressBar.style.scale = `${Math.max(0, Math.min(1, scrolled))} 1`;
-    }, {passive:true});
+    if (progressBar) {
+      document.addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+        progressBar.style.scale = `${Math.max(0, Math.min(1, scrolled))} 1`;
+      }, { passive: true });
+    }
 
-    // Intersections
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
-    },{threshold:.15});
-    document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+    // Animation au défilement
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('show');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: .1 });
+    document.querySelectorAll('.fade').forEach(el => io.observe(el));
 
-    // Smooth scroll (améliore l’accessibilité clavier)
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click',e=>{ const id=a.getAttribute('href'); const t=document.querySelector(id); if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); t.setAttribute('tabindex','-1'); t.focus({preventScroll:true}); } });
+    // Défilement fluide
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        const t = document.querySelector(id);
+        if (t) {
+          e.preventDefault();
+          t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          t.setAttribute('tabindex', '-1');
+          t.focus({ preventScroll: true });
+        }
+      });
     });
 
-    // Quiz logique accessible
+    // Logique du Quiz
     const quizzes = [...document.querySelectorAll('.quiz')];
     const totalEl = document.getElementById('total');
     const scoreEl = document.getElementById('score');
     const msgEl = document.getElementById('score-msg');
     const sumEl = document.getElementById('quiz-summary');
     const resetBtn = document.getElementById('reset');
+    let answeredCount = 0;
 
-    let score = 0; let answered = 0; const total = quizzes.length; totalEl.textContent = total;
-
-    const endIfDone = () => {
-      if(answered === total){
-        scoreEl.textContent = score;
-        msgEl.textContent = score===total ? 'Excellent ! Citoyen numérique modèle.' : score>=Math.ceil(total/2) ? 'Bien ! Encore un effort pour viser la perfection.' : 'Revois la charte : tu progresseras vite.';
-        sumEl.classList.remove('hidden');
-        try{ localStorage.setItem('quiz-charte-score', String(score)); }catch{}
-      }
+    function updateScore() {
+        const correctAnswers = quizzes.filter(q => {
+            const selected = q.querySelector('[aria-checked="true"]');
+            return selected && selected.classList.contains('ok');
+        }).length;
+        
+        scoreEl.textContent = correctAnswers;
+        totalEl.textContent = quizzes.length;
+        
+        if (answeredCount === quizzes.length) {
+            sumEl.classList.remove('hidden');
+            let message = "Excellent travail !";
+            if (correctAnswers < quizzes.length) message = "Pas mal ! Relis les sections pour viser le sans-faute.";
+            if (correctAnswers < quizzes.length / 2) message = "Encore un effort ! N'hésite pas à relire le cours.";
+            msgEl.textContent = message;
+        }
     }
 
-    quizzes.forEach((q,qi)=>{
-      const answer = Number(q.dataset.answer) - 1; // index
-      const opts = [...q.querySelectorAll('.quiz-opt')];
-      const feedback = q.querySelector('[data-feedback]');
-      opts.forEach((btn,i)=>{
-        btn.addEventListener('click',()=>{
-          if(q.dataset.done==='1') return;
-          q.dataset.done='1'; answered++;
-          btn.setAttribute('aria-checked','true');
-          const ok = i===answer; btn.classList.add(ok?'ok':'ko');
-          feedback.classList.remove('hidden');
-          feedback.textContent = ok? '🎉 Exact !':'❌ Mauvaise réponse : regarde la solution mise en évidence.';
-          if(!ok){ setTimeout(()=>{ opts[answer].classList.add('ok'); opts[answer].setAttribute('aria-checked','true'); }, 300); }
-          score += ok?1:0; endIfDone();
-          // Désactiver les autres
-          opts.forEach(o=>{o.disabled=true; o.setAttribute('tabindex','-1');});
+    quizzes.forEach((quiz) => {
+        const options = [...quiz.querySelectorAll('[role="radio"]')];
+        const correctAnswerIndex = parseInt(quiz.dataset.answer, 10) - 1;
+        const feedbackEl = quiz.querySelector('[data-feedback]');
+        let isAnswered = false;
+
+        options.forEach((opt, index) => {
+            opt.addEventListener('click', () => {
+                if (isAnswered) return;
+                isAnswered = true;
+                answeredCount++;
+                options.forEach(o => o.setAttribute('aria-checked', 'false'));
+                opt.setAttribute('aria-checked', 'true');
+                if (index === correctAnswerIndex) {
+                    opt.classList.add('ok');
+                    feedbackEl.textContent = "Bonne réponse !";
+                    feedbackEl.className = 'mt-3 text-sm text-green-700';
+                } else {
+                    opt.classList.add('ko');
+                    options[correctAnswerIndex].classList.add('ok');
+                    feedbackEl.textContent = "Incorrect. La bonne réponse est mise en évidence.";
+                    feedbackEl.className = 'mt-3 text-sm text-red-700';
+                }
+                feedbackEl.classList.remove('hidden');
+                updateScore();
+            });
         });
-      });
     });
 
-    resetBtn.addEventListener('click',()=>{ location.reload(); });
-
-    // Afficher dernier score si disponible
-    try{
-      const last = localStorage.getItem('quiz-charte-score');
-      if(last!==null){ scoreEl.textContent = last; sumEl.classList.remove('hidden'); totalEl.textContent = quizzes.length; msgEl.textContent = 'Dernier score enregistré : '+last+'/'+quizzes.length; }
-    }catch{}
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+             window.location.reload();
+        });
+    }
   </script>
 </body>
 </html>
