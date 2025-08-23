@@ -33,7 +33,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px; /* MODIFIÉ : J'ai augmenté la largeur de 900px à 1200px */
             width: 100%;
             background-color: #fff;
             padding: 30px;
@@ -731,12 +731,15 @@
             const feedback3 = document.getElementById('feedback3');
 
             let correct = false;
-            if (critere.includes('nombre de commandes') && niveau.includes('moins de 5 boutons')) {
-                correct = true;
-            } else if (critere.includes('facilité d\'utilisation') && niveau.includes('interface intuitive')) {
-                correct = true;
-            } else if (critere.includes('temps d\'apprentissage') && niveau.includes('moins de 10 minutes')) {
-                correct = true;
+            // Examples of valid answers
+            const validCriteria = ['nombre de commandes', 'facilité', 'temps d\'apprentissage', 'interface'];
+            const validLevels = ['boutons', 'minutes', 'intuitive', 'simple'];
+
+            let critereFound = validCriteria.some(c => critere.includes(c));
+            let niveauFound = validLevels.some(l => niveau.includes(l));
+
+            if (critere.length > 3 && niveau.length > 3 && (critereFound || niveauFound)) {
+                 correct = true;
             }
 
             if (correct) {
